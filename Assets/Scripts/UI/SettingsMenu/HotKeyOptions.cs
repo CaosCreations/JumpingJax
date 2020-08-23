@@ -112,6 +112,7 @@ public class HotKeyOptions : MonoBehaviour
         int percentage = Mathf.RoundToInt(sensitivity * 100);
         currentSliderItem.SetInput(percentage + "%");
         currentSliderItem.SetSliderValue(sensitivity);
+        Debug.Log("Setting sensitivity to: " + sensitivity);
 
         OptionsPreferencesManager.SetSensitivity(sensitivity);
     }

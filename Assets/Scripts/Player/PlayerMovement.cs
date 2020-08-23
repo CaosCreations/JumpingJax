@@ -16,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 newVelocity;
 
     [SerializeField]
+    private float airAcceleration = PlayerConstants.AirAcceleration;
+
+    [SerializeField]
     private bool grounded;
     [SerializeField]
     private bool crouching;
@@ -60,8 +63,8 @@ public class PlayerMovement : MonoBehaviour
         ContinuousCollisionDetection();
 
         // Perform a second ground check after moving to prevent bugs at the beginning of the next frame
-        //CheckGrounded();
-        //FixCeiling();
+        CheckGrounded();
+        FixCeiling();
         ResolveCollisions();
     }
 
@@ -103,13 +106,14 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CheckAbove(float distanceToCheck = 0.1f)
     {
-        Ray[] boxTests = GetRays(Vector3.up * myCollider.bounds.extents.y);
+        Ray[] boxTests = GetRays(Vector3.up);
+
 
         foreach (Ray ray in boxTests)
         {
             if (showDebugGizmos)
             {
-                Debug.DrawRay(ray.origin, ray.direction * myCollider.bounds.extents.y, Color.yellow, 3);
+                Debug.DrawRay(ray.origin, ray.direction, Color.yellow, 3);
             }
             if (Physics.Raycast(
                 ray: ray,
@@ -133,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
     // Performs 5 raycasts to check if there is a spot on the BoxCollider which is below the player and sets the grounded status
     private void CheckGrounded()
     {
-        Ray[] boxTests = GetRays(Vector3.down * myCollider.bounds.extents.y);
+        Ray[] boxTests = GetRays(Vector3.down);
 
         bool willBeGrounded = false;
 
@@ -141,12 +145,12 @@ public class PlayerMovement : MonoBehaviour
         {
             if (showDebugGizmos)
             {
-                Debug.DrawRay(ray.origin, ray.direction * myCollider.bounds.extents.y, Color.blue, 3);
+                Debug.DrawRay(ray.origin, ray.direction, Color.blue, 3);
             }
             if(Physics.Raycast(
                 ray: ray,
                 hitInfo: out RaycastHit hit,
-                maxDistance: myCollider.bounds.extents.y + 0.01f, // add a small offset to allow the player to find the ground is ResolveCollision() sets us too far away
+                maxDistance: myCollider.bounds.extents.y + 0.2f, // add a small offset to allow the player to find the ground is ResolveCollision() sets us too far away
                 layerMask: layersToIgnore,
                 QueryTriggerInteraction.Ignore))
             {
@@ -158,6 +162,11 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+
+        //if(newVelocity.y > 5)
+        //{
+        //    willBeGrounded = false;
+        //}
 
         grounded = willBeGrounded;
 
@@ -332,8 +341,6 @@ public class PlayerMovement : MonoBehaviour
         {
             newVelocity *= newSpeed / speed; //Scale velocity based on friction
         }
-
-        Debug.Log("friction");
     }
 
     // This function keeps the player from exceeding a maximum velocity
@@ -350,14 +357,9 @@ public class PlayerMovement : MonoBehaviour
     {
         // - boxcast forwards based on speed, find the point in time where i hit it, and stop me there
         float castDistance = newVelocity.magnitude * Time.fixedDeltaTime;
-        Vector3 extents = myCollider.bounds.extents;
-        extents.x -= PlayerConstants.collisionExtentOffset;
-        extents.y -= PlayerConstants.collisionExtentOffset;
-        extents.z -= PlayerConstants.collisionExtentOffset;
-
         RaycastHit[] hits = Physics.BoxCastAll(
             center: myCollider.bounds.center,
-            halfExtents: extents,
+            halfExtents: myCollider.bounds.extents,
             direction: newVelocity.normalized,
             Quaternion.identity,
             maxDistance: castDistance,
@@ -373,7 +375,7 @@ public class PlayerMovement : MonoBehaviour
             .ToList();
 
         // If we are going to hit a wall, set ourselves just outside of the wall and translate momentum along the wall
-        if (validHits.Count() > 0 && newVelocity.magnitude > 1)
+        if (validHits.Count() > 0 && newVelocity.magnitude > 10)
         {
             // find the time at which we would have hit the wall between this and the next frame
             float timeToImpact = validHits.First().distance / newVelocity.magnitude;
