@@ -163,10 +163,10 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        //if(newVelocity.y > 5)
-        //{
-        //    willBeGrounded = false;
-        //}
+        if (newVelocity.y > 5)
+        {
+            willBeGrounded = false;
+        }
 
         grounded = willBeGrounded;
 
