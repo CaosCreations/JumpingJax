@@ -23,8 +23,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private bool crouching;
 
-    private float jumpTimer = 0;
-
     private void Start()
     {
         myCollider = GetComponent<BoxCollider>();
@@ -203,28 +201,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckJump()
     {
-        // Prevent the player from finding a way to jump each frame, this would allow them to perform a super jump that is game breaking
-        jumpTimer += Time.fixedDeltaTime;
-
-        if (grounded && InputManager.GetKey(PlayerConstants.Jump) && jumpTimer > PlayerConstants.TimeBetweenJumps)
+        if (grounded && InputManager.GetKey(PlayerConstants.Jump))
         {
+            newVelocity.y = 0;
             newVelocity.y += crouching ? PlayerConstants.CrouchingJumpPower : PlayerConstants.JumpPower;
             grounded = false;
-            jumpTimer = 0;
         }
-    }
-
-    private Vector3 GetLocalSpaceInputVector()
-    {
-        float moveSpeed = crouching ? PlayerConstants.CrouchingMoveSpeed : PlayerConstants.MoveSpeed;
-
-        var inputVelocity = GetInputVelocity(moveSpeed);
-        if (inputVelocity.magnitude > moveSpeed)
-        {
-            inputVelocity *= moveSpeed / inputVelocity.magnitude;
-        }
-
-        return inputVelocity;
     }
 
     private Vector3 GetWorldSpaceInputVector()
@@ -327,6 +309,8 @@ public class PlayerMovement : MonoBehaviour
             newVelocity = Vector3.zero;
             return;
         }
+
+        Debug.Log("friction");
 
         // Bleed off some speed, but if we have less than the bleed
         //  threshold, bleed the threshold amount.

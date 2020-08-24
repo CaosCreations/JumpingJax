@@ -13,7 +13,6 @@ public static class PlayerConstants
     public static float Gravity = 15f;
     public static float JumpPower = 5.6f;
     public static float CrouchingJumpPower = 5f;
-    public static float TimeBetweenJumps = 0.2f;
 
     public static float GroundAcceleration = 10f;
     public static float AirAcceleration = 1000f;
