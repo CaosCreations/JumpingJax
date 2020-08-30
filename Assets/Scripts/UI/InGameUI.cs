@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class InGameUI : MonoBehaviour
 {
     public Text completionTimeText;
-    public Text fpsText;
-    public Text speedText;
+    //public Text fpsText;
+    public SpeedSlider speed;
     public Text tutorialText;
     public GameObject tutorialPane;
     public PlayerMovement playerMovement;
@@ -19,6 +19,7 @@ public class InGameUI : MonoBehaviour
     private void Start()
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
+        speed = GetComponentInChildren<SpeedSlider>();
 
         tutorialTexts = GameManager.GetCurrentLevel().tutorialTexts;
         LoadNextTutorial();
@@ -29,12 +30,12 @@ public class InGameUI : MonoBehaviour
         if(GameManager.Instance != null)
         {
             TimeSpan time = TimeSpan.FromSeconds(GameManager.Instance.currentCompletionTime);
-            completionTimeText.text = "Time: " + time.ToString("hh':'mm':'ss");
+            completionTimeText.text = time.ToString("hh':'mm':'ss");
         }
 
-        fpsText.text = "FPS: " + Mathf.Round(1 / Time.deltaTime);
+        //fpsText.text = "FPS: " + Mathf.Round(1 / Time.deltaTime);
         Vector2 directionalSpeed = new Vector2(playerMovement.newVelocity.x, playerMovement.newVelocity.z);
-        speedText.text = "Speed: " + Mathf.Round(directionalSpeed.magnitude * 100) / 100 + "m/s";
+        speed.SetSpeed(directionalSpeed.magnitude);
 
         if (Input.GetKeyDown(PlayerConstants.NextTutorial))
         {
@@ -48,7 +49,7 @@ public class InGameUI : MonoBehaviour
         if(tutorialTextIndex < tutorialTexts.Length)
         {
             tutorialPane.SetActive(true);
-            tutorialText.text = tutorialTexts[tutorialTextIndex];
+            tutorialText.text = tutorialTexts[tutorialTextIndex].Replace("<br>", "\n");
             tutorialTextIndex++;
         }
         else
