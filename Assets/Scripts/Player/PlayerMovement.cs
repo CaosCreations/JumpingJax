@@ -77,12 +77,25 @@ public class PlayerMovement : MonoBehaviour
             crouching = CheckAbove(0.8f);
         }
 
+        // Update player collider
         float endHeight = crouching ? PlayerConstants.CrouchingPlayerHeight : PlayerConstants.StandingPlayerHeight;
         float velocity = 0;
         float height = Mathf.SmoothDamp(myCollider.size.y, endHeight, ref velocity, Time.deltaTime);
 
         myCollider.size = new Vector3(myCollider.size.x, height, myCollider.size.z);
 
+        DampenCamera();
+        
+    }
+
+    private void DampenCamera()
+    {
+        Vector3 endOffset = crouching ? PlayerConstants.CrouchingCameraOffset : PlayerConstants.StandingCameraOffset;
+        Vector3 currentOffset = cameraMove.playerCamera.transform.localPosition;
+        float v = 0;
+        float yOffset = Mathf.SmoothDamp(currentOffset.y, endOffset.y, ref v, Time.deltaTime);
+        Vector3 newOffset = new Vector3(0, yOffset, 0);
+        cameraMove.playerCamera.transform.localPosition = newOffset;
     }
 
     private void ApplyGravity()
