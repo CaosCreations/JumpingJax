@@ -26,7 +26,11 @@ public static class PlayerConstants
     public static float AirAccelerationCap = .7f;
 
     public static float StandingPlayerHeight = 1.6f;
+    public static Vector3 StandingCameraOffset = new Vector3(0, -0.25f, 0);
+
     public static float CrouchingPlayerHeight = 0.8f;
+    public static Vector3 CrouchingCameraOffset = new Vector3(0, -0.65f, 0);
+
     public static float TimeToCrouch = 0.5f;
     public static float groundCheckOffset = 0.05f;
 
