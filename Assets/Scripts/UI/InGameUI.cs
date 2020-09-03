@@ -10,6 +10,7 @@ public class InGameUI : MonoBehaviour
     //public Text fpsText;
     public SpeedSlider speed;
     public Text tutorialText;
+    public Text tutorialNextText;
     public GameObject tutorialPane;
     public PlayerMovement playerMovement;
 
@@ -50,11 +51,21 @@ public class InGameUI : MonoBehaviour
         {
             tutorialPane.SetActive(true);
             tutorialText.text = tutorialTexts[tutorialTextIndex].Replace("<br>", "\n");
+            Invoke("UpdateParentLayoutGroup", 0.1f);
             tutorialTextIndex++;
         }
         else
         {
             tutorialPane.SetActive(false);
         }
+    }
+
+    void UpdateParentLayoutGroup()
+    {
+        tutorialText.gameObject.SetActive(false);
+        tutorialText.gameObject.SetActive(true);
+
+        tutorialNextText.gameObject.SetActive(false);
+        tutorialNextText.gameObject.SetActive(true);
     }
 }
