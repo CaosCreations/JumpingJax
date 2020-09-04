@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 441310430289080767}
   - component: {fileID: 7476176815032746761}
   - component: {fileID: 1154471184624954510}
+  - component: {fileID: 7117302217034966907}
   m_Layer: 12
   m_Name: PortalBhopPlayer
   m_TagString: Untagged
@@ -121,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a9809f0605be948969840dc2103920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Cross: {fileID: 0}
   showDebugGizmos: 0
   portals: {fileID: 0}
   layerMask:
@@ -168,6 +170,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ghostRunnerPrefab: {fileID: 5089943443910636709, guid: c66fbb5e264c7fa4e8fc1f6a1f483007,
     type: 3}
+--- !u!114 &7117302217034966907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441310430289080760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75892d2671209f242905d5514bb29555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crosshair: {fileID: 1399588865783809678}
+  crosshairDefault: {fileID: 21300000, guid: 3d4cf65980cc3a740ade6498b33d85f8, type: 3}
+  crosshairLeft: {fileID: 21300000, guid: 6af4eb1e3948db547a32edaa4881d81f, type: 3}
+  crosshairRight: {fileID: 21300000, guid: 58be8c186b7e2064ba5478e8465ddb28, type: 3}
+  crosshairLeftTop: {fileID: 21300000, guid: f3d38ae207b66e54a9aa4615e070a9a5, type: 3}
+  crosshairRightTop: {fileID: 21300000, guid: e447e40932a0f2448b15d83ee55ad1ab, type: 3}
 --- !u!1 &441310430673922139
 GameObject:
   m_ObjectHideFlags: 0

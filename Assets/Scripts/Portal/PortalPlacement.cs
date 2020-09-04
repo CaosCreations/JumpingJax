@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CameraMove))]
 public class PortalPlacement : MonoBehaviour
 {
+    public Crosshair Cross;
     public bool showDebugGizmos = false;
 
     [SerializeField]
@@ -12,10 +13,6 @@ public class PortalPlacement : MonoBehaviour
 
     [SerializeField]
     private LayerMask layerMask;
-
-    // Leaving this in until crosshair is added
-    //[SerializeField]
-    //private Crosshair crosshair;
 
     private CameraMove cameraMove;
     private PlayerPortalableController playerPortalable;
@@ -27,6 +24,7 @@ public class PortalPlacement : MonoBehaviour
 
     private void Awake()
     {
+        Cross = GetComponent<Crosshair>();
         cameraMove = GetComponent<CameraMove>();
         playerPortalable = GetComponent<PlayerPortalableController>();
     }
@@ -42,10 +40,12 @@ public class PortalPlacement : MonoBehaviour
         if (InputManager.GetKeyDown(PlayerConstants.Portal1))
         {
             FirePortal(0, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
+            Cross.CrossCheck(true);
         }
         else if (InputManager.GetKeyDown(PlayerConstants.Portal2))
         {
             FirePortal(1, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
+            Cross.CrossCheck(false);
         }
     }
 
