@@ -11,6 +11,7 @@ public class InGameUI : MonoBehaviour
     public SpeedSlider speed;
     public Text tutorialText;
     public GameObject tutorialPane;
+    public GameObject container;
     public PlayerMovement playerMovement;
 
     private string[] tutorialTexts;
@@ -41,6 +42,10 @@ public class InGameUI : MonoBehaviour
         {
             LoadNextTutorial();
         }
+        else if (InputManager.GetKeyUp(PlayerConstants.ToggleUI)) 
+        {
+            ToggleUI();
+        }
 
     }
 
@@ -56,5 +61,10 @@ public class InGameUI : MonoBehaviour
         {
             tutorialPane.SetActive(false);
         }
+    }
+
+    private void ToggleUI()
+    {
+        container.SetActive(!container.activeSelf);
     }
 }

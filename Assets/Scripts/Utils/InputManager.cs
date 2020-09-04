@@ -14,6 +14,16 @@ public class InputManager
         return false;
     }
 
+    public static bool GetKeyUp(string keyName)
+    {
+        if (Input.GetKeyUp(HotKeyManager.Instance.GetKeyFor(keyName)))
+        {
+            return true;
+        }
+
+        return false; 
+    }
+
     public static bool GetKey(string keyName)
     {
         if (Input.GetKey(HotKeyManager.Instance.GetKeyFor(keyName)))
