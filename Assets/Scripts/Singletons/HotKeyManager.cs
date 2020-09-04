@@ -54,6 +54,7 @@ public class HotKeyManager : MonoBehaviour {
         LoadSavedKey(PlayerConstants.ResetLevel, PlayerConstants.ResetLevelDefault);
         LoadSavedKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
         LoadSavedKey(PlayerConstants.Portal2, PlayerConstants.Portal2Default);
+        LoadSavedKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault); 
     }
 
     public void LoadSavedKey(string keyName, string defaultValue)
@@ -77,6 +78,7 @@ public class HotKeyManager : MonoBehaviour {
 
         foreach(KeyValuePair<String, KeyCode> entry in keys)
         {
+            Debug.Log("SefDefaults KVP: " + entry.Key + ": " + entry.Value); 
             PlayerPrefs.SetString(entry.Key, entry.Value.ToString());
         }
     }
@@ -92,6 +94,7 @@ public class HotKeyManager : MonoBehaviour {
         AddDefaultKey(PlayerConstants.ResetLevel, PlayerConstants.ResetLevelDefault);
         AddDefaultKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
         AddDefaultKey(PlayerConstants.Portal2, PlayerConstants.Portal2Default);
+        AddDefaultKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault); 
     }
 
     public void AddDefaultKey(string keyName, string defaultValue)

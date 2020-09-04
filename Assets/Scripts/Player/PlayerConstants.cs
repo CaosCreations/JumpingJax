@@ -70,6 +70,9 @@ public static class PlayerConstants
     public static string Portal2 = "Portal2";
     public static string Portal2Default = "Mouse1";
 
+    public static string ToggleUI = "ToggleUI";
+    public static string ToggleUIDefault = "Z"; 
+
 
     // Non-changeable hotkeys
     public static string MouseX = "Mouse X";
@@ -81,7 +84,6 @@ public static class PlayerConstants
     public static KeyCode WinMenu_NextLevel = KeyCode.E;
     public static KeyCode WinMenu_RetryLevel = KeyCode.R;
     public static KeyCode WinMenu_MainMenu = KeyCode.Q;
-
 
 
     // Game Constants

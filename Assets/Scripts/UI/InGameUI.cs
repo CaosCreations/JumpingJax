@@ -12,6 +12,7 @@ public class InGameUI : MonoBehaviour
     public Text tutorialText;
     public Text tutorialNextText;
     public GameObject tutorialPane;
+    public GameObject container;
     public PlayerMovement playerMovement;
 
     private string[] tutorialTexts;
@@ -42,6 +43,10 @@ public class InGameUI : MonoBehaviour
         {
             LoadNextTutorial();
         }
+        else if (InputManager.GetKeyUp(PlayerConstants.ToggleUI)) 
+        {
+            ToggleUI();
+        }
 
     }
 
@@ -67,5 +72,8 @@ public class InGameUI : MonoBehaviour
 
         tutorialNextText.gameObject.SetActive(false);
         tutorialNextText.gameObject.SetActive(true);
+    private void ToggleUI()
+    {
+        container.SetActive(!container.activeSelf);
     }
 }
