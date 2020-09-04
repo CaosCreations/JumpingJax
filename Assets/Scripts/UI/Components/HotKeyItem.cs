@@ -14,7 +14,7 @@ public class HotKeyItem : MonoBehaviour
         itemText.text = text;
     }
 
-    public void SetButtonText(string text/*, bool modifier*/)
+    public void SetButtonText(string text)
     {
         buttonText.text = text;
     }

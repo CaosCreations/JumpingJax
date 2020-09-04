@@ -7,7 +7,6 @@ public class HotKeyManager : MonoBehaviour {
     [SerializeField]
     private Dictionary<string, KeyCode> keys = new Dictionary<string, KeyCode>();
     private Dictionary<string, KeyCode> defaults = new Dictionary<string, KeyCode>();
-    //private Dictionary<string, KeyCode> modifiedKeys = new Dictionary<string, KeyCode>(); 
 
     public static HotKeyManager Instance;
     
@@ -55,14 +54,12 @@ public class HotKeyManager : MonoBehaviour {
         LoadSavedKey(PlayerConstants.ResetLevel, PlayerConstants.ResetLevelDefault);
         LoadSavedKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
         LoadSavedKey(PlayerConstants.Portal2, PlayerConstants.Portal2Default);
-        LoadSavedKey(PlayerConstants.Modifier, PlayerConstants.ModifierDefault);
         LoadSavedKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault); 
     }
 
     public void LoadSavedKey(string keyName, string defaultValue)
     {
         string key = PlayerPrefs.GetString(keyName, defaultValue);
-        //Debug.Log("Loading saved key: " + key); 
 
         KeyCode keyCode;
         if (Enum.TryParse(key, out keyCode))
@@ -97,7 +94,6 @@ public class HotKeyManager : MonoBehaviour {
         AddDefaultKey(PlayerConstants.ResetLevel, PlayerConstants.ResetLevelDefault);
         AddDefaultKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
         AddDefaultKey(PlayerConstants.Portal2, PlayerConstants.Portal2Default);
-        AddDefaultKey(PlayerConstants.Modifier, PlayerConstants.ModifierDefault);
         AddDefaultKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault); 
     }
 
@@ -106,7 +102,6 @@ public class HotKeyManager : MonoBehaviour {
         KeyCode keyCode;
         if (Enum.TryParse(defaultValue, out keyCode))
         {
-            Debug.Log($"AddDefaultKey defValue: {defaultValue}");
             defaults.Add(keyName, keyCode);
         }
         else
