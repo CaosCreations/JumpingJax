@@ -41,9 +41,9 @@ public class InGameUI : MonoBehaviour
         {
             LoadNextTutorial();
         }
-        else if (Input.GetKey(PlayerConstants.Modifier) && Input.GetKeyUp(PlayerConstants.InGameUI))
+        else if (InputManager.GetKey(PlayerConstants.Modifier) && InputManager.GetKeyUp(PlayerConstants.ToggleUI))
         {
-            ToggleInGameUI();
+            ToggleUI();
         }
 
     }
@@ -62,7 +62,7 @@ public class InGameUI : MonoBehaviour
         }
     }
 
-    private void ToggleInGameUI()
+    private void ToggleUI()
     {
         foreach (Transform _transform in transform)
         {
