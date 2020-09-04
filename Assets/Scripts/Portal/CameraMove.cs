@@ -14,7 +14,6 @@ public class CameraMove : MonoBehaviour
     private const float halfRotation = 180;
     private const float fullRotation = 360;
     private const float baseSensitivityMultiplier = 10;
-    private Quaternion DefaultRotation = Quaternion.identity;
 
     private void Awake()
     {
@@ -55,9 +54,9 @@ public class CameraMove : MonoBehaviour
         playerModel.transform.rotation = newRotation;
     }
 
-    public void ResetTargetRotation(Quaternion target)
+    public void ResetTargetRotation()
     {
-        TargetRotation = target;
+        TargetRotation = Quaternion.identity;
     }
 
     public void SetTargetRotation(Quaternion newRotation)
