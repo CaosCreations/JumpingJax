@@ -78,13 +78,13 @@ public class PlayerProgress : MonoBehaviour
     {
         Vector3 respawnPosition = currentCheckpoint.transform.position + PlayerConstants.PlayerSpawnOffset;
         transform.position = respawnPosition;
-
-        Vector3 respawnRotation = new Vector3();
+        Vector3 respawnRotation = transform.rotation.eulerAngles;
         respawnRotation.y = currentCheckpoint.transform.rotation.eulerAngles.y;
-        cameraMove.ResetTargetRotation(Quaternion.Euler(respawnRotation));
+        transform.rotation = Quaternion.Euler(respawnRotation);
 
         playerMovement.newVelocity = Vector3.zero;
 
+        cameraMove.ResetTargetRotation();
 
         // If the player is restarting at the beginning, reset timer
         if (currentCheckpoint.level == 1)
