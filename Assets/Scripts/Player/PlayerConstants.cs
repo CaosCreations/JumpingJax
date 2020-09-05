@@ -8,6 +8,7 @@ public static class PlayerConstants
     public static float BackWardsMoveSpeedScale = 0.9f;
     public static float CrouchingMoveSpeed = 5f;
     public static float MaxVelocity = 60f;
+    public static float MaxReasonableVelocity = 30f;
     public static float MaxFallSpeed = 40f;
 
     public static float Gravity = 15f;

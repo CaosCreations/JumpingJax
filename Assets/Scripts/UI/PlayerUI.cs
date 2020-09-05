@@ -12,15 +12,11 @@ public class PlayerUI : MonoBehaviour {
     [SerializeField]
     WinMenu winMenu = null;
 
-    public Image crossHair;
-
     void Start () {
         inGameUI.SetActive(true);
         winMenu.gameObject.SetActive(false);
     }
 	
-	
-
     public void ShowWinScreen()
     {
         Cursor.visible = true;
