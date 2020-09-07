@@ -109,6 +109,11 @@ namespace Oneleif.debugconsole
 
         private void Update()
         {
+            if (GameManager.Instance.didWinCurrentLevel)
+            {
+                return;
+            }
+
             if (Input.GetKeyDown(ConsoleConstants.toggleKey))
             {
                 ToggleConsole();
@@ -234,6 +239,10 @@ namespace Oneleif.debugconsole
 
         public void ShowCommandAutoComplete(InputField consoleInput)
         {
+            if (consoleInput.text.StartsWith("`"))
+            {
+                ClearInputField(consoleInput);
+            }
             autoComplete.FillResults(consoleInput);
         }
 
