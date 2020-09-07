@@ -15,19 +15,23 @@ public class PauseMenu : MonoBehaviour {
     [SerializeField]
     Text levelName = null;
 
-    private  bool isPaused;
+    public bool isPaused;
+
+    private DeveloperConsole console;
 
 
     private void Start()
     {
         pauseMenuContainer.SetActive(false);
+        console = transform.parent.GetComponentInChildren<DeveloperConsole>();
     }
 
     void Update()
     {
         // Don't let the player pause the game if they are in the win menu
         // This would let the player unpause and play during the win menu
-        if (GameManager.Instance.didWinCurrentLevel)
+        // Also don't let the player pause while the dev console is open or it will throw off the time scale
+        if (GameManager.Instance.didWinCurrentLevel || console.consoleIsActive)
         {
             return;
         }

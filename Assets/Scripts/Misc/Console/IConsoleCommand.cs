@@ -1,10 +1,7 @@
-﻿namespace Oneleif.debugconsole
+﻿public interface IConsoleCommand
 {
-    public interface IConsoleCommand
-    {
-        string Command { get; }
-        string Description { get; }
+    string Command { get; }
+    string Description { get; }
 
-        void Process(string[] args);
-    }
+    void Process(string[] args);
 }

@@ -3,126 +3,123 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Oneleif.debugconsole
+public class AutoComplete : MonoBehaviour
 {
-    public class AutoComplete : MonoBehaviour
+    [SerializeField] private RectTransform autocompleteParent;
+    [SerializeField] private RectTransform autoCompleteItemPrefab;
+    [SerializeField] private RectTransform autocompleteScrollView;
+
+    private List<AutoCompleteItem> autoCompleteItems;
+    private int selectionIndex;
+
+    void Start()
     {
-        [SerializeField] private RectTransform autocompleteParent;
-        [SerializeField] private RectTransform autoCompleteItemPrefab;
-        [SerializeField] private RectTransform autocompleteScrollView;
+        autocompleteScrollView.gameObject.SetActive(false);
+        autoCompleteItems = new List<AutoCompleteItem>();
+        selectionIndex = 0;
+    }
 
-        private List<AutoCompleteItem> autoCompleteItems;
-        private int selectionIndex;
+    public string GetAutoCompleteCommand()
+    {
+        return autoCompleteItems[selectionIndex].ConsoleCommand.Command;
+    }
 
-        void Start()
+    public void Hide()
+    {
+        autocompleteScrollView.gameObject.SetActive(false);
+    }
+
+    public void Show()
+    {
+        autocompleteScrollView.gameObject.SetActive(true);
+    }
+
+    public void ClearResults()
+    {
+        foreach (Transform child in autocompleteParent)
         {
-            autocompleteScrollView.gameObject.SetActive(false);
-            autoCompleteItems = new List<AutoCompleteItem>();
-            selectionIndex = 0;
+            Destroy(child.gameObject);
         }
 
-        public string GetAutoCompleteCommand()
+        autocompleteScrollView.gameObject.SetActive(false);
+        autoCompleteItems = new List<AutoCompleteItem>();
+        selectionIndex = 0;
+    }
+
+    public void FillResults(InputField consoleInput)
+    {
+        ClearResults();
+
+        if (string.IsNullOrEmpty(consoleInput.text))
         {
-            return autoCompleteItems[selectionIndex].ConsoleCommand.Command;
+            return;
         }
 
-        public void Hide()
+        ConsoleCommand[] commands = DeveloperConsole.Instance.commands;
+        bool foundValidCommand = false;
+
+        foreach(ConsoleCommand command in commands)
         {
-            autocompleteScrollView.gameObject.SetActive(false);
-        }
-
-        public void Show()
-        {
-            autocompleteScrollView.gameObject.SetActive(true);
-        }
-
-        public void ClearResults()
-        {
-            foreach (Transform child in autocompleteParent)
+            if (command.Command.StartsWith(consoleInput.text))
             {
-                Destroy(child.gameObject);
-            }
-
-            autocompleteScrollView.gameObject.SetActive(false);
-            autoCompleteItems = new List<AutoCompleteItem>();
-            selectionIndex = 0;
-        }
-
-        public void FillResults(InputField consoleInput)
-        {
-            ClearResults();
-
-            if (string.IsNullOrEmpty(consoleInput.text))
-            {
-                return;
-            }
-
-            ConsoleCommand[] commands = DeveloperConsole.Instance.commands;
-            bool foundValidCommand = false;
-
-            foreach(ConsoleCommand command in commands)
-            {
-                if (command.Command.StartsWith(consoleInput.text))
-                {
-                    foundValidCommand = true;
-                    RectTransform autoCompleteItem = Instantiate(autoCompleteItemPrefab, autocompleteParent) as RectTransform;
-                    AutoCompleteItem item = autoCompleteItem.GetComponent<AutoCompleteItem>();
-                    item.ConsoleCommand = command;
-                    autoCompleteItems.Add(item);
-                }
-            }
-
-            if (foundValidCommand)
-            {
-                Show();
-            }
-            else
-            {
-                Hide();
+                foundValidCommand = true;
+                RectTransform autoCompleteItem = Instantiate(autoCompleteItemPrefab, autocompleteParent) as RectTransform;
+                AutoCompleteItem item = autoCompleteItem.GetComponent<AutoCompleteItem>();
+                item.ConsoleCommand = command;
+                autoCompleteItems.Add(item);
             }
         }
 
-        public bool HasItems()
+        if (foundValidCommand)
         {
-            return autoCompleteItems.Count > 0;
+            Show();
         }
-
-        public void SelectResult(SelectionDirection direction)
+        else
         {
-            UnhighlightSelection();
+            Hide();
+        }
+    }
 
-            if (direction == SelectionDirection.up)
+    public bool HasItems()
+    {
+        return autoCompleteItems.Count > 0;
+    }
+
+    public void SelectResult(SelectionDirection direction)
+    {
+        UnhighlightSelection();
+
+        if (direction == SelectionDirection.up)
+        {
+            if(selectionIndex > 0)
             {
-                if(selectionIndex > 0)
-                {
-                    selectionIndex--;
-                }
-            }else if(direction == SelectionDirection.down)
-            {
-                if (selectionIndex < autoCompleteItems.Count - 1)
-                {
-                    selectionIndex++;
-                }
+                selectionIndex--;
             }
-
-            HighlightSelection();
-        }
-
-        public void UnhighlightSelection()
+        }else if(direction == SelectionDirection.down)
         {
-            if (HasItems())
+            if (selectionIndex < autoCompleteItems.Count - 1)
             {
-                autoCompleteItems[selectionIndex].Unhighlight();
-
+                selectionIndex++;
             }
         }
 
-        public void HighlightSelection()
+        HighlightSelection();
+    }
+
+    public void UnhighlightSelection()
+    {
+        if (HasItems())
         {
-            if (HasItems())
-            {
-                autoCompleteItems[selectionIndex].Highlight();
-            }
+            autoCompleteItems[selectionIndex].Unhighlight();
+
+        }
+    }
+
+    public void HighlightSelection()
+    {
+        if (HasItems())
+        {
+            autoCompleteItems[selectionIndex].Highlight();
         }
     }
 }

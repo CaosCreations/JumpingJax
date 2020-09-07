@@ -1,7 +1,4 @@
-﻿namespace Oneleif.debugconsole
+﻿public interface ICommandArguments
 {
-    public interface ICommandArguments
-    {
-        bool ValidateArguments(string[] args);
-    }
+    bool ValidateArguments(string[] args);
 }
