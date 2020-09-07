@@ -213,7 +213,10 @@ namespace Oneleif.debugconsole
         private void LogMessage(string message)
         {
             consoleText.text += message + "\n";
-            fileLogger.LogToFile(message);
+            if(fileLogger != null)
+            {
+                fileLogger.LogToFile(message);
+            }
         }
 
         private void SetupInputField()
