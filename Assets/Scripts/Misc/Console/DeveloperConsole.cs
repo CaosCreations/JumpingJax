@@ -95,20 +95,22 @@ public class DeveloperConsole : MonoBehaviour
 
     private void HandleLog(string logMessage, string stackTrace, LogType type)
     {
-        string color = "";
+
+        string color = "white";
         switch (type)
         {
             case LogType.Error:
-                color = "red";
+                color = "#f75757";
                 break;
 
             case LogType.Warning:
-                color = "yellow";
+                color = "#f0e881";
                 break;
 
             case LogType.Log:
-                color = "blue";
+                color = "#a8e3b4";
                 break;
+            
         }
 
         LogMessage("<color=" + color + ">[" + type.ToString() + "]" + logMessage + "</color> ");

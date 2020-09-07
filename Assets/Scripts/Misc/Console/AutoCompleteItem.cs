@@ -24,13 +24,13 @@ public class AutoCompleteItem : MonoBehaviour
 
     public void Highlight()
     {
-        commandText.color = new Color(0, 0, 1, 1);
-        commandDescriptionText.color = new Color(0, 0, 1, 1);
+        commandText.color = ConsoleConstants.highlightColor;
+        commandDescriptionText.color = ConsoleConstants.highlightColor;
     }
 
     public void Unhighlight()
     {
-        commandText.color = new Color(0, 0, 0, 1);
-        commandDescriptionText.color = new Color(0, 0, 0, 1);
+        commandText.color = ConsoleConstants.autocompleteColor;
+        commandDescriptionText.color = ConsoleConstants.autocompleteColor;
     }
 }
