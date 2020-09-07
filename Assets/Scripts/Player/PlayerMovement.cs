@@ -74,7 +74,14 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            crouching = CheckAbove(0.8f);
+            if (crouching)
+            {
+                crouching = CheckAbove(0.8f);
+            }
+            else
+            {
+                crouching = false;
+            }
         }
 
         // Update player collider
