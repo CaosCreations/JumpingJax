@@ -16,9 +16,6 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 newVelocity;
 
     [SerializeField]
-    private float airAcceleration = PlayerConstants.AirAcceleration;
-
-    [SerializeField]
     private bool grounded;
     [SerializeField]
     private bool crouching;
