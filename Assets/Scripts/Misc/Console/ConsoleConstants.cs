@@ -5,6 +5,7 @@ namespace Oneleif.debugconsole
     public class ConsoleConstants
     {
         public static KeyCode toggleKey = KeyCode.BackQuote;
+        public static int MaxConsoleLines = 100;
 
         public static bool shouldLogToFile = true;
         public static bool shouldOutputDebugLogs = true;

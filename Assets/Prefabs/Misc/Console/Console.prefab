@@ -118,8 +118,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1836947705742582154}
   m_HandleRect: {fileID: 3505716282595454428}
   m_Direction: 2
-  m_Value: 0.9999997
-  m_Size: 0.6350303
+  m_Value: 1
+  m_Size: 0.65093136
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -992,7 +992,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5106472960535001727}
   m_HandleRect: {fileID: 1446091070932043761}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1566,13 +1566,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 8004768866257940425}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 1
+  m_MovementType: 2
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 1169277210114941854}
   m_HorizontalScrollbar: {fileID: 1756369991989837210}
   m_VerticalScrollbar: {fileID: 8629461150825721469}
@@ -1680,7 +1680,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 4649743507302575589}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 8276017019814450482}
@@ -1845,6 +1845,7 @@ MonoBehaviour:
   consoleContainer: {fileID: 4217946704571495377}
   consoleText: {fileID: 8648079569687684703}
   consoleInput: {fileID: 4096795683711782032}
+  logScrollView: {fileID: 7750814467481789476}
 --- !u!114 &7566075198433378591
 MonoBehaviour:
   m_ObjectHideFlags: 0

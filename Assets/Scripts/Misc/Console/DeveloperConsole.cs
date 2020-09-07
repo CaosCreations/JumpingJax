@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,7 @@ namespace Oneleif.debugconsole
         [SerializeField] private GameObject consoleContainer;
         [SerializeField] private Text consoleText;
         [SerializeField] private InputField consoleInput;
+        [SerializeField] private ScrollRect logScrollView;
 
         private bool consoleIsActive = false;
 
@@ -105,6 +107,8 @@ namespace Oneleif.debugconsole
             }
 
             LogMessage("<color=" + color + ">[" + type.ToString() + "]" + logMessage + "</color> ");
+            ClearOldLogs();
+            MoveScrollViewToBottom();
         }
 
         private void Update()
@@ -174,6 +178,17 @@ namespace Oneleif.debugconsole
             }
         }
 
+        private void ClearOldLogs()
+        {
+            // If there is more than x lines in the text, delete the oldest
+            string logs = consoleText.text;
+            int lines = Regex.Matches(logs, "\n").Count;
+            if (lines > ConsoleConstants.MaxConsoleLines)
+            {
+                consoleText.text = logs.Remove(0, logs.IndexOf('\n') + 1);
+            }
+        }
+
         private SelectionDirection GetInputSelectionDirection()
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -197,6 +212,7 @@ namespace Oneleif.debugconsole
             {
                 currentCacheIndex = cachedCommands.Count;
                 SetupInputField();
+                MoveScrollViewToBottom();
 
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.Confined;
@@ -213,7 +229,7 @@ namespace Oneleif.debugconsole
         private void LogMessage(string message)
         {
             consoleText.text += message + "\n";
-            if(fileLogger != null)
+            if (fileLogger != null)
             {
                 fileLogger.LogToFile(message);
             }
@@ -272,9 +288,6 @@ namespace Oneleif.debugconsole
             currentCacheIndex = cachedCommands.Count;
             ClearInputField(consoleInput);
             focusSelection = FocusSelection.Cache;
-
-            // Move scroll view to the bottom
-
         }
 
         private (ConsoleCommand, string[]) GetCommandFromInput(string input)
@@ -335,6 +348,14 @@ namespace Oneleif.debugconsole
             consoleInput.ActivateInputField();
             consoleInput.Select();
             consoleInput.MoveTextEnd(false);
+        }
+
+        private void MoveScrollViewToBottom()
+        {
+            if (consoleIsActive)
+            {
+                logScrollView.verticalNormalizedPosition = 0;
+            }
         }
     }
 }
