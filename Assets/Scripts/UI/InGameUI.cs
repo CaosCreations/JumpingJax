@@ -6,17 +6,22 @@ using UnityEngine.UI;
 
 public class InGameUI : MonoBehaviour
 {
+    // Time
     public Text completionTimeText;
-    //public Text fpsText;
+
+    // Speed
     public SpeedSlider speed;
+
+    // Tutorial
     public Text tutorialText;
     public Text tutorialNextText;
     public GameObject tutorialPane;
-    public GameObject container;
-    public PlayerMovement playerMovement;
-
     private string[] tutorialTexts;
     private int tutorialTextIndex = 0;
+
+
+    public GameObject container;
+    public PlayerMovement playerMovement;
 
     private void Start()
     {
