@@ -34,7 +34,10 @@ public class Level : ScriptableObject
     public float completionTime;
 
     [SerializeField]
-    public Vector3[] ghostRun;
+    public Vector3[] ghostRunPositions;
+
+    [SerializeField]
+    public KeysPressed[] ghostRunKeys;
 
     [SerializeField]
     public Sprite previewSprite;
