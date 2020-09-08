@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class PlayerGhostRun : MonoBehaviour
 {
+    public KeyPressed keyPressed;
+
     public GameObject ghostRunnerPrefab;
     private GameObject ghostRunner;
 
-    private List<Vector3> currentRunData;
+    private List<Vector3> currentRunPositionData;
+    private List<KeysPressed> currentRunKeyData;
     private float ghostRunSaveTimer = 0;
     private float ghostRunnerTimer = 0;
     private Level currentLevel;
@@ -20,6 +23,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     void Start()
     {
+        keyPressed = GetComponentInChildren<KeyPressed>();
         RestartRun();
         currentLevel = GameManager.GetCurrentLevel();
         if(ghostRunner == null)
@@ -45,14 +49,15 @@ public class PlayerGhostRun : MonoBehaviour
         ghostRunSaveTimer = 0;
         ghostRunnerTimer = 0;
         currentDataIndex = 0;
-        currentRunData = new List<Vector3>();
+        currentRunPositionData = new List<Vector3>();
+        currentRunKeyData = new List<KeysPressed>();
     }
 
     private void UpdateGhost()
     {
         if (currentLevel == null 
-            || currentLevel.ghostRun == null 
-            || currentDataIndex >= currentLevel.ghostRun.Length - 1)
+            || currentLevel.ghostRunPositions == null 
+            || currentDataIndex >= currentLevel.ghostRunPositions.Length - 1)
         {
             return; // ghost run is finished
         }
@@ -63,8 +68,9 @@ public class PlayerGhostRun : MonoBehaviour
             ghostRunner.SetActive(true);
 
             float lerpValue = ghostRunnerTimer / ghostRunSaveInterval;
-            Vector3 position = Vector3.Lerp(ghostRunner.transform.position, currentLevel.ghostRun[currentDataIndex], lerpValue);
+            Vector3 position = Vector3.Lerp(ghostRunner.transform.position, currentLevel.ghostRunPositions[currentDataIndex], lerpValue);
             ghostRunner.transform.position = position;
+            keyPressed.SetPressed(currentLevel.ghostRunKeys[currentDataIndex]);
         }
 
         ghostRunnerTimer += Time.deltaTime;
@@ -82,12 +88,31 @@ public class PlayerGhostRun : MonoBehaviour
         if (ghostRunSaveTimer > ghostRunSaveInterval)
         {
             ghostRunSaveTimer = 0;
-            currentRunData.Add(transform.position);
+            currentRunPositionData.Add(transform.position);
+            currentRunKeyData.Add(GetCurrentKeysPressed());
         }
+    }
+
+    private KeysPressed GetCurrentKeysPressed()
+    {
+        KeysPressed toReturn = new KeysPressed()
+        {
+            isForwardPressed = InputManager.GetKey(PlayerConstants.Forward),
+            isLeftPressed = InputManager.GetKey(PlayerConstants.Left),
+            isRightPressed = InputManager.GetKey(PlayerConstants.Right),
+            isBackPressed = InputManager.GetKey(PlayerConstants.Back),
+            isJumpPressed = InputManager.GetKey(PlayerConstants.Jump),
+            isCrouchPressed = InputManager.GetKey(PlayerConstants.Crouch),
+            isMouseLeftPressed = InputManager.GetKey(PlayerConstants.Portal1),
+            isMouseRightPressed = InputManager.GetKey(PlayerConstants.Portal2)
+        };
+
+        return toReturn;
     }
 
     public void SaveCurrentRunData()
     {
-        GameManager.GetCurrentLevel().ghostRun = currentRunData.ToArray();
+        GameManager.GetCurrentLevel().ghostRunPositions = currentRunPositionData.ToArray();
+        GameManager.GetCurrentLevel().ghostRunKeys = currentRunKeyData.ToArray();
     }
 }
