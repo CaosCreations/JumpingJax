@@ -327,8 +327,6 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        Debug.Log("friction");
-
         // Bleed off some speed, but if we have less than the bleed
         //  threshold, bleed the threshold amount.
 

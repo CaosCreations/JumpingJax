@@ -30,8 +30,13 @@ public class PauseMenu : MonoBehaviour {
     {
         // Don't let the player pause the game if they are in the win menu
         // This would let the player unpause and play during the win menu
+        if (GameManager.Instance.didWinCurrentLevel)
+        {
+            return;
+        }
+
         // Also don't let the player pause while the dev console is open or it will throw off the time scale
-        if (GameManager.Instance.didWinCurrentLevel || console.consoleIsActive)
+        if (console != null && console.consoleIsActive)
         {
             return;
         }
