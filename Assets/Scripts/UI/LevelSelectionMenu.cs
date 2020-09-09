@@ -34,6 +34,23 @@ public class LevelSelectionMenu : MonoBehaviour
         SetTab(LevelSelectionTab.Hop);
     }
 
+    private void OnDisable()
+    {
+        ClearButtons();
+    }
+
+    void ClearButtons()
+    {
+        hopButtonList.ForEach(x => Destroy(x.gameObject));
+        hopButtonList = new List<LevelButton>();
+
+        portalButtonList.ForEach(x => Destroy(x.gameObject));
+        portalButtonList = new List<LevelButton>();
+
+        workshopButtonList.ForEach(x => Destroy(x.gameObject));
+        workshopButtonList = new List<LevelButton>();
+    }
+
     void SetupTabButtons()
     {
         hopTabButton.onClick.RemoveAllListeners();
