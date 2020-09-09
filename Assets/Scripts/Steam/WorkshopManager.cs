@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.AddressableAssets;
-using UnityEditor.AddressableAssets.Settings;
+using UnityEditor;
 
 public class WorkshopManager : MonoBehaviour
 {
+    AssetReference sceneFolder;
     void Start()
     {
         //
@@ -27,7 +28,8 @@ public class WorkshopManager : MonoBehaviour
         //id = 2223679777;
         //DownloadItem(id);
         //LoadSceneFromBundle("D:/SteamLibrary/steamapps/workshop/content/1315100/2223679777/Hop1.unity");
-        LoadSceneFromBundle("Hop1");
+        PublishAssetBundle("testBundle", "descr", "Assets/Resources/Workshop/Uploads");
+        //LoadSceneFromBundle("Hop1");
         //HandleAsyncCalls();
     }
 
@@ -75,6 +77,8 @@ public class WorkshopManager : MonoBehaviour
         // TODO: convert to level array and return the levels
     }
 
+
+
     public static async Task PublishWorkshopFile(string title, string description, DirectoryInfo directory)
     {
         var result = await Steamworks.Ugc.Editor.NewCommunityFile
@@ -96,6 +100,30 @@ public class WorkshopManager : MonoBehaviour
         {
             Debug.LogError($"could not publish: {title}, error: {result.ToString()}");
         }
+    }
+
+    public static async Task PublishAssetBundle(string title, string description, string path)
+    {
+
+        //var result = await Steamworks.Ugc.Editor.NewCommunityFile
+        //    .WithTitle(title)
+        //    .WithDescription(description)
+        //    .WithContent(directory)
+        //    .SubmitAsync();
+
+        //if (result.Success)
+        //{
+        //    Debug.Log($"published : {title}");
+        //    // See this for more info: https://partner.steamgames.com/doc/features/workshop/implementation#Legal
+        //    if (result.NeedsWorkshopAgreement)
+        //    {
+        //        SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{result.FileId}");
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.LogError($"could not publish: {title}, error: {result.ToString()}");
+        //}
     }
 
 
@@ -164,8 +192,10 @@ public class WorkshopManager : MonoBehaviour
 
     public void LoadSceneFromBundle(string path)
     {
-        Addressables.LoadSceneAsync(path, LoadSceneMode.Single);
-        //Resources.load
-        //SceneManager.LoadScene(scene);
+        AssetBundle bundle = AssetBundle.LoadFromFile(path);
+        string[] scenes = bundle.GetAllScenePaths();
+        Debug.Log($"scenepath: {scenes[0]}");
+        string scene = Path.GetFileNameWithoutExtension(scenes[0]);
+        SceneManager.LoadScene(scene);
     }
 }
