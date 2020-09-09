@@ -19,16 +19,19 @@ public class StatsManager : MonoBehaviour
         Steamworks.SteamUserStats.StoreStats();
     }
 
-    public static async void GetLevelLeaderboard(string levelLeaderboardName)
+    public static async Task<Steamworks.Data.LeaderboardEntry[]> GetLevelLeaderboard(string levelLeaderboardName)
     {
         var leaderboard = await SteamUserStats.FindLeaderboardAsync(levelLeaderboardName);
-        if (leaderboard.HasValue)
-        {
-            Steamworks.Data.Leaderboard unwrappedLeaderboard = leaderboard.Value;
-        }
-        else
+        if (!leaderboard.HasValue)
         {
             Debug.LogError($"Could not retrieve leaderboard {levelLeaderboardName} from steam");
         }
+        else
+        {
+            var entries = await leaderboard.Value.GetScoresAsync(10);
+            return entries;
+        }
+
+        return new Steamworks.Data.LeaderboardEntry[0];
     }
 }

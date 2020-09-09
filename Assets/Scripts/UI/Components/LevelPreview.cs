@@ -38,8 +38,22 @@ public class LevelPreview : MonoBehaviour
         leaderboard.gameObject.SetActive(true);
         levelToPreview = level;
         previewImage.sprite = level.previewSprite;
+        PopulateLeaderboard();
+    }
 
+    void PopulateLeaderboard()
+    {
         // make HTTP request from steam for leaderboard data
+        Steamworks.Data.LeaderboardEntry[] entries = StatsManager.GetLevelLeaderboard(levelToPreview.levelName).Result;
+        if(entries != null && entries.Length > 0)
+        {
+            foreach (Steamworks.Data.LeaderboardEntry entry in entries)
+            {
+                GameObject entryObject = Instantiate(leaderboardItemPrefab, scrollViewContent);
+                LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
+                leaderboardEntry.Init(entry);
+            }
+        }
     }
 
 }
