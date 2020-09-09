@@ -9,6 +9,7 @@ public class LevelButton : MonoBehaviour
 {
     public Text levelName;
     public Text levelTime;
+    public LevelSelectionTab tab;
 
     public void SetupButton(Level level)
     {
@@ -23,6 +24,19 @@ public class LevelButton : MonoBehaviour
         else
         {
             levelTime.text = "Not Completed";
+        }
+
+        if (level.isPortalLevel)
+        {
+            tab = LevelSelectionTab.Portal;
+        } 
+        else if (level.levelName == "workshop")
+        {
+            tab = LevelSelectionTab.Workshop;
+        }
+        else
+        {
+            tab = LevelSelectionTab.Hop;
         }
 
         Button button = GetComponentInChildren<Button>();
