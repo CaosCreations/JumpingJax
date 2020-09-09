@@ -9,6 +9,7 @@ public class LevelButton : MonoBehaviour
 {
     public Text levelName;
     public Text levelTime;
+    public Button button;
     public LevelSelectionTab tab;
 
     public void SetupButton(Level level)
@@ -39,15 +40,7 @@ public class LevelButton : MonoBehaviour
             tab = LevelSelectionTab.Hop;
         }
 
-        Button button = GetComponentInChildren<Button>();
+        button = GetComponentInChildren<Button>();
         button.name = level.levelName;
-        button.onClick.AddListener(() => OnClickLevel(level));
-    }
-
-    public void OnClickLevel(Level level)
-    {
-        //levelPreview.Init(level);
-        GameManager.Instance.currentLevelBuildIndex = level.levelBuildIndex;
-        SceneManager.LoadScene(level.levelBuildIndex);
     }
 }

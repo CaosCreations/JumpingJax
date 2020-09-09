@@ -74,11 +74,14 @@ public class LevelSelectionMenu : MonoBehaviour
     void LoadButtons()
     {
         Level[] levels = GameManager.Instance.levelDataContainer.levels;
-        for (int i = 0; i <= levels.Length - 1; i++)
+        for (int i = 0; i < levels.Length; i++)
         {
             GameObject newLevelButton = Instantiate(levelObjectPrefab, levelButtonParent);
             LevelButton levelButton = newLevelButton.GetComponentInChildren<LevelButton>();
-            levelButton.SetupButton(levels[i]);
+
+            Level currentLevel = levels[i];
+            levelButton.SetupButton(currentLevel);
+            levelButton.button.onClick.AddListener(() => OnClickLevel(currentLevel));
 
             if (levelButton.tab == LevelSelectionTab.Hop)
             {
@@ -93,5 +96,10 @@ public class LevelSelectionMenu : MonoBehaviour
                 workshopButtonList.Add(levelButton);
             }
         }
+    }
+
+    public void OnClickLevel(Level level)
+    {
+        levelPreview.Init(level);
     }
 }
