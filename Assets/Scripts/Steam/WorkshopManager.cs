@@ -28,16 +28,19 @@ public class WorkshopManager : MonoBehaviour
         //id = 2223679777;
         //DownloadItem(id);
         //LoadSceneFromBundle("D:/SteamLibrary/steamapps/workshop/content/1315100/2223679777/Hop1.unity");
-        PublishAssetBundle("testBundle", "descr", "Assets/Resources/Workshop/Uploads");
+        //PublishWorkshopFile("testBundle", "descr", new DirectoryInfo("C:/Users/ambid/Documents/GitHub/JumpingJax/Assets/Resources/Workshop/Uploads");
         //LoadSceneFromBundle("Hop1");
         //HandleAsyncCalls();
+        LoadSceneFromBundle("C:/Users/ambid/Downloads/hop10.caos");
     }
 
     async void HandleAsyncCalls()
     {
-        DirectoryInfo directory = new DirectoryInfo("C:/Users/ambid/Documents/GitHub/JumpingJax/Assets/Resources/Workshop/Uploads/Hop1.unity");
-        await PublishWorkshopFile("test", "test description", directory);
-        await WorkshopDownload();
+        //DirectoryInfo directory = new DirectoryInfo("C:/Users/ambid/Documents/GitHub/JumpingJax/Assets/Resources/Workshop/Uploads/Hop1.unity");
+        DirectoryInfo directory = new DirectoryInfo("C:/Users/ambid/Documents/GitHub/JumpingJax/Assets/Resources/Workshop/Uploads");
+        //DirectoryInfo directory = new DirectoryInfo("C:/Users/ambid/Documents/GitHub/JumpingJax/Assets/Resources/Workshop/Uploads/hop10.caos");
+        await PublishWorkshopFile("test3", "test description", directory);
+        //await WorkshopDownload();
     }
 
     void Update()
@@ -81,6 +84,7 @@ public class WorkshopManager : MonoBehaviour
 
     public static async Task PublishWorkshopFile(string title, string description, DirectoryInfo directory)
     {
+        Debug.Log("publishing");
         var result = await Steamworks.Ugc.Editor.NewCommunityFile
             .WithTitle(title)
             .WithDescription(description)
@@ -100,30 +104,6 @@ public class WorkshopManager : MonoBehaviour
         {
             Debug.LogError($"could not publish: {title}, error: {result.ToString()}");
         }
-    }
-
-    public static async Task PublishAssetBundle(string title, string description, string path)
-    {
-
-        //var result = await Steamworks.Ugc.Editor.NewCommunityFile
-        //    .WithTitle(title)
-        //    .WithDescription(description)
-        //    .WithContent(directory)
-        //    .SubmitAsync();
-
-        //if (result.Success)
-        //{
-        //    Debug.Log($"published : {title}");
-        //    // See this for more info: https://partner.steamgames.com/doc/features/workshop/implementation#Legal
-        //    if (result.NeedsWorkshopAgreement)
-        //    {
-        //        SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{result.FileId}");
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.LogError($"could not publish: {title}, error: {result.ToString()}");
-        //}
     }
 
 
