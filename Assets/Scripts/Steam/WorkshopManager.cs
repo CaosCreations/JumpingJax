@@ -7,6 +7,8 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
 
 public class WorkshopManager : MonoBehaviour
 {
@@ -17,15 +19,16 @@ public class WorkshopManager : MonoBehaviour
         //
         TaskScheduler.UnobservedTaskException += (_, e) => { Debug.LogError($"{e.Exception}\n{e.Exception.Message}\n{e.Exception.StackTrace}"); };
 
-        
+
 
         //GetAllByCreationDate();
         //GetAllItemsByTrend();
         //Steamworks.Data.PublishedFileId id = new Steamworks.Data.PublishedFileId();
         //id = 2223679777;
         //DownloadItem(id);
-
-        HandleAsyncCalls();
+        //LoadSceneFromBundle("D:/SteamLibrary/steamapps/workshop/content/1315100/2223679777/Hop1.unity");
+        LoadSceneFromBundle("Hop1");
+        //HandleAsyncCalls();
     }
 
     async void HandleAsyncCalls()
@@ -161,10 +164,8 @@ public class WorkshopManager : MonoBehaviour
 
     public void LoadSceneFromBundle(string path)
     {
-        AssetBundle bundle = AssetBundle.LoadFromFile(path);
-        string[] scenes = bundle.GetAllScenePaths();
-        Debug.Log($"scenepath: {scenes[0]}");
-        string scene = Path.GetFileNameWithoutExtension(scenes[0]);
-        SceneManager.LoadScene(scene);
+        Addressables.LoadSceneAsync(path, LoadSceneMode.Single);
+        //Resources.load
+        //SceneManager.LoadScene(scene);
     }
 }
