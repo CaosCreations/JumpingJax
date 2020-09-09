@@ -44,14 +44,17 @@ public class LevelPreview : MonoBehaviour
     void PopulateLeaderboard()
     {
         // make HTTP request from steam for leaderboard data
-        Steamworks.Data.LeaderboardEntry[] entries = StatsManager.GetLevelLeaderboard(levelToPreview.levelName).Result;
-        if(entries != null && entries.Length > 0)
+        if (GameManager.Instance.isSteamActive)
         {
-            foreach (Steamworks.Data.LeaderboardEntry entry in entries)
+            Steamworks.Data.LeaderboardEntry[] entries = StatsManager.GetLevelLeaderboard(levelToPreview.levelName).Result;
+            if (entries != null && entries.Length > 0)
             {
-                GameObject entryObject = Instantiate(leaderboardItemPrefab, scrollViewContent);
-                LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
-                leaderboardEntry.Init(entry);
+                foreach (Steamworks.Data.LeaderboardEntry entry in entries)
+                {
+                    GameObject entryObject = Instantiate(leaderboardItemPrefab, scrollViewContent);
+                    LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
+                    leaderboardEntry.Init(entry);
+                }
             }
         }
     }
