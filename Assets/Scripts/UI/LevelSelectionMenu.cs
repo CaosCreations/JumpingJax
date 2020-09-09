@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -73,7 +74,7 @@ public class LevelSelectionMenu : MonoBehaviour
     
     void LoadButtons()
     {
-        Level[] levels = GameManager.Instance.levelDataContainer.levels;
+        Level[] levels = GetAllLevels();
         for (int i = 0; i < levels.Length; i++)
         {
             GameObject newLevelButton = Instantiate(levelObjectPrefab, levelButtonParent);
@@ -96,6 +97,14 @@ public class LevelSelectionMenu : MonoBehaviour
                 workshopButtonList.Add(levelButton);
             }
         }
+    }
+
+    private Level[] GetAllLevels()
+    {
+        List<Level> levels = GameManager.Instance.levelDataContainer.levels.ToList();
+        //levels.AddRange(WorkshopManager.GetSubscribedLevels());
+
+        return levels.ToArray();
     }
 
     public void OnClickLevel(Level level)

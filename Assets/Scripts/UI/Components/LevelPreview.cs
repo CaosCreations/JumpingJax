@@ -27,7 +27,7 @@ public class LevelPreview : MonoBehaviour
 
     void Play()
     {
-        GameManager.Instance.currentLevelBuildIndex = levelToPreview.levelBuildIndex;
+        GameManager.Instance.currentLevel = levelToPreview;
         SceneManager.LoadScene(levelToPreview.levelBuildIndex);
     }
 

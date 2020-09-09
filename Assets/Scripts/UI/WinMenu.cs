@@ -10,6 +10,17 @@ public class WinMenu : MonoBehaviour
     public Text completionTimeText;
     public Text bestTimeText;
 
+    public Button retryButton;
+    public Button menuButton;
+    public Button nextButton;
+
+    private PlayerProgress playerProgress;
+
+    private void Start()
+    {
+        playerProgress = GetComponentInParent<PlayerProgress>();
+    }
+
     private void Update()
     {
         if(Input.GetKeyDown(PlayerConstants.WinMenu_MainMenu)){
@@ -25,38 +36,44 @@ public class WinMenu : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        // Only show the "next" button if it is NOT a workshop map
+        nextButton.gameObject.SetActive(GameManager.GetCurrentLevel().filePath != null);
+    }
+
     public void Retry()
     {
-        Cursor.visible = false;
         gameObject.SetActive(false);
         Time.timeScale = 1;
-        SceneManager.LoadScene(GameManager.Instance.currentLevelBuildIndex);
+        Cursor.visible = false;
+        playerProgress.ResetPlayer();
     }
 
     public void NextLevel()
     {
         gameObject.SetActive(false);
         Time.timeScale = 1;
-        //This assumes the main menu is build index 0
-        if(GameManager.Instance.currentLevelBuildIndex >= GameManager.Instance.levelDataContainer.levels.Length)
+
+        Level currentLevel = GameManager.GetCurrentLevel();
+        // Load credits scene
+        if (currentLevel.levelBuildIndex >= GameManager.Instance.levelDataContainer.levels.Length)
         {
             Cursor.visible = true;
-            // Load credits scene
-            SceneManager.LoadScene(GameManager.Instance.currentLevelBuildIndex + 1);
         }
         else
         {
             Cursor.visible = false;
-            GameManager.Instance.currentLevelBuildIndex++;
-            SceneManager.LoadScene(GameManager.Instance.currentLevelBuildIndex);
         }
+
+        SceneManager.LoadScene(currentLevel.levelBuildIndex + 1);
     }
 
     public void GoToMainMenu()
     {
-        Cursor.visible = true;
         gameObject.SetActive(false);
         Time.timeScale = 1;
+        Cursor.visible = true;
         SceneManager.LoadScene(PlayerConstants.BuildSceneIndex);
     }
 }

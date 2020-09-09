@@ -10,8 +10,9 @@ public class GameManager : MonoBehaviour
 
     public LevelDataContainer levelDataContainer;
     public static uint AppId = 1315100;
+    public static int workshopLevelIndex = -1; // assumes workshop is the second to last scene (before credits)
 
-    public int currentLevelBuildIndex;
+    public Level currentLevel;
     public float currentCompletionTime;
     public bool didWinCurrentLevel;
     public bool isSteamActive;
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
 
     private void StartSteam()
     {
+        workshopLevelIndex = SceneManager.sceneCountInBuildSettings - 2;
         try
         {
             if (!SteamClient.IsValid)
@@ -79,22 +81,31 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        currentLevelBuildIndex = scene.buildIndex;
-
-        if (scene.buildIndex == -1)
-        {
-            // This means the scene is loaded from outside of the menu, possibly from the workshop
-            // TODO: update this based off of the loaded level
-            currentLevelBuildIndex = 1;
-        }
-
         currentCompletionTime = 0;
         didWinCurrentLevel = false;
+
+        if (Instance.currentLevel == null)
+        {
+            Instance.currentLevel = Instance.levelDataContainer.levels[scene.buildIndex - 1];
+        }
     }
 
     public static Level GetCurrentLevel()
     {
-        return Instance.levelDataContainer.levels[Instance.currentLevelBuildIndex - 1];
+        return Instance.currentLevel;
+    }
+
+    public static void NextLevel()
+    {
+        // NOTE: The level build index starts at 1 (because main menu is at index 0)
+        Instance.currentLevel = Instance.levelDataContainer.levels[Instance.currentLevel.levelBuildIndex];
+    }
+
+    public static void RestartLevel()
+    {
+        Instance.currentCompletionTime = 0;
+        Instance.didWinCurrentLevel = false;
+
     }
 
     public static void FinishedLevel()

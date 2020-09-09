@@ -23,6 +23,9 @@ public class Level : ScriptableObject
     [SerializeField]
     public int numberOfCheckpoints;
 
+    [SerializeField]
+    public string filePath;
+
     [Header("Set in Game")]
     [SerializeField]
     public Collectible[] collectibles;

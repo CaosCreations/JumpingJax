@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Steamworks;
+using System.IO;
 
 public class PublishWorkshopMap : EditorWindow
 {
@@ -35,11 +37,26 @@ public class PublishWorkshopMap : EditorWindow
 
     private async void UploadMap()
     {
+        Debug.Log("publishing");
+        DirectoryInfo directory = new DirectoryInfo("C:/Users/ambid/Documents/GitHub/JumpingJax/Assets/Resources/Workshop/Uploads");
         var result = await Steamworks.Ugc.Editor.NewCommunityFile
-                    .WithTitle("My New Item")
-                    .WithDescription("Map1")
-                    .WithTag("Map")
-                    .WithContent(Application.streamingAssetsPath + "/maps")
-                    .SubmitAsync();
+            .WithTitle("map1")
+            .WithDescription("map 1 description")
+            .WithContent(directory)
+            .SubmitAsync();
+
+        if (result.Success)
+        {
+            Debug.Log($"published : {title}");
+            // See this for more info: https://partner.steamgames.com/doc/features/workshop/implementation#Legal
+            if (result.NeedsWorkshopAgreement)
+            {
+                SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{result.FileId}");
+            }
+        }
+        else
+        {
+            Debug.LogError($"could not publish: {title}, error: {result.ToString()}");
+        }
     }
 }

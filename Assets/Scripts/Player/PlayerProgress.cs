@@ -12,8 +12,11 @@ public class PlayerProgress : MonoBehaviour
     public PlayerMovement playerMovement;
     public CameraMove cameraMove;
     public PlayerGhostRun playerGhostRun;
+    public Crosshair crosshair;
 
     private PortalPair portals;
+
+    private Checkpoint firstCheckpoint;
 
 
     private void Start()
@@ -21,6 +24,7 @@ public class PlayerProgress : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         cameraMove = GetComponent<CameraMove>();
         playerGhostRun = GetComponent<PlayerGhostRun>();
+        crosshair = GetComponent<Crosshair>();
         if (GameManager.GetCurrentLevel().isPortalLevel)
         {
             portals = GameObject.FindGameObjectWithTag("Portal").GetComponent<PortalPair>();
@@ -45,6 +49,10 @@ public class PlayerProgress : MonoBehaviour
         Checkpoint checkPointHit = other.gameObject.GetComponent<Checkpoint>();
         if (checkPointHit)
         {
+            if(checkPointHit.level == 1)
+            {
+                firstCheckpoint = checkPointHit;
+            }
             HitNewCheckPoint(checkPointHit);
         }
     }
@@ -89,6 +97,7 @@ public class PlayerProgress : MonoBehaviour
         // If the player is restarting at the beginning, reset timer
         if (currentCheckpoint.level == 1)
         {
+            crosshair.Init();
             if (GameManager.GetCurrentLevel().isPortalLevel)
             {
                 portals.Portals[0].ResetPortal();
@@ -97,5 +106,11 @@ public class PlayerProgress : MonoBehaviour
             GameManager.Instance.currentCompletionTime = 0;
             playerGhostRun.RestartRun();
         }
+    }
+
+    public void ResetPlayer()
+    {
+        currentCheckpoint = firstCheckpoint;
+        Respawn();
     }
 }

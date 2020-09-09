@@ -17,11 +17,16 @@ public class Crosshair : MonoBehaviour
 
     private void Start()
     {
+        Init();
+    }
+
+    public void Init()
+    {
         crosshair.sprite = crosshairDefault;
         isLeftPlaced = false;
         isRightPlaced = false;
-
     }
+
     public void CrossCheck(bool isLeft)
     {
         if (isLeft)
