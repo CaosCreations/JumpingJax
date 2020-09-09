@@ -7,12 +7,10 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine.SceneManagement;
-using UnityEngine.AddressableAssets;
 using UnityEditor;
 
 public class WorkshopManager : MonoBehaviour
 {
-    AssetReference sceneFolder;
     void Start()
     {
         //
