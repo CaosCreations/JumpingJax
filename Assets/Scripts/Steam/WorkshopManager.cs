@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using System.Net;
 
 public class WorkshopManager : MonoBehaviour
 {
+    public delegate List<Steamworks.Ugc.Item> DownloadCompleteEventHandler();
+    public DownloadCompleteEventHandler callback;
     void Start()
     {
         //
@@ -23,24 +26,36 @@ public class WorkshopManager : MonoBehaviour
 
     async void HandleAsyncCalls()
     {
-        await DownloadAllSubscribedItems();
+        List<Steamworks.Ugc.Item> items = await DownloadAllSubscribedItems();
+
+
+        //List<Steamworks.Ugc.Item> items = DownloadAllSubscribedItems().Result;
         //LoadSceneFromBundle("C:/Users/ambid/Downloads/hop10.caos");
     }
 
-    public async Task DownloadAllSubscribedItems()
+    public static async Task<List<Steamworks.Ugc.Item>> DownloadAllSubscribedItems()
     {
-        //var query = Steamworks.Ugc.Query.All.WhereUserFollowed(SteamClient.SteamId);
-        var query = Steamworks.Ugc.Query.All.SortByCreationDate();
+        var query = Steamworks.Ugc.Query.All.WhereUserSubscribed(SteamClient.SteamId.AccountId);
+        //var query = Steamworks.Ugc.Query.All.SortByCreationDate();
         var result = await query.GetPageAsync(1);
 
+        Debug.Log($"Found {result.Value.TotalCount} subscribed items");
+
+        List<Steamworks.Ugc.Item> toReturn = new List<Steamworks.Ugc.Item>();
         foreach (Steamworks.Ugc.Item entry in result.Value.Entries)
         {
-            Debug.Log($"found: {entry.Title}");
-            //var fileDownload = await DownloadWorkshopFile(entry.Id);
+            Debug.Log($"Found Item: {entry.Title}");
+            if (!entry.IsInstalled)
+            {
+                await DownloadWorkshopFile(entry.Id);
+            }
+            toReturn.Add(entry);
         }
+
+        return toReturn;
     }
 
-    public async Task DownloadWorkshopFile(Steamworks.Data.PublishedFileId id)
+    public static async Task<string> DownloadWorkshopFile(Steamworks.Data.PublishedFileId id)
     {
         //var q = Steamworks.Ugc.Query.Items.SortByCreationDateAsc();
         //var page = await q.GetPageAsync(1);
@@ -48,21 +63,21 @@ public class WorkshopManager : MonoBehaviour
         var result = await SteamUGC.QueryFileAsync(id);
         if (!result.HasValue)
         {
-            return;
+            return string.Empty;
         }
         Steamworks.Ugc.Item file = result.Value;
 
-        Debug.Log($"Found {file.Title}..");
+        Debug.Log($"Found File: {file.Title}..");
         if (file.IsInstalled)
         {
-            Debug.Log($"{file.Title} is already installed");
-            return;
+            Debug.Log($"{file.Title} is already installed to {file.Directory}");
+            return file.Directory;
         }
 
         if (!file.Download(true))
         {
             Debug.Log($"Download file with id: {id.Value} doesn't exist");
-            return;
+            return string.Empty;
         }
 
         Debug.Log($"Starting download for {file.Title}..");
@@ -87,10 +102,14 @@ public class WorkshopManager : MonoBehaviour
 
         Debug.Log($"");
 
+        string fileToReturn = "";
         foreach (var f in dir.EnumerateFiles())
         {
             Debug.Log($"{f.FullName}");
+            fileToReturn = f.FullName;
         }
+
+        return fileToReturn;
     }
 
     public static void LoadSceneFromBundle(string path)

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,8 +31,10 @@ public class LevelSelectionMenu : MonoBehaviour
         SetupTabButtons();
     }
 
-    private void OnEnable()
+    private async void OnEnable()
     {
+        Debug.Log("enable");
+        ClearButtons();
         LoadButtons();
         SetTab(LevelSelectionTab.Hop);
     }
@@ -66,15 +70,14 @@ public class LevelSelectionMenu : MonoBehaviour
 
     void SetTab(LevelSelectionTab tab)
     {
-        Debug.Log("set level tab");
         hopButtonList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Hop));
         portalButtonList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Portal));
         workshopButtonList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Workshop));
     }
     
-    void LoadButtons()
+    async void LoadButtons()
     {
-        Level[] levels = GetAllLevels();
+        Level[] levels = await GetAllLevels();
         for (int i = 0; i < levels.Length; i++)
         {
             GameObject newLevelButton = Instantiate(levelObjectPrefab, levelButtonParent);
@@ -99,12 +102,34 @@ public class LevelSelectionMenu : MonoBehaviour
         }
     }
 
-    private Level[] GetAllLevels()
+    private async Task<Level[]> GetAllLevels()
     {
         List<Level> levels = GameManager.Instance.levelDataContainer.levels.ToList();
-        //levels.AddRange(WorkshopManager.GetSubscribedLevels());
+        if (GameManager.Instance.isSteamActive)
+        {
+            levels.AddRange( await GetWorkshopLevels());
+        }
 
         return levels.ToArray();
+    }
+
+    private async Task<List<Level>> GetWorkshopLevels()
+    {
+        List<Steamworks.Ugc.Item> items = await WorkshopManager.DownloadAllSubscribedItems();
+        List<Level> toReturn = new List<Level>();
+        if (items != null && items.Count > 0)
+        {
+            foreach(Steamworks.Ugc.Item item in items)
+            {
+                Level newLevel = new Level();
+                newLevel.levelBuildIndex = GameManager.workshopLevelIndex;
+                newLevel.filePath = item.Directory;
+                newLevel.levelName = item.Title;
+                toReturn.Add(newLevel);
+            }
+        }
+
+        return toReturn;
     }
 
     public void OnClickLevel(Level level)

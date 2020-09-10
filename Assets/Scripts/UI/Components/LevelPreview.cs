@@ -31,7 +31,7 @@ public class LevelPreview : MonoBehaviour
         SceneManager.LoadScene(levelToPreview.levelBuildIndex);
     }
 
-    public void Init(Level level)
+    public async void Init(Level level)
     {
         playButton.gameObject.SetActive(true);
         previewImage.gameObject.SetActive(true);
@@ -41,12 +41,12 @@ public class LevelPreview : MonoBehaviour
         PopulateLeaderboard();
     }
 
-    void PopulateLeaderboard()
+    async void PopulateLeaderboard()
     {
         // make HTTP request from steam for leaderboard data
         if (GameManager.Instance.isSteamActive)
         {
-            Steamworks.Data.LeaderboardEntry[] entries = StatsManager.GetLevelLeaderboard(levelToPreview.levelName).Result;
+            Steamworks.Data.LeaderboardEntry[] entries = await StatsManager.GetLevelLeaderboard(levelToPreview.levelName);
             if (entries != null && entries.Length > 0)
             {
                 foreach (Steamworks.Data.LeaderboardEntry entry in entries)

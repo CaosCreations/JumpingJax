@@ -31,7 +31,7 @@ public class LevelButton : MonoBehaviour
         {
             tab = LevelSelectionTab.Portal;
         } 
-        else if (level.levelName == "workshop")
+        else if (level.filePath != string.Empty)
         {
             tab = LevelSelectionTab.Workshop;
         }
