@@ -10,7 +10,7 @@ using UnityEditor.SceneManagement;
 
 public class CompileWorkshopMap : MonoBehaviour
 {
-    [MenuItem("Tools/OneLeif/Compile Map")]
+    [MenuItem("Tools/CaosCreations/Compile Map")]
     static void CompileMap()
     {
         string path = "Assets/Resources/Workshop";

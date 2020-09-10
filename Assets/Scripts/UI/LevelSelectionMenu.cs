@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public enum LevelSelectionTab
@@ -125,11 +126,41 @@ public class LevelSelectionMenu : MonoBehaviour
                 newLevel.levelBuildIndex = GameManager.workshopLevelIndex;
                 newLevel.filePath = item.Directory;
                 newLevel.levelName = item.Title;
+                if(item.PreviewImageUrl != null && item.PreviewImageUrl != string.Empty)
+                {
+                    Texture2D texture = await LoadTextureFromUrl(item.PreviewImageUrl);
+                    newLevel.previewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                }
                 toReturn.Add(newLevel);
             }
         }
 
         return toReturn;
+    }
+
+    public async Task<Texture2D> LoadTextureFromUrl(string url)
+    {
+        //
+        // If you're going to use this properly in production
+        // you need to think about caching the texture maybe
+        // so you don't download it every time.
+        //
+
+        UnityWebRequest request = UnityWebRequestTexture.GetTexture(url, true);
+
+        var r = request.SendWebRequest();
+
+        while (!r.isDone)
+        {
+            await Task.Delay(10);
+        }
+
+        if (request.isNetworkError || request.isHttpError)
+            return new Texture2D(100, 100);
+
+        DownloadHandlerTexture dh = request.downloadHandler as DownloadHandlerTexture;
+        dh.texture.name = url;
+        return dh.texture;
     }
 
     public void OnClickLevel(Level level)

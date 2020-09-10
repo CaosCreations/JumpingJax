@@ -7,7 +7,7 @@ using System.IO;
 
 public class PublishWorkshopMap : EditorWindow
 {
-    [MenuItem("Tools/OneLeif/Publish Map")]
+    [MenuItem("Tools/CaosCreations/Publish Map")]
     private static void PackageMap()
     {
         EditorWindow.GetWindow(typeof(PublishWorkshopMap));
@@ -18,6 +18,7 @@ public class PublishWorkshopMap : EditorWindow
     string mapTitle = "";
     string description = "";
     string path = "";
+    string imagePath = "";
     private void OnGUI()
     {
         GUILayout.Label("Map Name: ");
@@ -36,7 +37,13 @@ public class PublishWorkshopMap : EditorWindow
             path = EditorUtility.OpenFilePanel("Select map file", "Assets/Resources/Workshop", "caos");
         }
 
-        if(GUILayout.Button("Publish to steam workshop"))
+        GUILayout.Label("Image Selected: " + imagePath);
+        if (GUILayout.Button("Select a screenshot"))
+        {
+            imagePath = EditorUtility.OpenFilePanel("Select screenshot", "Assets/Resources/Workshop", "png");
+        }
+
+        if (GUILayout.Button("Publish to steam workshop"))
         {
             UploadMap();
         }
@@ -50,6 +57,7 @@ public class PublishWorkshopMap : EditorWindow
         var result = await Steamworks.Ugc.Editor.NewCommunityFile
             .WithTitle(mapTitle)
             .WithDescription(description)
+            .WithPreviewFile(imagePath)
             .WithContent(path)
             .SubmitAsync();
 

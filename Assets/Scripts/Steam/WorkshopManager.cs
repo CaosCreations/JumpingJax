@@ -114,7 +114,9 @@ public class WorkshopManager : MonoBehaviour
 
     public static void LoadSceneFromBundle(string path)
     {
-        AssetBundle bundle = AssetBundle.LoadFromFile(path);
+        DirectoryInfo fileInfo = new DirectoryInfo(path);
+        string scenePath = fileInfo.EnumerateFiles().First().FullName;
+        AssetBundle bundle = AssetBundle.LoadFromFile(scenePath);
         string[] scenes = bundle.GetAllScenePaths();
         Debug.Log($"scenepath: {scenes[0]}");
         string scene = Path.GetFileNameWithoutExtension(scenes[0]);
