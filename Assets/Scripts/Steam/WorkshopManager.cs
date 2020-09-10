@@ -3,40 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Steamworks;
 using System.IO;
-using System;
 using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine.SceneManagement;
-using UnityEditor;
-using System.Net;
 
 public class WorkshopManager : MonoBehaviour
 {
-    public delegate List<Steamworks.Ugc.Item> DownloadCompleteEventHandler();
-    public DownloadCompleteEventHandler callback;
     void Start()
     {
         //
         // Log unhandled exceptions created in Async Tasks so we know when something has gone wrong
         //
         TaskScheduler.UnobservedTaskException += (_, e) => { Debug.LogError($"{e.Exception}\n{e.Exception.Message}\n{e.Exception.StackTrace}"); };
-
-        HandleAsyncCalls();
-    }
-
-    async void HandleAsyncCalls()
-    {
-        List<Steamworks.Ugc.Item> items = await DownloadAllSubscribedItems();
-
-
-        //List<Steamworks.Ugc.Item> items = DownloadAllSubscribedItems().Result;
-        //LoadSceneFromBundle("C:/Users/ambid/Downloads/hop10.caos");
     }
 
     public static async Task<List<Steamworks.Ugc.Item>> DownloadAllSubscribedItems()
     {
         var query = Steamworks.Ugc.Query.All.WhereUserSubscribed(SteamClient.SteamId.AccountId);
-        //var query = Steamworks.Ugc.Query.All.SortByCreationDate();
         var result = await query.GetPageAsync(1);
 
         Debug.Log($"Found {result.Value.TotalCount} subscribed items");
@@ -57,9 +40,6 @@ public class WorkshopManager : MonoBehaviour
 
     public static async Task<string> DownloadWorkshopFile(Steamworks.Data.PublishedFileId id)
     {
-        //var q = Steamworks.Ugc.Query.Items.SortByCreationDateAsc();
-        //var page = await q.GetPageAsync(1);
-        //var file = page.Value.Entries.Where(x => !x.IsInstalled).FirstOrDefault();
         var result = await SteamUGC.QueryFileAsync(id);
         if (!result.HasValue)
         {
@@ -100,13 +80,11 @@ public class WorkshopManager : MonoBehaviour
 
         var dir = new DirectoryInfo(file.Directory);
 
-        Debug.Log($"");
-
         string fileToReturn = "";
-        foreach (var f in dir.EnumerateFiles())
+        foreach (var dirFiles in dir.EnumerateFiles())
         {
-            Debug.Log($"{f.FullName}");
-            fileToReturn = f.FullName;
+            Debug.Log($"{dirFiles.FullName}");
+            fileToReturn = dirFiles.FullName;
         }
 
         return fileToReturn;
@@ -118,7 +96,7 @@ public class WorkshopManager : MonoBehaviour
         string scenePath = fileInfo.EnumerateFiles().First().FullName;
         AssetBundle bundle = AssetBundle.LoadFromFile(scenePath);
         string[] scenes = bundle.GetAllScenePaths();
-        Debug.Log($"scenepath: {scenes[0]}");
+        Debug.Log($"loading bundle from scenepath: {scenes[0]}");
         string scene = Path.GetFileNameWithoutExtension(scenes[0]);
         SceneManager.LoadScene(scene);
     }

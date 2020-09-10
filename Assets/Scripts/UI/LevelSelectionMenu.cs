@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -126,6 +125,8 @@ public class LevelSelectionMenu : MonoBehaviour
                 newLevel.levelBuildIndex = GameManager.workshopLevelIndex;
                 newLevel.filePath = item.Directory;
                 newLevel.levelName = item.Title;
+                newLevel.gravityMultiplier = 1;
+                newLevel.isPortalLevel = true;
                 if(item.PreviewImageUrl != null && item.PreviewImageUrl != string.Empty)
                 {
                     Texture2D texture = await LoadTextureFromUrl(item.PreviewImageUrl);
