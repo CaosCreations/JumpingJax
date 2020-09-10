@@ -13,36 +13,44 @@ public class PublishWorkshopMap : EditorWindow
         EditorWindow.GetWindow(typeof(PublishWorkshopMap));
     }
 
+    DirectoryInfo directory = new DirectoryInfo("C:/Users/ambid/Documents/GitHub/JumpingJax/Assets/Resources/Workshop");
+
+    string mapTitle = "";
+    string description = "";
+    string path = "";
     private void OnGUI()
     {
         GUILayout.Label("Map Name: ");
-        string mapName = GUILayout.TextField("");
-        
-        GUILayout.Label("Author: ");
-        string author = GUILayout.TextField("");
+        mapTitle = GUILayout.TextField(mapTitle);
 
-        GUILayout.Label("Version: ");
-        string version = GUILayout.TextField("");
+        GUILayout.Space(20);
 
         GUILayout.Label("Description: ");
-        string description = GUILayout.TextArea("");
+        description = GUILayout.TextField(description);
 
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("No File Selected! ");
-        GUILayout.Button("Select a file");
-        GUILayout.EndHorizontal();
+        GUILayout.Space(20);
 
-        GUILayout.Button("Compile");
+        GUILayout.Label("File Selected: " + path);
+        if(GUILayout.Button("Select a file"))
+        {
+            path = EditorUtility.OpenFilePanel("Select map file", "Assets/Resources/Workshop", "caos");
+        }
+
+        if(GUILayout.Button("Publish to steam workshop"))
+        {
+            UploadMap();
+        }
     }
 
     private async void UploadMap()
     {
-        Debug.Log("publishing");
-        DirectoryInfo directory = new DirectoryInfo("C:/Users/ambid/Documents/GitHub/JumpingJax/Assets/Resources/Workshop/Uploads");
+        StartSteam();
+        Debug.Log($"publishing: {path}. WAIT to see \"published\"");
+        
         var result = await Steamworks.Ugc.Editor.NewCommunityFile
-            .WithTitle("map1")
-            .WithDescription("map 1 description")
-            .WithContent(directory)
+            .WithTitle(mapTitle)
+            .WithDescription(description)
+            .WithContent(path)
             .SubmitAsync();
 
         if (result.Success)
@@ -58,5 +66,27 @@ public class PublishWorkshopMap : EditorWindow
         {
             Debug.LogError($"could not publish: {title}, error: {result.ToString()}");
         }
+
+        StopSteam();
+    }
+
+    private void StartSteam()
+    {
+        try
+        {
+            if (!SteamClient.IsValid)
+            {
+                SteamClient.Init(GameManager.AppId, true);
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Could not connect to steam " + e.Message);
+        }
+    }
+
+    private void StopSteam()
+    {
+        Steamworks.SteamClient.Shutdown();
     }
 }

@@ -24,7 +24,7 @@ public class StatsManager : MonoBehaviour
         var leaderboard = await SteamUserStats.FindLeaderboardAsync(levelLeaderboardName);
         if (!leaderboard.HasValue)
         {
-            Debug.LogError($"Could not retrieve leaderboard {levelLeaderboardName} from steam");
+            Debug.LogWarning($"Could not retrieve leaderboard {levelLeaderboardName} from steam");
         }
         else
         {

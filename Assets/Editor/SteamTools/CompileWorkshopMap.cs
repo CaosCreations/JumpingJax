@@ -13,13 +13,12 @@ public class CompileWorkshopMap : MonoBehaviour
     [MenuItem("Tools/OneLeif/Compile Map")]
     static void CompileMap()
     {
-        string path = "Assets/Resources/Workshop/Uploads";
+        string path = "Assets/Resources/Workshop";
         AssetBundleBuild build = new AssetBundleBuild();
 
         if (!AssetDatabase.IsValidFolder(path))
         {
-            Debug.Log("No Export folder found, creating one.");
-            AssetDatabase.CreateFolder("Assets", "Export");
+            Debug.Log("No Uploads folder found, make sure this folder exists: Assets/Resources/Workshop/");
         }
 
         try
@@ -39,17 +38,5 @@ public class CompileWorkshopMap : MonoBehaviour
         {
             Debug.LogException(e);
         }
-
-        //AssetBundleBuild[] buildMap = new AssetBundleBuild[1];
-        //buildMap[0].assetBundleName = "mapBundle";
-        //buildMap[0].assetNames = new string[] { "Assets/Scenes/BunnyHop1.unity" };
-
-
-        //AssetBundleManifest x = BuildPipeline.BuildAssetBundles("Assets/StreamingAssets",
-        //                                buildMap,
-        //                                BuildAssetBundleOptions.None,
-        //                                BuildTarget.StandaloneWindows);
     }
-
-
 }
