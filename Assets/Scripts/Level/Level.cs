@@ -12,9 +12,6 @@ public class Level : ScriptableObject
     public string levelName;
 
     [SerializeField]
-    public bool isPortalLevel;
-
-    [SerializeField]
     public float gravityMultiplier;
 
     [SerializeField]

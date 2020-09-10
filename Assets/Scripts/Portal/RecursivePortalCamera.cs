@@ -37,13 +37,32 @@ public class RecursivePortalCamera : MonoBehaviour
 
     private void Start()
     {
-        isPortalLevel = GameManager.GetCurrentLevel().isPortalLevel;
+        isPortalLevel = PortalsExist();
         if (Time.timeScale == 0 || !isPortalLevel)
         {
             return;
         }
-        portals[0].SetTexture(tempTexture1);
-        portals[1].SetTexture(tempTexture2);
+
+        if (isPortalLevel)
+        {
+            portals[0].SetTexture(tempTexture1);
+            portals[1].SetTexture(tempTexture2);
+        }
+    }
+
+    private bool PortalsExist()
+    {
+        if(portals[0] == null)
+        {
+            return false;
+        }
+
+        if (portals[1] == null)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private void OnPreRender()

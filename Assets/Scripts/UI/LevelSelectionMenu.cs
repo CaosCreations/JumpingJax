@@ -126,7 +126,6 @@ public class LevelSelectionMenu : MonoBehaviour
                 newLevel.filePath = item.Directory;
                 newLevel.levelName = item.Title;
                 newLevel.gravityMultiplier = 1;
-                newLevel.isPortalLevel = true;
                 if(item.PreviewImageUrl != null && item.PreviewImageUrl != string.Empty)
                 {
                     Texture2D texture = await LoadTextureFromUrl(item.PreviewImageUrl);
@@ -141,11 +140,7 @@ public class LevelSelectionMenu : MonoBehaviour
 
     public async Task<Texture2D> LoadTextureFromUrl(string url)
     {
-        //
-        // If you're going to use this properly in production
-        // you need to think about caching the texture maybe
-        // so you don't download it every time.
-        //
+        // TODO: add caching
 
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(url, true);
 

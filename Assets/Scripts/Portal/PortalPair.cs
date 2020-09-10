@@ -15,4 +15,20 @@ public class PortalPair : MonoBehaviour
             Debug.LogError("PortalPair children must contain exactly two Portal components in total.");
         }
     }
+
+    public void ResetPortals()
+    {
+        if(Portals == null)
+        {
+            return;
+        }
+
+        if (Portals[0] == null)
+        {
+            return;
+        }
+
+        Portals[0].ResetPortal();
+        Portals[1].ResetPortal();
+    }
 }
