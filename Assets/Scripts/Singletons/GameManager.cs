@@ -87,16 +87,16 @@ public class GameManager : MonoBehaviour
         if (Instance.currentLevel == null && scene.buildIndex != 0 && scene.buildIndex < levelDataContainer.levels.Length)
         {
             Instance.currentLevel = Instance.levelDataContainer.levels[scene.buildIndex - 1];
+        }
 
-            // Set up the level to have the right number of checkpoints, since it isn't loaded on the scene
-            if (Instance.currentLevel.filePath == null)
-            {
-                return;
-            }
-            if (Instance.currentLevel.filePath != string.Empty)
-            {
-                Instance.currentLevel.numberOfCheckpoints = GameObject.FindObjectsOfType<Checkpoint>().Length;
-            }
+        // Set up the level to have the right number of checkpoints, since it isn't loaded on the scene
+        if (Instance.currentLevel == null)
+        {
+            return;
+        }
+        if (Instance.currentLevel.filePath != string.Empty)
+        {
+            Instance.currentLevel.numberOfCheckpoints = GameObject.FindObjectsOfType<Checkpoint>().Length;
         }
     }
 

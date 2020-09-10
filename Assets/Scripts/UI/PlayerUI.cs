@@ -31,6 +31,14 @@ public class PlayerUI : MonoBehaviour {
         winMenu.bestTimeText.text = "Best time: " + time.ToString(PlayerConstants.levelCompletionTimeFormat);
     }
 
+    public void ToggleOffWinScreen()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        inGameUI.SetActive(true);
+        winMenu.gameObject.SetActive(false);
+    }
+
     string GetTimeString(float completionTime)
     {
         TimeSpan time = TimeSpan.FromSeconds(completionTime);

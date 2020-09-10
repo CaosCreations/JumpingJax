@@ -27,13 +27,14 @@ public class LevelButton : MonoBehaviour
             levelTime.text = "Not Completed";
         }
 
-        if (level.isPortalLevel)
-        {
-            tab = LevelSelectionTab.Portal;
-        } 
-        else if (level.filePath != string.Empty)
+        
+        if (level.filePath != string.Empty)
         {
             tab = LevelSelectionTab.Workshop;
+        }
+        else if(level.isPortalLevel)
+        {
+            tab = LevelSelectionTab.Portal;
         }
         else
         {

@@ -110,7 +110,18 @@ public class PlayerProgress : MonoBehaviour
 
     public void ResetPlayer()
     {
+        playerUI.ToggleOffWinScreen();
         currentCheckpoint = firstCheckpoint;
         Respawn();
+        ResetCheckpoints();
+    }
+
+    private void ResetCheckpoints()
+    {
+        Checkpoint[] checkpoints = GameObject.FindObjectsOfType<Checkpoint>();
+        foreach(Checkpoint checkpoint in checkpoints)
+        {
+            checkpoint.SetUncompleted();
+        }
     }
 }

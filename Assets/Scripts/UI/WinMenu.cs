@@ -39,7 +39,7 @@ public class WinMenu : MonoBehaviour
     private void OnEnable()
     {
         // Only show the "next" button if it is NOT a workshop map
-        nextButton.gameObject.SetActive(GameManager.GetCurrentLevel().filePath != null);
+        nextButton.gameObject.SetActive(GameManager.GetCurrentLevel().filePath == string.Empty);
     }
 
     public void Retry()
@@ -66,6 +66,7 @@ public class WinMenu : MonoBehaviour
             Cursor.visible = false;
         }
 
+        GameManager.NextLevel();
         SceneManager.LoadScene(currentLevel.levelBuildIndex + 1);
     }
 
