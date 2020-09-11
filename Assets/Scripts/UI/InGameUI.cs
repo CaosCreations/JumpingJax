@@ -57,6 +57,11 @@ public class InGameUI : MonoBehaviour
 
     private void LoadNextTutorial()
     {
+        if(tutorialTexts == null)
+        {
+            return;
+        }
+
         if(tutorialTextIndex < tutorialTexts.Length)
         {
             tutorialPane.SetActive(true);

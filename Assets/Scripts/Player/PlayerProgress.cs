@@ -12,8 +12,11 @@ public class PlayerProgress : MonoBehaviour
     public PlayerMovement playerMovement;
     public CameraMove cameraMove;
     public PlayerGhostRun playerGhostRun;
+    public Crosshair crosshair;
 
-    private PortalPair portals;
+    private PortalPair portalPair;
+
+    private Checkpoint firstCheckpoint;
 
 
     private void Start()
@@ -21,10 +24,8 @@ public class PlayerProgress : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         cameraMove = GetComponent<CameraMove>();
         playerGhostRun = GetComponent<PlayerGhostRun>();
-        if (GameManager.GetCurrentLevel().isPortalLevel)
-        {
-            portals = GameObject.FindGameObjectWithTag("Portal").GetComponent<PortalPair>();
-        }
+        crosshair = GetComponent<Crosshair>();
+        portalPair = GameObject.FindObjectOfType<PortalPair>();
     }
 
     private void Update()
@@ -45,6 +46,10 @@ public class PlayerProgress : MonoBehaviour
         Checkpoint checkPointHit = other.gameObject.GetComponent<Checkpoint>();
         if (checkPointHit)
         {
+            if(checkPointHit.level == 1)
+            {
+                firstCheckpoint = checkPointHit;
+            }
             HitNewCheckPoint(checkPointHit);
         }
     }
@@ -89,13 +94,31 @@ public class PlayerProgress : MonoBehaviour
         // If the player is restarting at the beginning, reset timer
         if (currentCheckpoint.level == 1)
         {
-            if (GameManager.GetCurrentLevel().isPortalLevel)
+            crosshair.Init();
+            if(portalPair != null)
             {
-                portals.Portals[0].ResetPortal();
-                portals.Portals[1].ResetPortal();
+                portalPair.ResetPortals();
             }
             GameManager.Instance.currentCompletionTime = 0;
             playerGhostRun.RestartRun();
+        }
+    }
+
+    public void ResetPlayer()
+    {
+        playerUI.ToggleOffWinScreen();
+        currentCheckpoint = firstCheckpoint;
+        Respawn();
+        ResetCheckpoints();
+        GameManager.RestartLevel();
+    }
+
+    private void ResetCheckpoints()
+    {
+        Checkpoint[] checkpoints = GameObject.FindObjectsOfType<Checkpoint>();
+        foreach(Checkpoint checkpoint in checkpoints)
+        {
+            checkpoint.SetUncompleted();
         }
     }
 }

@@ -9,6 +9,8 @@ public class LevelButton : MonoBehaviour
 {
     public Text levelName;
     public Text levelTime;
+    public Button button;
+    public LevelSelectionTab tab;
 
     public void SetupButton(Level level)
     {
@@ -25,15 +27,21 @@ public class LevelButton : MonoBehaviour
             levelTime.text = "Not Completed";
         }
 
-        Button button = GetComponentInChildren<Button>();
-        button.name = level.levelName;
-        button.onClick.AddListener(() => OnClickLevel(level));
-    }
 
-    public void OnClickLevel(Level level)
-    {
-        //levelPreview.Init(level);
-        GameManager.Instance.currentLevelBuildIndex = level.levelBuildIndex;
-        SceneManager.LoadScene(level.levelBuildIndex);
+        if (level.filePath != string.Empty)
+        {
+            tab = LevelSelectionTab.Workshop;
+        }
+        else if (level.levelName.ToLower().Contains("portal"))
+        {
+            tab = LevelSelectionTab.Portal;
+        }
+        else
+        {
+            tab = LevelSelectionTab.Hop;
+        }
+
+        button = GetComponentInChildren<Button>();
+        button.name = level.levelName;
     }
 }

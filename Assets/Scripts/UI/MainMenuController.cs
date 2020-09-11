@@ -5,10 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    public Transform levelButtonContainer;
-    public GameObject levelObjectPrefab;
-    public LevelPreview levelPreview;
-
     public GameObject homePanel;
     public GameObject levelSelectPanel;
     public GameObject achievementsPanel;
@@ -17,14 +13,6 @@ public class MainMenuController : MonoBehaviour
     private void Start()
     {
         Init();
-
-        Level[] levels = GameManager.Instance.levelDataContainer.levels;
-        for (int i = 0; i <= levels.Length - 1; i++)
-        {
-            GameObject newLevelButton = Instantiate(levelObjectPrefab, levelButtonContainer);
-            LevelButton levelButton = newLevelButton.GetComponentInChildren<LevelButton>();
-            levelButton.SetupButton(levels[i]);
-        }
     }
 
     

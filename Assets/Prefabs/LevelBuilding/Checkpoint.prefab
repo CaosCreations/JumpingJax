@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7534643043476837679}
   - component: {fileID: 636548691860835679}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 8472135874840113551}
   - component: {fileID: 8472135874840113550}
   - component: {fileID: 8336752264660241792}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,8 +202,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawGizmo: 1
   level: 1
-  light: {fileID: 636548691860835679}
+  startMaterial: {fileID: 2100000, guid: 540058a387130cb47b2e159186c7d751, type: 2}
   completedMaterial: {fileID: 2100000, guid: 392da3c4226d14b45b15ce2b0c4b516d, type: 2}
+  light: {fileID: 636548691860835679}
 --- !u!54 &8336752264660241792
 Rigidbody:
   m_ObjectHideFlags: 0

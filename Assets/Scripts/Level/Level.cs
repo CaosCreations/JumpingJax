@@ -12,9 +12,6 @@ public class Level : ScriptableObject
     public string levelName;
 
     [SerializeField]
-    public bool isPortalLevel;
-
-    [SerializeField]
     public float gravityMultiplier;
 
     [SerializeField]
@@ -22,6 +19,9 @@ public class Level : ScriptableObject
 
     [SerializeField]
     public int numberOfCheckpoints;
+
+    [SerializeField]
+    public string filePath;
 
     [Header("Set in Game")]
     [SerializeField]

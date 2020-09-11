@@ -15,13 +15,20 @@ public class Crosshair : MonoBehaviour
     private bool isLeftPlaced;
     private bool isRightPlaced;
 
+    public PortalPair portalPair;
+
     private void Start()
+    {
+        Init();
+    }
+
+    public void Init()
     {
         crosshair.sprite = crosshairDefault;
         isLeftPlaced = false;
         isRightPlaced = false;
-
     }
+
     public void CrossCheck(bool isLeft)
     {
         if (isLeft)

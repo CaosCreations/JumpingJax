@@ -112,7 +112,10 @@ public class PlayerGhostRun : MonoBehaviour
 
     public void SaveCurrentRunData()
     {
-        GameManager.GetCurrentLevel().ghostRunPositions = currentRunPositionData.ToArray();
-        GameManager.GetCurrentLevel().ghostRunKeys = currentRunKeyData.ToArray();
+        if(GameManager.GetCurrentLevel().completionTime > GameManager.Instance.currentCompletionTime)
+        {
+            GameManager.GetCurrentLevel().ghostRunPositions = currentRunPositionData.ToArray();
+            GameManager.GetCurrentLevel().ghostRunKeys = currentRunKeyData.ToArray();
+        }
     }
 }
