@@ -1,7 +1,9 @@
 ﻿using Steamworks;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
@@ -18,15 +20,29 @@ public class StatsManager : MonoBehaviour
             TimeSpan time = TimeSpan.FromSeconds(level.completionTime);
             Debug.Log($"Leaderboard found, adding score: {time.ToString(PlayerConstants.levelCompletionTimeFormat)}");
             await leaderboardValue.ReplaceScore((int) time.Ticks);
-
-            //var result = await Steamworks.Ugc.Editor.NewCommunityFile
-            //.WithTitle(SteamClient.SteamId + " " + level.levelName)
-            //.WithDescription("ghost run")
-            //.WithTag("ghost")
-            //.WithContent(path)
-            //.SubmitAsync();
-            //leaderboardValue.AttachUgc()
         }
+    }
+
+    // NOTE: temporary code, as there is currently no way to attach UGC to the leaderboard in FacePunch
+    private static async Task CreateGhostRunData()
+    {
+        //var ghostUGCResult = await Steamworks.Ugc.Editor.NewCommunityFile
+        //.WithTitle(SteamClient.SteamId + " " + level.levelName)
+        //.WithDescription("ghost run")
+        //.WithTag("ghost")
+        //.WithContent("")
+        //.SubmitAsync();
+
+        //if (ghostUGCResult.Success)
+        //{
+        //    var query = Steamworks.Ugc.Query.Items.WithFileId(ghostUGCResult.FileId);
+        //    var result = await query.GetPageAsync(1);
+        //    if (result.HasValue)
+        //    {
+        //        Steamworks.Ugc.Item item = result.Value.Entries.First();
+        //        leaderboardValue.AttachUgc();
+        //    }
+        //}
     }
 
     public static async Task<Steamworks.Data.LeaderboardEntry[]> GetLevelLeaderboard(string levelLeaderboardName)
