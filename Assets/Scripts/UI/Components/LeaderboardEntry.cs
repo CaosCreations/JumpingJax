@@ -9,7 +9,6 @@ public class LeaderboardEntry : MonoBehaviour
     public Text place;
     public Text time;
     public Text playerName;
-    public Button replayButton;
 
     public void Init(Steamworks.Data.LeaderboardEntry entry)
     {
