@@ -43,6 +43,7 @@ public class PlayerProgress : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("entered checkpoint");
         Checkpoint checkPointHit = other.gameObject.GetComponent<Checkpoint>();
         if (checkPointHit)
         {
@@ -99,8 +100,10 @@ public class PlayerProgress : MonoBehaviour
             {
                 portalPair.ResetPortals();
             }
-            GameManager.Instance.currentCompletionTime = 0;
+            GameManager.RestartLevel();
             playerGhostRun.RestartRun();
+            ResetCollectibles();
+            ResetCheckpoints();
         }
     }
 
@@ -109,7 +112,7 @@ public class PlayerProgress : MonoBehaviour
         playerUI.ToggleOffWinScreen();
         currentCheckpoint = firstCheckpoint;
         Respawn();
-        ResetCheckpoints();
+        
         GameManager.RestartLevel();
     }
 
@@ -119,6 +122,18 @@ public class PlayerProgress : MonoBehaviour
         foreach(Checkpoint checkpoint in checkpoints)
         {
             checkpoint.SetUncompleted();
+            BoxCollider collider = checkpoint.GetComponent<BoxCollider>();
+            collider.enabled = false;
+            collider.enabled = true;
+        }
+    }
+
+    private void ResetCollectibles()
+    {
+        CollectibleHandler[] collectibles = GameObject.FindObjectsOfType<CollectibleHandler>();
+        foreach (CollectibleHandler handler in collectibles)
+        {
+            handler.ResetActive();
         }
     }
 }
