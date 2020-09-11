@@ -161,7 +161,7 @@ public class LevelSelectionMenu : MonoBehaviour
         {
             foreach(Steamworks.Ugc.Item item in items)
             {
-                Level newLevel = new Level();
+                Level newLevel = ScriptableObject.CreateInstance<Level>();
                 newLevel.levelBuildIndex = GameManager.workshopLevelIndex;
                 newLevel.filePath = item.Directory;
                 newLevel.levelName = item.Title;

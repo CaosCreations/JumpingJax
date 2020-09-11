@@ -19,12 +19,12 @@ public class StatsManager : MonoBehaviour
             Debug.Log($"Leaderboard found, adding score: {time.ToString(PlayerConstants.levelCompletionTimeFormat)}");
             await leaderboardValue.ReplaceScore((int) time.Ticks);
 
-            var result = await Steamworks.Ugc.Editor.NewCommunityFile
-            .WithTitle(SteamClient.SteamId + " " + level.levelName)
-            .WithDescription("ghost run")
-            .WithTag("ghost")
-            .WithContent(path)
-            .SubmitAsync();
+            //var result = await Steamworks.Ugc.Editor.NewCommunityFile
+            //.WithTitle(SteamClient.SteamId + " " + level.levelName)
+            //.WithDescription("ghost run")
+            //.WithTag("ghost")
+            //.WithContent(path)
+            //.SubmitAsync();
             //leaderboardValue.AttachUgc()
         }
     }
