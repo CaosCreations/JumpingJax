@@ -25,6 +25,8 @@ public class LevelSelectionMenu : MonoBehaviour
     public List<LevelButton> portalButtonList;
     public List<LevelButton> workshopButtonList;
 
+    public LevelSelectionTab currentTab;
+
     void Start()
     {
         levelPreview = GetComponentInChildren<LevelPreview>();
@@ -99,6 +101,8 @@ public class LevelSelectionMenu : MonoBehaviour
                 workshopTabButton.SelectTab();
                 break;
         }
+
+        currentTab = tab;
     }
     
     void LoadButtons(Level[] levels)
@@ -132,6 +136,7 @@ public class LevelSelectionMenu : MonoBehaviour
         List<Level> levels = await GetWorkshopLevels();
         ClearWorkshopButtons();
         LoadButtons(levels.ToArray());
+        SetTab(currentTab);
     }
 
     private async Task<Level[]> GetAllLevels()
