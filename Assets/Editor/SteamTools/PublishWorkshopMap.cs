@@ -51,7 +51,7 @@ public class PublishWorkshopMap : EditorWindow
 
     private async void UploadMap()
     {
-        StartSteam();
+        SteamUtil.StartSteam();
         Debug.Log($"publishing: {path}. WAIT to see \"published\"");
         
         var result = await Steamworks.Ugc.Editor.NewCommunityFile
@@ -63,7 +63,7 @@ public class PublishWorkshopMap : EditorWindow
 
         if (result.Success)
         {
-            Debug.Log($"published : {title}");
+            Debug.Log($"published : {mapTitle}");
             // See this for more info: https://partner.steamgames.com/doc/features/workshop/implementation#Legal
             if (result.NeedsWorkshopAgreement)
             {
@@ -72,29 +72,9 @@ public class PublishWorkshopMap : EditorWindow
         }
         else
         {
-            Debug.LogError($"could not publish: {title}, error: {result.ToString()}");
+            Debug.LogError($"could not publish: {mapTitle}, error: {result.ToString()}");
         }
 
-        StopSteam();
-    }
-
-    private void StartSteam()
-    {
-        try
-        {
-            if (!SteamClient.IsValid)
-            {
-                SteamClient.Init(GameManager.AppId, true);
-            }
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError("Could not connect to steam " + e.Message);
-        }
-    }
-
-    private void StopSteam()
-    {
-        Steamworks.SteamClient.Shutdown();
+        SteamUtil.StopSteam();
     }
 }

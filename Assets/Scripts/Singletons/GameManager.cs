@@ -84,6 +84,10 @@ public class GameManager : MonoBehaviour
         currentCompletionTime = 0;
         didWinCurrentLevel = false;
 
+        if(scene.buildIndex == 0)
+        {
+            AssetBundle.UnloadAllAssetBundles(true);
+        }
         if (Instance.currentLevel == null && scene.buildIndex != 0 && scene.buildIndex < levelDataContainer.levels.Length)
         {
             Instance.currentLevel = Instance.levelDataContainer.levels[scene.buildIndex - 1];

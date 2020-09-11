@@ -110,6 +110,7 @@ public class PlayerProgress : MonoBehaviour
         currentCheckpoint = firstCheckpoint;
         Respawn();
         ResetCheckpoints();
+        GameManager.RestartLevel();
     }
 
     private void ResetCheckpoints()

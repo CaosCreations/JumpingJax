@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +13,8 @@ public class LeaderboardEntry : MonoBehaviour
     public void Init(Steamworks.Data.LeaderboardEntry entry)
     {
         place.text = entry.GlobalRank + ".";
-        time.text = entry.Score.ToString();
+        TimeSpan timeSpan = TimeSpan.FromTicks(entry.Score);
+        time.text = timeSpan.ToString(PlayerConstants.levelCompletionTimeFormat);
         playerName.text = entry.User.Name;
     }
 }

@@ -89,15 +89,4 @@ public class WorkshopManager : MonoBehaviour
 
         return fileToReturn;
     }
-
-    public static void LoadSceneFromBundle(string path)
-    {
-        DirectoryInfo fileInfo = new DirectoryInfo(path);
-        string scenePath = fileInfo.EnumerateFiles().First().FullName;
-        AssetBundle bundle = AssetBundle.LoadFromFile(scenePath);
-        string[] scenes = bundle.GetAllScenePaths();
-        Debug.Log($"loading bundle from scenepath: {scenes[0]}");
-        string scene = Path.GetFileNameWithoutExtension(scenes[0]);
-        SceneManager.LoadScene(scene);
-    }
 }

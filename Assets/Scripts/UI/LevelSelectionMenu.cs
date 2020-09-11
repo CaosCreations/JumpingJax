@@ -33,9 +33,8 @@ public class LevelSelectionMenu : MonoBehaviour
 
     private async void OnEnable()
     {
-        Debug.Log("enable");
         ClearButtons();
-        LoadButtons();
+        await LoadButtons();
         SetTab(LevelSelectionTab.Hop);
     }
 
@@ -75,7 +74,7 @@ public class LevelSelectionMenu : MonoBehaviour
         workshopButtonList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Workshop));
     }
     
-    async void LoadButtons()
+    async Task LoadButtons()
     {
         Level[] levels = await GetAllLevels();
         for (int i = 0; i < levels.Length; i++)
@@ -126,7 +125,12 @@ public class LevelSelectionMenu : MonoBehaviour
                 newLevel.filePath = item.Directory;
                 newLevel.levelName = item.Title;
                 newLevel.gravityMultiplier = 1;
-                if(item.PreviewImageUrl != null && item.PreviewImageUrl != string.Empty)
+                newLevel.completionTime = await StatsManager.GetLevelCompletionTime(item.Title);
+                if (newLevel.completionTime > 0)
+                {
+                    newLevel.isCompleted = true;
+                }
+                if (item.PreviewImageUrl != null && item.PreviewImageUrl != string.Empty)
                 {
                     Texture2D texture = await LoadTextureFromUrl(item.PreviewImageUrl);
                     newLevel.previewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
