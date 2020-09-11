@@ -8,16 +8,24 @@ using UnityEngine;
 
 public class StatsManager : MonoBehaviour
 {
-    public static async Task SaveLevelCompletion(string levelName, float newCompletionTime)
+    public static async Task SaveLevelCompletion(Level level)
     {
-        var leaderboard = await SteamUserStats.FindOrCreateLeaderboardAsync(levelName, Steamworks.Data.LeaderboardSort.Ascending, Steamworks.Data.LeaderboardDisplay.TimeMilliSeconds);
+        var leaderboard = await SteamUserStats.FindOrCreateLeaderboardAsync(level.levelName, Steamworks.Data.LeaderboardSort.Ascending, Steamworks.Data.LeaderboardDisplay.TimeMilliSeconds);
         
         if (leaderboard.HasValue)
         {
             var leaderboardValue = leaderboard.Value;
-            TimeSpan time = TimeSpan.FromSeconds(newCompletionTime);
+            TimeSpan time = TimeSpan.FromSeconds(level.completionTime);
             Debug.Log($"Leaderboard found, adding score: {time.ToString(PlayerConstants.levelCompletionTimeFormat)}");
             await leaderboardValue.ReplaceScore((int) time.Ticks);
+
+            var result = await Steamworks.Ugc.Editor.NewCommunityFile
+            .WithTitle(SteamClient.SteamId + " " + level.levelName)
+            .WithDescription("ghost run")
+            .WithTag("ghost")
+            .WithContent(path)
+            .SubmitAsync();
+            //leaderboardValue.AttachUgc()
         }
     }
 
@@ -43,12 +51,21 @@ public class StatsManager : MonoBehaviour
         if (leaderboard.HasValue)
         {
             var leaderboardValue = leaderboard.Value;
-            var entries = await leaderboardValue.GetScoresAroundUserAsync(-1, 0);
+            // TODO replace with Leaderboard.etScoresForUsersAsync with the new version of FacePunch
+            var entries = await leaderboardValue.GetScoresAroundUserAsync(-1, 1);
             if(entries != null)
             {
                 if(entries.Length > 0)
                 {
-                    int timeInTicks = entries[0].Score;
+                    Steamworks.Data.LeaderboardEntry myEntry = new Steamworks.Data.LeaderboardEntry();
+                    foreach (Steamworks.Data.LeaderboardEntry entry in entries)
+                    {
+                        if(entry.User.Id == SteamClient.SteamId)
+                        {
+                            myEntry = entry;
+                        }
+                    }
+                    int timeInTicks = myEntry.Score;
                     TimeSpan timeSpan = TimeSpan.FromTicks(timeInTicks);
                     return (float) timeSpan.TotalSeconds;
                 }

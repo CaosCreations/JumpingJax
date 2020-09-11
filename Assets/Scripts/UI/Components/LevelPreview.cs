@@ -17,6 +17,7 @@ public class LevelPreview : MonoBehaviour
     public Transform scrollViewContent;
 
     private Level levelToPreview;
+    private Dictionary<string, Steamworks.Data.LeaderboardEntry[]> leaderboardCache;
 
     private void Start()
     {
@@ -26,6 +27,7 @@ public class LevelPreview : MonoBehaviour
         previewImage.gameObject.SetActive(false);
         leaderboard.gameObject.SetActive(false);
         leaderboardNameText.gameObject.SetActive(false);
+        leaderboardCache = new Dictionary<string, Steamworks.Data.LeaderboardEntry[]>();
     }
 
     void Play()
@@ -69,7 +71,17 @@ public class LevelPreview : MonoBehaviour
         // make HTTP request from steam for leaderboard data
         if (GameManager.Instance.isSteamActive)
         {
-            Steamworks.Data.LeaderboardEntry[] entries = await StatsManager.GetLevelLeaderboard(levelToPreview.levelName);
+            Steamworks.Data.LeaderboardEntry[] entries;
+            if (leaderboardCache.ContainsKey(levelToPreview.levelName))
+            {
+                entries = leaderboardCache[levelToPreview.levelName];
+            }
+            else
+            {
+                entries = await StatsManager.GetLevelLeaderboard(levelToPreview.levelName);
+                leaderboardCache.Add(levelToPreview.levelName, entries);
+            }
+
             if (entries != null && entries.Length > 0)
             {
                 Debug.Log($"Leaderboard found, populating preview with {entries.Count()} entries");

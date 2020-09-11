@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        Steamworks.SteamClient.Shutdown();
+        SteamClient.Shutdown();
     }
 
     private void OnEnable()
@@ -119,7 +119,6 @@ public class GameManager : MonoBehaviour
     {
         Instance.currentCompletionTime = 0;
         Instance.didWinCurrentLevel = false;
-
     }
 
     public static void FinishedLevel()
@@ -133,10 +132,11 @@ public class GameManager : MonoBehaviour
         if (completionTime < levelToUpdate.completionTime || levelToUpdate.completionTime == 0)
         {
             levelToUpdate.completionTime = completionTime;
-        }
-        if (GameManager.Instance.isSteamActive == true)
-        {
-            StatsManager.SaveLevelCompletion(levelToUpdate.levelName, completionTime);
+
+            if (GameManager.Instance.isSteamActive == true)
+            {
+                StatsManager.SaveLevelCompletion(levelToUpdate);
+            }
         }
     }
 }
