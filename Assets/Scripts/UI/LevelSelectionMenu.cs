@@ -17,9 +17,9 @@ public class LevelSelectionMenu : MonoBehaviour
     public GameObject levelObjectPrefab;
     public LevelPreview levelPreview;
 
-    public Button hopTabButton;
-    public Button portalTabButton;
-    public Button workshopTabButton;
+    public TabButton hopTabButton;
+    public TabButton portalTabButton;
+    public TabButton workshopTabButton;
 
     public List<LevelButton> hopButtonList;
     public List<LevelButton> portalButtonList;
@@ -64,14 +64,14 @@ public class LevelSelectionMenu : MonoBehaviour
 
     void SetupTabButtons()
     {
-        hopTabButton.onClick.RemoveAllListeners();
-        hopTabButton.onClick.AddListener(() => SetTab(LevelSelectionTab.Hop));
+        hopTabButton.button.onClick.RemoveAllListeners();
+        hopTabButton.button.onClick.AddListener(() => SetTab(LevelSelectionTab.Hop));
 
-        portalTabButton.onClick.RemoveAllListeners();
-        portalTabButton.onClick.AddListener(() => SetTab(LevelSelectionTab.Portal));
+        portalTabButton.button.onClick.RemoveAllListeners();
+        portalTabButton.button.onClick.AddListener(() => SetTab(LevelSelectionTab.Portal));
 
-        workshopTabButton.onClick.RemoveAllListeners();
-        workshopTabButton.onClick.AddListener(() => SetTab(LevelSelectionTab.Workshop));
+        workshopTabButton.button.onClick.RemoveAllListeners();
+        workshopTabButton.button.onClick.AddListener(() => SetTab(LevelSelectionTab.Workshop));
     }
 
     void SetTab(LevelSelectionTab tab)
@@ -79,6 +79,26 @@ public class LevelSelectionMenu : MonoBehaviour
         hopButtonList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Hop));
         portalButtonList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Portal));
         workshopButtonList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Workshop));
+
+
+        switch (tab)
+        {
+            case LevelSelectionTab.Hop:
+                hopTabButton.SelectTab();
+                portalTabButton.UnselectTab();
+                workshopTabButton.UnselectTab();
+                break;
+            case LevelSelectionTab.Portal:
+                hopTabButton.UnselectTab();
+                portalTabButton.SelectTab();
+                workshopTabButton.UnselectTab();
+                break;
+            case LevelSelectionTab.Workshop:
+                hopTabButton.UnselectTab();
+                portalTabButton.UnselectTab();
+                workshopTabButton.SelectTab();
+                break;
+        }
     }
     
     void LoadButtons(Level[] levels)

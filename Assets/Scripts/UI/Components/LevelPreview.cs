@@ -12,9 +12,9 @@ public class LevelPreview : MonoBehaviour
 
     public Button playButton;
     public Image previewImage;
+    public Text leaderboardNameText;
     public Transform leaderboard;
     public Transform scrollViewContent;
-
 
     private Level levelToPreview;
 
@@ -25,6 +25,7 @@ public class LevelPreview : MonoBehaviour
         playButton.gameObject.SetActive(false);
         previewImage.gameObject.SetActive(false);
         leaderboard.gameObject.SetActive(false);
+        leaderboardNameText.gameObject.SetActive(false);
     }
 
     void Play()
@@ -46,8 +47,11 @@ public class LevelPreview : MonoBehaviour
         playButton.gameObject.SetActive(true);
         previewImage.gameObject.SetActive(true);
         leaderboard.gameObject.SetActive(true);
+        leaderboardNameText.gameObject.SetActive(true);
         levelToPreview = level;
         previewImage.sprite = level.previewSprite;
+        previewImage.preserveAspect = true;
+        leaderboardNameText.text = $"{level.levelName} leaderboard";
         CleanScrollView();
         await PopulateLeaderboard();
     }
