@@ -27,9 +27,12 @@ public class LevelSelectionMenu : MonoBehaviour
 
     public LevelSelectionTab currentTab;
 
+    private Dictionary<string, Texture2D> cachedPreviewImages;
+
     void Start()
     {
         levelPreview = GetComponentInChildren<LevelPreview>();
+        cachedPreviewImages = new Dictionary<string, Texture2D>();
         SetupTabButtons();
     }
 
@@ -182,7 +185,10 @@ public class LevelSelectionMenu : MonoBehaviour
 
     public async Task<Texture2D> LoadTextureFromUrl(string url)
     {
-        // TODO: add caching
+        if (cachedPreviewImages.ContainsKey(url))
+        {
+            return cachedPreviewImages[url];
+        }
 
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(url, true);
 
@@ -198,6 +204,8 @@ public class LevelSelectionMenu : MonoBehaviour
 
         DownloadHandlerTexture dh = request.downloadHandler as DownloadHandlerTexture;
         dh.texture.name = url;
+
+        cachedPreviewImages.Add(url, dh.texture);
         return dh.texture;
     }
 
