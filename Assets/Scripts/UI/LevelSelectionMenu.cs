@@ -34,7 +34,8 @@ public class LevelSelectionMenu : MonoBehaviour
     private async void OnEnable()
     {
         ClearButtons();
-        await LoadButtons();
+        LoadButtons(GameManager.Instance.levelDataContainer.levels);
+        LoadWorkshopButtons();
         SetTab(LevelSelectionTab.Hop);
     }
 
@@ -51,6 +52,12 @@ public class LevelSelectionMenu : MonoBehaviour
         portalButtonList.ForEach(x => Destroy(x.gameObject));
         portalButtonList = new List<LevelButton>();
 
+        workshopButtonList.ForEach(x => Destroy(x.gameObject));
+        workshopButtonList = new List<LevelButton>();
+    }
+
+    void ClearWorkshopButtons()
+    {
         workshopButtonList.ForEach(x => Destroy(x.gameObject));
         workshopButtonList = new List<LevelButton>();
     }
@@ -74,9 +81,8 @@ public class LevelSelectionMenu : MonoBehaviour
         workshopButtonList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Workshop));
     }
     
-    async Task LoadButtons()
+    void LoadButtons(Level[] levels)
     {
-        Level[] levels = await GetAllLevels();
         for (int i = 0; i < levels.Length; i++)
         {
             GameObject newLevelButton = Instantiate(levelObjectPrefab, levelButtonParent);
@@ -99,6 +105,13 @@ public class LevelSelectionMenu : MonoBehaviour
                 workshopButtonList.Add(levelButton);
             }
         }
+    }
+
+    private async void LoadWorkshopButtons()
+    {
+        List<Level> levels = await GetWorkshopLevels();
+        ClearWorkshopButtons();
+        LoadButtons(levels.ToArray());
     }
 
     private async Task<Level[]> GetAllLevels()
