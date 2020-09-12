@@ -29,6 +29,7 @@ public class PlayerGhostRun : MonoBehaviour
         if(ghostRunner == null)
         {
             ghostRunner = Instantiate(ghostRunnerPrefab);
+            ghostRunner.name = "ghost runner";
         }
         ghostRunner.SetActive(false);
     }

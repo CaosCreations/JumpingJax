@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PortalType
+{
+    Blue, Pink
+}
+
 [RequireComponent(typeof(CameraMove))]
 public class PortalPlacement : MonoBehaviour
 {
@@ -18,8 +23,7 @@ public class PortalPlacement : MonoBehaviour
 
     private Quaternion flippedYRotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
     private const float portalRaycastDistance = 250;
-
-
+    
     private void Awake()
     {
         crosshair = GetComponent<Crosshair>();
@@ -58,23 +62,22 @@ public class PortalPlacement : MonoBehaviour
 
         if (InputManager.GetKeyDown(PlayerConstants.Portal1))
         {
-            FirePortal(0, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
+            FirePortal(PortalType.Blue, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
         }
         else if (InputManager.GetKeyDown(PlayerConstants.Portal2))
         {
-            FirePortal(1, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
+            FirePortal(PortalType.Pink, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
         }
     }
 
-    private void FirePortal(int portalID, Vector3 pos, Vector3 dir, float distance)
+    private void FirePortal(PortalType portalType, Vector3 pos, Vector3 dir, float distance)
     {
-        RaycastHit hit;
-        Physics.Raycast(pos, dir, out hit, distance, layerMask, QueryTriggerInteraction.Collide);
+        Physics.Raycast(pos, dir, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Collide);
 
         if (showDebugGizmos)
         {
             Debug.DrawRay(pos, dir * distance, Color.red, 5);
-            Debug.Log("FirePortal() id: " + portalID + " pos " + pos + " dir " + dir + " distance " + distance);
+            Debug.Log($"FirePortal() type: {portalType} pos: {pos} dir: {dir} distance: {distance}");
         }
 
         if (hit.collider != null)
@@ -102,7 +105,7 @@ public class PortalPlacement : MonoBehaviour
                 // Subtract from the distance so the ray doesn't go on forever
                 distance -= Vector3.Distance(pos, hit.point);
 
-                FirePortal(portalID, pos, dir, distance);
+                FirePortal(portalType, pos, dir, distance);
 
                 return;
             }
@@ -129,9 +132,16 @@ public class PortalPlacement : MonoBehaviour
                     portalUp = Vector3.up;
                 }
 
-
                 var portalRotation = Quaternion.LookRotation(portalForward, portalUp);
-                portalPair.Portals[portalID].PlacePortal(hit.point, portalRotation);
+
+                if(portalType == PortalType.Blue)
+                {
+                    portalPair.BluePortal.PlacePortal(hit.point, portalRotation);
+                }
+                else
+                {
+                    portalPair.PinkPortal.PlacePortal(hit.point, portalRotation);
+                }
             }
         }
     }

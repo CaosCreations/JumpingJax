@@ -10,8 +10,8 @@ public class RecursivePortalCamera : MonoBehaviour
     [SerializeField]
     private Camera portalCamera = null;
 
-    private RenderTexture tempTexture1;
-    private RenderTexture tempTexture2;
+    private RenderTexture blueTempRenderTexture;
+    private RenderTexture pinkTempRenderTexture;
 
     private Camera mainCamera;
 
@@ -26,8 +26,8 @@ public class RecursivePortalCamera : MonoBehaviour
         portalRecursions = OptionsPreferencesManager.GetPortalRecursion();
         mainCamera = Camera.main;
 
-        tempTexture1 = new RenderTexture(Screen.width, Screen.height, renderTextureDepth, RenderTextureFormat.ARGB32);
-        tempTexture2 = new RenderTexture(Screen.width, Screen.height, renderTextureDepth, RenderTextureFormat.ARGB32);
+        blueTempRenderTexture = new RenderTexture(Screen.width, Screen.height, renderTextureDepth, RenderTextureFormat.ARGB32);
+        pinkTempRenderTexture = new RenderTexture(Screen.width, Screen.height, renderTextureDepth, RenderTextureFormat.ARGB32);
     }
 
     public void UpdatePortalRecursion(int recursionLevel)
@@ -38,15 +38,9 @@ public class RecursivePortalCamera : MonoBehaviour
     private void Start()
     {
         isPortalLevel = PortalsExist();
-        if (Time.timeScale == 0 || !isPortalLevel)
-        {
-            return;
-        }
-
         if (isPortalLevel)
         {
-            portalPair.Portals[0].SetTexture(tempTexture1);
-            portalPair.Portals[1].SetTexture(tempTexture2);
+            portalPair.SetRenderTextures(blueTempRenderTexture, pinkTempRenderTexture);
         }
     }
 
@@ -70,26 +64,26 @@ public class RecursivePortalCamera : MonoBehaviour
             return;
         }
 
-        if (!portalPair.Portals[0].IsPlaced() || !portalPair.Portals[1].IsPlaced())
+        if (!portalPair.BluePortal.IsPlaced() || !portalPair.PinkPortal.IsPlaced())
         {
             return;
         }
 
-        if (portalPair.Portals[0].IsRendererVisible())
+        if (portalPair.BluePortal.IsRendererVisible())
         {
-            portalCamera.targetTexture = tempTexture1;
+            portalCamera.targetTexture = blueTempRenderTexture;
             for (int i = portalRecursions - 1; i >= 0; --i)
             {
-                RenderCamera(portalPair.Portals[0], portalPair.Portals[1], i);
+                RenderCamera(portalPair.BluePortal, portalPair.PinkPortal, i);
             }
         }
 
-        if (portalPair.Portals[1].IsRendererVisible())
+        if (portalPair.PinkPortal.IsRendererVisible())
         {
-            portalCamera.targetTexture = tempTexture2;
+            portalCamera.targetTexture = pinkTempRenderTexture;
             for (int i = portalRecursions - 1; i >= 0; --i)
             {
-                RenderCamera(portalPair.Portals[1], portalPair.Portals[0], i);
+                RenderCamera(portalPair.PinkPortal, portalPair.BluePortal, i);
             }
         }
     }
