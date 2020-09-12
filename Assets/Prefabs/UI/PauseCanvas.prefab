@@ -116,6 +116,7 @@ MonoBehaviour:
   pauseMenuHome: {fileID: 2189174602656463125}
   pauseMenuContainer: {fileID: 2189174602386077023}
   levelName: {fileID: 2189174602832312169}
+  isPaused: 0
 --- !u!1 &2189174601569933313
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,6 +993,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc874b8b9859fa548854dd92a88d3155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  togglePrefab: {fileID: 7386783677322034220, guid: 609e0d7870b780e499a8c8d6ad79221f,
+    type: 3}
+  scrollViewContent: {fileID: 2764066914456228925}
 --- !u!1 &2189174602251875389
 GameObject:
   m_ObjectHideFlags: 0
@@ -2723,6 +2727,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85a34d7132272854bab6e2ed920b6ff1, type: 3}
+--- !u!224 &2764066914456228925 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4051676731849863471, guid: 85a34d7132272854bab6e2ed920b6ff1,
+    type: 3}
+  m_PrefabInstance: {fileID: 2189174601625543954}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2764066914010661092 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4051676730869851638, guid: 85a34d7132272854bab6e2ed920b6ff1,

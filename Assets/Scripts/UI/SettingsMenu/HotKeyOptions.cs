@@ -67,7 +67,7 @@ public class HotKeyOptions : MonoBehaviour
     {
         foreach(Transform child in scrollViewContent)
         {
-            GameObject.Destroy(child.gameObject);
+            Destroy(child.gameObject);
         }
     }
 
