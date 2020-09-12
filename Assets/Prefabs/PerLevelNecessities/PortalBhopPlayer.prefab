@@ -10,14 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 441310430289080761}
   - component: {fileID: 9058606259798533852}
-  - component: {fileID: 5928966415464904444}
   - component: {fileID: 4259481642829858136}
   - component: {fileID: 441310430289080766}
   - component: {fileID: 441310430289080764}
   - component: {fileID: 441310430289080767}
-  - component: {fileID: 7476176815032746761}
-  - component: {fileID: 1154471184624954510}
+  - component: {fileID: 5928966415464904444}
   - component: {fileID: 7117302217034966907}
+  - component: {fileID: 1154471184624954510}
+  - component: {fileID: 7476176815032746761}
   m_Layer: 12
   m_Name: PortalBhopPlayer
   m_TagString: Untagged
@@ -57,24 +57,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6, y: 1.6, z: 0.6}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5928966415464904444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 441310430289080760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba69ca630d91a8d41b2a124ef2c8c971, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentCheckpoint: {fileID: 0}
-  playerUI: {fileID: 1844322298415541209}
-  playerMovement: {fileID: 0}
-  cameraMove: {fileID: 0}
-  playerGhostRun: {fileID: 0}
-  crosshair: {fileID: 0}
 --- !u!114 &4259481642829858136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,12 +69,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0244d2a3c7bfea94db4e2af3e1187fee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showDebugGizmos: 0
   layersToIgnore:
     serializedVersion: 2
     m_Bits: 3895
-  myCollider: {fileID: 0}
-  cameraMove: {fileID: 0}
+  showDebugGizmos: 0
   newVelocity: {x: 0, y: 0, z: 0}
   grounded: 0
   crouching: 0
@@ -108,8 +88,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3431ae1226440b14bb71b1762dc1638d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivityMultiplier: 0
-  playerCamera: {fileID: 441310430673922142}
   playerModel: {fileID: 1844322297176508576}
 --- !u!114 &441310430289080764
 MonoBehaviour:
@@ -123,12 +101,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a9809f0605be948969840dc2103920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cross: {fileID: 0}
   showDebugGizmos: 0
-  portals: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 3073
+  portalPairPrefab: {fileID: 495230963734502551, guid: a7930846375cd3d45b30ff50e766e76f,
+    type: 3}
 --- !u!114 &441310430289080767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,23 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b317f1df112f1546963a20da5568e21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &7476176815032746761
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 441310430289080760}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 3
---- !u!114 &1154471184624954510
+--- !u!114 &5928966415464904444
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,12 +128,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 441310430289080760}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8de3bee1eaff333489b8a952f6711602, type: 3}
+  m_Script: {fileID: 11500000, guid: ba69ca630d91a8d41b2a124ef2c8c971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyPressed: {fileID: 0}
-  ghostRunnerPrefab: {fileID: 5089943443910636709, guid: c66fbb5e264c7fa4e8fc1f6a1f483007,
-    type: 3}
+  playerUI: {fileID: 1844322298415541209}
+  currentCheckpoint: {fileID: 0}
 --- !u!114 &7117302217034966907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +152,36 @@ MonoBehaviour:
   crosshairLeftTop: {fileID: 21300000, guid: f3d38ae207b66e54a9aa4615e070a9a5, type: 3}
   crosshairRightTop: {fileID: 21300000, guid: e447e40932a0f2448b15d83ee55ad1ab, type: 3}
   portalPair: {fileID: 0}
+--- !u!114 &1154471184624954510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441310430289080760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3bee1eaff333489b8a952f6711602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostRunnerPrefab: {fileID: 5089943443910636709, guid: c66fbb5e264c7fa4e8fc1f6a1f483007,
+    type: 3}
+--- !u!54 &7476176815032746761
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441310430289080760}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 3
 --- !u!1 &441310430673922139
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,9 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eaf70eb89f726c429be21d1d889b921, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portals:
-  - {fileID: 0}
-  - {fileID: 0}
+  portalPair: {fileID: 0}
   portalCamera: {fileID: 1844322298727899587}
 --- !u!1 &441310431362481115
 GameObject:
@@ -1558,12 +1547,12 @@ PrefabInstance:
     - target: {fileID: 83652180475580856, guid: c6920fc85cc134942a19639c8806e612,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 291.07086
+      value: 351.778
       objectReference: {fileID: 0}
     - target: {fileID: 83652180475580856, guid: c6920fc85cc134942a19639c8806e612,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 562.1417
+      value: 683.556
       objectReference: {fileID: 0}
     - target: {fileID: 83652180475580856, guid: c6920fc85cc134942a19639c8806e612,
         type: 3}
@@ -1588,12 +1577,12 @@ PrefabInstance:
     - target: {fileID: 4901396158641479653, guid: c6920fc85cc134942a19639c8806e612,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 291.07086
+      value: 351.778
       objectReference: {fileID: 0}
     - target: {fileID: 4901396158641479653, guid: c6920fc85cc134942a19639c8806e612,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 562.1417
+      value: 683.556
       objectReference: {fileID: 0}
     - target: {fileID: 4901396158641479653, guid: c6920fc85cc134942a19639c8806e612,
         type: 3}
@@ -2911,7 +2900,7 @@ PrefabInstance:
     - target: {fileID: 1957455268355741386, guid: 347b245286d4ae446854a04e0d6dd188,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00019073486
+      value: 0.00012397766
       objectReference: {fileID: 0}
     - target: {fileID: 1957455268355741386, guid: 347b245286d4ae446854a04e0d6dd188,
         type: 3}
@@ -3067,7 +3056,7 @@ PrefabInstance:
     - target: {fileID: 8004768866257940425, guid: 347b245286d4ae446854a04e0d6dd188,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 76.97368
       objectReference: {fileID: 0}
     - target: {fileID: 8138544992060574419, guid: 347b245286d4ae446854a04e0d6dd188,
         type: 3}
@@ -3132,22 +3121,22 @@ PrefabInstance:
     - target: {fileID: 8276017019814450482, guid: 347b245286d4ae446854a04e0d6dd188,
         type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 0.9999963
       objectReference: {fileID: 0}
     - target: {fileID: 8276017019814450482, guid: 347b245286d4ae446854a04e0d6dd188,
         type: 3}
       propertyPath: m_Size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8629461150825721469, guid: 347b245286d4ae446854a04e0d6dd188,
         type: 3}
       propertyPath: m_Value
-      value: 1.0000004
+      value: 0.7434214
       objectReference: {fileID: 0}
     - target: {fileID: 8629461150825721469, guid: 347b245286d4ae446854a04e0d6dd188,
         type: 3}
       propertyPath: m_Size
-      value: 0.709031
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9043057140729899269, guid: 347b245286d4ae446854a04e0d6dd188,
         type: 3}

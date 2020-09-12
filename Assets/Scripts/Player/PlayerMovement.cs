@@ -6,12 +6,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))] // Rigidbody is necessary to ignore certain colliders for portals
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Set In Editor")]
+    public LayerMask layersToIgnore;
+
+    [Header("Debugging properties")]
     [Tooltip("Red line is current velocity, blue is the new direction")]
     public bool showDebugGizmos = false;
-    public LayerMask layersToIgnore;
-    public BoxCollider myCollider;
-    public CameraMove cameraMove;
-
     //The velocity applied at the end of every physics frame
     public Vector3 newVelocity;
 
@@ -19,6 +19,9 @@ public class PlayerMovement : MonoBehaviour
     private bool grounded;
     [SerializeField]
     private bool crouching;
+
+    private BoxCollider myCollider;
+    private CameraMove cameraMove;
 
     private void Start()
     {

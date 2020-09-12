@@ -5,14 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(CameraMove))]
 public class PortalPlacement : MonoBehaviour
 {
-    public Crosshair Cross;
+    private Crosshair Cross;
     public bool showDebugGizmos = false;
+    public LayerMask layerMask;
 
-    [SerializeField]
-    private PortalPair portals = null;
+    public GameObject portalPairPrefab;
+    private PortalPair portalPair = null;
 
-    [SerializeField]
-    private LayerMask layerMask;
 
     private CameraMove cameraMove;
     private PlayerPortalableController playerPortalable;
@@ -26,6 +25,28 @@ public class PortalPlacement : MonoBehaviour
         Cross = GetComponent<Crosshair>();
         cameraMove = GetComponent<CameraMove>();
         playerPortalable = GetComponent<PlayerPortalableController>();
+        portalPair = FindObjectOfType<PortalPair>();
+        if(portalPair == null)
+        {
+            if (IsPortalLevel())
+            {
+                portalPair = Instantiate(portalPairPrefab).GetComponent<PortalPair>();
+            }
+        }
+    }
+
+    private bool IsPortalLevel()
+    {
+        var allObjects = FindObjectsOfType<GameObject>();
+        foreach (GameObject gameObject in allObjects)
+        {
+            if(gameObject.layer == PlayerConstants.PortalMaterialLayer)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void Update()
@@ -112,7 +133,7 @@ public class PortalPlacement : MonoBehaviour
 
 
                 var portalRotation = Quaternion.LookRotation(portalForward, portalUp);
-                portals.Portals[portalID].PlacePortal(hit.point, portalRotation);
+                portalPair.Portals[portalID].PlacePortal(hit.point, portalRotation);
             }
         }
     }

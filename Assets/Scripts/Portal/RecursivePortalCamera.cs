@@ -5,7 +5,7 @@ using UnityEngine;
 public class RecursivePortalCamera : MonoBehaviour
 {
     [SerializeField]
-    private Portal[] portals = new Portal[2];
+    private PortalPair portalPair;
 
     [SerializeField]
     private Camera portalCamera = null;
@@ -45,25 +45,23 @@ public class RecursivePortalCamera : MonoBehaviour
 
         if (isPortalLevel)
         {
-            portals[0].SetTexture(tempTexture1);
-            portals[1].SetTexture(tempTexture2);
+            portalPair.Portals[0].SetTexture(tempTexture1);
+            portalPair.Portals[1].SetTexture(tempTexture2);
         }
     }
 
     private bool PortalsExist()
     {
-        if(portals[0] == null)
-        {
-            return false;
-        }
+        portalPair = FindObjectOfType<PortalPair>();
 
-        if (portals[1] == null)
+        if(portalPair == null)
         {
             return false;
         }
 
         return true;
     }
+
 
     private void OnPreRender()
     {
@@ -72,26 +70,26 @@ public class RecursivePortalCamera : MonoBehaviour
             return;
         }
 
-        if (!portals[0].IsPlaced() || !portals[1].IsPlaced())
+        if (!portalPair.Portals[0].IsPlaced() || !portalPair.Portals[1].IsPlaced())
         {
             return;
         }
 
-        if (portals[0].IsRendererVisible())
+        if (portalPair.Portals[0].IsRendererVisible())
         {
             portalCamera.targetTexture = tempTexture1;
             for (int i = portalRecursions - 1; i >= 0; --i)
             {
-                RenderCamera(portals[0], portals[1], i);
+                RenderCamera(portalPair.Portals[0], portalPair.Portals[1], i);
             }
         }
 
-        if (portals[1].IsRendererVisible())
+        if (portalPair.Portals[1].IsRendererVisible())
         {
             portalCamera.targetTexture = tempTexture2;
             for (int i = portalRecursions - 1; i >= 0; --i)
             {
-                RenderCamera(portals[1], portals[0], i);
+                RenderCamera(portalPair.Portals[1], portalPair.Portals[0], i);
             }
         }
     }

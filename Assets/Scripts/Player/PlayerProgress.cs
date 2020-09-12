@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class PlayerProgress : MonoBehaviour
 {
+    [Header("Set in editor")]
+    public PlayerUI playerUI;
+
+    [Header("Debugging properties")]
     [SerializeField]
     public Checkpoint currentCheckpoint;
 
-    public PlayerUI playerUI;
-
-    public PlayerMovement playerMovement;
-    public CameraMove cameraMove;
-    public PlayerGhostRun playerGhostRun;
-    public Crosshair crosshair;
-
+    private PlayerMovement playerMovement;
+    private CameraMove cameraMove;
+    private PlayerGhostRun playerGhostRun;
+    private Crosshair crosshair;
     private PortalPair portalPair;
-
     private Checkpoint firstCheckpoint;
-
 
     private void Start()
     {
@@ -90,7 +89,6 @@ public class PlayerProgress : MonoBehaviour
         cameraMove.ResetTargetRotation(Quaternion.Euler(respawnRotation));
 
         playerMovement.newVelocity = Vector3.zero;
-
 
         // If the player is restarting at the beginning, reset timer
         if (currentCheckpoint.level == 1)

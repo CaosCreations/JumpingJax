@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerGhostRun : MonoBehaviour
 {
-    public KeyPressed keyPressed;
+    private KeyPressed keyPressed;
 
     public GameObject ghostRunnerPrefab;
     private GameObject ghostRunner;
