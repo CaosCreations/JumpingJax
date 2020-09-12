@@ -40,7 +40,7 @@ public class LevelPreview : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(levelToPreview.levelBuildIndex);
+            GameManager.LoadScene(levelToPreview.levelBuildIndex);
         }
     }
 

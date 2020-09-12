@@ -74,6 +74,6 @@ public class AssetBundleManager : MonoBehaviour
         string[] scenes = bundle.GetAllScenePaths();
         Debug.Log($"loading bundle from scenepath: {scenes[0]}");
         string scene = Path.GetFileNameWithoutExtension(scenes[0]);
-        SceneManager.LoadScene(scene);
+        GameManager.LoadScene(scene);
     }
 }

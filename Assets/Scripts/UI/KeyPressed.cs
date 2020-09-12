@@ -28,8 +28,6 @@ public class KeyPressed : MonoBehaviour
     public Sprite bothMousePressedSprite;
 
     private Level currentLevel;
-    private float ghostRunnerTimer = 0;
-    private int currentDataIndex = 0;
 
     private bool isForwardPressed;
     private bool isLeftPressed;

@@ -33,6 +33,6 @@ public class CreditsScroller : MonoBehaviour
     {
         Cursor.visible = true;
         Time.timeScale = 1;
-        SceneManager.LoadScene(0);
+        GameManager.LoadScene(0);
     }
 }

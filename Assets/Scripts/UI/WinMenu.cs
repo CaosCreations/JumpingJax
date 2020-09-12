@@ -67,7 +67,7 @@ public class WinMenu : MonoBehaviour
         }
 
         GameManager.NextLevel();
-        SceneManager.LoadScene(currentLevel.levelBuildIndex + 1);
+        GameManager.LoadScene(currentLevel.levelBuildIndex + 1);
     }
 
     public void GoToMainMenu()
@@ -75,6 +75,6 @@ public class WinMenu : MonoBehaviour
         gameObject.SetActive(false);
         Time.timeScale = 1;
         Cursor.visible = true;
-        SceneManager.LoadScene(PlayerConstants.BuildSceneIndex);
+        GameManager.LoadScene(PlayerConstants.BuildSceneIndex);
     }
 }

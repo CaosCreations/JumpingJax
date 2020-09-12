@@ -79,6 +79,18 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    public static void LoadScene(int buildIndex)
+    {
+        AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(buildIndex);
+        LoadingScreenManager.Instance.Show(sceneLoadOperation);
+    }
+
+    public static void LoadScene(string sceneAssetPath)
+    {
+        AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(sceneAssetPath);
+        LoadingScreenManager.Instance.Show(sceneLoadOperation);
+    }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         currentCompletionTime = 0;
