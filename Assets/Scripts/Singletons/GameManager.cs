@@ -81,12 +81,15 @@ public class GameManager : MonoBehaviour
 
     public static void LoadScene(int buildIndex)
     {
+        Instance.currentLevel = Instance.levelDataContainer.levels[buildIndex - 1];
         AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(buildIndex);
         LoadingScreenManager.Instance.Show(sceneLoadOperation);
     }
 
-    public static void LoadScene(string sceneAssetPath)
+    public static void LoadScene(Level workshopLevel)
     {
+        Instance.currentLevel = workshopLevel;
+        string sceneAssetPath = AssetBundleManager.LoadSceneFromBundle(workshopLevel.filePath);
         AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(sceneAssetPath);
         LoadingScreenManager.Instance.Show(sceneLoadOperation);
     }
@@ -99,17 +102,14 @@ public class GameManager : MonoBehaviour
         if(scene.buildIndex == 0)
         {
             AssetBundle.UnloadAllAssetBundles(true);
-        }
-        if (Instance.currentLevel == null && scene.buildIndex != 0 && scene.buildIndex < levelDataContainer.levels.Length)
-        {
-            Instance.currentLevel = Instance.levelDataContainer.levels[scene.buildIndex - 1];
-        }
-
-        // Set up the level to have the right number of checkpoints, since it isn't loaded on the scene
+        }      
+        
         if (Instance.currentLevel == null)
         {
             return;
         }
+
+        // Set up the workshop level to have the right number of checkpoints, since it isn't loaded on the scene
         if (Instance.currentLevel.filePath != string.Empty)
         {
             Instance.currentLevel.numberOfCheckpoints = GameObject.FindObjectsOfType<Checkpoint>().Length;
