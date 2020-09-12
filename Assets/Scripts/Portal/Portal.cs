@@ -24,11 +24,9 @@ public class Portal : MonoBehaviour
     private bool isPlaced = false;
 
     [SerializeField]
-    private List<Collider> wallColliders;
+    private List<Collider> wallsPortalIsTouching;
 
-    public bool isDebug = true;
-
-    private List<PortalableObject> portalObjects = new List<PortalableObject>();
+    private List<PortalableObject> objectsToWarp = new List<PortalableObject>();
 
     private Material meshMaterialBlue;
     private Material meshMaterialOrange;
@@ -41,6 +39,8 @@ public class Portal : MonoBehaviour
 
     private float sphereCastSize = 0.02f;
     private float bigSphereCastSize = 0.04f;
+
+    private Crosshair playerCrosshair;
 
     private List<Vector3> overHangTestPoints = new List<Vector3>
         {
@@ -64,7 +64,7 @@ public class Portal : MonoBehaviour
         meshMaterialMain = renderer.material;
         meshMaterialBlue = Resources.Load<Material>(pathToPortalMaterials + "PortalOutline");
         meshMaterialOrange = Resources.Load<Material>(pathToPortalMaterials + "PortalOutline 1");
-
+        playerCrosshair = FindObjectOfType<Crosshair>();
         ResetPortal();
     }
 
@@ -90,13 +90,13 @@ public class Portal : MonoBehaviour
         outlineRenderer.material.SetFloat("_Cutoff", cutOffValue);
         outlineRenderer.gameObject.transform.Rotate(Vector3.forward, 0.1f); 
 
-        for (int i = 0; i < portalObjects.Count; ++i)
+        for (int i = 0; i < objectsToWarp.Count; ++i)
         {
-            Vector3 objPos = transform.InverseTransformPoint(portalObjects[i].transform.position);
+            Vector3 objPos = transform.InverseTransformPoint(objectsToWarp[i].transform.position);
 
             if (objPos.z > 0.0f)
             {
-                portalObjects[i].Warp();
+                objectsToWarp[i].Warp();
             }
         }
     }
@@ -136,8 +136,8 @@ public class Portal : MonoBehaviour
         var obj = other.GetComponent<PortalableObject>();
         if (obj != null && otherPortal.IsPlaced())
         {
-            portalObjects.Add(obj);
-            obj.SetIsInPortal(this, otherPortal, wallColliders);
+            objectsToWarp.Add(obj);
+            obj.SetIsInPortal(this, otherPortal, wallsPortalIsTouching);
         }
     }
 
@@ -150,10 +150,10 @@ public class Portal : MonoBehaviour
 
     public void ResetObjectInPortal(PortalableObject portalable)
     {
-        if (portalObjects.Contains(portalable))
+        if (objectsToWarp.Contains(portalable))
         {
-            portalObjects.Remove(portalable);
-            portalable.ExitPortal(wallColliders);
+            objectsToWarp.Remove(portalable);
+            portalable.ExitPortal(wallsPortalIsTouching);
         }
     }
 
@@ -260,6 +260,10 @@ public class Portal : MonoBehaviour
             ResetPortal();
             ResetOtherPortal();
         }
+        else
+        {
+            playerCrosshair.CrossCheck(name == portalName);
+        }
     }
 
     private void GetClosestOverlapFix()
@@ -324,7 +328,7 @@ public class Portal : MonoBehaviour
         Vector3 worldSpaceCenter = transform.TransformPoint(boxCollider.center);
         Collider[] overlappingBoxes = Physics.OverlapBox(worldSpaceCenter, PlayerConstants.PortalColliderExtents, transform.rotation, overhangMask);
 
-        wallColliders = new List<Collider>(overlappingBoxes);
+        wallsPortalIsTouching = new List<Collider>(overlappingBoxes);
     }
 
     public void ResetPortal()
@@ -332,12 +336,12 @@ public class Portal : MonoBehaviour
         gameObject.SetActive(false);
         isPlaced = false;
         boxCollider.enabled = false;
-        transform.position = new Vector3(100, 100, 100);
+        transform.position = new Vector3(100, 10000, 100);
         SetPortalRendererMaterial();
 
-        for(int i = 0; i < portalObjects.Count; i++)
+        for(int i = 0; i < objectsToWarp.Count; i++)
         {
-            ResetObjectInPortal(portalObjects[i]);
+            ResetObjectInPortal(objectsToWarp[i]);
         }
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CameraMove))]
 public class PortalPlacement : MonoBehaviour
 {
-    private Crosshair Cross;
+    private Crosshair crosshair;
     public bool showDebugGizmos = false;
     public LayerMask layerMask;
 
@@ -22,7 +22,7 @@ public class PortalPlacement : MonoBehaviour
 
     private void Awake()
     {
-        Cross = GetComponent<Crosshair>();
+        crosshair = GetComponent<Crosshair>();
         cameraMove = GetComponent<CameraMove>();
         playerPortalable = GetComponent<PlayerPortalableController>();
         portalPair = FindObjectOfType<PortalPair>();
@@ -59,12 +59,10 @@ public class PortalPlacement : MonoBehaviour
         if (InputManager.GetKeyDown(PlayerConstants.Portal1))
         {
             FirePortal(0, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
-            Cross.CrossCheck(true);
         }
         else if (InputManager.GetKeyDown(PlayerConstants.Portal2))
         {
             FirePortal(1, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
-            Cross.CrossCheck(false);
         }
     }
 
