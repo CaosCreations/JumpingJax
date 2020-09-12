@@ -38,7 +38,7 @@ public class InGameUI : MonoBehaviour
         tutorialTexts = GameManager.GetCurrentLevel().tutorialTexts;
         LoadNextTutorial();
 
-        SetToggleStartingValues();
+        SetDefaults();
         MiscOptions.onToggle += ToggleIndividual;
     }
 
@@ -124,12 +124,13 @@ public class InGameUI : MonoBehaviour
                 break;
         }
     }
-    private void SetToggleStartingValues()
+
+    private void SetDefaults()
     {
-        crosshair.SetActive(OptionsPreferencesManager.GetCrosshairToggle() == 1 ? true : false);
-        speed.gameObject.SetActive(OptionsPreferencesManager.GetSpeedToggle() == 1 ? true : false);
-        completionTimeText.gameObject.SetActive(OptionsPreferencesManager.GetTutorialToggle() == 1 ? true : false);
-        keyPressed.gameObject.SetActive(OptionsPreferencesManager.GetKeyPressedToggle() == 1 ? true : false);
-        tutorialText.gameObject.SetActive(OptionsPreferencesManager.GetTutorialToggle() == 1 ? true : false);
+        crosshair.SetActive(OptionsPreferencesManager.GetCrosshairToggle());
+        speed.gameObject.SetActive(OptionsPreferencesManager.GetSpeedToggle());
+        completionTimeText.gameObject.SetActive(OptionsPreferencesManager.GetTutorialToggle());
+        keyPressed.gameObject.SetActive(OptionsPreferencesManager.GetKeyPressedToggle());
+        tutorialText.gameObject.SetActive(OptionsPreferencesManager.GetTutorialToggle());
     }
 }

@@ -37,7 +37,7 @@ public class OptionsPreferencesManager
     public const string timeToggleKey = "TimeToggle";
     public const int defaultTimeToggle = 1;
 
-    public const string keyPressedToggle = "KeyPressedToggle";
+    public const string keyPressedToggleKey = "KeyPressedToggle";
     public const int defaultKeyPressedToggle = 1;
 
     public const string tutorialToggleKey = "TutorialToggle";
@@ -120,9 +120,10 @@ public class OptionsPreferencesManager
         PlayerPrefs.SetInt(cameraFOVKey, fieldOfViewLevel);
     }
 
-    public static int GetCrosshairToggle()
+    public static bool GetCrosshairToggle()
     {
-        return PlayerPrefs.GetInt(speedToggleKey, defaultSpeedToggle);
+        int isOn = PlayerPrefs.GetInt(crosshairToggleKey, defaultCrosshairToggle);
+        return isOn == 0 ? false : true;
     }
 
     public static void SetCrosshairToggle(bool isOn)
@@ -130,9 +131,10 @@ public class OptionsPreferencesManager
         PlayerPrefs.SetInt(speedToggleKey, isOn ? 1 : 0);
     }
 
-    public static int GetSpeedToggle()
+    public static bool GetSpeedToggle()
     {
-        return PlayerPrefs.GetInt(speedToggleKey, defaultSpeedToggle);
+        int isOn = PlayerPrefs.GetInt(speedToggleKey, defaultSpeedToggle);
+        return isOn == 0 ? false : true;
     }
 
     public static void SetSpeedToggle(bool isOn)
@@ -140,9 +142,10 @@ public class OptionsPreferencesManager
         PlayerPrefs.SetInt(speedToggleKey, isOn ? 1 : 0);
     }
 
-    public static int GetTimeToggle()
+    public static bool GetTimeToggle()
     {
-        return PlayerPrefs.GetInt(speedToggleKey, defaultSpeedToggle);
+        int isOn = PlayerPrefs.GetInt(timeToggleKey, defaultTimeToggle);
+        return isOn == 0 ? false : true;
     }
 
     public static void SetTimeToggle(bool isOn)
@@ -150,19 +153,20 @@ public class OptionsPreferencesManager
         PlayerPrefs.SetInt(speedToggleKey, isOn ? 1 : 0);
     }
 
-    public static int GetKeyPressedToggle()
+    public static bool GetKeyPressedToggle()
     {
-        return PlayerPrefs.GetInt(speedToggleKey, defaultSpeedToggle);
+        int isOn = PlayerPrefs.GetInt(keyPressedToggleKey, defaultKeyPressedToggle);
+        return isOn == 0 ? false : true;
     }
 
     public static void SetKeyPressedToggle(bool isOn)
     {
         PlayerPrefs.SetInt(speedToggleKey, isOn ? 1 : 0);
     }
-
-    public static int GetTutorialToggle()
+    public static bool GetTutorialToggle()
     {
-        return PlayerPrefs.GetInt(speedToggleKey, defaultSpeedToggle);
+        int isOn = PlayerPrefs.GetInt(tutorialToggleKey, defaultTutorialToggle);
+        return isOn == 0 ? false : true;
     }
 
     public static void SetTutorialToggle(bool isOn)

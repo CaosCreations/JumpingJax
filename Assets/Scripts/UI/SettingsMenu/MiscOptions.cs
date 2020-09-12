@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public enum ToggleableUIElements
 {
@@ -18,8 +14,12 @@ public class MiscOptions : MonoBehaviour
     public delegate void OnToggle(ToggleableUIElements element);
     public static event OnToggle onToggle;
 
+    public delegate void TestDelegate();
+    public static event TestDelegate testDelegate; 
+
     void Awake()
     {
+
         Populate();
     }
 
@@ -31,13 +31,13 @@ public class MiscOptions : MonoBehaviour
             string name = element.ToString();
             newToggle.name = name;
             ToggleItem item = newToggle.GetComponent<ToggleItem>();
-            int optionPreferenceValue = GetOptionPreference(element);
-            item.Init(name, optionPreferenceValue == 1 ? true : false);
+            bool optionPreferenceValue = GetOptionPreference(element);
+            item.Init(name, optionPreferenceValue);
             item.toggle.onValueChanged.AddListener((value) => onToggle?.Invoke(element));
         }
     }
 
-    public static int GetOptionPreference(ToggleableUIElements element)
+    public static bool GetOptionPreference(ToggleableUIElements element)
     {
         switch (element)
         {
@@ -52,14 +52,16 @@ public class MiscOptions : MonoBehaviour
             case ToggleableUIElements.TutorialToggle:
                 return OptionsPreferencesManager.GetTutorialToggle();
             default:
-                return 0;
+                return false;
         }
     }
 
     public void SetDefaults()
     {
-
+        OptionsPreferencesManager.SetCrosshairToggle(OptionsPreferencesManager.defaultCrosshairToggle != 0);
+        OptionsPreferencesManager.SetSpeedToggle(OptionsPreferencesManager.defaultSpeedToggle != 0);
+        OptionsPreferencesManager.SetTimeToggle(OptionsPreferencesManager.defaultTimeToggle != 0);
+        OptionsPreferencesManager.SetKeyPressedToggle(OptionsPreferencesManager.defaultKeyPressedToggle != 0);
+        OptionsPreferencesManager.SetTutorialToggle(OptionsPreferencesManager.defaultTutorialToggle != 0); 
     }
-
-    
 }
