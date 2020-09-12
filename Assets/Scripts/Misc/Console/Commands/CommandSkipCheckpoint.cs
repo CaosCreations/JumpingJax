@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-[CreateAssetMenu(fileName = "New SkipCheckpoint Command", menuName = "Developer Console/Commands/SkipCheckpoint Command")]
+[CreateAssetMenu(fileName = "SkipCheckpointCommand", menuName = "Developer Console/Commands/SkipCheckpointCommand")]
 public class CommandSkipCheckpoint : ConsoleCommand
 {
     public override void Process(string[] args)
