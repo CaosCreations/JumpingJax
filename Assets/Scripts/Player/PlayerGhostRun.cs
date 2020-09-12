@@ -57,12 +57,14 @@ public class PlayerGhostRun : MonoBehaviour
     private void UpdateGhost()
     {
         if (currentLevel == null 
-            || currentLevel.ghostRunPositions == null 
-            || currentDataIndex >= currentLevel.ghostRunPositions.Length - 1)
+            || currentLevel.ghostRunPositions == null)
         {
             return; // ghost run is finished
         }
-
+        if (currentDataIndex >= currentLevel.ghostRunPositions.Length - 1)
+        {
+            currentDataIndex = 0;
+        }
         // Only show the ghost run for a level we've completed
         if (currentLevel.isCompleted)
         {
