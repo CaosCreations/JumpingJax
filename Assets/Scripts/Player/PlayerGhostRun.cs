@@ -17,6 +17,7 @@ public class PlayerGhostRun : MonoBehaviour
     private Level currentLevel;
     private int currentDataIndex = 0;
 
+    private const int maxDataCount = 25000; //Makes it so max file save is 5MB, stores 20.8 min of Ghost data saved
 
     private const float ghostRunSaveInterval = 0.05f;
 
@@ -85,7 +86,7 @@ public class PlayerGhostRun : MonoBehaviour
     private void RecordCurrentRunData()
     {
         ghostRunSaveTimer += Time.deltaTime;
-        if (ghostRunSaveTimer > ghostRunSaveInterval)
+        if (ghostRunSaveTimer > ghostRunSaveInterval && currentRunPositionData.Count < maxDataCount)
         {
             ghostRunSaveTimer = 0;
             currentRunPositionData.Add(transform.position);
@@ -112,7 +113,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     public void SaveCurrentRunData()
     {
-        if(GameManager.GetCurrentLevel().completionTime > GameManager.Instance.currentCompletionTime)
+        if(GameManager.GetCurrentLevel().completionTime > GameManager.Instance.currentCompletionTime || GameManager.GetCurrentLevel().completionTime == 0)
         {
             GameManager.GetCurrentLevel().ghostRunPositions = currentRunPositionData.ToArray();
             GameManager.GetCurrentLevel().ghostRunKeys = currentRunKeyData.ToArray();
