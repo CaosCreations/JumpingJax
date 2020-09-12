@@ -81,7 +81,11 @@ public class GameManager : MonoBehaviour
 
     public static void LoadScene(int buildIndex)
     {
-        Instance.currentLevel = Instance.levelDataContainer.levels[buildIndex - 1];
+        if(buildIndex != PlayerConstants.BuildSceneIndex)
+        {
+            Instance.currentLevel = Instance.levelDataContainer.levels[buildIndex - 1];
+        }
+
         AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(buildIndex);
         LoadingScreenManager.Instance.Show(sceneLoadOperation);
     }
@@ -99,14 +103,16 @@ public class GameManager : MonoBehaviour
         currentCompletionTime = 0;
         didWinCurrentLevel = false;
 
-        if(scene.buildIndex == 0)
+        if(scene.buildIndex == PlayerConstants.BuildSceneIndex)
         {
             AssetBundle.UnloadAllAssetBundles(true);
+            return;
         }      
         
-        if (Instance.currentLevel == null)
+        // Set our current level if we are loading from that scene, and not the menu
+        if (Instance.currentLevel == null && scene.buildIndex > 0)
         {
-            return;
+            Instance.currentLevel = Instance.levelDataContainer.levels[scene.buildIndex - 1];
         }
 
         // Set up the workshop level to have the right number of checkpoints, since it isn't loaded on the scene

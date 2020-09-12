@@ -6,6 +6,7 @@ public class LoadingScreenManager : MonoBehaviour
 {
     public static LoadingScreenManager Instance;
 
+    private GameObject loadScreenContainer;
     private const float MIN_TIME_TO_SHOW = 1f;
     // The reference to the current loading operation running in the background:
     private AsyncOperation currentLoadingOperation;
@@ -31,11 +32,8 @@ public class LoadingScreenManager : MonoBehaviour
         }
         DontDestroyOnLoad(this.gameObject);
 
+        loadScreenContainer = transform.GetChild(0).gameObject;
         Hide();
-    }
-    void Start()
-    {
-        
     }
 
     void Update()
@@ -63,7 +61,7 @@ public class LoadingScreenManager : MonoBehaviour
     public void Show(AsyncOperation loadingOperation)
     {
         // Enable the loading screen:
-        gameObject.SetActive(true);
+        loadScreenContainer.SetActive(true);
 
         // Store the reference:
         currentLoadingOperation = loadingOperation;
@@ -79,7 +77,7 @@ public class LoadingScreenManager : MonoBehaviour
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        loadScreenContainer.SetActive(false);
 
         currentLoadingOperation = null;
 

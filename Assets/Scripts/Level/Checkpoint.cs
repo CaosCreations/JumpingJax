@@ -10,8 +10,8 @@ public class Checkpoint : MonoBehaviour
     public Material completedMaterial;
 
     public Light light;
-    private Color startColor = new Color(0, 1, 0);
-    private Color completedColor = new Color(0, 1, 1);
+    private Color startColor = new Color(0, 1, 1);
+    private Color completedColor = new Color(0, 1, 0);
 
     private Renderer myRenderer;
 
