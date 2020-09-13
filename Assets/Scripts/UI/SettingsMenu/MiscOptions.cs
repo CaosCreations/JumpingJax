@@ -30,7 +30,6 @@ public class MiscOptions : MonoBehaviour
             bool optionPreferenceValue = GetOptionPreference(element);
             Debug.Log($"{element} pref = {optionPreferenceValue}");
             item.Init(name, optionPreferenceValue);
-            //item.toggle.onValueChanged.AddListener((value) => onMiscToggle?.Invoke(element));
 
             if (element != ToggleableUIElements.GhostToggle)
             {
