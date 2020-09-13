@@ -39,7 +39,7 @@ public class InGameUI : MonoBehaviour
         LoadNextTutorial();
 
         SetDefaults();
-        MiscOptions.onToggle += ToggleIndividual;
+        MiscOptions.onMiscToggle += ToggleIndividual;
     }
 
     void Update()
@@ -116,11 +116,11 @@ public class InGameUI : MonoBehaviour
                 break;
             case ToggleableUIElements.TutorialToggle:
                 tutorialText.gameObject.SetActive(!tutorialText.gameObject.activeSelf);
-                OptionsPreferencesManager.SetCrosshairToggle(tutorialText.gameObject.activeSelf);
+                OptionsPreferencesManager.SetTutorialToggle(tutorialText.gameObject.activeSelf);
                 break;
             case ToggleableUIElements.KeyPressedToggle:
                 keyPressed.gameObject.SetActive(!keyPressed.gameObject.activeSelf);
-                OptionsPreferencesManager.SetCrosshairToggle(keyPressed.gameObject.activeSelf);
+                OptionsPreferencesManager.SetKeyPressedToggle(keyPressed.gameObject.activeSelf);
                 break;
         }
     }
@@ -129,7 +129,7 @@ public class InGameUI : MonoBehaviour
     {
         crosshair.SetActive(OptionsPreferencesManager.GetCrosshairToggle());
         speed.gameObject.SetActive(OptionsPreferencesManager.GetSpeedToggle());
-        completionTimeText.gameObject.SetActive(OptionsPreferencesManager.GetTutorialToggle());
+        completionTimeText.gameObject.SetActive(OptionsPreferencesManager.GetTimeToggle());
         keyPressed.gameObject.SetActive(OptionsPreferencesManager.GetKeyPressedToggle());
         tutorialText.gameObject.SetActive(OptionsPreferencesManager.GetTutorialToggle());
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum ToggleableUIElements
 {
-    CrosshairToggle, SpeedToggle, TimeToggle, KeyPressedToggle, TutorialToggle
+    CrosshairToggle, SpeedToggle, TimeToggle, KeyPressedToggle, TutorialToggle, GhostToggle
 }
 
 public class MiscOptions : MonoBehaviour
@@ -11,15 +11,11 @@ public class MiscOptions : MonoBehaviour
     public GameObject togglePrefab;
     public Transform scrollViewContent;
 
-    public delegate void OnToggle(ToggleableUIElements element);
-    public static event OnToggle onToggle;
-
-    public delegate void TestDelegate();
-    public static event TestDelegate testDelegate; 
+    public static event Action<ToggleableUIElements> onMiscToggle;
+    public static event Action<bool> onGhostToggle;
 
     void Awake()
     {
-
         Populate();
     }
 
@@ -32,8 +28,21 @@ public class MiscOptions : MonoBehaviour
             newToggle.name = name;
             ToggleItem item = newToggle.GetComponent<ToggleItem>();
             bool optionPreferenceValue = GetOptionPreference(element);
+            Debug.Log($"{element} pref = {optionPreferenceValue}");
             item.Init(name, optionPreferenceValue);
-            item.toggle.onValueChanged.AddListener((value) => onToggle?.Invoke(element));
+            //item.toggle.onValueChanged.AddListener((value) => onMiscToggle?.Invoke(element));
+
+            if (element != ToggleableUIElements.GhostToggle)
+            {
+                item.toggle.onValueChanged.AddListener((value) => onMiscToggle?.Invoke(element));
+
+            }
+            else
+            {
+                //item.toggle.onValueChanged.AddListener((value) => onGhostToggle?.Invoke(value));
+                item.toggle.onValueChanged.AddListener((value) => OptionsPreferencesManager.SetGhostToggle(value));
+            }
+
         }
     }
 
@@ -51,6 +60,8 @@ public class MiscOptions : MonoBehaviour
                 return OptionsPreferencesManager.GetKeyPressedToggle();
             case ToggleableUIElements.TutorialToggle:
                 return OptionsPreferencesManager.GetTutorialToggle();
+            case ToggleableUIElements.GhostToggle:
+                return OptionsPreferencesManager.GetGhostToggle();
             default:
                 return false;
         }

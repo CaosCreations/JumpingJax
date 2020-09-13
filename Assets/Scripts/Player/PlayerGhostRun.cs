@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerGhostRun : MonoBehaviour
@@ -21,7 +23,6 @@ public class PlayerGhostRun : MonoBehaviour
 
     private const float ghostRunSaveInterval = 0.05f;
 
-
     void Start()
     {
         keyPressed = GetComponentInChildren<KeyPressed>();
@@ -32,6 +33,8 @@ public class PlayerGhostRun : MonoBehaviour
             ghostRunner = Instantiate(ghostRunnerPrefab);
         }
         ghostRunner.SetActive(false);
+
+        //MiscOptions.onGhostToggle += ToggleGhost;
     }
 
     private void Update()
@@ -66,7 +69,7 @@ public class PlayerGhostRun : MonoBehaviour
             currentDataIndex = 0;
         }
         // Only show the ghost run for a level we've completed
-        if (currentLevel.isCompleted)
+        if (currentLevel.isCompleted && OptionsPreferencesManager.GetGhostToggle())
         {
             ghostRunner.SetActive(true);
 
@@ -82,8 +85,12 @@ public class PlayerGhostRun : MonoBehaviour
             currentDataIndex++;
             ghostRunnerTimer = 0;
         }
-    }
 
+        if (!OptionsPreferencesManager.GetGhostToggle())
+        {
+            ghostRunner.SetActive(false);
+        }
+    }
 
     private void RecordCurrentRunData()
     {
@@ -120,5 +127,12 @@ public class PlayerGhostRun : MonoBehaviour
             GameManager.GetCurrentLevel().ghostRunPositions = currentRunPositionData.ToArray();
             GameManager.GetCurrentLevel().ghostRunKeys = currentRunKeyData.ToArray();
         }
+    }
+
+    private void ToggleGhost(bool isOn)
+    {
+        Debug.Log("ToggleGhost fired.");
+        ghostRunner.SetActive(isOn); 
+        OptionsPreferencesManager.SetGhostToggle(isOn);
     }
 }
