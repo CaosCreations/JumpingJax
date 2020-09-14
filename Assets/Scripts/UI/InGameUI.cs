@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class InGameUI : MonoBehaviour
 {
     // Time
+    public GameObject timeContainer;
     public Text completionTimeText;
 
     // Speed
@@ -49,7 +50,6 @@ public class InGameUI : MonoBehaviour
             completionTimeText.text = time.ToString("hh':'mm':'ss");
         }
 
-        //fpsText.text = "FPS: " + Mathf.Round(1 / Time.deltaTime);
         Vector2 directionalSpeed = new Vector2(playerMovement.newVelocity.x, playerMovement.newVelocity.z);
         speed.SetSpeed(directionalSpeed.magnitude);
 
@@ -92,6 +92,7 @@ public class InGameUI : MonoBehaviour
         tutorialNextText.gameObject.SetActive(false);
         tutorialNextText.gameObject.SetActive(true);
     }
+
     private void ToggleUI()
     {
         container.SetActive(!container.activeSelf);
@@ -106,8 +107,8 @@ public class InGameUI : MonoBehaviour
                 OptionsPreferencesManager.SetCrosshairToggle(crosshair.activeSelf);
                 break;
             case ToggleableUIElements.TimeToggle:
-                completionTimeText.gameObject.SetActive(!completionTimeText.gameObject.activeSelf);
-                OptionsPreferencesManager.SetTimeToggle(completionTimeText.gameObject.activeSelf);
+                timeContainer.gameObject.SetActive(!timeContainer.activeSelf);
+                OptionsPreferencesManager.SetTimeToggle(timeContainer.activeSelf);
                 break;
             case ToggleableUIElements.SpeedToggle:
                 speed.gameObject.SetActive(!speed.gameObject.activeSelf);
@@ -116,6 +117,7 @@ public class InGameUI : MonoBehaviour
             case ToggleableUIElements.TutorialToggle:
                 tutorialPane.SetActive(!tutorialPane.activeSelf);
                 OptionsPreferencesManager.SetTutorialToggle(tutorialPane.activeSelf);
+                Invoke("UpdateParentLayoutGroup", 0.1f);
                 break;
             case ToggleableUIElements.KeyPressedToggle:
                 keyPressed.SetActive(!keyPressed.activeSelf);
@@ -128,7 +130,7 @@ public class InGameUI : MonoBehaviour
     {
         crosshair.SetActive(OptionsPreferencesManager.GetCrosshairToggle());
         speed.gameObject.SetActive(OptionsPreferencesManager.GetSpeedToggle());
-        completionTimeText.gameObject.SetActive(OptionsPreferencesManager.GetTimeToggle());
+        timeContainer.gameObject.SetActive(OptionsPreferencesManager.GetTimeToggle());
         keyPressed.SetActive(OptionsPreferencesManager.GetKeyPressedToggle());
         tutorialPane.SetActive(OptionsPreferencesManager.GetTutorialToggle());
     }

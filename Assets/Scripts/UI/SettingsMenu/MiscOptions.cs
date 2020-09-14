@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Boo.Lang;
+using System;
 using UnityEngine;
 
 public enum ToggleableUIElements
@@ -14,8 +15,11 @@ public class MiscOptions : MonoBehaviour
     public static event Action<ToggleableUIElements> onMiscToggle;
     public static event Action<bool> onGhostToggle;
 
+    private List<ToggleItem> toggleItems; 
+
     void Awake()
     {
+        toggleItems = new List<ToggleItem>();
         Populate();
     }
 
@@ -37,10 +41,10 @@ public class MiscOptions : MonoBehaviour
             }
             else
             {
-                //item.toggle.onValueChanged.AddListener((value) => onGhostToggle?.Invoke(value));
                 item.toggle.onValueChanged.AddListener((value) => OptionsPreferencesManager.SetGhostToggle(value));
             }
 
+            toggleItems.Add(item);
         }
     }
 
@@ -72,5 +76,10 @@ public class MiscOptions : MonoBehaviour
         OptionsPreferencesManager.SetTimeToggle(OptionsPreferencesManager.defaultTimeToggle != 0);
         OptionsPreferencesManager.SetKeyPressedToggle(OptionsPreferencesManager.defaultKeyPressedToggle != 0);
         OptionsPreferencesManager.SetTutorialToggle(OptionsPreferencesManager.defaultTutorialToggle != 0); 
+
+        foreach(ToggleItem item in toggleItems)
+        {
+            item.toggle.isOn = true;
+        }
     }
 }
