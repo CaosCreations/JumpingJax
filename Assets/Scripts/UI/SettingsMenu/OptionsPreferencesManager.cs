@@ -28,6 +28,24 @@ public class OptionsPreferencesManager
     public const string cameraFOVKey = "CameraFOV";
     public const int defaultCameraFOV = 90;
 
+    public const string crosshairToggleKey = "CrosshairToggle";
+    public const int defaultCrosshairToggle = 1;
+
+    public const string speedToggleKey = "SpeedToggle";
+    public const int defaultSpeedToggle = 1;
+
+    public const string timeToggleKey = "TimeToggle";
+    public const int defaultTimeToggle = 1;
+
+    public const string keyPressedToggleKey = "KeyPressedToggle";
+    public const int defaultKeyPressedToggle = 1;
+
+    public const string tutorialToggleKey = "TutorialToggle";
+    public const int defaultTutorialToggle = 1;
+
+    public const string ghostToggleKey = "GhostToggle";
+    public const int defaultGhostToggle = 1;
+
     public static int GetResolutionWidth()
     {
         return PlayerPrefs.GetInt(resolutionWidthKey, defaultResolutionWidth);
@@ -103,5 +121,70 @@ public class OptionsPreferencesManager
     public static void SetCameraFOV(int fieldOfViewLevel)
     {
         PlayerPrefs.SetInt(cameraFOVKey, fieldOfViewLevel);
+    }
+
+    public static bool GetCrosshairToggle()
+    {
+        int isOn = PlayerPrefs.GetInt(crosshairToggleKey, defaultCrosshairToggle);
+        return isOn == 0 ? false : true;
+    }
+
+    public static void SetCrosshairToggle(bool isOn)
+    {
+        PlayerPrefs.SetInt(crosshairToggleKey, isOn ? 1 : 0);
+    }
+
+    public static bool GetSpeedToggle()
+    {
+        int isOn = PlayerPrefs.GetInt(speedToggleKey, defaultSpeedToggle);
+        return isOn == 0 ? false : true;
+    }
+
+    public static void SetSpeedToggle(bool isOn)
+    {
+        PlayerPrefs.SetInt(speedToggleKey, isOn ? 1 : 0);
+    }
+
+    public static bool GetTimeToggle()
+    {
+        int isOn = PlayerPrefs.GetInt(timeToggleKey, defaultTimeToggle);
+        return isOn == 0 ? false : true;
+    }
+
+    public static void SetTimeToggle(bool isOn)
+    {
+        PlayerPrefs.SetInt(timeToggleKey, isOn ? 1 : 0);
+    }
+
+    public static bool GetKeyPressedToggle()
+    {
+        int isOn = PlayerPrefs.GetInt(keyPressedToggleKey, defaultKeyPressedToggle);
+        return isOn == 0 ? false : true;
+    }
+
+    public static void SetKeyPressedToggle(bool isOn)
+    {
+        PlayerPrefs.SetInt(keyPressedToggleKey, isOn ? 1 : 0);
+    }
+    public static bool GetTutorialToggle()
+    {
+        int isOn = PlayerPrefs.GetInt(tutorialToggleKey, defaultTutorialToggle);
+        return isOn == 0 ? false : true;
+    }
+
+    public static void SetTutorialToggle(bool isOn)
+    {
+        PlayerPrefs.SetInt(tutorialToggleKey, isOn ? 1 : 0);
+    }
+
+    public static bool GetGhostToggle()
+    {
+        int isOn = PlayerPrefs.GetInt(ghostToggleKey, defaultGhostToggle);
+        return isOn == 0 ? false : true;
+    }
+
+    public static void SetGhostToggle(bool isOn)
+    {
+        PlayerPrefs.SetInt(ghostToggleKey, isOn ? 1 : 0);
     }
 }
