@@ -200,7 +200,10 @@ public class LevelSelectionMenu : MonoBehaviour
         }
 
         if (request.isNetworkError || request.isHttpError)
+        {
+            Debug.LogError($"Error downloading texture from url: {url}");
             return new Texture2D(100, 100);
+        }
 
         DownloadHandlerTexture dh = request.downloadHandler as DownloadHandlerTexture;
         dh.texture.name = url;

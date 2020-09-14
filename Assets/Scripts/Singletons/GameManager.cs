@@ -79,25 +79,43 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    public static void LoadScene(int buildIndex)
+    {
+        if(buildIndex != PlayerConstants.BuildSceneIndex)
+        {
+            Instance.currentLevel = Instance.levelDataContainer.levels[buildIndex - 1];
+        }
+
+        AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(buildIndex);
+        LoadingScreenManager.Instance.Show(sceneLoadOperation);
+    }
+
+    public static void LoadScene(Level workshopLevel)
+    {
+        Instance.currentLevel = workshopLevel;
+        string sceneAssetPath = AssetBundleManager.LoadSceneFromBundle(workshopLevel.filePath);
+        AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(sceneAssetPath);
+        LoadingScreenManager.Instance.Show(sceneLoadOperation);
+    }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         currentCompletionTime = 0;
         didWinCurrentLevel = false;
 
-        if(scene.buildIndex == 0)
+        if(scene.buildIndex == PlayerConstants.BuildSceneIndex)
         {
             AssetBundle.UnloadAllAssetBundles(true);
-        }
-        if (Instance.currentLevel == null && scene.buildIndex != 0 && scene.buildIndex < levelDataContainer.levels.Length)
+            return;
+        }      
+        
+        // Set our current level if we are loading from that scene, and not the menu
+        if (Instance.currentLevel == null && scene.buildIndex > 0)
         {
             Instance.currentLevel = Instance.levelDataContainer.levels[scene.buildIndex - 1];
         }
 
-        // Set up the level to have the right number of checkpoints, since it isn't loaded on the scene
-        if (Instance.currentLevel == null)
-        {
-            return;
-        }
+        // Set up the workshop level to have the right number of checkpoints, since it isn't loaded on the scene
         if (Instance.currentLevel.filePath != string.Empty)
         {
             Instance.currentLevel.numberOfCheckpoints = GameObject.FindObjectsOfType<Checkpoint>().Length;

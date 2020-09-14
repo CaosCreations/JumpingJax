@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class PlayerProgress : MonoBehaviour
 {
+    [Header("Set in editor")]
+    public PlayerUI playerUI;
+
+    [Header("Debugging properties")]
     [SerializeField]
     public Checkpoint currentCheckpoint;
 
-    public PlayerUI playerUI;
-
-    public PlayerMovement playerMovement;
-    public CameraMove cameraMove;
-    public PlayerGhostRun playerGhostRun;
-    public Crosshair crosshair;
-
+    private PlayerMovement playerMovement;
+    private CameraMove cameraMove;
+    private PlayerGhostRun playerGhostRun;
+    private Crosshair crosshair;
     private PortalPair portalPair;
-
     private Checkpoint firstCheckpoint;
-
 
     private void Start()
     {
@@ -43,6 +42,7 @@ public class PlayerProgress : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("entered checkpoint");
         Checkpoint checkPointHit = other.gameObject.GetComponent<Checkpoint>();
         if (checkPointHit)
         {
@@ -90,7 +90,6 @@ public class PlayerProgress : MonoBehaviour
 
         playerMovement.newVelocity = Vector3.zero;
 
-
         // If the player is restarting at the beginning, reset timer
         if (currentCheckpoint.level == 1)
         {
@@ -99,8 +98,10 @@ public class PlayerProgress : MonoBehaviour
             {
                 portalPair.ResetPortals();
             }
-            GameManager.Instance.currentCompletionTime = 0;
+            GameManager.RestartLevel();
             playerGhostRun.RestartRun();
+            ResetCollectibles();
+            ResetCheckpoints();
         }
     }
 
@@ -109,7 +110,7 @@ public class PlayerProgress : MonoBehaviour
         playerUI.ToggleOffWinScreen();
         currentCheckpoint = firstCheckpoint;
         Respawn();
-        ResetCheckpoints();
+        
         GameManager.RestartLevel();
     }
 
@@ -119,6 +120,18 @@ public class PlayerProgress : MonoBehaviour
         foreach(Checkpoint checkpoint in checkpoints)
         {
             checkpoint.SetUncompleted();
+            BoxCollider collider = checkpoint.GetComponent<BoxCollider>();
+            collider.enabled = false;
+            collider.enabled = true;
+        }
+    }
+
+    private void ResetCollectibles()
+    {
+        CollectibleHandler[] collectibles = GameObject.FindObjectsOfType<CollectibleHandler>();
+        foreach (CollectibleHandler handler in collectibles)
+        {
+            handler.ResetActive();
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerGhostRun : MonoBehaviour
 {
-    public KeyPressed keyPressed;
+    private KeyPressed keyPressed;
 
     public GameObject ghostRunnerPrefab;
     private GameObject ghostRunner;
@@ -27,6 +27,7 @@ public class PlayerGhostRun : MonoBehaviour
         if(ghostRunner == null)
         {
             ghostRunner = Instantiate(ghostRunnerPrefab);
+            ghostRunner.name = "ghost runner";
         }
         ghostRunner.SetActive(OptionsPreferencesManager.GetGhostToggle() && GameManager.GetCurrentLevel().isCompleted);
         MiscOptions.onGhostToggle += ToggleGhost;

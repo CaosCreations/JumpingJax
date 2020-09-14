@@ -4,16 +4,12 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class Portal : MonoBehaviour
 {
-    private const string portalName = "Portal1";
+    public Material defaultPortalMaterial;
+
+    private PortalType portalType;
 
     [SerializeField]
     private Portal otherPortal = null;
-
-    [SerializeField]
-    private Renderer outlineRenderer = null;
-
-    [SerializeField]
-    private Color portalColour;
 
     [SerializeField]
     private LayerMask placementMask;
@@ -24,63 +20,86 @@ public class Portal : MonoBehaviour
     private bool isPlaced = false;
 
     [SerializeField]
-    private List<Collider> wallColliders;
+    private List<Collider> wallsPortalIsTouching;
 
-    public bool isDebug = true;
+    private List<PortalableObject> objectsToWarp = new List<PortalableObject>();
 
-    private List<PortalableObject> portalObjects = new List<PortalableObject>();
-
-    private Material meshMaterialBlue;
-    private Material meshMaterialOrange;
-
-    private string pathToPortalMaterials = "Materials/portal/";
-
+    public Renderer outlineRenderer = null;
     private Material meshMaterialMain;
     private new Renderer renderer;
-    private BoxCollider boxCollider;
+    private Crosshair playerCrosshair;
 
+    // Used for portal positioning
+    private BoxCollider boxCollider;
     private float sphereCastSize = 0.02f;
     private float bigSphereCastSize = 0.04f;
-
+    // TODO: calculate these based off of collider extents
     private List<Vector3> overHangTestPoints = new List<Vector3>
-        {
-            new Vector3(-1.51f,  0, 0),
-            new Vector3( 1.51f,  0, 0),
-            new Vector3( 0, -1.51f, 0),
-            new Vector3( 0,  1.51f, 0)
-        };
+    {
+        new Vector3(-1.51f,  0, 0),
+        new Vector3( 1.51f,  0, 0),
+        new Vector3( 0, -1.51f, 0),
+        new Vector3( 0,  1.51f, 0)
+    };
 
-    private float minCutOff = 0.01f;
-    private float maxCutOff = 0.4f;
+    // Used for the portal alpha cutoff, gives it the blinking effect
+    private const float minAlphaCutOff = 0.01f;
+    private const float maxAlphaCutOff = 0.4f;
     private float cutOffValue = 0.01f;
-    private float cutOffInterval = 0.002f;
+    private const float cutOffInterval = 0.002f;
     private bool isIncrementing = true;
-
 
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
         renderer = GetComponent<Renderer>();
         meshMaterialMain = renderer.material;
-        meshMaterialBlue = Resources.Load<Material>(pathToPortalMaterials + "PortalOutline");
-        meshMaterialOrange = Resources.Load<Material>(pathToPortalMaterials + "PortalOutline 1");
-
+        playerCrosshair = FindObjectOfType<Crosshair>();
         ResetPortal();
-    }
-
-    private void Start()
-    {
-        SetColour(portalColour);
     }
 
     private void Update()
     {
-        if(cutOffValue >= maxCutOff)
+        if (Time.timeScale == 0)
+        {
+            return;
+        }
+
+        UpdatePortalOutline();
+        WarpObjects();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var objectToWarp = other.GetComponent<PortalableObject>();
+        if (otherPortal.IsPlaced())
+        {
+            objectsToWarp.Add(objectToWarp);
+            objectToWarp.SetIsInPortal(this, otherPortal, wallsPortalIsTouching);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var portalable = other.GetComponent<PortalableObject>();
+
+        ResetObjectInPortal(portalable);
+    }
+
+    public void Init(PortalType portalType, Portal otherPortal)
+    {
+        this.portalType = portalType;
+        this.otherPortal = otherPortal;
+    }
+
+    private void UpdatePortalOutline()
+    {
+        if (cutOffValue >= maxAlphaCutOff)
         {
             isIncrementing = false;
         }
 
-        if(cutOffValue <= minCutOff)
+        if (cutOffValue <= minAlphaCutOff)
         {
             isIncrementing = true;
         }
@@ -88,38 +107,23 @@ public class Portal : MonoBehaviour
 
         cutOffValue += isIncrementing ? cutOffInterval : -cutOffInterval;
         outlineRenderer.material.SetFloat("_Cutoff", cutOffValue);
-        outlineRenderer.gameObject.transform.Rotate(Vector3.forward, 0.1f); 
+        outlineRenderer.gameObject.transform.Rotate(Vector3.forward, 0.1f);
+    }
 
-        for (int i = 0; i < portalObjects.Count; ++i)
+    private void WarpObjects()
+    {
+        for (int i = 0; i < objectsToWarp.Count; ++i)
         {
-            Vector3 objPos = transform.InverseTransformPoint(portalObjects[i].transform.position);
+            Vector3 objPos = transform.InverseTransformPoint(objectsToWarp[i].transform.position);
 
             if (objPos.z > 0.0f)
             {
-                portalObjects[i].Warp();
+                objectsToWarp[i].Warp();
             }
         }
     }
 
-    public Portal GetOtherPortal()
-    {
-        return otherPortal;
-    }
-
-    public Color GetColour()
-    {
-        return portalColour;
-    }
-
-    public void SetColour(Color colour)
-    {
-        meshMaterialMain.SetColor("_Colour", colour);
-    }
-
-    public void SetMaskID(int id)
-    {
-        meshMaterialMain.SetInt("_MaskID", id);
-    }
+    
 
     public void SetTexture(RenderTexture tex)
     {
@@ -131,29 +135,17 @@ public class Portal : MonoBehaviour
         return renderer.isVisible;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public Portal GetOtherPortal()
     {
-        var obj = other.GetComponent<PortalableObject>();
-        if (obj != null && otherPortal.IsPlaced())
-        {
-            portalObjects.Add(obj);
-            obj.SetIsInPortal(this, otherPortal, wallColliders);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        var portalable = other.GetComponent<PortalableObject>();
-
-        ResetObjectInPortal(portalable);
+        return otherPortal;
     }
 
     public void ResetObjectInPortal(PortalableObject portalable)
     {
-        if (portalObjects.Contains(portalable))
+        if (objectsToWarp.Contains(portalable))
         {
-            portalObjects.Remove(portalable);
-            portalable.ExitPortal(wallColliders);
+            objectsToWarp.Remove(portalable);
+            portalable.ExitPortal(wallsPortalIsTouching);
         }
     }
 
@@ -163,7 +155,7 @@ public class Portal : MonoBehaviour
         if (isPlaced && !otherPortal.isPlaced)
         {
             boxCollider.enabled = false;
-            SetPortalRendererMaterial();
+            ResetPortalMaterial();
         }
         else
         {
@@ -260,6 +252,10 @@ public class Portal : MonoBehaviour
             ResetPortal();
             ResetOtherPortal();
         }
+        else
+        {
+            playerCrosshair.CrossCheck(portalType == PortalType.Blue);
+        }
     }
 
     private void GetClosestOverlapFix()
@@ -324,7 +320,7 @@ public class Portal : MonoBehaviour
         Vector3 worldSpaceCenter = transform.TransformPoint(boxCollider.center);
         Collider[] overlappingBoxes = Physics.OverlapBox(worldSpaceCenter, PlayerConstants.PortalColliderExtents, transform.rotation, overhangMask);
 
-        wallColliders = new List<Collider>(overlappingBoxes);
+        wallsPortalIsTouching = new List<Collider>(overlappingBoxes);
     }
 
     public void ResetPortal()
@@ -332,18 +328,18 @@ public class Portal : MonoBehaviour
         gameObject.SetActive(false);
         isPlaced = false;
         boxCollider.enabled = false;
-        transform.position = new Vector3(100, 100, 100);
-        SetPortalRendererMaterial();
+        transform.position = new Vector3(100, 10000, 100);
+        ResetPortalMaterial();
 
-        for(int i = 0; i < portalObjects.Count; i++)
+        for(int i = 0; i < objectsToWarp.Count; i++)
         {
-            ResetObjectInPortal(portalObjects[i]);
+            ResetObjectInPortal(objectsToWarp[i]);
         }
     }
 
     public void ResetOtherPortal()
     {
-        otherPortal.SetPortalRendererMaterial();
+        otherPortal.ResetPortalMaterial();
     }
 
     public bool IsPlaced()
@@ -351,15 +347,8 @@ public class Portal : MonoBehaviour
         return isPlaced;
     }
 
-    public void SetPortalRendererMaterial()
+    public void ResetPortalMaterial()
     {
-        if (name == portalName)
-        {
-            renderer.material = meshMaterialBlue;
-        }
-        else
-        {
-            renderer.material = meshMaterialOrange;
-        }
+        renderer.material = defaultPortalMaterial;
     }
 }

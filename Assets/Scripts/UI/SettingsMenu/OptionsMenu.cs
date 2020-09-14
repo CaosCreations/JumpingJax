@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class OptionsMenu : MonoBehaviour {
@@ -125,7 +126,15 @@ public class OptionsMenu : MonoBehaviour {
     // Tell our parent to toggle back to the main pause menu panel
     public void Back()
     {
-        pauseMenu.ToggleOptionsMenu();
+        if(SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            pauseMenu.ToggleOptionsMenu();
+        }
+        else
+        {
+            // If we are on the main menu, back should take you to the main menu, not the pause menu home
+            pauseMenu.UnPause();
+        }
     }
 
     public void DefaultCurrentOptions()

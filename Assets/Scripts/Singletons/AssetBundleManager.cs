@@ -59,7 +59,7 @@ public class AssetBundleManager : MonoBehaviour
         }
     }
 
-    public static void LoadSceneFromBundle(string path)
+    public static string LoadSceneFromBundle(string path)
     {
         DirectoryInfo fileInfo = new DirectoryInfo(path);
         string scenePath = fileInfo.EnumerateFiles().First().FullName;
@@ -69,11 +69,11 @@ public class AssetBundleManager : MonoBehaviour
         if (bundle == null)
         {
             Debug.LogError($"failed to load asset bundle {scenePath}");
-            return;
+            return "";
         }
         string[] scenes = bundle.GetAllScenePaths();
         Debug.Log($"loading bundle from scenepath: {scenes[0]}");
         string scene = Path.GetFileNameWithoutExtension(scenes[0]);
-        SceneManager.LoadScene(scene);
+        return scene;
     }
 }

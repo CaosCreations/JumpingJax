@@ -1,13 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
-    public float sensitivityMultiplier;
-    public Camera playerCamera;
     public GameObject playerModel;
 
+    [NonSerialized]
+    public float sensitivityMultiplier;
+    [NonSerialized]
+    public Camera playerCamera;
     public Quaternion TargetRotation { private set; get; }
 
     private const float maxCameraXRotation = 90;

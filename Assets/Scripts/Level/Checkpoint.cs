@@ -9,9 +9,9 @@ public class Checkpoint : MonoBehaviour
     public Material startMaterial;
     public Material completedMaterial;
 
-    public Light light;
-    private Color startColor = new Color(0, 1, 0);
-    private Color completedColor = new Color(0, 1, 1);
+    public Light myLight;
+    private Color startColor = new Color(0, 1, 1);
+    private Color completedColor = new Color(0, 1, 0);
 
     private Renderer myRenderer;
 
@@ -23,13 +23,13 @@ public class Checkpoint : MonoBehaviour
     public void SetCompleted()
     {
         myRenderer.sharedMaterial = completedMaterial;
-        light.color = completedColor;
+        myLight.color = completedColor;
     }
 
     public void SetUncompleted()
     {
         myRenderer.sharedMaterial = startMaterial;
-        light.color = startColor;
+        myLight.color = startColor;
     }
 
     private void OnDrawGizmos()

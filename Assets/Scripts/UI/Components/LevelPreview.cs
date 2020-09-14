@@ -32,15 +32,14 @@ public class LevelPreview : MonoBehaviour
 
     void Play()
     {
-        GameManager.Instance.currentLevel = levelToPreview;
         // If this is a workshop map
         if(levelToPreview.filePath != string.Empty) 
         {
-            AssetBundleManager.LoadSceneFromBundle(levelToPreview.filePath);
+            GameManager.LoadScene(levelToPreview);
         }
         else
         {
-            SceneManager.LoadScene(levelToPreview.levelBuildIndex);
+            GameManager.LoadScene(levelToPreview.levelBuildIndex);
         }
     }
 

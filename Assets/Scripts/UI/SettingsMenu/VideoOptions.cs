@@ -114,7 +114,7 @@ public class VideoOptions : MonoBehaviour
 
     public void SetFullScreen(int isFullScreenSelection)
     {
-        bool isFullScreen = isFullScreenSelection == 1 ? true : false;
+        bool isFullScreen = isFullScreenSelection == 1 ? false : true;
         Screen.fullScreen = isFullScreen ? true : false;
         OptionsPreferencesManager.SetFullScreen(isFullScreen);
     }
