@@ -69,7 +69,7 @@ public class PlayerGhostRun : MonoBehaviour
             currentDataIndex = 0;
         }
         // Only show the ghost run for a level we've completed
-        if (currentLevel.isCompleted && OptionsPreferencesManager.GetGhostToggle())
+        if (currentLevel.isCompleted)
         {
             ghostRunner.SetActive(true);
 

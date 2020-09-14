@@ -16,7 +16,7 @@ public class InGameUI : MonoBehaviour
     public GameObject crosshair;
 
     // KeyPresses 
-    public KeyPressed keyPressed;
+    public GameObject keyPressed;
 
     // Tutorial
     public Text tutorialText;
@@ -33,12 +33,11 @@ public class InGameUI : MonoBehaviour
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
         speed = GetComponentInChildren<SpeedSlider>();
-        keyPressed = GetComponentInChildren<KeyPressed>();
 
         tutorialTexts = GameManager.GetCurrentLevel().tutorialTexts;
         LoadNextTutorial();
 
-        SetDefaults();
+        SetStartingValues();
         MiscOptions.onMiscToggle += ToggleIndividual;
     }
 
@@ -115,22 +114,22 @@ public class InGameUI : MonoBehaviour
                 OptionsPreferencesManager.SetSpeedToggle(speed.gameObject.activeSelf);
                 break;
             case ToggleableUIElements.TutorialToggle:
-                tutorialText.gameObject.SetActive(!tutorialText.gameObject.activeSelf);
-                OptionsPreferencesManager.SetTutorialToggle(tutorialText.gameObject.activeSelf);
+                tutorialPane.SetActive(!tutorialPane.activeSelf);
+                OptionsPreferencesManager.SetTutorialToggle(tutorialPane.activeSelf);
                 break;
             case ToggleableUIElements.KeyPressedToggle:
-                keyPressed.gameObject.SetActive(!keyPressed.gameObject.activeSelf);
+                keyPressed.SetActive(!keyPressed.activeSelf);
                 OptionsPreferencesManager.SetKeyPressedToggle(keyPressed.gameObject.activeSelf);
                 break;
         }
     }
 
-    private void SetDefaults()
+    private void SetStartingValues()
     {
         crosshair.SetActive(OptionsPreferencesManager.GetCrosshairToggle());
         speed.gameObject.SetActive(OptionsPreferencesManager.GetSpeedToggle());
         completionTimeText.gameObject.SetActive(OptionsPreferencesManager.GetTimeToggle());
-        keyPressed.gameObject.SetActive(OptionsPreferencesManager.GetKeyPressedToggle());
-        tutorialText.gameObject.SetActive(OptionsPreferencesManager.GetTutorialToggle());
+        keyPressed.SetActive(OptionsPreferencesManager.GetKeyPressedToggle());
+        tutorialPane.SetActive(OptionsPreferencesManager.GetTutorialToggle());
     }
 }

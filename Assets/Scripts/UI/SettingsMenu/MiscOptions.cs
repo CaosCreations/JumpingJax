@@ -28,7 +28,6 @@ public class MiscOptions : MonoBehaviour
             newToggle.name = name;
             ToggleItem item = newToggle.GetComponent<ToggleItem>();
             bool optionPreferenceValue = GetOptionPreference(element);
-            Debug.Log($"{element} pref = {optionPreferenceValue}");
             item.Init(name, optionPreferenceValue);
 
             if (element != ToggleableUIElements.GhostToggle)

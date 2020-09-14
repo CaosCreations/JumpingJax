@@ -43,7 +43,7 @@ public class OptionsPreferencesManager
     public const string tutorialToggleKey = "TutorialToggle";
     public const int defaultTutorialToggle = 1;
 
-    public const string ghostToggleKey = "TutorialToggle";
+    public const string ghostToggleKey = "GhostToggle";
     public const int defaultGhostToggle = 1;
 
     public static int GetResolutionWidth()
@@ -164,7 +164,7 @@ public class OptionsPreferencesManager
 
     public static void SetKeyPressedToggle(bool isOn)
     {
-        PlayerPrefs.SetInt(speedToggleKey, isOn ? 1 : 0);
+        PlayerPrefs.SetInt(keyPressedToggleKey, isOn ? 1 : 0);
     }
     public static bool GetTutorialToggle()
     {
@@ -174,7 +174,7 @@ public class OptionsPreferencesManager
 
     public static void SetTutorialToggle(bool isOn)
     {
-        PlayerPrefs.SetInt(speedToggleKey, isOn ? 1 : 0);
+        PlayerPrefs.SetInt(tutorialToggleKey, isOn ? 1 : 0);
     }
 
     public static bool GetGhostToggle()
