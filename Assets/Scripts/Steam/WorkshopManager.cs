@@ -54,7 +54,7 @@ public class WorkshopManager : MonoBehaviour
             return file.Directory;
         }
 
-        if (!file.Download(true))
+        if (!await file.DownloadAsync())
         {
             Debug.Log($"Download file with id: {id.Value} doesn't exist");
             return string.Empty;
@@ -64,16 +64,16 @@ public class WorkshopManager : MonoBehaviour
 
         while (file.NeedsUpdate)
         {
-            await Task.Delay(100);
+            await Task.Delay(1000);
 
-            Debug.Log($"Downloading... ({file.DownloadAmount:0.000}) [{file.DownloadBytesDownloaded}/{file.DownloadBytesTotal}]");
+            Debug.Log($"Downloading Update... ({file.DownloadAmount:0.000}) [{file.DownloadBytesDownloaded}/{file.DownloadBytesTotal}]");
         }
 
         while (!file.IsInstalled)
         {
-            await Task.Delay(100);
+            await Task.Delay(1000);
 
-            Debug.Log($"Installing...");
+            Debug.Log($"Installing... {file.Title}");
         }
 
         Debug.Log($"Installed to {file.Directory}");
