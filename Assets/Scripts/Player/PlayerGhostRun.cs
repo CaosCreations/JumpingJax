@@ -32,9 +32,8 @@ public class PlayerGhostRun : MonoBehaviour
         {
             ghostRunner = Instantiate(ghostRunnerPrefab);
         }
-        ghostRunner.SetActive(false);
-
-        //MiscOptions.onGhostToggle += ToggleGhost;
+        ghostRunner.SetActive(OptionsPreferencesManager.GetGhostToggle() && GameManager.GetCurrentLevel().isCompleted);
+        MiscOptions.onGhostToggle += ToggleGhost;
     }
 
     private void Update()
@@ -71,8 +70,6 @@ public class PlayerGhostRun : MonoBehaviour
         // Only show the ghost run for a level we've completed
         if (currentLevel.isCompleted)
         {
-            ghostRunner.SetActive(true);
-
             float lerpValue = ghostRunnerTimer / ghostRunSaveInterval;
             Vector3 position = Vector3.Lerp(ghostRunner.transform.position, currentLevel.ghostRunPositions[currentDataIndex], lerpValue);
             ghostRunner.transform.position = position;

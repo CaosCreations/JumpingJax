@@ -41,7 +41,7 @@ public class MiscOptions : MonoBehaviour
             }
             else
             {
-                item.toggle.onValueChanged.AddListener((value) => OptionsPreferencesManager.SetGhostToggle(value));
+                item.toggle.onValueChanged.AddListener((value) => onGhostToggle?.Invoke(value));
             }
 
             toggleItems.Add(item);
