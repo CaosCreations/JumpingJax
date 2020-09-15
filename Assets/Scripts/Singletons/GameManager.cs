@@ -164,10 +164,15 @@ public class GameManager : MonoBehaviour
         {
             levelToUpdate.completionTime = completionTime;
 
-            if (GameManager.Instance.isSteamActive == true)
+            if (ShouldUseSteam())
             {
                 StatsManager.SaveLevelCompletion(levelToUpdate);
             }
         }
+    }
+
+    public static bool ShouldUseSteam()
+    {
+        return GameManager.Instance.isSteamActive == true && SteamClient.IsValid;
     }
 }

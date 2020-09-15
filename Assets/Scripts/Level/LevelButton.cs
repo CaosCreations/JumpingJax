@@ -24,7 +24,7 @@ public class LevelButton : MonoBehaviour
         }
         else
         {
-            levelTime.text = "Not Completed";
+            levelTime.text = "Best Time: N/A";
         }
 
 
@@ -40,8 +40,5 @@ public class LevelButton : MonoBehaviour
         {
             tab = LevelSelectionTab.Hop;
         }
-
-        button = GetComponentInChildren<Button>();
-        button.name = level.levelName;
     }
 }
