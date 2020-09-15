@@ -71,12 +71,18 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
+        Debug.Log("on enable");
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        Debug.Log("level loaded");
     }
 
     public static void LoadScene(int buildIndex)
@@ -100,6 +106,7 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log($"Scene loaded: {scene.name} with index {scene.buildIndex}");
         currentCompletionTime = 0;
         didWinCurrentLevel = false;
 
@@ -124,6 +131,11 @@ public class GameManager : MonoBehaviour
 
     public static Level GetCurrentLevel()
     {
+        if(Instance.currentLevel == null)
+        {
+            return new Level();
+        }
+
         return Instance.currentLevel;
     }
 

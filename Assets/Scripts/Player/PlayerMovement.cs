@@ -22,11 +22,13 @@ public class PlayerMovement : MonoBehaviour
 
     private BoxCollider myCollider;
     private CameraMove cameraMove;
+    private Level currentLevel;
 
     private void Start()
     {
         myCollider = GetComponent<BoxCollider>();
         cameraMove = GetComponent<CameraMove>();
+        currentLevel = GameManager.GetCurrentLevel();
     }
 
     private void FixedUpdate()
@@ -109,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!grounded && newVelocity.y < PlayerConstants.MaxFallSpeed)
         {
-            float gravityScale = GameManager.GetCurrentLevel().gravityMultiplier;
+            float gravityScale = currentLevel.gravityMultiplier;
             newVelocity.y -= gravityScale * PlayerConstants.Gravity * Time.fixedDeltaTime;
         }
     }
