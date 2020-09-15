@@ -42,7 +42,6 @@ public class PlayerProgress : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("entered checkpoint");
         Checkpoint checkPointHit = other.gameObject.GetComponent<Checkpoint>();
         if (checkPointHit)
         {
