@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
         if (GameManager.Instance.isSteamActive == true)
         {
             StartSteam();
+            Init();
         }
     }
 
@@ -106,16 +107,22 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Init();
+    }
+
+    private void Init()
+    {
+        Scene scene = SceneManager.GetActiveScene();
         Debug.Log($"Scene loaded: {scene.name} with index {scene.buildIndex}");
         currentCompletionTime = 0;
         didWinCurrentLevel = false;
 
-        if(scene.buildIndex == PlayerConstants.BuildSceneIndex)
+        if (scene.buildIndex == PlayerConstants.BuildSceneIndex)
         {
             AssetBundle.UnloadAllAssetBundles(true);
             return;
-        }      
-        
+        }
+
         // Set our current level if we are loading from that scene, and not the menu
         if (Instance.currentLevel == null && scene.buildIndex > 0)
         {
