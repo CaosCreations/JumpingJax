@@ -72,18 +72,12 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("on enable");
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnLevelWasLoaded(int level)
-    {
-        Debug.Log("level loaded");
     }
 
     public static void LoadScene(int buildIndex)
