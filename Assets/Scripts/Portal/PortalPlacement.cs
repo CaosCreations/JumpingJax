@@ -41,16 +41,21 @@ public class PortalPlacement : MonoBehaviour
 
     private bool IsPortalLevel()
     {
-        var allObjects = FindObjectsOfType<GameObject>();
-        foreach (GameObject gameObject in allObjects)
+        GameObject tempPortalWall = null;
+        try
         {
-            if(gameObject.layer == PlayerConstants.PortalMaterialLayer)
-            {
-                return true;
-            }
+            tempPortalWall = GameObject.FindWithTag(PlayerConstants.PortalWallTag);
         }
-
-        return false;
+        catch
+        {
+            Debug.Log("not portal level");
+            // No portal wall found in scene
+        }
+        if(tempPortalWall == null)
+        {
+            return false;
+        }
+        return true;
     }
 
     private void Update()
