@@ -41,16 +41,7 @@ public class PortalPlacement : MonoBehaviour
 
     private bool IsPortalLevel()
     {
-        GameObject tempPortalWall = null;
-        try
-        {
-            tempPortalWall = GameObject.FindWithTag(PlayerConstants.PortalWallTag);
-        }
-        catch
-        {
-            Debug.Log("not portal level");
-            // No portal wall found in scene
-        }
+        GameObject tempPortalWall = GameObject.FindWithTag(PlayerConstants.PortalWallTag);
         if(tempPortalWall == null)
         {
             return false;
