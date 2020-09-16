@@ -95,8 +95,17 @@ public class GameManager : MonoBehaviour
     {
         Instance.currentLevel = workshopLevel;
         string sceneAssetPath = AssetBundleManager.LoadSceneFromBundle(workshopLevel.filePath);
-        AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(sceneAssetPath);
-        LoadingScreenManager.Instance.Show(sceneLoadOperation);
+        if(sceneAssetPath == string.Empty)
+        {
+            // Asset Bundle loaded incorrectly
+            AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(PlayerConstants.BuildSceneIndex);
+            LoadingScreenManager.Instance.Show(sceneLoadOperation);
+        }
+        else
+        {
+            AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(sceneAssetPath);
+            LoadingScreenManager.Instance.Show(sceneLoadOperation);
+        }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
