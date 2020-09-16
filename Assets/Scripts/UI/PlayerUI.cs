@@ -24,11 +24,11 @@ public class PlayerUI : MonoBehaviour {
         inGameUI.SetActive(false);
         winMenu.gameObject.SetActive(true);
 
-        winMenu.levelText.text = GameManager.GetCurrentLevel().levelName;
-        winMenu.completionTimeText.text = "Completion time: " + GetTimeString(GameManager.Instance.currentCompletionTime);
+        winMenu.levelText.text = "You found Jax on: " + GameManager.GetCurrentLevel().levelName;
+        winMenu.completionTimeText.text = GetTimeString(GameManager.Instance.currentCompletionTime);
 
         TimeSpan time = TimeSpan.FromSeconds(GameManager.GetCurrentLevel().completionTime);
-        winMenu.bestTimeText.text = "Best time: " + time.ToString(PlayerConstants.levelCompletionTimeFormat);
+        winMenu.bestTimeText.text = time.ToString(PlayerConstants.levelCompletionTimeFormat);
     }
 
     public void ToggleOffWinScreen()
