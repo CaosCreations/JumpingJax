@@ -6,31 +6,16 @@ public class InputManager
 {
     public static bool GetKeyDown(string keyName)
     {
-        if (Input.GetKeyDown(HotKeyManager.Instance.GetKeyFor(keyName)))
-        {
-            return true;
-        }
-
-        return false;
+        return Input.GetKeyDown(HotKeyManager.Instance.GetKeyFor(keyName));
     }
 
     public static bool GetKeyUp(string keyName)
     {
-        if (Input.GetKeyUp(HotKeyManager.Instance.GetKeyFor(keyName)))
-        {
-            return true;
-        }
-
-        return false; 
+        return Input.GetKeyUp(HotKeyManager.Instance.GetKeyFor(keyName));
     }
 
     public static bool GetKey(string keyName)
     {
-        if (Input.GetKey(HotKeyManager.Instance.GetKeyFor(keyName)))
-        {
-            return true;
-        }
-
-        return false;
+        return Input.GetKey(HotKeyManager.Instance.GetKeyFor(keyName));
     }
 }
