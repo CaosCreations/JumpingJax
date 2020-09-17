@@ -79,11 +79,6 @@ public class PlayerGhostRun : MonoBehaviour
             currentDataIndex++;
             ghostRunnerTimer = 0;
         }
-
-        if (!OptionsPreferencesManager.GetGhostToggle())
-        {
-            ghostRunner.SetActive(false);
-        }
     }
 
     private void RecordCurrentRunData()
@@ -116,10 +111,10 @@ public class PlayerGhostRun : MonoBehaviour
 
     public void SaveCurrentRunData()
     {
-        if(GameManager.GetCurrentLevel().completionTime > GameManager.Instance.currentCompletionTime || GameManager.GetCurrentLevel().completionTime == 0)
+        if(currentLevel.completionTime > GameManager.Instance.currentCompletionTime || currentLevel.completionTime == 0)
         {
-            GameManager.GetCurrentLevel().ghostRunPositions = currentRunPositionData.ToArray();
-            GameManager.GetCurrentLevel().ghostRunKeys = currentRunKeyData.ToArray();
+            currentLevel.ghostRunPositions = currentRunPositionData.ToArray();
+            currentLevel.ghostRunKeys = currentRunKeyData.ToArray();
         }
     }
 

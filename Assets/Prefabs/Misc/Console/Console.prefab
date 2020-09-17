@@ -119,7 +119,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3505716282595454428}
   m_Direction: 2
   m_Value: 1.0000004
-  m_Size: 0.68415296
+  m_Size: 0.68048453
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -521,7 +521,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1209,7 +1209,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7714192549736827568
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1309,7 +1309,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4891541760879739101}
   m_HandleRect: {fileID: 165972244544885307}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1559,12 +1559,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 720277492349670469}
-  - component: {fileID: 5034914603705655853}
   - component: {fileID: 7566075198433378591}
   - component: {fileID: 7455283706774262508}
   - component: {fileID: 1856183688746183814}
   - component: {fileID: 5923017548181411833}
   - component: {fileID: 940156304072216825}
+  - component: {fileID: 147408390119314310}
   m_Layer: 0
   m_Name: Console
   m_TagString: Untagged
@@ -1592,27 +1592,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &5034914603705655853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9043057140729899269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59cd2dea8df554da42ce026f84078f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  commands:
-  - {fileID: 11400000, guid: bb442e014ccd9e34e99b944406313379, type: 2}
-  - {fileID: 11400000, guid: 2c75fce2106ba094aac387513366cd3f, type: 2}
-  - {fileID: 11400000, guid: 9d3f7935cab9bfa4aa71056a8fca34bc, type: 2}
-  consoleContainer: {fileID: 4217946704571495377}
-  consoleText: {fileID: 8648079569687684703}
-  consoleInput: {fileID: 4096795683711782032}
-  logScrollView: {fileID: 7750814467481789476}
-  consoleIsActive: 0
 --- !u!114 &7566075198433378591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1701,3 +1680,24 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &147408390119314310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9043057140729899269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f59cd2dea8df554da42ce026f84078f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commands:
+  - {fileID: 11400000, guid: bb442e014ccd9e34e99b944406313379, type: 2}
+  - {fileID: 11400000, guid: 2c75fce2106ba094aac387513366cd3f, type: 2}
+  - {fileID: 11400000, guid: 9d3f7935cab9bfa4aa71056a8fca34bc, type: 2}
+  consoleContainer: {fileID: 4217946704571495377}
+  consoleText: {fileID: 8648079569687684703}
+  consoleInput: {fileID: 4096795683711782032}
+  logScrollView: {fileID: 7750814467481789476}
+  consoleIsActive: 0

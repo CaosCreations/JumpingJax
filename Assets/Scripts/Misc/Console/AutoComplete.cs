@@ -12,11 +12,14 @@ public class AutoComplete : MonoBehaviour
     private List<AutoCompleteItem> autoCompleteItems;
     private int selectionIndex;
 
+    private DeveloperConsole console;
+
     void Start()
     {
         autocompleteScrollView.gameObject.SetActive(false);
         autoCompleteItems = new List<AutoCompleteItem>();
         selectionIndex = 0;
+        console = GetComponent<DeveloperConsole>();
     }
 
     public string GetAutoCompleteCommand()
@@ -55,7 +58,7 @@ public class AutoComplete : MonoBehaviour
             return;
         }
 
-        ConsoleCommand[] commands = DeveloperConsole.Instance.commands;
+        ConsoleCommand[] commands = console.commands;
         bool foundValidCommand = false;
 
         foreach(ConsoleCommand command in commands)

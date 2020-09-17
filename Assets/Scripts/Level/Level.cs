@@ -23,6 +23,9 @@ public class Level : ScriptableObject
     [SerializeField]
     public string filePath;
 
+    [SerializeField]
+    public ulong fileId;
+
     [Header("Set in Game")]
     [SerializeField]
     public Collectible[] collectibles;

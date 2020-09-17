@@ -27,44 +27,13 @@ public class LevelSelectionMenu : MonoBehaviour
 
     public LevelSelectionTab currentTab;
 
-    private Dictionary<string, Texture2D> cachedPreviewImages;
-
     void Start()
     {
         levelPreview = GetComponentInChildren<LevelPreview>();
-        cachedPreviewImages = new Dictionary<string, Texture2D>();
         SetupTabButtons();
-    }
-
-    private async void OnEnable()
-    {
-        ClearButtons();
         LoadButtons(GameManager.Instance.levelDataContainer.levels);
-        LoadWorkshopButtons();
         SetTab(LevelSelectionTab.Hop);
-    }
-
-    private void OnDisable()
-    {
-        ClearButtons();
-    }
-
-    void ClearButtons()
-    {
-        hopButtonList.ForEach(x => Destroy(x.gameObject));
-        hopButtonList = new List<LevelButton>();
-
-        portalButtonList.ForEach(x => Destroy(x.gameObject));
-        portalButtonList = new List<LevelButton>();
-
-        workshopButtonList.ForEach(x => Destroy(x.gameObject));
-        workshopButtonList = new List<LevelButton>();
-    }
-
-    void ClearWorkshopButtons()
-    {
-        workshopButtonList.ForEach(x => Destroy(x.gameObject));
-        workshopButtonList = new List<LevelButton>();
+        LoadWorkshopButtons();
     }
 
     void SetupTabButtons()
@@ -137,20 +106,9 @@ public class LevelSelectionMenu : MonoBehaviour
     private async void LoadWorkshopButtons()
     {
         List<Level> levels = await GetWorkshopLevels();
-        ClearWorkshopButtons();
         LoadButtons(levels.ToArray());
+        // Re-toggle the correct buttons once the levels have loaded from Steam
         SetTab(currentTab);
-    }
-
-    private async Task<Level[]> GetAllLevels()
-    {
-        List<Level> levels = GameManager.Instance.levelDataContainer.levels.ToList();
-        if (GameManager.Instance.isSteamActive)
-        {
-            levels.AddRange( await GetWorkshopLevels());
-        }
-
-        return levels.ToArray();
     }
 
     private async Task<List<Level>> GetWorkshopLevels()
@@ -165,6 +123,7 @@ public class LevelSelectionMenu : MonoBehaviour
                 newLevel.levelBuildIndex = GameManager.workshopLevelIndex;
                 newLevel.filePath = item.Directory;
                 newLevel.levelName = item.Title;
+                newLevel.fileId = item.Id.Value;
                 newLevel.gravityMultiplier = 1;
                 newLevel.completionTime = await StatsManager.GetLevelCompletionTime(item.Title);
                 if (newLevel.completionTime > 0)
@@ -185,11 +144,6 @@ public class LevelSelectionMenu : MonoBehaviour
 
     public async Task<Texture2D> LoadTextureFromUrl(string url)
     {
-        if (cachedPreviewImages.ContainsKey(url))
-        {
-            return cachedPreviewImages[url];
-        }
-
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(url, true);
 
         var r = request.SendWebRequest();
@@ -208,7 +162,6 @@ public class LevelSelectionMenu : MonoBehaviour
         DownloadHandlerTexture dh = request.downloadHandler as DownloadHandlerTexture;
         dh.texture.name = url;
 
-        cachedPreviewImages.Add(url, dh.texture);
         return dh.texture;
     }
 

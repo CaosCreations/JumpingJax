@@ -65,11 +65,11 @@ public class AssetBundleManager : MonoBehaviour
         string scenePath = fileInfo.EnumerateFiles().First().FullName;
 
         AssetBundle bundle = GetAssetBundle(scenePath);
-        //AssetBundle bundle = AssetBundle.LoadFromFile(scenePath);
+
         if (bundle == null)
         {
             Debug.LogError($"failed to load asset bundle {scenePath}");
-            return "";
+            return string.Empty;
         }
         string[] scenes = bundle.GetAllScenePaths();
         Debug.Log($"loading bundle from scenepath: {scenes[0]}");

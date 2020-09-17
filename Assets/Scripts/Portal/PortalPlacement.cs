@@ -41,16 +41,12 @@ public class PortalPlacement : MonoBehaviour
 
     private bool IsPortalLevel()
     {
-        var allObjects = FindObjectsOfType<GameObject>();
-        foreach (GameObject gameObject in allObjects)
+        GameObject tempPortalWall = GameObject.FindWithTag(PlayerConstants.PortalWallTag);
+        if(tempPortalWall == null)
         {
-            if(gameObject.layer == PlayerConstants.PortalMaterialLayer)
-            {
-                return true;
-            }
+            return false;
         }
-
-        return false;
+        return true;
     }
 
     private void Update()

@@ -5,7 +5,7 @@ public class ClearLevelCompletion : EditorWindow
 {
     [SerializeField] private LevelDataContainer levelDataContainer;
 
-    [MenuItem("Tools/OneLeif/Clean Level Completion")]
+    [MenuItem("Tools/CaosCreations/Clean Level Completion")]
     private static void ClearCompletion()
     {
         GetWindow<ClearLevelCompletion>();

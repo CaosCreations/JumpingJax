@@ -152,7 +152,7 @@ public class Portal : MonoBehaviour
     public void PlacePortal(Vector3 pos, Quaternion rot)
     {
         isPlaced = true;
-        if (isPlaced && !otherPortal.isPlaced)
+        if (!otherPortal.isPlaced)
         {
             boxCollider.enabled = false;
             ResetPortalMaterial();
@@ -161,11 +161,9 @@ public class Portal : MonoBehaviour
         {
             renderer.material = meshMaterialMain;
             otherPortal.renderer.material = otherPortal.meshMaterialMain;
-            if (!boxCollider.enabled || !otherPortal.boxCollider.enabled)
-            {
-                boxCollider.enabled = true;
-                otherPortal.boxCollider.enabled = true;
-            }
+
+            boxCollider.enabled = true;
+            otherPortal.boxCollider.enabled = true;
         }
 
         transform.position = pos;

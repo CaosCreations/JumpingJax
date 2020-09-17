@@ -50,7 +50,12 @@ public class LevelPreview : MonoBehaviour
         leaderboard.gameObject.SetActive(true);
         leaderboardNameText.gameObject.SetActive(true);
         levelToPreview = level;
-        previewImage.sprite = level.previewSprite;
+
+        // We need this check in case the workshop dev forgot to upload a screen shot
+        if(level.previewSprite != null)
+        {
+            previewImage.sprite = level.previewSprite;
+        }
         previewImage.preserveAspect = true;
         leaderboardNameText.text = $"{level.levelName} leaderboard";
         CleanScrollView();

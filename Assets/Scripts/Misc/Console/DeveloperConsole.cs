@@ -37,31 +37,6 @@ public class DeveloperConsole : MonoBehaviour
 
     private FocusSelection focusSelection;
 
-
-    #region Singleton
-
-    public static DeveloperConsole Instance { get; private set; }
-    private void Awake()
-    {
-        if (FindObjectsOfType(GetType()).Length > 1)
-        {
-            Destroy(gameObject);
-        }
-
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else if (Instance == this)
-        {
-            Destroy(Instance.gameObject);
-            Instance = this;
-        }
-        DontDestroyOnLoad(this.gameObject);
-    }
-
-    #endregion Singleton
-
     private void Start()
     {
         consoleContainer.SetActive(false);
