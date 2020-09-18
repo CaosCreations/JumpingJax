@@ -10,6 +10,19 @@ public class ToggleItem : MonoBehaviour
     public Toggle toggle;
     public TooltipItem tooltip;
 
+    private RectTransform rectTransform;
+
+    private void Start()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        tooltip.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        tooltip.gameObject.SetActive(TransformUtils.RectTransformContainsMouse(rectTransform));
+    }
+
     public void Init(string text, bool isToggled, string tooltipText)
     {
         toggleNameText.text = text;

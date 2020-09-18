@@ -11,6 +11,19 @@ public class SliderItem : MonoBehaviour
     public InputField input;
     public TooltipItem tooltip;
 
+    private RectTransform rectTransform;
+
+    private void Start()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        tooltip.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        tooltip.gameObject.SetActive(TransformUtils.RectTransformContainsMouse(rectTransform));
+    }
+
     public void Init(string labelText, float value, UnityAction<float> setSensitivity, float minValue, float maxValue, bool isInt, string tooltipText)
     {
         label.text = labelText;

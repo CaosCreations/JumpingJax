@@ -10,6 +10,19 @@ public class DropdownItem : MonoBehaviour
     public Dropdown dropdown;
     public TooltipItem tooltip;
 
+    private RectTransform rectTransform;
+
+    private void Start()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        tooltip.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        tooltip.gameObject.SetActive(TransformUtils.RectTransformContainsMouse(rectTransform));
+    }
+
     public void Init(string labelText, int startValue, List<string> options, UnityAction<int> action, string tooltipText)
     {
         label.text = labelText;
