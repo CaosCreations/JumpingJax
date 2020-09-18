@@ -31,8 +31,7 @@ public class MiscOptions : MonoBehaviour
             string name = element.ToString();
             newToggle.name = name;
             ToggleItem item = newToggle.GetComponent<ToggleItem>();
-            bool optionPreferenceValue = GetOptionPreference(element);
-            item.Init(name, optionPreferenceValue);
+            item.Init(name, GetOptionPreference(element), GetTooltip(element));
 
             if (element != ToggleableUIElements.GhostToggle)
             {
@@ -66,6 +65,27 @@ public class MiscOptions : MonoBehaviour
                 return OptionsPreferencesManager.GetGhostToggle();
             default:
                 return false;
+        }
+    }
+
+    public static string GetTooltip(ToggleableUIElements element)
+    {
+        switch (element)
+        {
+            case ToggleableUIElements.CrosshairToggle:
+                return PlayerConstants.CrosshairTooltip;
+            case ToggleableUIElements.SpeedToggle:
+                return PlayerConstants.SpeedTooltip;
+            case ToggleableUIElements.TimeToggle:
+                return PlayerConstants.TimeTooltip;
+            case ToggleableUIElements.KeyPressedToggle:
+                return PlayerConstants.KeyPressedTooltip;
+            case ToggleableUIElements.TutorialToggle:
+                return PlayerConstants.TutorialTooltip;
+            case ToggleableUIElements.GhostToggle:
+                return PlayerConstants.GhostTooltip;
+            default:
+                return string.Empty;
         }
     }
 

@@ -46,34 +46,58 @@ public static class PlayerConstants
     //HotKeys
     public static string Forward = "Forward";
     public static string ForwardDefault = "W";
+    public static string ForwardTooltip = "Moves player forward.";
 
     public static string Back = "Back";
     public static string BackDefault = "S";
+    public static string BackTooltip = "Moves player backward.";
 
     public static string Left = "Left";
     public static string LeftDefault = "A";
+    public static string LeftTooltip = "Moves player left.";
 
     public static string Right = "Right";
     public static string RightDefault = "D";
+    public static string RightTooltip = "Moves player right.";
 
     public static string Jump = "Jump";
     public static string JumpDefault = "Space";
+    public static string JumpTooltip = "Makes player jump.";
 
     public static string ResetLevel = "Reset Level";
     public static string ResetLevelDefault = "R";
+    public static string ResetTooltip = "Reset player to the last checkpoint.";
 
     public static string Crouch = "Crouch";
     public static string CrouchDefault = "LeftControl";
+    public static string CrouchTooltip = "Makes player crouch.";
 
     public static string Portal1 = "Portal1";
     public static string Portal1Default = "Mouse0";
+    public static string Portal1Tooltip = "Places the blue portal.";
 
     public static string Portal2 = "Portal2";
     public static string Portal2Default = "Mouse1";
+    public static string Portal2Tooltip = "Places the pink portal.";
 
     public static string ToggleUI = "ToggleUI";
-    public static string ToggleUIDefault = "Z"; 
+    public static string ToggleUIDefault = "Z";
+    public static string ToggleUITooltip = "Toggles off all UI.";
 
+    public static string SensitivityTooltip = "Mouse Sensitivity.";
+    public static string VolumeTooltip = "Master Volume.";
+
+    public static string CrosshairTooltip = "Toggle Crosshair UI.";
+    public static string SpeedTooltip = "Toggle Speed UI.";
+    public static string TimeTooltip = "Toggle Time UI.";
+    public static string KeyPressedTooltip = "Toggle KeyPressed UI.";
+    public static string TutorialTooltip = "Toggle Tutorial UI.";
+    public static string GhostTooltip = "Toggle Ghost Runner.";
+
+    public static string ResolutionTooltip = "Screen Resolution.";
+    public static string GraphicsTooltip = "Graphics Quality.";
+    public static string FullscreenTooltip = "Toggle Fullscreen.";
+    public static string FOVTooltip = "Player Camera Field of View.";
 
     // Non-changeable hotkeys
     public static string MouseX = "Mouse X";

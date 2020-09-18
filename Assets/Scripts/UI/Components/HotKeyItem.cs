@@ -8,7 +8,8 @@ public class HotKeyItem : MonoBehaviour
     public Text itemText;
     public Button itemButton;
     public Text buttonText;
-    
+    public TooltipItem tooltip;
+
     public void SetItemText(string text)
     {
         itemText.text = text;

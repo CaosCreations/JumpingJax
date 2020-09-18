@@ -74,6 +74,8 @@ public class HotKeyOptions : MonoBehaviour
     private void PopulateHotkeys()
     {
         Dictionary<string, KeyCode> keys = HotKeyManager.Instance.GetHotKeys();
+        Dictionary<string, string> tooltips = HotKeyManager.Instance.GetTooltips();
+
         buttonKeyCodeTexts = new Dictionary<string, Text>();
         foreach(string hotkey in keys.Keys)
         {
@@ -83,6 +85,7 @@ public class HotKeyOptions : MonoBehaviour
             HotKeyItem item = newItem.GetComponentInChildren<HotKeyItem>();
             item.SetItemText(hotkey);
             item.SetButtonText(keys[hotkey].ToString());
+            item.tooltip.SetTooltipText(tooltips[hotkey]);
             item.itemButton.onClick.AddListener(() => StartRebindFor(hotkey.ToString()));
 
             buttonKeyCodeTexts.Add(hotkey, item.GetButtonText());
@@ -97,7 +100,7 @@ public class HotKeyOptions : MonoBehaviour
             currentSliderItem = sliderObject.GetComponent<SliderItem>();
         }
 
-        currentSliderItem.Init(OptionsPreferencesManager.sensitivityKey, OptionsPreferencesManager.GetSensitivity(), SetSensitivity, 0.01f, 1, false);
+        currentSliderItem.Init(OptionsPreferencesManager.sensitivityKey, OptionsPreferencesManager.GetSensitivity(), SetSensitivity, 0.01f, 1, false, PlayerConstants.SensitivityTooltip);
         string inputText = Mathf.RoundToInt(OptionsPreferencesManager.GetSensitivity() * 100) + "%";
         currentSliderItem.input.text = inputText;
     }

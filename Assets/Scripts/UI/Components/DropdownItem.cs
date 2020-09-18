@@ -8,8 +8,9 @@ public class DropdownItem : MonoBehaviour
 {
     public Text label;
     public Dropdown dropdown;
+    public TooltipItem tooltip;
 
-    public void Init(string labelText, int startValue, List<string> options, UnityAction<int> action)
+    public void Init(string labelText, int startValue, List<string> options, UnityAction<int> action, string tooltipText)
     {
         label.text = labelText;
         dropdown.ClearOptions();
@@ -20,5 +21,7 @@ public class DropdownItem : MonoBehaviour
 
         dropdown.onValueChanged.RemoveAllListeners();
         dropdown.onValueChanged.AddListener(action);
+
+        tooltip.SetTooltipText(tooltipText);
     }
 }

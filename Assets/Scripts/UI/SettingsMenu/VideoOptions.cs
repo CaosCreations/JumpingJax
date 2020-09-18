@@ -47,7 +47,7 @@ public class VideoOptions : MonoBehaviour
             resolutionDropdown = newDropdown.GetComponent<DropdownItem>();
         }
 
-        resolutionDropdown.Init("Resolution", GetStartingResolution(), GetResolutionCapabilities(), SetResolution);
+        resolutionDropdown.Init("Resolution", GetStartingResolution(), GetResolutionCapabilities(), SetResolution, PlayerConstants.ResolutionTooltip);
     }
 
     private List<string> GetResolutionCapabilities()
@@ -92,7 +92,7 @@ public class VideoOptions : MonoBehaviour
             GameObject newDropdown = Instantiate(dropdownItemPrefab, scrollViewContent);
             graphicsQualityDropdown = newDropdown.GetComponent<DropdownItem>();
         }
-        graphicsQualityDropdown.Init("Quality", QualitySettings.GetQualityLevel(), QualitySettings.names.ToList(), SetQuality);
+        graphicsQualityDropdown.Init("Quality", QualitySettings.GetQualityLevel(), QualitySettings.names.ToList(), SetQuality, PlayerConstants.GraphicsTooltip);
     }
 
     void SetupFullscreenDropdown()
@@ -102,7 +102,7 @@ public class VideoOptions : MonoBehaviour
             GameObject newDropdown = Instantiate(dropdownItemPrefab, scrollViewContent);
             fullScreenDropdown = newDropdown.GetComponent<DropdownItem>();
         }
-        fullScreenDropdown.Init("Fullscreen", 0, new List<string> {"FullScreen", "Windowed"}, SetFullScreen);
+        fullScreenDropdown.Init("Fullscreen", 0, new List<string> {"FullScreen", "Windowed"}, SetFullScreen, PlayerConstants.FullscreenTooltip);
     }
 
     void SetResolution(int resolutionIndex)
@@ -132,7 +132,7 @@ public class VideoOptions : MonoBehaviour
             GameObject newDropdown = Instantiate(sliderItemPrefab, scrollViewContent);
             cameraFOV = newDropdown.GetComponent<SliderItem>();
         }
-        cameraFOV.Init("Field Of View", OptionsPreferencesManager.GetCameraFOV(), SetCameraFOV, 60, 130, true);
+        cameraFOV.Init("Field Of View", OptionsPreferencesManager.GetCameraFOV(), SetCameraFOV, 60, 130, true, PlayerConstants.FOVTooltip);
 
         CameraMove cameraMove = GetComponentInParent<CameraMove>();
         if (cameraMove != null)

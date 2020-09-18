@@ -9,8 +9,9 @@ public class SliderItem : MonoBehaviour
     public Text label;
     public Slider slider;
     public InputField input;
+    public TooltipItem tooltip;
 
-    public void Init(string labelText, float value, UnityAction<float> setSensitivity, float minValue, float maxValue, bool isInt)
+    public void Init(string labelText, float value, UnityAction<float> setSensitivity, float minValue, float maxValue, bool isInt, string tooltipText)
     {
         label.text = labelText;
 
@@ -22,11 +23,13 @@ public class SliderItem : MonoBehaviour
         slider.value = value;
 
         input.text = value.ToString();
+
+        tooltip.SetTooltipText(tooltipText);
     }
 
     public void SetLabel(string text)
     {
-        this.label.text = text;
+        label.text = text;
     }
 
     public void SetSliderValue(float value)
