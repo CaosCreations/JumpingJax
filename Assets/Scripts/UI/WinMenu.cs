@@ -14,11 +14,14 @@ public class WinMenu : MonoBehaviour
     public Button menuButton;
     public Button nextButton;
 
+    public Sprite highlightedButtonSprite;
+
     private PlayerProgress playerProgress;
 
     private void Start()
     {
         playerProgress = GetComponentInParent<PlayerProgress>();
+        SetupButtons();
     }
 
     private void Update()
@@ -40,6 +43,31 @@ public class WinMenu : MonoBehaviour
     {
         // Only show the "next" button if it is NOT a workshop map
         nextButton.gameObject.SetActive(GameManager.GetCurrentLevel().filePath == string.Empty);
+
+        levelText.text = "You found Jax on: " + GameManager.GetCurrentLevel().levelName;
+        completionTimeText.text = TimeUtils.GetTimeString(GameManager.Instance.currentCompletionTime);
+        bestTimeText.text = TimeUtils.GetTimeString(GameManager.GetCurrentLevel().completionTime);
+    }
+
+    private void SetupButtons()
+    {
+        SpriteState spriteState = new SpriteState();
+        spriteState.highlightedSprite = highlightedButtonSprite;
+
+        retryButton.onClick.RemoveAllListeners();
+        retryButton.onClick.AddListener(() => Retry());
+        retryButton.transition = Selectable.Transition.SpriteSwap;
+        retryButton.spriteState = spriteState;
+
+        menuButton.onClick.RemoveAllListeners();
+        menuButton.onClick.AddListener(() => GoToMainMenu());
+        menuButton.transition = Selectable.Transition.SpriteSwap;
+        menuButton.spriteState = spriteState;
+
+        nextButton.onClick.RemoveAllListeners();
+        nextButton.onClick.AddListener(() => NextLevel());
+        nextButton.transition = Selectable.Transition.SpriteSwap;
+        nextButton.spriteState = spriteState;
     }
 
     public void Retry()

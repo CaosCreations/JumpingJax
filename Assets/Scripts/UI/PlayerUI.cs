@@ -23,12 +23,6 @@ public class PlayerUI : MonoBehaviour {
         Cursor.lockState = CursorLockMode.None;
         inGameUI.SetActive(false);
         winMenu.gameObject.SetActive(true);
-
-        winMenu.levelText.text = GameManager.GetCurrentLevel().levelName;
-        winMenu.completionTimeText.text = "Completion time: " + GetTimeString(GameManager.Instance.currentCompletionTime);
-
-        TimeSpan time = TimeSpan.FromSeconds(GameManager.GetCurrentLevel().completionTime);
-        winMenu.bestTimeText.text = "Best time: " + time.ToString(PlayerConstants.levelCompletionTimeFormat);
     }
 
     public void ToggleOffWinScreen()
@@ -39,9 +33,5 @@ public class PlayerUI : MonoBehaviour {
         winMenu.gameObject.SetActive(false);
     }
 
-    string GetTimeString(float completionTime)
-    {
-        TimeSpan time = TimeSpan.FromSeconds(completionTime);
-        return time.ToString(PlayerConstants.levelCompletionTimeFormat);
-    }
+    
 }
