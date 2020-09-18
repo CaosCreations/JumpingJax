@@ -630,18 +630,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1844322297647578415}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1844322298070809556}
-        m_MethodName: GoToMainMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1844322297783861029
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,18 +749,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1844322297783861024}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1844322298070809556}
-        m_MethodName: Retry
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1844322298070809562
 GameObject:
   m_ObjectHideFlags: 0
@@ -866,6 +844,8 @@ MonoBehaviour:
   retryButton: {fileID: 1844322297783861031}
   menuButton: {fileID: 1844322297647578414}
   nextButton: {fileID: 1844322298787610601}
+  highlightedButtonSprite: {fileID: 21300000, guid: 42b7fbbb55be0f249972f1fb604eb111,
+    type: 3}
 --- !u!1 &1844322298267563119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,7 +1441,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1485,18 +1465,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1844322298787610602}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1844322298070809556}
-        m_MethodName: NextLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1844322299020443548
 GameObject:
   m_ObjectHideFlags: 0
