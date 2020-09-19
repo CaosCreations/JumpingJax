@@ -40,9 +40,8 @@ public class AudioOptions : MonoBehaviour
             GameObject newSlider = Instantiate(sliderPrefab, scrollViewContent);
             volume = newSlider.GetComponent<SliderItem>();
         }
-        volume.Init("Volume", ConvertFromDecibel(OptionsPreferencesManager.GetVolume()), SetVolume, 0.0001f, 1, false);
+        volume.Init("Volume", ConvertFromDecibel(OptionsPreferencesManager.GetVolume()), SetVolume, 0.0001f, 1, false, PlayerConstants.VolumeTooltip);
         volume.input.text = (int) (ConvertFromDecibel(OptionsPreferencesManager.GetVolume()) * 100) + "%";
-
     }
 
     public float ConvertToDecibel(float value)

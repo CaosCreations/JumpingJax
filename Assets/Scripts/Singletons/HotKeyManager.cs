@@ -7,6 +7,7 @@ public class HotKeyManager : MonoBehaviour {
     [SerializeField]
     private Dictionary<string, KeyCode> keys = new Dictionary<string, KeyCode>();
     private Dictionary<string, KeyCode> defaults = new Dictionary<string, KeyCode>();
+    private Dictionary<string, string> tooltips = new Dictionary<string, string>();
 
     public static HotKeyManager Instance;
     
@@ -25,11 +26,17 @@ public class HotKeyManager : MonoBehaviour {
 
         InitDefaults();
         LoadSavedHotkeys();
+        LoadTooltips();
     }
 
     public Dictionary<String, KeyCode> GetHotKeys()
     {
         return keys;
+    }
+
+    public Dictionary<string, string> GetTooltips()
+    {
+        return tooltips;
     }
 
     public void SetButtonForKey(string key, KeyCode keyCode)
@@ -108,5 +115,19 @@ public class HotKeyManager : MonoBehaviour {
         {
             Debug.Log("Could not parse default key code: " + keyName);
         }
+    }
+
+    public void LoadTooltips()
+    {
+        tooltips.Add(PlayerConstants.Forward, PlayerConstants.ForwardTooltip);
+        tooltips.Add(PlayerConstants.Back, PlayerConstants.BackTooltip);
+        tooltips.Add(PlayerConstants.Left, PlayerConstants.LeftTooltip);
+        tooltips.Add(PlayerConstants.Right, PlayerConstants.RightTooltip);
+        tooltips.Add(PlayerConstants.Jump, PlayerConstants.JumpTooltip);
+        tooltips.Add(PlayerConstants.Crouch, PlayerConstants.CrouchTooltip);
+        tooltips.Add(PlayerConstants.ResetLevel, PlayerConstants.ResetTooltip);
+        tooltips.Add(PlayerConstants.Portal1, PlayerConstants.Portal1Tooltip);
+        tooltips.Add(PlayerConstants.Portal2, PlayerConstants.Portal2Tooltip);
+        tooltips.Add(PlayerConstants.ToggleUI, PlayerConstants.ToggleUITooltip);
     }
 }

@@ -8,7 +8,21 @@ public class HotKeyItem : MonoBehaviour
     public Text itemText;
     public Button itemButton;
     public Text buttonText;
-    
+    public TooltipItem tooltip;
+
+    private RectTransform rectTransform;
+
+    private void Start()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        tooltip.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        tooltip.gameObject.SetActive(TransformUtils.RectTransformContainsMouse(rectTransform));
+    }
+
     public void SetItemText(string text)
     {
         itemText.text = text;
