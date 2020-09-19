@@ -26,7 +26,7 @@ public class HotKeyManager : MonoBehaviour {
 
         InitDefaults();
         LoadSavedHotkeys();
-        LoadTooltipText();
+        LoadTooltips();
     }
 
     public Dictionary<String, KeyCode> GetHotKeys()
@@ -117,7 +117,7 @@ public class HotKeyManager : MonoBehaviour {
         }
     }
 
-    public void LoadTooltipText()
+    public void LoadTooltips()
     {
         tooltips.Add(PlayerConstants.Forward, PlayerConstants.ForwardTooltip);
         tooltips.Add(PlayerConstants.Back, PlayerConstants.BackTooltip);
