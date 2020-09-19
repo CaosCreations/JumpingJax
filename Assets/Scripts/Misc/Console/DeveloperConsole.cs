@@ -27,8 +27,10 @@ public class DeveloperConsole : MonoBehaviour
     [SerializeField] private ScrollRect logScrollView;
     private PauseMenu pauseMenu;
 
+    [Header("Debugging values")]
     public bool consoleIsActive = false;
 
+    // Set at runtime
     private AutoComplete autoComplete;
     private FileLogger fileLogger;
 
@@ -36,6 +38,8 @@ public class DeveloperConsole : MonoBehaviour
     private int currentCacheIndex;
 
     private FocusSelection focusSelection;
+    [SerializeField]
+    private bool isEnabledInOptions;
 
     private void Start()
     {
@@ -45,12 +49,17 @@ public class DeveloperConsole : MonoBehaviour
         cachedCommands = new List<string>();
         focusSelection = FocusSelection.Cache;
         pauseMenu = transform.parent.GetComponentInChildren<PauseMenu>();
+        isEnabledInOptions = OptionsPreferencesManager.GetConsoleToggle();
 
-        if(pauseMenu == null)
+        MiscOptions.onConsoleToggle += ToggleConsoleEnabled;
+
+        if (pauseMenu == null)
         {
             Debug.LogError("Could not find pause menu");
         }
     }
+
+    
 
     private void OnEnable()
     {
@@ -66,6 +75,13 @@ public class DeveloperConsole : MonoBehaviour
         {
             Application.logMessageReceived -= HandleLog;
         }
+    }
+
+    public void ToggleConsoleEnabled(bool isEnabled)
+    {
+        Debug.Log("enabled console " + isEnabled);
+        OptionsPreferencesManager.SetConsoleToggle(isEnabled);
+        isEnabledInOptions = isEnabled;
     }
 
     private void HandleLog(string logMessage, string stackTrace, LogType type)
@@ -95,7 +111,7 @@ public class DeveloperConsole : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.didWinCurrentLevel || pauseMenu.isPaused)
+        if (GameManager.Instance.didWinCurrentLevel || pauseMenu.isPaused || !isEnabledInOptions)
         {
             return;
         }

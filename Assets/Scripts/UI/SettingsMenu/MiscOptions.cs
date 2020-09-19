@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ToggleableUIElements
 {
-    CrosshairToggle, SpeedToggle, TimeToggle, KeyPressedToggle, TutorialToggle, GhostToggle
+    CrosshairToggle, SpeedToggle, TimeToggle, KeyPressedToggle, TutorialToggle, GhostToggle, ConsoleToggle
 }
 
 public class MiscOptions : MonoBehaviour
@@ -14,6 +14,7 @@ public class MiscOptions : MonoBehaviour
 
     public static event Action<ToggleableUIElements> onMiscToggle;
     public static event Action<bool> onGhostToggle;
+    public static event Action<bool> onConsoleToggle;
 
     private List<ToggleItem> toggleItems; 
 
@@ -33,14 +34,19 @@ public class MiscOptions : MonoBehaviour
             ToggleItem item = newToggle.GetComponent<ToggleItem>();
             item.Init(name, GetOptionPreference(element), GetTooltip(element));
 
-            if (element != ToggleableUIElements.GhostToggle)
+            if (element == ToggleableUIElements.GhostToggle)
             {
-                item.toggle.onValueChanged.AddListener((value) => onMiscToggle?.Invoke(element));
+                item.toggle.onValueChanged.AddListener((value) => onGhostToggle?.Invoke(value));
 
+
+            }
+            else if(element == ToggleableUIElements.ConsoleToggle)
+            {
+                item.toggle.onValueChanged.AddListener((value) => onConsoleToggle?.Invoke(value));
             }
             else
             {
-                item.toggle.onValueChanged.AddListener((value) => onGhostToggle?.Invoke(value));
+                item.toggle.onValueChanged.AddListener((value) => onMiscToggle?.Invoke(element));
             }
 
             toggleItems.Add(item);
@@ -63,6 +69,8 @@ public class MiscOptions : MonoBehaviour
                 return OptionsPreferencesManager.GetTutorialToggle();
             case ToggleableUIElements.GhostToggle:
                 return OptionsPreferencesManager.GetGhostToggle();
+            case ToggleableUIElements.ConsoleToggle:
+                return OptionsPreferencesManager.GetConsoleToggle();
             default:
                 return false;
         }
@@ -84,6 +92,8 @@ public class MiscOptions : MonoBehaviour
                 return PlayerConstants.TutorialTooltip;
             case ToggleableUIElements.GhostToggle:
                 return PlayerConstants.GhostTooltip;
+            case ToggleableUIElements.ConsoleToggle:
+                return PlayerConstants.ConsoleTooltip;
             default:
                 return string.Empty;
         }
@@ -96,6 +106,8 @@ public class MiscOptions : MonoBehaviour
         OptionsPreferencesManager.SetTimeToggle(OptionsPreferencesManager.defaultTimeToggle != 0);
         OptionsPreferencesManager.SetKeyPressedToggle(OptionsPreferencesManager.defaultKeyPressedToggle != 0);
         OptionsPreferencesManager.SetTutorialToggle(OptionsPreferencesManager.defaultTutorialToggle != 0); 
+        OptionsPreferencesManager.SetGhostToggle(OptionsPreferencesManager.defaultGhostToggle != 0); 
+        OptionsPreferencesManager.SetConsoleToggle(OptionsPreferencesManager.defaultConsoleToggle != 1); 
 
         foreach(ToggleItem item in toggleItems)
         {
