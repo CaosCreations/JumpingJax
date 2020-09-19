@@ -32,6 +32,7 @@ public class ClearLevelCompletion : EditorWindow
                 {
                     collectible.isCollected = false;
                 }
+                EditorUtility.SetDirty(level);
             }
         }
     }
