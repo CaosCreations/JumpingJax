@@ -19,20 +19,28 @@ public class WorkshopManager : MonoBehaviour
 
     public static async Task<List<Steamworks.Ugc.Item>> DownloadAllSubscribedItems()
     {
-        var query = Steamworks.Ugc.Query.All.WhereUserSubscribed(SteamClient.SteamId.AccountId);
-        var result = await query.GetPageAsync(1);
-
-        Debug.Log($"Found {result.Value.TotalCount} subscribed items");
-
         List<Steamworks.Ugc.Item> toReturn = new List<Steamworks.Ugc.Item>();
-        foreach (Steamworks.Ugc.Item entry in result.Value.Entries)
+
+        if (SteamClient.IsValid)
         {
-            Debug.Log($"Found Item: {entry.Title}");
-            if (!entry.IsInstalled)
+            var query = Steamworks.Ugc.Query.All.WhereUserSubscribed(SteamClient.SteamId.AccountId);
+            var result = await query.GetPageAsync(1);
+
+            Debug.Log($"Found {result.Value.TotalCount} subscribed items");
+
+            foreach (Steamworks.Ugc.Item entry in result.Value.Entries)
             {
-                await DownloadWorkshopFile(entry.Id);
+                Debug.Log($"Found Item: {entry.Title}");
+                if (!entry.IsInstalled)
+                {
+                    await DownloadWorkshopFile(entry.Id);
+                }
+                toReturn.Add(entry);
             }
-            toReturn.Add(entry);
+        }
+        else
+        {
+            Debug.Log("Not Downloading Subscribed items, Steam is NOT valid");
         }
 
         return toReturn;

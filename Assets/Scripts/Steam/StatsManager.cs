@@ -12,14 +12,21 @@ public class StatsManager : MonoBehaviour
 {
     public static async Task SaveLevelCompletion(Level level)
     {
-        var leaderboard = await SteamUserStats.FindOrCreateLeaderboardAsync(level.levelName, Steamworks.Data.LeaderboardSort.Ascending, Steamworks.Data.LeaderboardDisplay.TimeMilliSeconds);
-        
-        if (leaderboard.HasValue)
+        if (SteamClient.IsValid)
         {
-            var leaderboardValue = leaderboard.Value;
-            TimeSpan time = TimeSpan.FromSeconds(level.completionTime);
-            Debug.Log($"Leaderboard found, adding score: {time.ToString(PlayerConstants.levelCompletionTimeFormat)}");
-            await leaderboardValue.ReplaceScore((int) time.Ticks);
+            var leaderboard = await SteamUserStats.FindOrCreateLeaderboardAsync(level.levelName, Steamworks.Data.LeaderboardSort.Ascending, Steamworks.Data.LeaderboardDisplay.TimeMilliSeconds);
+
+            if (leaderboard.HasValue)
+            {
+                var leaderboardValue = leaderboard.Value;
+                TimeSpan time = TimeSpan.FromSeconds(level.completionTime);
+                Debug.Log($"Leaderboard found, adding score: {time.ToString(PlayerConstants.levelCompletionTimeFormat)}");
+                await leaderboardValue.ReplaceScore((int)time.Ticks);
+            }
+        }
+        else
+        {
+            Debug.Log("Not saving level completion, steam client is NOT valid");
         }
     }
 
@@ -47,15 +54,22 @@ public class StatsManager : MonoBehaviour
 
     public static async Task<Steamworks.Data.LeaderboardEntry[]> GetLevelLeaderboard(string levelLeaderboardName)
     {
-        var leaderboard = await SteamUserStats.FindOrCreateLeaderboardAsync(levelLeaderboardName, Steamworks.Data.LeaderboardSort.Ascending, Steamworks.Data.LeaderboardDisplay.TimeMilliSeconds);
-        if (!leaderboard.HasValue)
+        if (SteamClient.IsValid)
         {
-            Debug.LogWarning($"Could not retrieve leaderboard {levelLeaderboardName} from steam");
+            var leaderboard = await SteamUserStats.FindOrCreateLeaderboardAsync(levelLeaderboardName, Steamworks.Data.LeaderboardSort.Ascending, Steamworks.Data.LeaderboardDisplay.TimeMilliSeconds);
+            if (!leaderboard.HasValue)
+            {
+                Debug.LogWarning($"Could not retrieve leaderboard {levelLeaderboardName} from steam");
+            }
+            else
+            {
+                var entries = await leaderboard.Value.GetScoresAsync(10);
+                return entries;
+            }
         }
         else
         {
-            var entries = await leaderboard.Value.GetScoresAsync(10);
-            return entries;
+            Debug.Log("Not getting level leaderboard, steam client is NOT valid");
         }
 
         return new Steamworks.Data.LeaderboardEntry[0];
@@ -63,29 +77,36 @@ public class StatsManager : MonoBehaviour
 
     public static async Task<float> GetLevelCompletionTime(string levelName)
     {
-        var leaderboard = await SteamUserStats.FindOrCreateLeaderboardAsync(levelName, Steamworks.Data.LeaderboardSort.Ascending, Steamworks.Data.LeaderboardDisplay.TimeMilliSeconds);
-        if (leaderboard.HasValue)
+        if (SteamClient.IsValid)
         {
-            var leaderboardValue = leaderboard.Value;
-            // TODO replace with Leaderboard.etScoresForUsersAsync with the new version of FacePunch
-            var entries = await leaderboardValue.GetScoresAroundUserAsync(-1, 1);
-            if(entries != null)
+            var leaderboard = await SteamUserStats.FindOrCreateLeaderboardAsync(levelName, Steamworks.Data.LeaderboardSort.Ascending, Steamworks.Data.LeaderboardDisplay.TimeMilliSeconds);
+            if (leaderboard.HasValue)
             {
-                if(entries.Length > 0)
+                var leaderboardValue = leaderboard.Value;
+                // TODO replace with Leaderboard.etScoresForUsersAsync with the new version of FacePunch
+                var entries = await leaderboardValue.GetScoresAroundUserAsync(-1, 1);
+                if (entries != null)
                 {
-                    Steamworks.Data.LeaderboardEntry myEntry = new Steamworks.Data.LeaderboardEntry();
-                    foreach (Steamworks.Data.LeaderboardEntry entry in entries)
+                    if (entries.Length > 0)
                     {
-                        if(entry.User.Id == SteamClient.SteamId)
+                        Steamworks.Data.LeaderboardEntry myEntry = new Steamworks.Data.LeaderboardEntry();
+                        foreach (Steamworks.Data.LeaderboardEntry entry in entries)
                         {
-                            myEntry = entry;
+                            if (entry.User.Id == SteamClient.SteamId)
+                            {
+                                myEntry = entry;
+                            }
                         }
+                        int timeInTicks = myEntry.Score;
+                        TimeSpan timeSpan = TimeSpan.FromTicks(timeInTicks);
+                        return (float)timeSpan.TotalSeconds;
                     }
-                    int timeInTicks = myEntry.Score;
-                    TimeSpan timeSpan = TimeSpan.FromTicks(timeInTicks);
-                    return (float) timeSpan.TotalSeconds;
                 }
             }
+        }
+        else
+        {
+            Debug.Log("Not getting level completion time, steam client is NOT valid");
         }
 
         return 0;
