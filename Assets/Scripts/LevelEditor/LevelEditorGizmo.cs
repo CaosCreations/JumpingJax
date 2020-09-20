@@ -43,6 +43,22 @@ public class LevelEditorGizmo : MonoBehaviour
     
     public void GizmoFollowMouse(GizmoColor gizmoColor)
     {
+        switch (manipulationType)
+        {
+            case ManipulationType.Position:
+                Reposition(gizmoColor);
+                break;
+            case ManipulationType.Rotation:
+                ReRotation(gizmoColor);
+                break;
+            case ManipulationType.Scale:
+                ReScale(gizmoColor);
+                break;
+        }
+    }
+
+    private void Reposition(GizmoColor gizmoColor)
+    {
         float distanceFromCameraToObject = (mainCamera.transform.position - selectedObject.position).magnitude;
         Vector3 worldPoint = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, distanceFromCameraToObject));
 
@@ -59,7 +75,7 @@ public class LevelEditorGizmo : MonoBehaviour
         switch (gizmoColor)
         {
             case GizmoColor.Red:
-                
+
                 newPosition = new Vector3(-mouseDelta.x, 0, 0);
                 break;
             case GizmoColor.Green:
@@ -73,6 +89,43 @@ public class LevelEditorGizmo : MonoBehaviour
         lastMousePosition = worldPoint;
     }
 
+    private void ReRotation(GizmoColor gizmoColor)
+    {
+
+    }
+
+    private void ReScale(GizmoColor gizmoColor)
+    {
+        float distanceFromCameraToObject = (mainCamera.transform.position - selectedObject.position).magnitude;
+        Vector3 worldPoint = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, distanceFromCameraToObject));
+
+        if (lastMousePosition == Vector3.zero)
+        {
+            lastMousePosition = worldPoint;
+            return;
+        }
+
+        Vector3 newScale = Vector3.zero;
+
+        Vector3 mouseDelta = lastMousePosition - worldPoint;
+
+        switch (gizmoColor)
+        {
+            case GizmoColor.Red:
+
+                newScale = new Vector3(-mouseDelta.x, 0, 0);
+                break;
+            case GizmoColor.Green:
+                newScale = new Vector3(0, -mouseDelta.y, 0);
+                break;
+            case GizmoColor.Blue:
+                newScale = new Vector3(0, 0, -mouseDelta.z);
+                break;
+        }
+        selectedObject.localScale += newScale;
+        lastMousePosition = worldPoint;
+    }
+
     public void UpdateGizmos()
     {
         switch (manipulationType)
@@ -83,8 +136,14 @@ public class LevelEditorGizmo : MonoBehaviour
                 bluePositionGizmo.transform.position = selectedObject.transform.position;
                 break;
             case ManipulationType.Rotation:
+                redRotationGizmo.transform.position = selectedObject.transform.position;
+                greenRotationGizmo.transform.position = selectedObject.transform.position;
+                blueRotationGizmo.transform.position = selectedObject.transform.position;
                 break;
             case ManipulationType.Scale:
+                redScaleGizmo.transform.position = selectedObject.transform.position;
+                greenScaleGizmo.transform.position = selectedObject.transform.position;
+                blueScaleGizmo.transform.position = selectedObject.transform.position;
                 break;
         }
     }
@@ -102,14 +161,14 @@ public class LevelEditorGizmo : MonoBehaviour
                 bluePositionGizmo.SetActive(true);
                 break;
             case ManipulationType.Rotation:
-                //redRotationGizmo.SetActive(true);
-                //greenRotationGizmo.SetActive(true);
-                //blueRotationGizmo.SetActive(true);
+                redRotationGizmo.SetActive(true);
+                greenRotationGizmo.SetActive(true);
+                blueRotationGizmo.SetActive(true);
                 break;
             case ManipulationType.Scale:
-                //redScaleGizmo.SetActive(true);
-                //greenScaleGizmo.SetActive(true);
-                //blueScaleGizmo.SetActive(true);
+                redScaleGizmo.SetActive(true);
+                greenScaleGizmo.SetActive(true);
+                blueScaleGizmo.SetActive(true);
                 break;
         }
     }
@@ -120,59 +179,93 @@ public class LevelEditorGizmo : MonoBehaviour
         selectedObject = null;
 
         redPositionGizmo.SetActive(false);
-        //redRotationGizmo.SetActive(false);
-        //redScaleGizmo.SetActive(false);
+        redRotationGizmo.SetActive(false);
+        redScaleGizmo.SetActive(false);
 
         greenPositionGizmo.SetActive(false);
-        //greenRotationGizmo.SetActive(false);
-        //greenScaleGizmo.SetActive(false);
+        greenRotationGizmo.SetActive(false);
+        greenScaleGizmo.SetActive(false);
 
         bluePositionGizmo.SetActive(false);
-        //blueRotationGizmo.SetActive(false);
-        //blueScaleGizmo.SetActive(false);
+        blueRotationGizmo.SetActive(false);
+        blueScaleGizmo.SetActive(false);
     }
 
     private void GenerateGizmos()
     {
-        GeneratePositionGizmos();
-        GenerateRotationGizmos();
-        GenerateScaleGizmos();
+        GenerateGizmoObject(GizmoColor.Red, ManipulationType.Position);
+        GenerateGizmoObject(GizmoColor.Red, ManipulationType.Rotation);
+        GenerateGizmoObject(GizmoColor.Red, ManipulationType.Scale);
+        GenerateGizmoObject(GizmoColor.Green, ManipulationType.Position);
+        GenerateGizmoObject(GizmoColor.Green, ManipulationType.Rotation);
+        GenerateGizmoObject(GizmoColor.Green, ManipulationType.Scale);
+        GenerateGizmoObject(GizmoColor.Blue, ManipulationType.Position);
+        GenerateGizmoObject(GizmoColor.Blue, ManipulationType.Rotation);
+        GenerateGizmoObject(GizmoColor.Blue, ManipulationType.Scale);
     }
 
-    private void GeneratePositionGizmos()
-    {
-        GeneratePositions(GizmoColor.Red);
-        GeneratePositions(GizmoColor.Green);
-        GeneratePositions(GizmoColor.Blue);
-    }
-
-    private void GeneratePositions(GizmoColor gizmoColor)
+    private void GenerateGizmoObject(GizmoColor gizmoColor, ManipulationType gizmoManipulationType)
     {
         GameObject newObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        GizmoType gizmoType = newObject.AddComponent<GizmoType>();
-        gizmoType.gizmoColor = gizmoColor;
         newObject.layer = gizmoLayer;
+
         MeshFilter meshFilter = newObject.GetComponent<MeshFilter>();
         Renderer renderer = newObject.GetComponent<Renderer>();
-        BoxCollider collider = newObject.GetComponent<BoxCollider>();
-        meshFilter.mesh = GeneratePosition(gizmoColor);
+        meshFilter.mesh = GenerateGizmoMesh(gizmoColor, gizmoManipulationType);
 
         switch (gizmoColor)
         {
             case GizmoColor.Red:
                 renderer.sharedMaterial = redGizmoMaterial;
-                redPositionGizmo = newObject;
+                switch (gizmoManipulationType)
+                {
+                    case ManipulationType.Position:
+                        redPositionGizmo = newObject;
+                        break;
+                    case ManipulationType.Rotation:
+                        redRotationGizmo = newObject;
+                        break;
+                    case ManipulationType.Scale:
+                        redScaleGizmo = newObject;
+                        break;
+                }
                 break;
             case GizmoColor.Green:
                 renderer.sharedMaterial = greenGizmoMaterial;
-                greenPositionGizmo = newObject;
+                switch (gizmoManipulationType)
+                {
+                    case ManipulationType.Position:
+                        greenPositionGizmo = newObject;
+                        break;
+                    case ManipulationType.Rotation:
+                        greenRotationGizmo = newObject;
+                        break;
+                    case ManipulationType.Scale:
+                        greenScaleGizmo = newObject;
+                        break;
+                }
                 break;
             case GizmoColor.Blue:
                 renderer.sharedMaterial = blueGizmoMaterial;
-                bluePositionGizmo = newObject;
+                switch (gizmoManipulationType)
+                {
+                    case ManipulationType.Position:
+                        bluePositionGizmo = newObject;
+                        break;
+                    case ManipulationType.Rotation:
+                        blueRotationGizmo = newObject;
+                        break;
+                    case ManipulationType.Scale:
+                        blueScaleGizmo = newObject;
+                        break;
+                }
                 break;
         }
 
+        GizmoType gizmoType = newObject.AddComponent<GizmoType>();
+        gizmoType.gizmoColor = gizmoColor;
+
+        BoxCollider collider = newObject.GetComponent<BoxCollider>();
         collider.center = renderer.bounds.center;
 
         Vector3 size = renderer.bounds.size;
@@ -193,42 +286,67 @@ public class LevelEditorGizmo : MonoBehaviour
         collider.size = size;
     }
 
-    private Mesh GeneratePosition(GizmoColor gizmoColor)
+    private Mesh GenerateGizmoMesh(GizmoColor gizmoColor, ManipulationType gizmoManipulationType)
     {
         Mesh mesh = new Mesh();
         List<Vector3> verts = new List<Vector3>();
-        switch (gizmoColor)
+        switch (gizmoManipulationType)
         {
-            case GizmoColor.Red:
-                verts = LevelEditorGizmoUtil.redPositionGizmoVerts.ToList();
+            case ManipulationType.Position:
+                mesh.triangles = LevelEditorGizmoUtil.positionTriangles;
+
+                switch (gizmoColor)
+                {
+                    case GizmoColor.Red:
+                        verts = LevelEditorGizmoUtil.redPositionGizmoVerts.ToList();
+                        break;
+                    case GizmoColor.Green:
+                        verts = LevelEditorGizmoUtil.greenPositionGizmoVerts.ToList();
+                        break;
+                    case GizmoColor.Blue:
+                        verts = LevelEditorGizmoUtil.bluePositionGizmoVerts.ToList();
+                        break;
+                }
+
                 break;
-            case GizmoColor.Green:
-                verts = LevelEditorGizmoUtil.greenPositionGizmoVerts.ToList();
+            case ManipulationType.Rotation:
+                mesh.triangles = LevelEditorGizmoUtil.rotationTriangles;
+
+                switch (gizmoColor)
+                {
+                    case GizmoColor.Red:
+                        verts = LevelEditorGizmoUtil.redRotationGizmoVerts.ToList();
+                        break;
+                    case GizmoColor.Green:
+                        verts = LevelEditorGizmoUtil.greenRotationGizmoVerts.ToList();
+                        break;
+                    case GizmoColor.Blue:
+                        verts = LevelEditorGizmoUtil.blueRotationGizmoVerts.ToList();
+                        break;
+                }
+
                 break;
-            case GizmoColor.Blue:
-                verts = LevelEditorGizmoUtil.bluePositionGizmoVerts.ToList();
+            case ManipulationType.Scale:
+                mesh.triangles = LevelEditorGizmoUtil.scaleTriangles;
+
+                switch (gizmoColor)
+                {
+                    case GizmoColor.Red:
+                        verts = LevelEditorGizmoUtil.redScaleGizmoVerts.ToList();
+                        break;
+                    case GizmoColor.Green:
+                        verts = LevelEditorGizmoUtil.greenScaleGizmoVerts.ToList();
+                        break;
+                    case GizmoColor.Blue:
+                        verts = LevelEditorGizmoUtil.blueScaleGizmoVerts.ToList();
+                        break;
+                }
+
                 break;
         }
+        
         mesh.vertices = verts.ToArray();
-        mesh.triangles = new int[]
-        {
-            0, 1, 2,
-            0, 2, 1,
-            1, 3, 2,
-            1, 2, 3
-        };
-
         mesh.RecalculateNormals();
         return mesh;
-    }
-
-    private void GenerateRotationGizmos()
-    {
-
-    }
-
-    private void GenerateScaleGizmos()
-    {
-
     }
 }
