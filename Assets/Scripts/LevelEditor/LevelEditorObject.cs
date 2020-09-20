@@ -19,6 +19,10 @@ public struct ObjectData
     public Vector3 scale;
     [SerializeField]
     public ObjectType objectType;
+
+    // Since JSONUtility doesn't allow subclasses we have to shove all possible data in here and handle it at load-time
+    [SerializeField]
+    public int checkpointNumber;
 }
 
 public class LevelEditorObject : MonoBehaviour

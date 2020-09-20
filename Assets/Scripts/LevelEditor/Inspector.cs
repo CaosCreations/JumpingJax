@@ -21,6 +21,16 @@ public class Inspector : MonoBehaviour
     public InputField zInput;
     public InputField snapInput;
 
+    public GameObject customDataContainer;
+    public Text customLabel;
+    public InputField customInput;
+    public CustomDataType currentCustomType;
+
+    public enum CustomDataType
+    {
+        Checkpoint
+    }
+
     public Transform objectToInspect;
 
     public ManipulationType manipulationType;
@@ -90,6 +100,35 @@ public class Inspector : MonoBehaviour
 
         snapInput.onValueChanged.RemoveAllListeners();
         snapInput.onValueChanged.AddListener((value) => SnapChanged(value));
+
+        AddCustomDataInspector();
+    }
+
+    private void AddCustomDataInspector()
+    {
+        customDataContainer.SetActive(false);
+
+        Checkpoint checkpoint = objectToInspect.GetComponent<Checkpoint>();
+        if (checkpoint != null)
+        {
+            customDataContainer.SetActive(true);
+            customLabel.text = "Checkpoint order: ";
+            customInput.text = "0";
+            customInput.onValueChanged.RemoveAllListeners();
+            customInput.onValueChanged.AddListener((value) => CustomInputChanged(value));
+            currentCustomType = CustomDataType.Checkpoint;
+        }
+
+    }
+
+    private void CustomInputChanged(string newValue)
+    {
+        switch (currentCustomType)
+        {
+            case CustomDataType.Checkpoint:
+                //int.TryParse(newValue)
+                break;
+        }
     }
 
     private void SetManipulationType(ManipulationType manipulationType)

@@ -175,6 +175,12 @@ public class LevelEditor : MonoBehaviour
     // we need to rename the button
     private void UpdateLevelNames(string name)
     {
+        // If the player hits "load" before clicking off of the level, the update happens during scene transition
+        // so this no longer exists
+        if(selectedLevel == null)
+        {
+            return;
+        }
         selectedLevel.text.text = name;
     }
 

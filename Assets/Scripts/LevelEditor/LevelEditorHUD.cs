@@ -154,7 +154,7 @@ public class LevelEditorHUD : MonoBehaviour
             newLevel.levelObjects.Add(sceneObject.GetObjectData());
         }
 
-        string jsonData = JsonUtility.ToJson(newLevel);
+        string jsonData = JsonUtility.ToJson(newLevel, true);
         string folderPath = Application.persistentDataPath;
         string filePath = GameManager.GetCurrentLevel().levelEditorScenePath;
 
@@ -233,25 +233,35 @@ public class LevelEditorHUD : MonoBehaviour
         string jsonData = File.ReadAllText(filePath);
         LevelEditorLevel levelToLoad = JsonUtility.FromJson<LevelEditorLevel>(jsonData);
 
-        foreach (ObjectData objectData in levelToLoad.levelObjects)
-        {
-            CreateObject(objectData);
-        }
+        CreateObjects(levelToLoad.levelObjects);
     }
 
-    private void CreateObject(ObjectData objectData)
+    private void CreateObjects(List<ObjectData> allObjects)
     {
-        LevelPrefab prefabOfType = levelPrefabContainer.levelPrefabs.ToList().Where(x => x.objectType == objectData.objectType).FirstOrDefault();
-        if(prefabOfType == null)
+        foreach (ObjectData objectData in allObjects)
         {
-            return;
+            LevelPrefab prefabOfType = levelPrefabContainer.levelPrefabs.ToList().Where(x => x.objectType == objectData.objectType).FirstOrDefault();
+            if (prefabOfType == null)
+            {
+                return;
+            }
+
+            GameObject newObject = Instantiate(prefabOfType.prefab);
+
+            if (prefabOfType.objectType == ObjectType.Checkpoint)
+            {
+                Checkpoint temp = newObject.GetComponent<Checkpoint>();
+                if (temp != null)
+                {
+                    temp.level = objectData.checkpointNumber;
+                }
+            }
+
+
+            newObject.transform.position = objectData.position;
+            newObject.transform.rotation = Quaternion.Euler(objectData.rotation);
+            newObject.transform.localScale = objectData.scale;
         }
-
-        GameObject newObject = Instantiate(prefabOfType.prefab);
-
-        newObject.transform.position = objectData.position;
-        newObject.transform.rotation = Quaternion.Euler(objectData.rotation);
-        newObject.transform.localScale = objectData.scale;
     }
 
     private void SetupForWorkshopLevel()

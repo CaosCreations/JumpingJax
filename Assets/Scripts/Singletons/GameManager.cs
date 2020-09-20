@@ -126,6 +126,7 @@ public class GameManager : MonoBehaviour
         {
             LevelEditorHUD levelEditorHUD = FindObjectOfType<LevelEditorHUD>();
             levelEditorHUD.LoadSceneData();
+            Instance.currentLevel.numberOfCheckpoints = FindObjectsOfType<Checkpoint>().Length;
         }
     }
 

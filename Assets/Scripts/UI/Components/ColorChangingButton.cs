@@ -12,6 +12,7 @@ public class ColorChangingButton : MonoBehaviour,  IPointerDownHandler, IPointer
 
     public Sprite buttonHoverSprite;
     public Sprite buttonActiveSprite;
+    public Sprite buttonDisabledSprite;
 
     public Color defaultTextColor;
     public Color selectedTextColor;
@@ -27,6 +28,7 @@ public class ColorChangingButton : MonoBehaviour,  IPointerDownHandler, IPointer
         SpriteState spriteState = new SpriteState();
         spriteState.highlightedSprite = buttonHoverSprite;
         spriteState.pressedSprite = buttonActiveSprite;
+        spriteState.disabledSprite = buttonDisabledSprite;
 
         button.transition = Selectable.Transition.SpriteSwap;
         button.spriteState = spriteState;
