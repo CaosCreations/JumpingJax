@@ -22,9 +22,12 @@ public class LevelEditorHUD : MonoBehaviour
 
     public Camera camera;
     public GameObject currentSelectedObject;
+    public LayerMask gizmoLayerMask;
     public LayerMask selectionLayerMask;
     public Material outlineMaterial;
     public LevelEditorGizmo transformGizmo;
+
+    public bool isUsingGizmo = false;
     void Start()
     {
         camera = GetComponentInParent<Camera>();
@@ -48,6 +51,7 @@ public class LevelEditorHUD : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(EventSystem.current.currentSelectedGameObject);
         if (Input.GetMouseButtonDown(0))
         {
             // Break out if we clicked on the UI, prevents clearing the object when clicking on UI
@@ -55,12 +59,28 @@ public class LevelEditorHUD : MonoBehaviour
             {
                 return;
             }
-            UnselectCurrentObject();
 
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+
+            if(Physics.Raycast(ray, out RaycastHit gizmoHit, 1000, gizmoLayerMask))
+            {
+                isUsingGizmo = true;
+            }
             if (Physics.Raycast(ray, out RaycastHit hit, 1000, selectionLayerMask))
             {
                 SelectObject(hit.collider.gameObject);
+            }
+            else
+            {
+                UnselectCurrentObject();
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (isUsingGizmo)
+            {
+                isUsingGizmo = false;
             }
         }
 

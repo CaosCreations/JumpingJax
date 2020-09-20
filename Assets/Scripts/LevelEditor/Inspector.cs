@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,9 +26,15 @@ public class Inspector : MonoBehaviour
     public ManipulationType manipulationType;
     private float currentSnap = 1;
 
+    public LevelEditorHUD levelEditorHUD;
+
     public enum InputType
     {
         X, Y, Z
+    }
+    private void Awake()
+    {
+        levelEditorHUD = GetComponentInParent<LevelEditorHUD>();
     }
 
     void Start()
@@ -49,7 +56,10 @@ public class Inspector : MonoBehaviour
             return;
         }
 
-        UpdateInputs();
+        if (levelEditorHUD.isUsingGizmo)
+        {
+            UpdateInputs();
+        }
     }
 
     private void SetManipulationType(ManipulationType manipulationType)
@@ -83,6 +93,7 @@ public class Inspector : MonoBehaviour
     public void InspectObject(Transform toInspect)
     {
         objectToInspect = toInspect;
+        UpdateInputs();
 
         xInput.onValueChanged.RemoveAllListeners();
         xInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.X));
