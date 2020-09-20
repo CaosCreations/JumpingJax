@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Set our current level if we are loading from that scene, and not the menu
-        if (Instance.currentLevel == null && scene.buildIndex > 0)
+        if (Instance.currentLevel == null && scene.buildIndex > 0 && scene.buildIndex < PlayerConstants.LevelEditorSceneIndex)
         {
             Instance.currentLevel = Instance.levelDataContainer.levels[scene.buildIndex - 1];
         }

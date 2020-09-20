@@ -18,11 +18,10 @@ public class LevelEditorPlayer : MonoBehaviour
 
     private void Update()
     {
-        transform.position += transform.forward * Input.mouseScrollDelta.y;
+        UpdatePosition();
 
         if (Input.GetKey(KeyCode.Mouse1))
         {
-            UpdatePosition();
             UpdateRotation();
         }
         
