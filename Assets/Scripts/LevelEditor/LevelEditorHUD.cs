@@ -9,14 +9,15 @@ using UnityEngine.UI;
 public class LevelEditorHUD : MonoBehaviour
 {
     public Button prefabViewToggleButton;
-    public Button playButton;
-    public Button saveButton;
-    public Button publishButton;
     public GameObject prefabScrollView;
     public Transform prefabScrollViewContent;
     public LevelPrefabContainer levelPrefabContainer;
     public GameObject levelButtonPrefab;
-    public GameObject selectedObjectGizmo;
+
+
+    public Button playButton;
+    public Button saveButton;
+    public Button publishButton;
 
     public Inspector inspector;
 
@@ -25,9 +26,11 @@ public class LevelEditorHUD : MonoBehaviour
     public LayerMask gizmoLayerMask;
     public LayerMask selectionLayerMask;
     public Material outlineMaterial;
-
     public bool isUsingGizmo = false;
     public GizmoColor currentGizmoColor;
+
+    public GameObject playerPrefab;
+    public GameObject playerInstance;
 
     void Start()
     {
@@ -45,13 +48,17 @@ public class LevelEditorHUD : MonoBehaviour
         publishButton.onClick.AddListener(() => Publish());
 
         prefabScrollView.SetActive(false);
-        selectedObjectGizmo.SetActive(false);
         inspector.gameObject.SetActive(false);
         PopulatePrefabMenu();
+
+        playerInstance = Instantiate(playerPrefab);
+        playerInstance.SetActive(false);
     }
 
     void Update()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         if (Input.GetMouseButtonDown(0))
         {
             // Break out if we clicked on the UI, prevents clearing the object when clicking on UI
@@ -128,7 +135,8 @@ public class LevelEditorHUD : MonoBehaviour
 
     private void PlayTest()
     {
-        // Create player from prefab, set the main camera
+        playerInstance.transform.position = transform.parent.position;
+        playerInstance.SetActive(!playerInstance.activeInHierarchy);
     }
 
     private void Save()
