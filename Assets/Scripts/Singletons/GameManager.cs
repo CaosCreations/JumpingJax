@@ -94,17 +94,28 @@ public class GameManager : MonoBehaviour
     public static void LoadScene(Level workshopLevel)
     {
         Instance.currentLevel = workshopLevel;
-        string sceneAssetPath = AssetBundleManager.LoadSceneFromBundle(workshopLevel.filePath);
-        if(sceneAssetPath == string.Empty)
+
+
+        if(workshopLevel.filePath == string.Empty)
         {
-            // Asset Bundle loaded incorrectly
-            AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(PlayerConstants.BuildSceneIndex);
+            // If the level is loaded from the level editor, and hasn't been saved before
+            AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(PlayerConstants.LevelEditorSceneIndex);
             LoadingScreenManager.Instance.Show(sceneLoadOperation);
         }
         else
         {
-            AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(sceneAssetPath);
-            LoadingScreenManager.Instance.Show(sceneLoadOperation);
+            string sceneAssetPath = AssetBundleManager.LoadSceneFromBundle(workshopLevel.filePath);
+            if (sceneAssetPath == string.Empty)
+            {
+                // Asset Bundle loaded incorrectly, go back to main menu
+                AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(PlayerConstants.BuildSceneIndex);
+                LoadingScreenManager.Instance.Show(sceneLoadOperation);
+            }
+            else
+            {
+                AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(sceneAssetPath);
+                LoadingScreenManager.Instance.Show(sceneLoadOperation);
+            }
         }
     }
 
