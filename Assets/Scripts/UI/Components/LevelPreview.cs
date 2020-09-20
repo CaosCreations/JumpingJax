@@ -15,6 +15,7 @@ public class LevelPreview : MonoBehaviour
     public Text leaderboardNameText;
     public Transform leaderboard;
     public Transform scrollViewContent;
+    public Sprite noImageSprite;
 
     private Level levelToPreview;
     private Dictionary<string, Steamworks.Data.LeaderboardEntry[]> leaderboardCache;
@@ -52,7 +53,11 @@ public class LevelPreview : MonoBehaviour
         levelToPreview = level;
 
         // We need this check in case the workshop dev forgot to upload a screen shot
-        if(level.previewSprite != null)
+        if(level.previewSprite == null)
+        {
+            previewImage.sprite = noImageSprite;
+        }
+        else
         {
             previewImage.sprite = level.previewSprite;
         }

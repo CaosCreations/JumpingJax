@@ -19,6 +19,7 @@ public class LevelEditor : MonoBehaviour
     public Button deleteButton;
     public Button newButton;
     public Button loadButton;
+    public Button publishButton;
 
     private List<Level> playerCreatedLevels;
     private List<LevelEditorButton> levelEditorButtons;
@@ -84,6 +85,9 @@ public class LevelEditor : MonoBehaviour
 
         loadButton.onClick.RemoveAllListeners();
         loadButton.onClick.AddListener(() => LoadLevel());
+
+        publishButton.onClick.RemoveAllListeners();
+        publishButton.onClick.AddListener(() => Publish());
     }
 
     private void DeleteLevel()
@@ -148,6 +152,11 @@ public class LevelEditor : MonoBehaviour
         {
             GameManager.LoadScene(selectedLevel.level);
         }
+    }
+
+    private void Publish()
+    {
+        //WorkshopManager.PublishItem(selectedLevel);
     }
 
     private void LevelButtonClicked(LevelEditorButton button)

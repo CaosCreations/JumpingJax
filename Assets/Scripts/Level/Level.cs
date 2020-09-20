@@ -20,6 +20,9 @@ public class Level : ScriptableObject
     [SerializeField]
     public int numberOfCheckpoints;
 
+    [SerializeField]
+    public Sprite previewSprite;
+
     [Header("Workshop data")]
     [SerializeField]
     public string description;
@@ -34,7 +37,12 @@ public class Level : ScriptableObject
     public string levelEditorScenePath;
 
     [SerializeField]
+    public string previewImagePath;
+
+    [SerializeField]
     public ulong fileId;
+
+    
 
     [Header("Set in Game")]
     [SerializeField]
@@ -51,7 +59,4 @@ public class Level : ScriptableObject
 
     [SerializeField]
     public KeysPressed[] ghostRunKeys;
-
-    [SerializeField]
-    public Sprite previewSprite;
 }

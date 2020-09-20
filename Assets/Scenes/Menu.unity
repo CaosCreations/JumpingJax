@@ -870,7 +870,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1084465352}
   m_HandleRect: {fileID: 1084465351}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1475,7 +1475,7 @@ PrefabInstance:
     - target: {fileID: 575053029966261385, guid: 32a07e8019beac445a3d60289df47cd5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0004272461
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 761985850344109710, guid: 32a07e8019beac445a3d60289df47cd5,
         type: 3}
@@ -1692,6 +1692,31 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2772925317694461228, guid: 32a07e8019beac445a3d60289df47cd5,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3304436888164850961, guid: 32a07e8019beac445a3d60289df47cd5,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3304436888164850961, guid: 32a07e8019beac445a3d60289df47cd5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3304436888164850961, guid: 32a07e8019beac445a3d60289df47cd5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3304436888164850961, guid: 32a07e8019beac445a3d60289df47cd5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3753039065470816580, guid: 32a07e8019beac445a3d60289df47cd5,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1810,6 +1835,11 @@ PrefabInstance:
     - target: {fileID: 6609003922410622516, guid: 32a07e8019beac445a3d60289df47cd5,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6609003922410622516, guid: 32a07e8019beac445a3d60289df47cd5,
+        type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6903257722674842166, guid: 32a07e8019beac445a3d60289df47cd5,
@@ -3789,6 +3819,7 @@ MonoBehaviour:
   leaderboardNameText: {fileID: 914079751}
   leaderboard: {fileID: 2004621764}
   scrollViewContent: {fileID: 1550957744}
+  noImageSprite: {fileID: 21300000, guid: ceb346e608eb3b342883303de5c28ca4, type: 3}
 --- !u!1 &1051741879
 GameObject:
   m_ObjectHideFlags: 0

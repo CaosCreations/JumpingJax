@@ -17,6 +17,35 @@ public class WorkshopManager : MonoBehaviour
         TaskScheduler.UnobservedTaskException += (_, e) => { Debug.LogError($"{e.Exception}\n{e.Exception.Message}\n{e.Exception.StackTrace}"); };
     }
 
+    public static async Task PublishItem(Level levelToPublish)
+    {
+        if (SteamClient.IsValid)
+        {
+            Debug.Log($"publishing: {levelToPublish.levelEditorFilePath}. WAIT to see \"published\"");
+
+            var result = await Steamworks.Ugc.Editor.NewCommunityFile
+                .WithTitle(levelToPublish.levelName)
+                .WithDescription(levelToPublish.description)
+                .WithPreviewFile(levelToPublish.previewImagePath)
+                .WithContent(levelToPublish.levelEditorScenePath)
+                .SubmitAsync();
+
+            if (result.Success)
+            {
+                Debug.Log($"published : {levelToPublish.levelName}");
+                // See this for more info: https://partner.steamgames.com/doc/features/workshop/implementation#Legal
+                if (result.NeedsWorkshopAgreement)
+                {
+                    SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{result.FileId}");
+                }
+            }
+            else
+            {
+                Debug.LogError($"could not publish: {levelToPublish.levelName}, error: {result.ToString()}");
+            }
+        }
+    }
+
     public static async Task<List<Steamworks.Ugc.Item>> DownloadAllSubscribedItems()
     {
         List<Steamworks.Ugc.Item> toReturn = new List<Steamworks.Ugc.Item>();

@@ -19,6 +19,11 @@ public class FileLogger : MonoBehaviour
 
     private void OnDestroy()
     {
+        if(OutputStream == null)
+        {
+            return;
+        }
+
         OutputStream.Close();
         OutputStream = null;
     }
