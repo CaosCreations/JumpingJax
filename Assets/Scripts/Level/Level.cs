@@ -20,8 +20,15 @@ public class Level : ScriptableObject
     [SerializeField]
     public int numberOfCheckpoints;
 
+    [Header("Workshop data")]
+    [SerializeField]
+    public string description;
+
     [SerializeField]
     public string filePath;
+
+    [SerializeField]
+    public string editorFilePath;
 
     [SerializeField]
     public ulong fileId;
