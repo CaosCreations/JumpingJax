@@ -65,7 +65,7 @@ public class Inspector : MonoBehaviour
     private void SetManipulationType(ManipulationType manipulationType)
     {
         this.manipulationType = manipulationType;
-
+        UpdateInputs();
     }
     
     private void UpdateInputs()
