@@ -94,29 +94,8 @@ public class GameManager : MonoBehaviour
     public static void LoadScene(Level workshopLevel)
     {
         Instance.currentLevel = workshopLevel;
-
-
-        if(workshopLevel.levelEditorFilePath != string.Empty)
-        {
-            // If the level is loaded from the level editor, and hasn't been saved before
-            AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(PlayerConstants.LevelEditorSceneIndex);
-            LoadingScreenManager.Instance.Show(sceneLoadOperation);
-        }
-        else
-        {
-            string sceneAssetPath = AssetBundleManager.LoadSceneFromBundle(workshopLevel.workshopFilePath);
-            if (sceneAssetPath == string.Empty)
-            {
-                // Asset Bundle loaded incorrectly, go back to main menu
-                AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(PlayerConstants.BuildSceneIndex);
-                LoadingScreenManager.Instance.Show(sceneLoadOperation);
-            }
-            else
-            {
-                AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(sceneAssetPath);
-                LoadingScreenManager.Instance.Show(sceneLoadOperation);
-            }
-        }
+        AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(PlayerConstants.LevelEditorSceneIndex);
+        LoadingScreenManager.Instance.Show(sceneLoadOperation);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -133,7 +112,6 @@ public class GameManager : MonoBehaviour
 
         if (scene.buildIndex == PlayerConstants.BuildSceneIndex)
         {
-            AssetBundle.UnloadAllAssetBundles(true);
             return;
         }
 
@@ -144,12 +122,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Set up the workshop level to have the right number of checkpoints, since it isn't loaded on the scene
-        if (Instance.currentLevel.workshopFilePath != string.Empty)
-        {
-            Instance.currentLevel.numberOfCheckpoints = GameObject.FindObjectsOfType<Checkpoint>().Length;
-        }
-
-        if(Instance.currentLevel.levelEditorFilePath != string.Empty)
+        if (Instance.currentLevel.workshopFilePath != string.Empty || Instance.currentLevel.levelEditorScriptableObjectPath != string.Empty)
         {
             LevelEditorHUD levelEditorHUD = FindObjectOfType<LevelEditorHUD>();
             levelEditorHUD.LoadSceneData();

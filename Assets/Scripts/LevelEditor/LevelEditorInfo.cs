@@ -68,6 +68,6 @@ public class LevelEditorInfo : MonoBehaviour
 
     private void SaveAsset()
     {
-        File.WriteAllText(level.levelEditorFilePath, JsonUtility.ToJson(level));
+        File.WriteAllText(level.levelEditorScriptableObjectPath, JsonUtility.ToJson(level));
     }
 }

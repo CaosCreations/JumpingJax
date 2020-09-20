@@ -21,7 +21,7 @@ public class WorkshopManager : MonoBehaviour
     {
         if (SteamClient.IsValid)
         {
-            Debug.Log($"publishing: {levelToPublish.levelEditorFilePath}. WAIT to see \"published\"");
+            Debug.Log($"publishing: {levelToPublish.levelEditorScriptableObjectPath}. WAIT to see \"published\"");
 
             var result = await Steamworks.Ugc.Editor.NewCommunityFile
                 .WithTitle(levelToPublish.levelName)

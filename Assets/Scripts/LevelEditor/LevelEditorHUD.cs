@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -17,7 +18,6 @@ public class LevelEditorHUD : MonoBehaviour
 
     public Button playButton;
     public Button saveButton;
-    public Button publishButton;
 
     public Inspector inspector;
 
@@ -32,6 +32,14 @@ public class LevelEditorHUD : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject playerInstance;
 
+    private bool isWorkshopLevel;
+
+    private void Awake()
+    {
+        playerInstance = Instantiate(playerPrefab);
+        playerInstance.SetActive(false);
+    }
+
     void Start()
     {
         levelEditorCamera = GetComponentInParent<Camera>();
@@ -44,19 +52,17 @@ public class LevelEditorHUD : MonoBehaviour
         saveButton.onClick.RemoveAllListeners();
         saveButton.onClick.AddListener(() => Save());
 
-        publishButton.onClick.RemoveAllListeners();
-        publishButton.onClick.AddListener(() => Publish());
-
         prefabScrollView.SetActive(false);
         inspector.gameObject.SetActive(false);
         PopulatePrefabMenu();
-
-        playerInstance = Instantiate(playerPrefab);
-        playerInstance.SetActive(false);
     }
 
     void Update()
     {
+        if (isWorkshopLevel)
+        {
+            return;
+        }
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         if (Input.GetMouseButtonDown(0))
@@ -152,18 +158,8 @@ public class LevelEditorHUD : MonoBehaviour
         string folderPath = Application.persistentDataPath;
         string filePath = GameManager.GetCurrentLevel().levelEditorScenePath;
 
-        if (!Directory.Exists(folderPath))
-        {
-            Directory.CreateDirectory(folderPath);
-        }
-
         Debug.Log($"Saving level {GameManager.GetCurrentLevel().levelName} to {filePath}");
         File.WriteAllText(filePath, jsonData);
-    }
-
-    private void Publish()
-    {
-        // Open publish UI, disable publish button until there's at least 2 checkpoint, and a valid name/description
     }
 
     private void ShowInspector()
@@ -202,27 +198,39 @@ public class LevelEditorHUD : MonoBehaviour
         newObject.transform.position = levelEditorCamera.transform.position + (levelEditorCamera.transform.forward * 10);
         currentSelectedObject = newObject;
         inspector.InspectObject(currentSelectedObject.transform);
+        Save();
     }
 
     public void LoadSceneData()
     {
         Level currentLevel = GameManager.GetCurrentLevel();
 
-
-        if (currentLevel.levelEditorScenePath == string.Empty)
+        string filePath = "";
+        if(currentLevel.workshopFilePath != string.Empty && currentLevel.workshopFilePath != null)
         {
-            Debug.Log($"Trying to load level: {currentLevel.levelName} but it has not been saved");
-            return;
+            DirectoryInfo fileInfo = new DirectoryInfo(currentLevel.workshopFilePath);
+            string scenePath = fileInfo.EnumerateFiles().First().FullName;
+            filePath = scenePath;
+            SetupForWorkshopLevel();
+        }
+        else
+        {
+            if (currentLevel.levelEditorScenePath == string.Empty)
+            {
+                Debug.Log($"Trying to load level: {currentLevel.levelName} but it has not been saved");
+                return;
+            }
+
+
+            if (!File.Exists(currentLevel.levelEditorScenePath))
+            {
+                Debug.Log($"Trying to load level: {currentLevel.levelName} from {currentLevel.levelEditorScenePath} but the save file has been deleted");
+                return;
+            }
+            filePath = currentLevel.levelEditorScenePath;
         }
 
-
-        if (!File.Exists(currentLevel.levelEditorScenePath))
-        {
-            Debug.Log($"Trying to load level: {currentLevel.levelName} from {currentLevel.levelEditorScenePath} but the save file has been deleted");
-            return;
-        }
-
-        string jsonData = File.ReadAllText(currentLevel.levelEditorScenePath);
+        string jsonData = File.ReadAllText(filePath);
         LevelEditorLevel levelToLoad = JsonUtility.FromJson<LevelEditorLevel>(jsonData);
 
         foreach (ObjectData objectData in levelToLoad.levelObjects)
@@ -244,5 +252,15 @@ public class LevelEditorHUD : MonoBehaviour
         newObject.transform.position = objectData.position;
         newObject.transform.rotation = Quaternion.Euler(objectData.rotation);
         newObject.transform.localScale = objectData.scale;
+    }
+
+    private void SetupForWorkshopLevel()
+    {
+        isWorkshopLevel = true;
+        playButton.gameObject.SetActive(false);
+        saveButton.gameObject.SetActive(false);
+        prefabViewToggleButton.gameObject.SetActive(false);
+        playerInstance.transform.position = PlayerConstants.PlayerSpawnOffset;
+        playerInstance.SetActive(true);
     }
 }

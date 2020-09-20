@@ -97,7 +97,7 @@ public class LevelEditor : MonoBehaviour
             return;
         }
 
-        File.Delete(selectedLevel.level.levelEditorFilePath);
+        File.Delete(selectedLevel.level.levelEditorScriptableObjectPath);
         RefreshEditorProjectWindow();
         levelEditorButtons.Remove(selectedLevel);
         ScriptableObject.Destroy(selectedLevel.level);
@@ -123,13 +123,19 @@ public class LevelEditor : MonoBehaviour
         newLevel.levelBuildIndex = PlayerConstants.LevelEditorSceneIndex;
         newLevel.gravityMultiplier = 1;
 
-        string currentTime = DateTime.Now.ToString("MM-dd-yyyy_hh-mm-ss-FFF");
-        string scriptableObjectFileName = "scriptableObject-" + currentTime + ".level";
-        string levelFileName = "level-" + currentTime + ".json";
-        newLevel.levelEditorFilePath = Path.Combine(Application.persistentDataPath, scriptableObjectFileName);
-        newLevel.levelEditorScenePath = Path.Combine(Application.persistentDataPath, levelFileName); ;
+        string folder = Path.Combine(Application.persistentDataPath, DateTime.Now.ToString("MM-dd-yyyy_hh-mm-ss-FFF"));
+        string scriptableObjectPath = Path.Combine(Application.persistentDataPath, "scriptableObject.level");
+        string levelDataPath = Path.Combine(folder, "levelData.json");
+        newLevel.levelEditorScriptableObjectPath = scriptableObjectPath;
+        newLevel.levelEditorScenePath = levelDataPath;
+        newLevel.levelEditorFolder = folder;
 
-        File.WriteAllText(newLevel.levelEditorFilePath, JsonUtility.ToJson(newLevel));
+        if (!Directory.Exists(folder))
+        {
+            Directory.CreateDirectory(folder);
+        }
+
+        File.WriteAllText(newLevel.levelEditorScriptableObjectPath, JsonUtility.ToJson(newLevel));
         File.WriteAllText(newLevel.levelEditorScenePath, JsonUtility.ToJson(""));
 
         GameObject newLevelButton = Instantiate(levelEditorButtonPrefab, levelButtonParent);
@@ -156,7 +162,7 @@ public class LevelEditor : MonoBehaviour
 
     private void Publish()
     {
-        //WorkshopManager.PublishItem(selectedLevel);
+        WorkshopManager.PublishItem(selectedLevel.level);
     }
 
     private void LevelButtonClicked(LevelEditorButton button)
