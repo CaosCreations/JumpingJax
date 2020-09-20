@@ -68,6 +68,11 @@ public class Inspector : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        levelEditorGizmo.ClearGizmo();
+    }
+
     public void InspectObject(Transform toInspect)
     {
         objectToInspect = toInspect;
@@ -118,15 +123,8 @@ public class Inspector : MonoBehaviour
 
     private void ShowTransformGizmo()
     {
-        if (objectToInspect == null)
-        {
-            levelEditorGizmo.ClearGizmo();
-            return;
-        }
         levelEditorGizmo.SetGizmo(objectToInspect.transform, manipulationType);
     }
-
-    
 
     private void InputChanged(string input, InputType inputType)
     {

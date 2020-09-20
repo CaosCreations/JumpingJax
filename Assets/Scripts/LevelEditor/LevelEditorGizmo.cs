@@ -17,7 +17,6 @@ public class LevelEditorGizmo : MonoBehaviour
 
     public Camera mainCamera;
 
-    public int gizmoLayer = 15;
     private Transform selectedObject;
     private ManipulationType manipulationType;
     
@@ -60,6 +59,10 @@ public class LevelEditorGizmo : MonoBehaviour
     private void Reposition(GizmoColor gizmoColor)
     {
         float distanceFromCameraToObject = (mainCamera.transform.position - selectedObject.position).magnitude;
+        if(distanceFromCameraToObject > 50)
+        {
+            distanceFromCameraToObject = 50;
+        }
         Vector3 worldPoint = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, distanceFromCameraToObject));
 
         if (lastMousePosition == Vector3.zero)
@@ -177,6 +180,7 @@ public class LevelEditorGizmo : MonoBehaviour
 
     public void SetGizmo(Transform selectedObject, ManipulationType manipulationType)
     {
+        ClearGizmo();
         this.selectedObject = selectedObject;
         this.manipulationType = manipulationType;
 
@@ -205,6 +209,19 @@ public class LevelEditorGizmo : MonoBehaviour
         lastMousePosition = Vector3.zero;
         selectedObject = null;
 
+        // Handle when Inspector.OnDisable() tries to destroy objects as this script is killed first
+        if(redPositionGizmo == null 
+            || redRotationGizmo == null
+            || redScaleGizmo == null
+            || greenPositionGizmo == null
+            || greenRotationGizmo == null
+            || greenScaleGizmo == null
+            || bluePositionGizmo == null
+            || blueRotationGizmo == null
+            || blueScaleGizmo == null)
+        {
+            return;
+        }
         redPositionGizmo.SetActive(false);
         redRotationGizmo.SetActive(false);
         redScaleGizmo.SetActive(false);
@@ -234,7 +251,7 @@ public class LevelEditorGizmo : MonoBehaviour
     private void GenerateGizmoObject(GizmoColor gizmoColor, ManipulationType gizmoManipulationType)
     {
         GameObject newObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        newObject.layer = gizmoLayer;
+        newObject.layer = PlayerConstants.GizmoLayer;
 
         MeshFilter meshFilter = newObject.GetComponent<MeshFilter>();
         Renderer renderer = newObject.GetComponent<Renderer>();
