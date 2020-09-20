@@ -43,11 +43,6 @@ public class LevelEditor : MonoBehaviour
         LevelEditorInfo.onLevelNameUpdated += UpdateLevelNames;
     }
 
-    private void UpdateLevelNames(string name)
-    {
-        selectedLevel.text.text = name;
-    }
-
     private List<Level> GetPlayerCreatedLevels()
     {
         List<Level> toReturn = new List<Level>();
@@ -139,18 +134,25 @@ public class LevelEditor : MonoBehaviour
         selectedLevel = levelEditorButton;
     }
 
+    private void LoadLevel()
+    {
+        if(selectedLevel != null)
+        {
+            GameManager.LoadScene(selectedLevel.level);
+        }
+    }
+
     private void LevelButtonClicked(LevelEditorButton button)
     {
         levelEditorInfo.Init(button.level);
         selectedLevel = button;
     }
 
-    private void LoadLevel()
+    // When the currently selected level has its name updated
+    // we need to rename the button
+    private void UpdateLevelNames(string name)
     {
-        if(selectedLevel != null)
-        {
-            Scene newScene = SceneManager.CreateScene(selectedLevel.level.levelName, new CreateSceneParameters(LocalPhysicsMode.Physics3D));
-        }
+        selectedLevel.text.text = name;
     }
 
     // After files are added or deleted, the project window needs refreshed
