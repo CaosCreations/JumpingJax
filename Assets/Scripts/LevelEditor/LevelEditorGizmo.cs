@@ -43,15 +43,17 @@ public class LevelEditorGizmo : MonoBehaviour
     
     public void GizmoFollowMouse(GizmoColor gizmoColor)
     {
-        if(lastMousePosition == Vector3.zero)
+        float distanceFromCameraToObject = (mainCamera.transform.position - selectedObject.position).magnitude;
+        Vector3 worldPoint = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, distanceFromCameraToObject));
+
+        if (lastMousePosition == Vector3.zero)
         {
-            lastMousePosition = Input.mousePosition;
+            lastMousePosition = worldPoint;
             return;
         }
 
         Vector3 newPosition = Vector3.zero;
-        float distanceFromCameraToObject = (mainCamera.transform.position - selectedObject.position).magnitude;
-        Vector3 worldPoint = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, distanceFromCameraToObject));
+
         Vector3 mouseDelta = lastMousePosition - worldPoint;
 
         switch (gizmoColor)
@@ -114,6 +116,7 @@ public class LevelEditorGizmo : MonoBehaviour
 
     public void ClearGizmo()
     {
+        lastMousePosition = Vector3.zero;
         selectedObject = null;
 
         redPositionGizmo.SetActive(false);
