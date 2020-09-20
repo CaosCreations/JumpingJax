@@ -23,6 +23,7 @@ public class LevelEditorHUD : MonoBehaviour
     public Camera camera;
     public GameObject currentSelectedObject;
     public LayerMask selectionLayerMask;
+    public Material outlineMaterial;
 
     void Start()
     {
@@ -54,23 +55,50 @@ public class LevelEditorHUD : MonoBehaviour
             {
                 return;
             }
+            UnselectCurrentObject();
 
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if(Physics.Raycast(ray, out hit, 1000, selectionLayerMask))
             {
-                currentSelectedObject = hit.collider.gameObject;
-                inspector.InspectObject(currentSelectedObject.transform);
-            }
-            else
-            {
-                currentSelectedObject = null;
+                SelectObject(hit.collider.gameObject);
             }
         }
 
         ShowTransformGizmo();
         ShowInspector();
         
+    }
+
+    private void SelectObject(GameObject objectToSelect)
+    {
+        currentSelectedObject = objectToSelect;
+        inspector.InspectObject(currentSelectedObject.transform);
+        Renderer renderer = currentSelectedObject.GetComponent<Renderer>();
+        List<Material> currentMaterials = renderer.sharedMaterials.ToList();
+        if (!currentMaterials.Contains(outlineMaterial))
+        {
+            currentMaterials.Add(outlineMaterial);
+        }
+        renderer.sharedMaterials = currentMaterials.ToArray();
+    }
+
+    private void UnselectCurrentObject()
+    {
+        if (currentSelectedObject == null) {
+            return;
+        }
+        Renderer renderer = currentSelectedObject.GetComponent<Renderer>();
+        List<Material> currentMaterials = renderer.sharedMaterials.ToList();
+        for (int i = currentMaterials.Count - 1; i >= 0; i--)
+        {
+            if (currentMaterials[i].name == "outline")
+            {
+                currentMaterials.RemoveAt(i);
+            }
+        }
+        renderer.sharedMaterials = currentMaterials.ToArray();
+        currentSelectedObject = null;
     }
 
     private void PlayTest()
