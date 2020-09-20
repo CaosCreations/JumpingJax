@@ -10,11 +10,12 @@ public class WinMenu : MonoBehaviour
     public Text completionTimeText;
     public Text bestTimeText;
 
-    public Button retryButton;
-    public Button menuButton;
-    public Button nextButton;
+    public ColorChangingButton retryButton;
+    public ColorChangingButton menuButton;
+    public ColorChangingButton nextButton;
 
-    public Sprite highlightedButtonSprite;
+    public Sprite buttonHoverSprite;
+    public Sprite buttonActiveSprite;
 
     private PlayerProgress playerProgress;
 
@@ -51,23 +52,9 @@ public class WinMenu : MonoBehaviour
 
     private void SetupButtons()
     {
-        SpriteState spriteState = new SpriteState();
-        spriteState.highlightedSprite = highlightedButtonSprite;
-
-        retryButton.onClick.RemoveAllListeners();
-        retryButton.onClick.AddListener(() => Retry());
-        retryButton.transition = Selectable.Transition.SpriteSwap;
-        retryButton.spriteState = spriteState;
-
-        menuButton.onClick.RemoveAllListeners();
-        menuButton.onClick.AddListener(() => GoToMainMenu());
-        menuButton.transition = Selectable.Transition.SpriteSwap;
-        menuButton.spriteState = spriteState;
-
-        nextButton.onClick.RemoveAllListeners();
-        nextButton.onClick.AddListener(() => NextLevel());
-        nextButton.transition = Selectable.Transition.SpriteSwap;
-        nextButton.spriteState = spriteState;
+        retryButton.Init(Retry);
+        menuButton.Init(GoToMainMenu);
+        nextButton.Init(NextLevel);
     }
 
     public void Retry()
