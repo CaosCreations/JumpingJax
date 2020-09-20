@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class LevelEditorHUD : MonoBehaviour
 {
     public Button prefabViewToggleButton;
+    public Button playButton;
+    public Button saveButton;
     public GameObject prefabScrollView;
     public Transform prefabScrollViewContent;
     public LevelPrefabContainer levelPrefabContainer;
@@ -14,15 +17,22 @@ public class LevelEditorHUD : MonoBehaviour
 
     public Inspector inspector;
 
-    public Transform camera;
+    public Camera camera;
     public GameObject currentSelectedObject;
     public LayerMask selectionLayerMask;
 
     void Start()
     {
-        camera = transform.parent;
+        camera = GetComponentInParent<Camera>();
         prefabViewToggleButton.onClick.RemoveAllListeners();
         prefabViewToggleButton.onClick.AddListener(() => TogglePrefabMenu());
+
+        playButton.onClick.RemoveAllListeners();
+        playButton.onClick.AddListener(() => PlayTest());
+
+        saveButton.onClick.RemoveAllListeners();
+        saveButton.onClick.AddListener(() => Save());
+
 
         prefabScrollView.SetActive(false);
         selectedObjectGizmo.SetActive(false);
@@ -34,8 +44,15 @@ public class LevelEditorHUD : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            // Break out if we clicked on the UI, prevents clearing the object when clicking on UI
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if(Physics.Raycast(camera.position, camera.forward, out hit, 1000, selectionLayerMask))
+            if(Physics.Raycast(ray, out hit, 1000, selectionLayerMask))
             {
                 currentSelectedObject = hit.collider.gameObject;
                 inspector.InspectObject(currentSelectedObject.transform);
@@ -49,6 +66,16 @@ public class LevelEditorHUD : MonoBehaviour
         ShowTransformGizmo();
         ShowInspector();
         
+    }
+
+    private void PlayTest()
+    {
+
+    }
+
+    private void Save()
+    {
+        //LevelEditorObject[] sceneObjects = FindObjectsOfType<LevelEditorObject>();
     }
 
     private void ShowTransformGizmo()
@@ -94,7 +121,7 @@ public class LevelEditorHUD : MonoBehaviour
     private void PrefabButtonClicked(LevelPrefab levelPrefab)
     {
         GameObject newObject = Instantiate(levelPrefab.prefab);
-        newObject.transform.position = camera.position + (camera.forward * 10);
+        newObject.transform.position = camera.transform.position + (camera.transform.forward * 10);
         currentSelectedObject = newObject;
         inspector.InspectObject(currentSelectedObject.transform);
     }
