@@ -15,6 +15,8 @@ public class LevelEditorGizmo : MonoBehaviour
     public Material blueGizmoMaterial;
     public Material greenGizmoMaterial;
 
+    public Camera mainCamera;
+
     public int gizmoLayer = 15;
     private Transform selectedObject;
     private ManipulationType manipulationType;
@@ -31,28 +33,42 @@ public class LevelEditorGizmo : MonoBehaviour
     private GameObject blueRotationGizmo;
     private GameObject blueScaleGizmo;
 
+    private Vector3 lastMousePosition;
     void Awake()
     {
         GenerateGizmos();
+        lastMousePosition = Vector3.zero;
+        mainCamera = GetComponentInParent<Camera>();
     }
     
     public void GizmoFollowMouse(GizmoColor gizmoColor)
     {
+        if(lastMousePosition == Vector3.zero)
+        {
+            lastMousePosition = Input.mousePosition;
+            return;
+        }
+
         Vector3 newPosition = Vector3.zero;
-        switch(gizmoColor)
+        float distanceFromCameraToObject = (mainCamera.transform.position - selectedObject.position).magnitude;
+        Vector3 worldPoint = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, distanceFromCameraToObject));
+        Vector3 mouseDelta = lastMousePosition - worldPoint;
+
+        switch (gizmoColor)
         {
             case GizmoColor.Red:
-                newPosition = new Vector3();
+                
+                newPosition = new Vector3(-mouseDelta.x, 0, 0);
                 break;
             case GizmoColor.Green:
-                newPosition = new Vector3();
+                newPosition = new Vector3(0, -mouseDelta.y, 0);
                 break;
             case GizmoColor.Blue:
-                newPosition = new Vector3();
+                newPosition = new Vector3(0, 0, -mouseDelta.z);
                 break;
         }
         selectedObject.position += newPosition;
-
+        lastMousePosition = worldPoint;
     }
 
     public void UpdateGizmos()

@@ -84,10 +84,7 @@ public class LevelEditorHUD : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            if (isUsingGizmo)
-            {
-                isUsingGizmo = false;
-            }
+            isUsingGizmo = false;
         }
 
         ShowInspector();
