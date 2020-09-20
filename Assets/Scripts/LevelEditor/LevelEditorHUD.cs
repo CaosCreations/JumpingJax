@@ -91,6 +91,10 @@ public class LevelEditorHUD : MonoBehaviour
 
     private void SelectObject(GameObject objectToSelect)
     {
+        if (!objectToSelect.Equals(currentSelectedObject))
+        {
+            UnselectCurrentObject();
+        }
         currentSelectedObject = objectToSelect;
         inspector.InspectObject(currentSelectedObject.transform);
         Renderer renderer = currentSelectedObject.GetComponentInChildren<Renderer>();
