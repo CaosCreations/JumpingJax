@@ -1175,6 +1175,7 @@ MonoBehaviour:
   blueGizmoMaterial: {fileID: 2100000, guid: 587422437b839b242a4063ce329785b3, type: 2}
   greenGizmoMaterial: {fileID: 2100000, guid: 33b914aa91d4706499f4167dad7e2f38, type: 2}
   mainCamera: {fileID: 0}
+  inspector: {fileID: 0}
 --- !u!1 &3243845084249926783
 GameObject:
   m_ObjectHideFlags: 0
@@ -2399,11 +2400,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_Font: {fileID: 12800000, guid: 7c11a08952e566b40a5bacb708076994, type: 3}
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -3993,6 +3994,7 @@ MonoBehaviour:
   currentCustomType: 0
   objectToInspect: {fileID: 0}
   manipulationType: 0
+  currentSnap: 1
   levelEditorHUD: {fileID: 0}
   levelEditorGizmo: {fileID: 0}
 --- !u!1 &8718977851296916797
@@ -4431,7 +4433,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7564876150257107707}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

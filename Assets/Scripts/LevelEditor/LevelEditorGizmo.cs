@@ -16,6 +16,7 @@ public class LevelEditorGizmo : MonoBehaviour
     public Material greenGizmoMaterial;
 
     public Camera mainCamera;
+    public Inspector inspector;
 
     private Transform selectedObject;
     private ManipulationType manipulationType;
@@ -38,6 +39,7 @@ public class LevelEditorGizmo : MonoBehaviour
         GenerateGizmos();
         lastMousePosition = Vector3.zero;
         mainCamera = GetComponentInParent<Camera>();
+        inspector = GetComponentInChildren<Inspector>();
     }
     
     public void GizmoFollowMouse(GizmoColor gizmoColor)
@@ -71,24 +73,27 @@ public class LevelEditorGizmo : MonoBehaviour
             return;
         }
 
-        Vector3 newPosition = Vector3.zero;
-
         Vector3 mouseDelta = lastMousePosition - worldPoint;
+
+        if (mouseDelta.magnitude < inspector.currentSnap)
+        {
+            return;
+        }
 
         switch (gizmoColor)
         {
             case GizmoColor.Red:
-
-                newPosition = new Vector3(-mouseDelta.x, 0, 0);
+                mouseDelta = new Vector3(-mouseDelta.x, 0, 0);
                 break;
             case GizmoColor.Green:
-                newPosition = new Vector3(0, -mouseDelta.y, 0);
+                mouseDelta = new Vector3(0, -mouseDelta.y, 0);
                 break;
             case GizmoColor.Blue:
-                newPosition = new Vector3(0, 0, -mouseDelta.z);
+                mouseDelta = new Vector3(0, 0, -mouseDelta.z);
                 break;
         }
-        selectedObject.position += newPosition;
+
+        selectedObject.position += mouseDelta;
         lastMousePosition = worldPoint;
     }
 
@@ -103,26 +108,36 @@ public class LevelEditorGizmo : MonoBehaviour
             return;
         }
 
-        Vector3 newRotation = Vector3.zero;
-
         Vector3 mouseDelta = lastMousePosition - worldPoint;
 
         switch (gizmoColor)
         {
             case GizmoColor.Red:
-
-                newRotation = new Vector3(-mouseDelta.x, 0, 0);
+                if (Mathf.Abs(mouseDelta.x) < inspector.currentSnap)
+                {
+                    return;
+                }
+                mouseDelta = new Vector3(-mouseDelta.x, 0, 0);
                 break;
             case GizmoColor.Green:
-                newRotation = new Vector3(0, -mouseDelta.y, 0);
+                if (Mathf.Abs(mouseDelta.y) < inspector.currentSnap)
+                {
+                    return;
+                }
+                mouseDelta = new Vector3(0, -mouseDelta.y, 0);
                 break;
             case GizmoColor.Blue:
-                newRotation = new Vector3(0, 0, -mouseDelta.z);
+                if (Mathf.Abs(mouseDelta.z) < inspector.currentSnap)
+                {
+                    return;
+                }
+                mouseDelta = new Vector3(0, 0, -mouseDelta.z);
                 break;
         }
-        selectedObject.Rotate(newRotation * 2);
+        selectedObject.Rotate(mouseDelta * 2);
         lastMousePosition = worldPoint;
     }
+
 
     private void ReScale(GizmoColor gizmoColor)
     {
@@ -135,24 +150,33 @@ public class LevelEditorGizmo : MonoBehaviour
             return;
         }
 
-        Vector3 newScale = Vector3.zero;
-
         Vector3 mouseDelta = lastMousePosition - worldPoint;
 
         switch (gizmoColor)
         {
             case GizmoColor.Red:
-
-                newScale = new Vector3(-mouseDelta.x, 0, 0);
+                if (Mathf.Abs(mouseDelta.x) < inspector.currentSnap)
+                {
+                    return;
+                }
+                mouseDelta = new Vector3(-mouseDelta.x, 0, 0);
                 break;
             case GizmoColor.Green:
-                newScale = new Vector3(0, -mouseDelta.y, 0);
+                if (Mathf.Abs(mouseDelta.y) < inspector.currentSnap)
+                {
+                    return;
+                }
+                mouseDelta = new Vector3(0, -mouseDelta.y, 0);
                 break;
             case GizmoColor.Blue:
-                newScale = new Vector3(0, 0, -mouseDelta.z);
+                if (Mathf.Abs(mouseDelta.z) < inspector.currentSnap)
+                {
+                    return;
+                }
+                mouseDelta = new Vector3(0, 0, -mouseDelta.z);
                 break;
         }
-        selectedObject.localScale += newScale;
+        selectedObject.localScale += mouseDelta;
         lastMousePosition = worldPoint;
     }
 

@@ -34,7 +34,7 @@ public class Inspector : MonoBehaviour
     public Transform objectToInspect;
 
     public ManipulationType manipulationType;
-    private float currentSnap = 1;
+    public float currentSnap = 1;
 
     public LevelEditorHUD levelEditorHUD;
     public LevelEditorGizmo levelEditorGizmo;
@@ -100,35 +100,36 @@ public class Inspector : MonoBehaviour
 
         snapInput.onValueChanged.RemoveAllListeners();
         snapInput.onValueChanged.AddListener((value) => SnapChanged(value));
+        //snapInput.text = "0";
 
         AddCustomDataInspector();
     }
 
     private void AddCustomDataInspector()
     {
-        customDataContainer.SetActive(false);
+        //customDataContainer.SetActive(false);
 
-        Checkpoint checkpoint = objectToInspect.GetComponent<Checkpoint>();
-        if (checkpoint != null)
-        {
-            customDataContainer.SetActive(true);
-            customLabel.text = "Checkpoint order: ";
-            customInput.text = "0";
-            customInput.onValueChanged.RemoveAllListeners();
-            customInput.onValueChanged.AddListener((value) => CustomInputChanged(value));
-            currentCustomType = CustomDataType.Checkpoint;
-        }
+        //Checkpoint checkpoint = objectToInspect.GetComponent<Checkpoint>();
+        //if (checkpoint != null)
+        //{
+        //    customDataContainer.SetActive(true);
+        //    customLabel.text = "Checkpoint order: ";
+        //    customInput.text = "0";
+        //    customInput.onValueChanged.RemoveAllListeners();
+        //    customInput.onValueChanged.AddListener((value) => CustomInputChanged(value));
+        //    currentCustomType = CustomDataType.Checkpoint;
+        //}
 
     }
 
     private void CustomInputChanged(string newValue)
     {
-        switch (currentCustomType)
-        {
-            case CustomDataType.Checkpoint:
-                //int.TryParse(newValue)
-                break;
-        }
+        //switch (currentCustomType)
+        //{
+        //    case CustomDataType.Checkpoint:
+        //        int.TryParse(newValue)
+        //        break;
+        //}
     }
 
     private void SetManipulationType(ManipulationType manipulationType)
@@ -143,19 +144,19 @@ public class Inspector : MonoBehaviour
         switch (manipulationType)
         {
             case ManipulationType.Position:
-                xInput.text = objectToInspect.position.x.ToString();
-                yInput.text = objectToInspect.position.y.ToString();
-                zInput.text = objectToInspect.position.z.ToString();
+                xInput.text = objectToInspect.position.x.ToString("F2");
+                yInput.text = objectToInspect.position.y.ToString("F2");
+                zInput.text = objectToInspect.position.z.ToString("F2");
                 break;
             case ManipulationType.Rotation:
-                xInput.text = objectToInspect.rotation.eulerAngles.x.ToString();
-                yInput.text = objectToInspect.rotation.eulerAngles.y.ToString();
-                zInput.text = objectToInspect.rotation.eulerAngles.z.ToString();
+                xInput.text = objectToInspect.rotation.eulerAngles.x.ToString("F2");
+                yInput.text = objectToInspect.rotation.eulerAngles.y.ToString("F2");
+                zInput.text = objectToInspect.rotation.eulerAngles.z.ToString("F2");
                 break;
             case ManipulationType.Scale:
-                xInput.text = objectToInspect.localScale.x.ToString();
-                yInput.text = objectToInspect.localScale.y.ToString();
-                zInput.text = objectToInspect.localScale.z.ToString();
+                xInput.text = objectToInspect.localScale.x.ToString("F2");
+                yInput.text = objectToInspect.localScale.y.ToString("F2");
+                zInput.text = objectToInspect.localScale.z.ToString("F2");
                 break;
         }
     }
