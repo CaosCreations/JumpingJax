@@ -74,11 +74,11 @@ public class LevelEditorHUD : MonoBehaviour
     {
         currentSelectedObject = objectToSelect;
         inspector.InspectObject(currentSelectedObject.transform);
-        Renderer renderer = currentSelectedObject.GetComponent<Renderer>();
+        Renderer renderer = currentSelectedObject.GetComponentInChildren<Renderer>();
         List<Material> currentMaterials = renderer.sharedMaterials.ToList();
         if (!currentMaterials.Contains(outlineMaterial))
         {
-            currentMaterials.Add(outlineMaterial);
+            currentMaterials.Insert(0, outlineMaterial);
         }
         renderer.sharedMaterials = currentMaterials.ToArray();
     }
@@ -88,7 +88,7 @@ public class LevelEditorHUD : MonoBehaviour
         if (currentSelectedObject == null) {
             return;
         }
-        Renderer renderer = currentSelectedObject.GetComponent<Renderer>();
+        Renderer renderer = currentSelectedObject.GetComponentInChildren<Renderer>();
         List<Material> currentMaterials = renderer.sharedMaterials.ToList();
         for (int i = currentMaterials.Count - 1; i >= 0; i--)
         {
