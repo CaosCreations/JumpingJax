@@ -22,14 +22,14 @@ public class PlayerGhostRun : MonoBehaviour
     void Start()
     {
         keyPressed = GetComponentInChildren<KeyPressed>();
-        RestartRun();
         currentLevel = GameManager.GetCurrentLevel();
         if(ghostRunner == null)
         {
             ghostRunner = Instantiate(ghostRunnerPrefab);
             ghostRunner.name = "ghost runner";
         }
-        ghostRunner.SetActive(OptionsPreferencesManager.GetGhostToggle() && GameManager.GetCurrentLevel().isCompleted);
+        RestartRun();
+
         MiscOptions.onGhostToggle += ToggleGhost;
     }
 
@@ -46,6 +46,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     public void RestartRun()
     {
+        ghostRunner.SetActive(OptionsPreferencesManager.GetGhostToggle() && GameManager.GetCurrentLevel().isCompleted);
         ghostRunSaveTimer = 0;
         ghostRunnerTimer = 0;
         currentDataIndex = 0;
