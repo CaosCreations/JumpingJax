@@ -104,9 +104,9 @@ public class Inspector : MonoBehaviour
                 zInput.text = objectToInspect.position.z.ToString();
                 break;
             case ManipulationType.Rotation:
-                xInput.text = objectToInspect.rotation.x.ToString();
-                yInput.text = objectToInspect.rotation.y.ToString();
-                zInput.text = objectToInspect.rotation.z.ToString();
+                xInput.text = objectToInspect.rotation.eulerAngles.x.ToString();
+                yInput.text = objectToInspect.rotation.eulerAngles.y.ToString();
+                zInput.text = objectToInspect.rotation.eulerAngles.z.ToString();
                 break;
             case ManipulationType.Scale:
                 xInput.text = objectToInspect.localScale.x.ToString();

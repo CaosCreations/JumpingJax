@@ -91,7 +91,34 @@ public class LevelEditorGizmo : MonoBehaviour
 
     private void ReRotation(GizmoColor gizmoColor)
     {
+        float distanceFromCameraToObject = (mainCamera.transform.position - selectedObject.position).magnitude;
+        Vector3 worldPoint = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, distanceFromCameraToObject));
 
+        if (lastMousePosition == Vector3.zero)
+        {
+            lastMousePosition = worldPoint;
+            return;
+        }
+
+        Vector3 newRotation = Vector3.zero;
+
+        Vector3 mouseDelta = lastMousePosition - worldPoint;
+
+        switch (gizmoColor)
+        {
+            case GizmoColor.Red:
+
+                newRotation = new Vector3(-mouseDelta.x, 0, 0);
+                break;
+            case GizmoColor.Green:
+                newRotation = new Vector3(0, -mouseDelta.y, 0);
+                break;
+            case GizmoColor.Blue:
+                newRotation = new Vector3(0, 0, -mouseDelta.z);
+                break;
+        }
+        selectedObject.Rotate(newRotation * 2);
+        lastMousePosition = worldPoint;
     }
 
     private void ReScale(GizmoColor gizmoColor)
@@ -293,59 +320,60 @@ public class LevelEditorGizmo : MonoBehaviour
         switch (gizmoManipulationType)
         {
             case ManipulationType.Position:
-                mesh.triangles = LevelEditorGizmoUtil.positionTriangles;
-
                 switch (gizmoColor)
                 {
                     case GizmoColor.Red:
-                        verts = LevelEditorGizmoUtil.redPositionGizmoVerts.ToList();
+                        mesh.vertices = LevelEditorGizmoUtil.redPositionGizmoVerts;
+
                         break;
                     case GizmoColor.Green:
-                        verts = LevelEditorGizmoUtil.greenPositionGizmoVerts.ToList();
+                        mesh.vertices = LevelEditorGizmoUtil.greenPositionGizmoVerts;
+
                         break;
                     case GizmoColor.Blue:
-                        verts = LevelEditorGizmoUtil.bluePositionGizmoVerts.ToList();
+                        mesh.vertices = LevelEditorGizmoUtil.bluePositionGizmoVerts;
+
                         break;
                 }
-
+                mesh.triangles = LevelEditorGizmoUtil.positionTriangles;
                 break;
             case ManipulationType.Rotation:
-                mesh.triangles = LevelEditorGizmoUtil.rotationTriangles;
-
                 switch (gizmoColor)
                 {
                     case GizmoColor.Red:
-                        verts = LevelEditorGizmoUtil.redRotationGizmoVerts.ToList();
+                        mesh.vertices = LevelEditorGizmoUtil.redRotationGizmoVerts;
+
                         break;
                     case GizmoColor.Green:
-                        verts = LevelEditorGizmoUtil.greenRotationGizmoVerts.ToList();
+                        mesh.vertices = LevelEditorGizmoUtil.greenRotationGizmoVerts;
+
                         break;
                     case GizmoColor.Blue:
-                        verts = LevelEditorGizmoUtil.blueRotationGizmoVerts.ToList();
+                        mesh.vertices = LevelEditorGizmoUtil.blueRotationGizmoVerts;
+
                         break;
                 }
-
+                mesh.triangles = LevelEditorGizmoUtil.rotationTriangles;
                 break;
             case ManipulationType.Scale:
-                mesh.triangles = LevelEditorGizmoUtil.scaleTriangles;
-
                 switch (gizmoColor)
                 {
                     case GizmoColor.Red:
-                        verts = LevelEditorGizmoUtil.redScaleGizmoVerts.ToList();
+                        mesh.vertices = LevelEditorGizmoUtil.redScaleGizmoVerts;
+
                         break;
                     case GizmoColor.Green:
-                        verts = LevelEditorGizmoUtil.greenScaleGizmoVerts.ToList();
+                        mesh.vertices = LevelEditorGizmoUtil.greenScaleGizmoVerts;
+
                         break;
                     case GizmoColor.Blue:
-                        verts = LevelEditorGizmoUtil.blueScaleGizmoVerts.ToList();
+                        mesh.vertices = LevelEditorGizmoUtil.blueScaleGizmoVerts;
                         break;
                 }
-
+                mesh.triangles = LevelEditorGizmoUtil.scaleTriangles;
                 break;
         }
         
-        mesh.vertices = verts.ToArray();
         mesh.RecalculateNormals();
         return mesh;
     }
