@@ -128,13 +128,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_Font: {fileID: 12800000, guid: 7c11a08952e566b40a5bacb708076994, type: 3}
+    m_FontSize: 20
     m_FontStyle: 2
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -570,13 +570,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_Font: {fileID: 12800000, guid: 7c11a08952e566b40a5bacb708076994, type: 3}
+    m_FontSize: 20
     m_FontStyle: 2
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -866,13 +866,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_Font: {fileID: 12800000, guid: 7c11a08952e566b40a5bacb708076994, type: 3}
+    m_FontSize: 20
     m_FontStyle: 2
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -1087,13 +1087,16 @@ MonoBehaviour:
     type: 3}
   selectedObjectGizmo: {fileID: 8760226131646329462}
   inspector: {fileID: 3836022412171121288}
-  camera: {fileID: 3243845084249926781}
+  levelEditorCamera: {fileID: 0}
   currentSelectedObject: {fileID: 0}
+  gizmoLayerMask:
+    serializedVersion: 2
+    m_Bits: 32768
   selectionLayerMask:
     serializedVersion: 2
     m_Bits: 32535
   outlineMaterial: {fileID: 2100000, guid: b7c94dd74e444f54395f085eb01d5c32, type: 2}
-  transformGizmo: {fileID: 511477030869101167}
+  isUsingGizmo: 0
 --- !u!114 &511477030869101167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1109,7 +1112,7 @@ MonoBehaviour:
   redGizmoMaterial: {fileID: 2100000, guid: b0d4fc747c3d1b748b99be1159de2228, type: 2}
   blueGizmoMaterial: {fileID: 2100000, guid: 587422437b839b242a4063ce329785b3, type: 2}
   greenGizmoMaterial: {fileID: 2100000, guid: 33b914aa91d4706499f4167dad7e2f38, type: 2}
-  selectedObject: {fileID: 0}
+  GizmoLayer: 16
 --- !u!1 &3243845084249926783
 GameObject:
   m_ObjectHideFlags: 0
@@ -3010,7 +3013,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2384761249843647470}
   m_HandleRect: {fileID: 1103931760179476059}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3589,7 +3592,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000057458878}
+  m_AnchoredPosition: {x: 0, y: -759.99994}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8198917282876205754
@@ -3768,6 +3771,8 @@ MonoBehaviour:
   snapInput: {fileID: 8652306131787623359}
   objectToInspect: {fileID: 0}
   manipulationType: 0
+  levelEditorHUD: {fileID: 0}
+  levelEditorGizmo: {fileID: 0}
 --- !u!1 &8718977851296916797
 GameObject:
   m_ObjectHideFlags: 0
@@ -4259,8 +4264,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2921103738602235439}
   m_HandleRect: {fileID: 7564876150257107707}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.99999994
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

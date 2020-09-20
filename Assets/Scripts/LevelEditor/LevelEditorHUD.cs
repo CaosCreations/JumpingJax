@@ -20,17 +20,18 @@ public class LevelEditorHUD : MonoBehaviour
 
     public Inspector inspector;
 
-    public Camera camera;
+    public Camera levelEditorCamera;
     public GameObject currentSelectedObject;
     public LayerMask gizmoLayerMask;
     public LayerMask selectionLayerMask;
     public Material outlineMaterial;
-    public LevelEditorGizmo transformGizmo;
 
     public bool isUsingGizmo = false;
+    public GizmoColor currentGizmoColor;
+
     void Start()
     {
-        camera = GetComponentInParent<Camera>();
+        levelEditorCamera = GetComponentInParent<Camera>();
         prefabViewToggleButton.onClick.RemoveAllListeners();
         prefabViewToggleButton.onClick.AddListener(() => TogglePrefabMenu());
 
@@ -41,7 +42,7 @@ public class LevelEditorHUD : MonoBehaviour
         saveButton.onClick.AddListener(() => Save());
 
         publishButton.onClick.RemoveAllListeners();
-        publishButton.onClick.AddListener(() => Save());
+        publishButton.onClick.AddListener(() => Publish());
 
         prefabScrollView.SetActive(false);
         selectedObjectGizmo.SetActive(false);
@@ -51,7 +52,6 @@ public class LevelEditorHUD : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(EventSystem.current.currentSelectedGameObject);
         if (Input.GetMouseButtonDown(0))
         {
             // Break out if we clicked on the UI, prevents clearing the object when clicking on UI
@@ -60,11 +60,17 @@ public class LevelEditorHUD : MonoBehaviour
                 return;
             }
 
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = levelEditorCamera.ScreenPointToRay(Input.mousePosition);
 
             if(Physics.Raycast(ray, out RaycastHit gizmoHit, 1000, gizmoLayerMask))
             {
                 isUsingGizmo = true;
+                GizmoType tempType = gizmoHit.collider.gameObject.GetComponent<GizmoType>();
+                if(tempType == null)
+                {
+                    return;
+                }
+                currentGizmoColor = tempType.gizmoColor;
             }
             if (Physics.Raycast(ray, out RaycastHit hit, 1000, selectionLayerMask))
             {
@@ -84,7 +90,6 @@ public class LevelEditorHUD : MonoBehaviour
             }
         }
 
-        ShowTransformGizmo();
         ShowInspector();
         
     }
@@ -156,16 +161,6 @@ public class LevelEditorHUD : MonoBehaviour
         // Open publish UI, disable publish button until there's at least 2 checkpoint, and a valid name/description
     }
 
-    private void ShowTransformGizmo()
-    {
-        if(currentSelectedObject == null)
-        {
-            transformGizmo.ClearGizmo();
-            return;
-        }
-        transformGizmo.SetGizmo(currentSelectedObject.transform);
-    }
-
     private void ShowInspector()
     {
         if (currentSelectedObject == null)
@@ -175,6 +170,7 @@ public class LevelEditorHUD : MonoBehaviour
         else
         {
             inspector.gameObject.SetActive(true);
+
         }
     }
 
@@ -198,7 +194,7 @@ public class LevelEditorHUD : MonoBehaviour
     private void PrefabButtonClicked(LevelPrefab levelPrefab)
     {
         GameObject newObject = Instantiate(levelPrefab.prefab);
-        newObject.transform.position = camera.transform.position + (camera.transform.forward * 10);
+        newObject.transform.position = levelEditorCamera.transform.position + (levelEditorCamera.transform.forward * 10);
         currentSelectedObject = newObject;
         inspector.InspectObject(currentSelectedObject.transform);
     }

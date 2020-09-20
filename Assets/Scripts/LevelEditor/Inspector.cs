@@ -27,6 +27,8 @@ public class Inspector : MonoBehaviour
     private float currentSnap = 1;
 
     public LevelEditorHUD levelEditorHUD;
+    public LevelEditorGizmo levelEditorGizmo;
+
 
     public enum InputType
     {
@@ -35,6 +37,7 @@ public class Inspector : MonoBehaviour
     private void Awake()
     {
         levelEditorHUD = GetComponentInParent<LevelEditorHUD>();
+        levelEditorGizmo = GetComponentInParent<LevelEditorGizmo>();
     }
 
     void Start()
@@ -56,16 +59,39 @@ public class Inspector : MonoBehaviour
             return;
         }
 
+        levelEditorGizmo.UpdateGizmos();
+
         if (levelEditorHUD.isUsingGizmo)
         {
+            levelEditorGizmo.GizmoFollowMouse(levelEditorHUD.currentGizmoColor);
             UpdateInputs();
         }
+    }
+
+    public void InspectObject(Transform toInspect)
+    {
+        objectToInspect = toInspect;
+        UpdateInputs();
+        ShowTransformGizmo();
+
+        xInput.onValueChanged.RemoveAllListeners();
+        xInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.X));
+
+        yInput.onValueChanged.RemoveAllListeners();
+        yInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.Y));
+
+        zInput.onValueChanged.RemoveAllListeners();
+        zInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.Z));
+
+        snapInput.onValueChanged.RemoveAllListeners();
+        snapInput.onValueChanged.AddListener((value) => SnapChanged(value));
     }
 
     private void SetManipulationType(ManipulationType manipulationType)
     {
         this.manipulationType = manipulationType;
         UpdateInputs();
+        ShowTransformGizmo();
     }
     
     private void UpdateInputs()
@@ -90,23 +116,17 @@ public class Inspector : MonoBehaviour
         }
     }
 
-    public void InspectObject(Transform toInspect)
+    private void ShowTransformGizmo()
     {
-        objectToInspect = toInspect;
-        UpdateInputs();
-
-        xInput.onValueChanged.RemoveAllListeners();
-        xInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.X));
-
-        yInput.onValueChanged.RemoveAllListeners();
-        yInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.Y));
-
-        zInput.onValueChanged.RemoveAllListeners();
-        zInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.Z));
-
-        snapInput.onValueChanged.RemoveAllListeners();
-        snapInput.onValueChanged.AddListener((value) => SnapChanged(value));
+        if (objectToInspect == null)
+        {
+            levelEditorGizmo.ClearGizmo();
+            return;
+        }
+        levelEditorGizmo.SetGizmo(objectToInspect.transform, manipulationType);
     }
+
+    
 
     private void InputChanged(string input, InputType inputType)
     {
