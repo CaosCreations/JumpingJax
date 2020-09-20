@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,6 +11,7 @@ public class LevelEditorHUD : MonoBehaviour
     public Button prefabViewToggleButton;
     public Button playButton;
     public Button saveButton;
+    public Button publishButton;
     public GameObject prefabScrollView;
     public Transform prefabScrollViewContent;
     public LevelPrefabContainer levelPrefabContainer;
@@ -33,6 +36,8 @@ public class LevelEditorHUD : MonoBehaviour
         saveButton.onClick.RemoveAllListeners();
         saveButton.onClick.AddListener(() => Save());
 
+        publishButton.onClick.RemoveAllListeners();
+        publishButton.onClick.AddListener(() => Save());
 
         prefabScrollView.SetActive(false);
         selectedObjectGizmo.SetActive(false);
@@ -70,12 +75,34 @@ public class LevelEditorHUD : MonoBehaviour
 
     private void PlayTest()
     {
-
+        // Create player from prefab, set the main camera
     }
 
     private void Save()
     {
-        //LevelEditorObject[] sceneObjects = FindObjectsOfType<LevelEditorObject>();
+        LevelEditorLevel newLevel = new LevelEditorLevel();
+        LevelEditorObject[] sceneObjects = FindObjectsOfType<LevelEditorObject>();
+        foreach(LevelEditorObject sceneObject in sceneObjects)
+        {
+            newLevel.levelObjects.Add(sceneObject.GetObjectData());
+        }
+
+        string jsonData = JsonUtility.ToJson(newLevel);
+        string folderPath = Application.persistentDataPath;
+        string filePath = GameManager.GetCurrentLevel().levelEditorScenePath;
+
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        Debug.Log($"Saving level {GameManager.GetCurrentLevel().levelName} to {filePath}");
+        File.WriteAllText(filePath, jsonData);
+    }
+
+    private void Publish()
+    {
+        // Open publish UI, disable publish button until there's at least 2 checkpoint, and a valid name/description
     }
 
     private void ShowTransformGizmo()
@@ -124,5 +151,47 @@ public class LevelEditorHUD : MonoBehaviour
         newObject.transform.position = camera.transform.position + (camera.transform.forward * 10);
         currentSelectedObject = newObject;
         inspector.InspectObject(currentSelectedObject.transform);
+    }
+
+    public void LoadSceneData()
+    {
+        Level currentLevel = GameManager.GetCurrentLevel();
+
+
+        if (currentLevel.levelEditorScenePath == string.Empty)
+        {
+            Debug.Log($"Trying to load level: {currentLevel.levelName} but it has not been saved");
+            return;
+        }
+
+
+        if (!File.Exists(currentLevel.levelEditorScenePath))
+        {
+            Debug.Log($"Trying to load level: {currentLevel.levelName} from {currentLevel.levelEditorScenePath} but the save file has been deleted");
+            return;
+        }
+
+        string jsonData = File.ReadAllText(currentLevel.levelEditorScenePath);
+        LevelEditorLevel levelToLoad = JsonUtility.FromJson<LevelEditorLevel>(jsonData);
+
+        foreach (ObjectData objectData in levelToLoad.levelObjects)
+        {
+            CreateObject(objectData);
+        }
+    }
+
+    private void CreateObject(ObjectData objectData)
+    {
+        LevelPrefab prefabOfType = levelPrefabContainer.levelPrefabs.ToList().Where(x => x.objectType == objectData.objectType).FirstOrDefault();
+        if(prefabOfType == null)
+        {
+            return;
+        }
+
+        GameObject newObject = Instantiate(prefabOfType.prefab);
+
+        newObject.transform.position = objectData.position;
+        newObject.transform.rotation = Quaternion.Euler(objectData.rotation);
+        newObject.transform.localScale = objectData.scale;
     }
 }

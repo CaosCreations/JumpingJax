@@ -47,7 +47,7 @@ public class LevelEditor : MonoBehaviour
     {
         List<Level> toReturn = new List<Level>();
 
-        List<string> filePaths = Directory.EnumerateFiles(Application.persistentDataPath, "*.json").ToList();
+        List<string> filePaths = Directory.EnumerateFiles(Application.persistentDataPath, "*.level").ToList();
         foreach (string filePath in filePaths)
         {
             string fileData = File.ReadAllText(filePath);
@@ -93,7 +93,7 @@ public class LevelEditor : MonoBehaviour
             return;
         }
 
-        File.Delete(selectedLevel.level.editorFilePath);
+        File.Delete(selectedLevel.level.levelEditorFilePath);
         RefreshEditorProjectWindow();
         levelEditorButtons.Remove(selectedLevel);
         ScriptableObject.Destroy(selectedLevel.level);
@@ -116,9 +116,15 @@ public class LevelEditor : MonoBehaviour
         Level newLevel = ScriptableObject.CreateInstance<Level>();
         newLevel.levelName = "new level";
         newLevel.description = "new level description";
-        newLevel.editorFilePath = Path.Combine(Application.persistentDataPath, DateTime.Now.ToString("MM-dd-yyyy_hh-mm-ss-FFF") + ".json");
-        
-        File.WriteAllText(newLevel.editorFilePath, JsonUtility.ToJson(newLevel));
+
+        string currentTime = DateTime.Now.ToString("MM-dd-yyyy_hh-mm-ss-FFF");
+        string scriptableObjectFileName = "scriptableObject-" + currentTime + ".level";
+        string levelFileName = "level-" + currentTime + ".json";
+        newLevel.levelEditorFilePath = Path.Combine(Application.persistentDataPath, scriptableObjectFileName);
+        newLevel.levelEditorScenePath = Path.Combine(Application.persistentDataPath, levelFileName); ;
+
+        File.WriteAllText(newLevel.levelEditorFilePath, JsonUtility.ToJson(newLevel));
+        File.WriteAllText(newLevel.levelEditorScenePath, JsonUtility.ToJson(""));
 
         GameObject newLevelButton = Instantiate(levelEditorButtonPrefab, levelButtonParent);
         LevelEditorButton levelEditorButton = newLevelButton.GetComponent<LevelEditorButton>();

@@ -43,7 +43,7 @@ public class WinMenu : MonoBehaviour
     private void OnEnable()
     {
         // Only show the "next" button if it is NOT a workshop map
-        nextButton.gameObject.SetActive(GameManager.GetCurrentLevel().filePath == string.Empty);
+        nextButton.gameObject.SetActive(GameManager.GetCurrentLevel().workshopFilePath == string.Empty);
 
         levelText.text = "You found Jax on: " + GameManager.GetCurrentLevel().levelName;
         completionTimeText.text = TimeUtils.GetTimeString(GameManager.Instance.currentCompletionTime);

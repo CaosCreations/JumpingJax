@@ -25,10 +25,13 @@ public class Level : ScriptableObject
     public string description;
 
     [SerializeField]
-    public string filePath;
+    public string workshopFilePath;
 
     [SerializeField]
-    public string editorFilePath;
+    public string levelEditorFilePath;
+
+    [SerializeField]
+    public string levelEditorScenePath;
 
     [SerializeField]
     public ulong fileId;

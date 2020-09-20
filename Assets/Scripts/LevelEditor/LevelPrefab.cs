@@ -13,4 +13,7 @@ public class LevelPrefab : ScriptableObject
 
     [SerializeField]
     public Sprite previewImage;
+
+    [SerializeField]
+    public ObjectType objectType;
 }

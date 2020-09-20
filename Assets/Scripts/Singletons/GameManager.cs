@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
         Instance.currentLevel = workshopLevel;
 
 
-        if(workshopLevel.filePath == string.Empty)
+        if(workshopLevel.levelEditorFilePath != string.Empty)
         {
             // If the level is loaded from the level editor, and hasn't been saved before
             AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(PlayerConstants.LevelEditorSceneIndex);
@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            string sceneAssetPath = AssetBundleManager.LoadSceneFromBundle(workshopLevel.filePath);
+            string sceneAssetPath = AssetBundleManager.LoadSceneFromBundle(workshopLevel.workshopFilePath);
             if (sceneAssetPath == string.Empty)
             {
                 // Asset Bundle loaded incorrectly, go back to main menu
@@ -137,16 +137,22 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // Set our current level if we are loading from that scene, and not the menu
+        // Set our current level if we are loading from that scene in the editor, and not the menu
         if (Instance.currentLevel == null && scene.buildIndex > 0 && scene.buildIndex < PlayerConstants.LevelEditorSceneIndex)
         {
             Instance.currentLevel = Instance.levelDataContainer.levels[scene.buildIndex - 1];
         }
 
         // Set up the workshop level to have the right number of checkpoints, since it isn't loaded on the scene
-        if (Instance.currentLevel.filePath != string.Empty)
+        if (Instance.currentLevel.workshopFilePath != string.Empty)
         {
             Instance.currentLevel.numberOfCheckpoints = GameObject.FindObjectsOfType<Checkpoint>().Length;
+        }
+
+        if(Instance.currentLevel.levelEditorFilePath != string.Empty)
+        {
+            LevelEditorHUD levelEditorHUD = FindObjectOfType<LevelEditorHUD>();
+            levelEditorHUD.LoadSceneData();
         }
     }
 
@@ -154,7 +160,7 @@ public class GameManager : MonoBehaviour
     {
         if(Instance.currentLevel == null)
         {
-            return new Level();
+            return ScriptableObject.CreateInstance<Level>();
         }
 
         return Instance.currentLevel;
