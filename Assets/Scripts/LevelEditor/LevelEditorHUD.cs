@@ -40,6 +40,10 @@ public class LevelEditorHUD : MonoBehaviour
                 currentSelectedObject = hit.collider.gameObject;
                 inspector.InspectObject(currentSelectedObject.transform);
             }
+            else
+            {
+                currentSelectedObject = null;
+            }
         }
 
         ShowTransformGizmo();
