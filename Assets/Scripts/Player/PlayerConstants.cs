@@ -93,6 +93,7 @@ public static class PlayerConstants
     public static string KeyPressedTooltip = "Toggle KeyPressed UI.";
     public static string TutorialTooltip = "Toggle Tutorial UI.";
     public static string GhostTooltip = "Toggle Ghost Runner.";
+    public static string ConsoleTooltip = "Toggle Dev Console (`).";
 
     public static string ResolutionTooltip = "Screen Resolution.";
     public static string GraphicsTooltip = "Graphics Quality.";

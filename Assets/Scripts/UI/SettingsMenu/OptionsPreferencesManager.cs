@@ -46,6 +46,9 @@ public class OptionsPreferencesManager
     public const string ghostToggleKey = "GhostToggle";
     public const int defaultGhostToggle = 1;
 
+    public const string consoleToggleKey = "ConsoleToggle";
+    public const int defaultConsoleToggle = 0;
+
     public static int GetResolutionWidth()
     {
         return PlayerPrefs.GetInt(resolutionWidthKey, defaultResolutionWidth);
@@ -186,5 +189,16 @@ public class OptionsPreferencesManager
     public static void SetGhostToggle(bool isOn)
     {
         PlayerPrefs.SetInt(ghostToggleKey, isOn ? 1 : 0);
+    }
+
+    public static bool GetConsoleToggle()
+    {
+        int isOn = PlayerPrefs.GetInt(consoleToggleKey, defaultConsoleToggle);
+        return isOn == 0 ? false : true;
+    }
+
+    public static void SetConsoleToggle(bool isOn)
+    {
+        PlayerPrefs.SetInt(consoleToggleKey, isOn ? 1 : 0);
     }
 }

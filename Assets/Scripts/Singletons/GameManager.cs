@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            Debug.LogError("Could not connect to steam " + e.Message);
+            Debug.LogWarning("Could not connect to steam " + e.Message);
         }
     }
 

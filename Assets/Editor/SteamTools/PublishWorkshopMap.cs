@@ -52,27 +52,30 @@ public class PublishWorkshopMap : EditorWindow
     private async void UploadMap()
     {
         SteamUtil.StartSteam();
-        Debug.Log($"publishing: {path}. WAIT to see \"published\"");
-        
-        var result = await Steamworks.Ugc.Editor.NewCommunityFile
-            .WithTitle(mapTitle)
-            .WithDescription(description)
-            .WithPreviewFile(imagePath)
-            .WithContent(path)
-            .SubmitAsync();
+        if (SteamClient.IsValid)
+        {
+            Debug.Log($"publishing: {path}. WAIT to see \"published\"");
 
-        if (result.Success)
-        {
-            Debug.Log($"published : {mapTitle}");
-            // See this for more info: https://partner.steamgames.com/doc/features/workshop/implementation#Legal
-            if (result.NeedsWorkshopAgreement)
+            var result = await Steamworks.Ugc.Editor.NewCommunityFile
+                .WithTitle(mapTitle)
+                .WithDescription(description)
+                .WithPreviewFile(imagePath)
+                .WithContent(path)
+                .SubmitAsync();
+
+            if (result.Success)
             {
-                SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{result.FileId}");
+                Debug.Log($"published : {mapTitle}");
+                // See this for more info: https://partner.steamgames.com/doc/features/workshop/implementation#Legal
+                if (result.NeedsWorkshopAgreement)
+                {
+                    SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{result.FileId}");
+                }
             }
-        }
-        else
-        {
-            Debug.LogError($"could not publish: {mapTitle}, error: {result.ToString()}");
+            else
+            {
+                Debug.LogError($"could not publish: {mapTitle}, error: {result.ToString()}");
+            }
         }
 
         SteamUtil.StopSteam();
