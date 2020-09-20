@@ -4,6 +4,11 @@ using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum ManipulationType
+{
+    Position, Rotation, Scale
+}
+
 public class Inspector : MonoBehaviour
 {
     public Button positionButton;
@@ -20,11 +25,6 @@ public class Inspector : MonoBehaviour
     public ManipulationType manipulationType;
     private float currentSnap = 1;
 
-    public enum ManipulationType
-    {
-        Position, Rotation, Scale
-    }
-
     public enum InputType
     {
         X, Y, Z
@@ -33,13 +33,13 @@ public class Inspector : MonoBehaviour
     void Start()
     {
         positionButton.onClick.RemoveAllListeners();
-        positionButton.onClick.AddListener(() => manipulationType = ManipulationType.Position);
+        positionButton.onClick.AddListener(() => SetManipulationType(ManipulationType.Position));
 
         rotationButton.onClick.RemoveAllListeners();
-        rotationButton.onClick.AddListener(() => manipulationType = ManipulationType.Rotation);
+        rotationButton.onClick.AddListener(() => SetManipulationType(ManipulationType.Rotation));
 
         scaleButton.onClick.RemoveAllListeners();
-        scaleButton.onClick.AddListener(() => manipulationType = ManipulationType.Scale);
+        scaleButton.onClick.AddListener(() => SetManipulationType(ManipulationType.Scale));
     }
 
     private void Update()
@@ -50,6 +50,12 @@ public class Inspector : MonoBehaviour
         }
 
         UpdateInputs();
+    }
+
+    private void SetManipulationType(ManipulationType manipulationType)
+    {
+        this.manipulationType = manipulationType;
+
     }
     
     private void UpdateInputs()

@@ -24,7 +24,7 @@ public class LevelEditorHUD : MonoBehaviour
     public GameObject currentSelectedObject;
     public LayerMask selectionLayerMask;
     public Material outlineMaterial;
-
+    public LevelEditorGizmo transformGizmo;
     void Start()
     {
         camera = GetComponentInParent<Camera>();
@@ -58,8 +58,7 @@ public class LevelEditorHUD : MonoBehaviour
             UnselectCurrentObject();
 
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit, 1000, selectionLayerMask))
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000, selectionLayerMask))
             {
                 SelectObject(hit.collider.gameObject);
             }
@@ -137,11 +136,10 @@ public class LevelEditorHUD : MonoBehaviour
     {
         if(currentSelectedObject == null)
         {
-            selectedObjectGizmo.SetActive(false);
+            transformGizmo.ClearGizmo();
             return;
         }
-        selectedObjectGizmo.SetActive(true);
-        selectedObjectGizmo.transform.position = currentSelectedObject.transform.position;
+        transformGizmo.SetGizmo(currentSelectedObject.transform);
     }
 
     private void ShowInspector()
