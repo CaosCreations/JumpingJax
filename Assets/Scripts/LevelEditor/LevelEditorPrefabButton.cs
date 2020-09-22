@@ -7,4 +7,6 @@ public class LevelEditorPrefabButton : MonoBehaviour
 {
     public Button button;
     public Image image;
+    public Text text;
+    public ObjectTypeTab tab;
 }

@@ -7,46 +7,65 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+public enum ObjectTypeTab
+{
+    Prefab, Required
+}
+
 public class LevelEditorHUD : MonoBehaviour
 {
+    [Header("Set In Editor")]
     public Button prefabViewToggleButton;
+    public Button requiredViewToggleButton;
+
     public GameObject prefabScrollView;
     public Transform prefabScrollViewContent;
     public LevelPrefabContainer levelPrefabContainer;
     public GameObject levelButtonPrefab;
 
-
     public Button playButton;
     public Button saveButton;
 
-    public Inspector inspector;
-    public LevelEditorGizmo levelEditorGizmo;
-
-    public Camera levelEditorCamera;
-    public GameObject currentSelectedObject;
     public LayerMask gizmoLayerMask;
     public LayerMask selectionLayerMask;
     public Material outlineMaterial;
-    public bool isUsingGizmo = false;
-    public GizmoColor currentGizmoColor;
 
     public GameObject playerPrefab;
+
+    [Header("Set at Runtime")]
     public GameObject playerInstance;
+    public GizmoColor currentGizmoColor;
+    public bool isUsingGizmo = false;
+    public GameObject currentSelectedObject;
+
+    public Inspector inspector;
+    public LevelEditorGizmo levelEditorGizmo;
+    public Camera levelEditorCamera;
+
+    private List<LevelEditorPrefabButton> prefabButtons;
+
 
     private bool isWorkshopLevel;
 
     private void Awake()
     {
+        levelEditorCamera = GetComponentInParent<Camera>();
+        levelEditorGizmo = GetComponent<LevelEditorGizmo>();
+        inspector = GetComponentInChildren<Inspector>();
+
         playerInstance = Instantiate(playerPrefab);
         playerInstance.SetActive(false);
     }
 
     void Start()
     {
-        levelEditorCamera = GetComponentInParent<Camera>();
-        levelEditorGizmo = GetComponent<LevelEditorGizmo>();
+        prefabButtons = new List<LevelEditorPrefabButton>();
+
         prefabViewToggleButton.onClick.RemoveAllListeners();
-        prefabViewToggleButton.onClick.AddListener(() => TogglePrefabMenu());
+        prefabViewToggleButton.onClick.AddListener(() => TogglePrefabMenu(ObjectTypeTab.Prefab));
+
+        requiredViewToggleButton.onClick.RemoveAllListeners();
+        requiredViewToggleButton.onClick.AddListener(() => TogglePrefabMenu(ObjectTypeTab.Required));
 
         playButton.onClick.RemoveAllListeners();
         playButton.onClick.AddListener(() => PlayTest());
@@ -152,9 +171,23 @@ public class LevelEditorHUD : MonoBehaviour
         playerInstance.SetActive(!playerInstance.activeInHierarchy);
     }
 
-    private void TogglePrefabMenu()
+    #region Prefab Menu
+    private void TogglePrefabMenu(ObjectTypeTab tab)
     {
-        prefabScrollView.SetActive(!prefabScrollView.activeInHierarchy);
+        prefabScrollView.SetActive(true);
+
+        foreach(LevelEditorPrefabButton button in prefabButtons)
+        {
+            switch (tab)
+            {
+                case ObjectTypeTab.Prefab:
+                    button.gameObject.SetActive(button.tab == ObjectTypeTab.Prefab);
+                    break;
+                case ObjectTypeTab.Required:
+                    button.gameObject.SetActive(button.tab == ObjectTypeTab.Required);
+                    break;
+            }
+        }
     }
 
     private void PopulatePrefabMenu()
@@ -166,17 +199,23 @@ public class LevelEditorHUD : MonoBehaviour
             newPrefabButton.button.onClick.RemoveAllListeners();
             newPrefabButton.button.onClick.AddListener(() => PrefabButtonClicked(levelPrefab));
             newPrefabButton.image.sprite = levelPrefab.previewImage;
+            newPrefabButton.tab = levelPrefab.isRequired ? ObjectTypeTab.Required : ObjectTypeTab.Prefab;
+            newPrefabButton.text.text = levelPrefab.objectName;
+            prefabButtons.Add(newPrefabButton);
         }
     }
 
     private void PrefabButtonClicked(LevelPrefab levelPrefab)
     {
         GameObject newObject = Instantiate(levelPrefab.prefab);
+        // Set the object 10 units in front of the camera
         newObject.transform.position = levelEditorCamera.transform.position + (levelEditorCamera.transform.forward * 10);
         SelectObject(newObject);
         Save();
     }
+    #endregion
 
+    #region Workshop Level
     private void Save()
     {
         // Don't save if we don't have a level data object to save to
@@ -271,4 +310,5 @@ public class LevelEditorHUD : MonoBehaviour
         playerInstance.transform.position = PlayerConstants.PlayerSpawnOffset;
         playerInstance.SetActive(true);
     }
+    #endregion
 }
