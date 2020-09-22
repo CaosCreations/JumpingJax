@@ -84,6 +84,7 @@ public class LevelEditorHUD : MonoBehaviour
                     return;
                 }
                 currentGizmoColor = tempType.gizmoColor;
+                return; // break out so that we dont also select an object
             }
             if (Physics.Raycast(ray, out RaycastHit hit, 1000, selectionLayerMask))
             {
@@ -145,22 +146,7 @@ public class LevelEditorHUD : MonoBehaviour
         playerInstance.SetActive(!playerInstance.activeInHierarchy);
     }
 
-    private void Save()
-    {
-        LevelEditorLevel newLevel = new LevelEditorLevel();
-        LevelEditorObject[] sceneObjects = FindObjectsOfType<LevelEditorObject>();
-        foreach(LevelEditorObject sceneObject in sceneObjects)
-        {
-            newLevel.levelObjects.Add(sceneObject.GetObjectData());
-        }
-
-        string jsonData = JsonUtility.ToJson(newLevel, true);
-        string folderPath = Application.persistentDataPath;
-        string filePath = GameManager.GetCurrentLevel().levelEditorScenePath;
-
-        Debug.Log($"Saving level {GameManager.GetCurrentLevel().levelName} to {filePath}");
-        File.WriteAllText(filePath, jsonData);
-    }
+    
 
     private void ShowInspector()
     {
@@ -196,9 +182,30 @@ public class LevelEditorHUD : MonoBehaviour
     {
         GameObject newObject = Instantiate(levelPrefab.prefab);
         newObject.transform.position = levelEditorCamera.transform.position + (levelEditorCamera.transform.forward * 10);
-        currentSelectedObject = newObject;
-        inspector.InspectObject(currentSelectedObject.transform);
+        SelectObject(newObject);
         Save();
+    }
+
+    private void Save()
+    {
+        // Don't save if we don't have a level data object to save to
+        // This happens when opening the scene manually
+        if (GameManager.Instance != null)
+        {
+            LevelEditorLevel newLevel = new LevelEditorLevel();
+            LevelEditorObject[] sceneObjects = FindObjectsOfType<LevelEditorObject>();
+            foreach (LevelEditorObject sceneObject in sceneObjects)
+            {
+                newLevel.levelObjects.Add(sceneObject.GetObjectData());
+            }
+
+            string jsonData = JsonUtility.ToJson(newLevel, true);
+
+        
+            string filePath = GameManager.GetCurrentLevel().levelEditorScenePath;
+            Debug.Log($"Saving level {GameManager.GetCurrentLevel().levelName} to {filePath}");
+            File.WriteAllText(filePath, jsonData);
+        }
     }
 
     public void LoadSceneData()

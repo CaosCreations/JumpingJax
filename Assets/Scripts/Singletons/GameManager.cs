@@ -132,12 +132,32 @@ public class GameManager : MonoBehaviour
 
     public static Level GetCurrentLevel()
     {
+        if(Instance == null)
+        {
+            return ScriptableObject.CreateInstance<Level>();
+        }
+
         if(Instance.currentLevel == null)
         {
             return ScriptableObject.CreateInstance<Level>();
         }
 
         return Instance.currentLevel;
+    }
+
+    public static bool GetDidFinishLevel()
+    {
+        if (Instance == null)
+        {
+            return false;
+        }
+
+        if (Instance.currentLevel == null)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public static void NextLevel()
