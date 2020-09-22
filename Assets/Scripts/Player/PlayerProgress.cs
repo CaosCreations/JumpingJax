@@ -69,6 +69,11 @@ public class PlayerProgress : MonoBehaviour
 
     public void Respawn()
     {
+        // Prevent a crash if the player loads into a workshop level and never touches a checkpoint
+        if (currentCheckpoint == null)
+        {
+            return;
+        }
         Vector3 respawnPosition = currentCheckpoint.transform.position + PlayerConstants.PlayerSpawnOffset;
         transform.position = respawnPosition;
 

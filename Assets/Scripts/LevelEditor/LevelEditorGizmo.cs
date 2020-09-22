@@ -114,7 +114,7 @@ public class LevelEditorGizmo : MonoBehaviour
             case GizmoColor.Blue:
                 if (inspector.currentSnap == 0)
                 {
-                    newMouseChange = new Vector3(0, 0, mouseDelta.y);
+                    newMouseChange = new Vector3(0, 0, mouseDelta.z);
                 }
                 else if (Mathf.Abs(mouseDelta.z) > inspector.currentSnap)
                 {

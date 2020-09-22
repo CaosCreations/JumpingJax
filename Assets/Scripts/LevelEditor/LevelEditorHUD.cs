@@ -306,6 +306,7 @@ public class LevelEditorHUD : MonoBehaviour
         isWorkshopLevel = true;
         playButton.gameObject.SetActive(false);
         saveButton.gameObject.SetActive(false);
+        requiredViewToggleButton.gameObject.SetActive(false);
         prefabViewToggleButton.gameObject.SetActive(false);
         playerInstance.transform.position = PlayerConstants.PlayerSpawnOffset;
         playerInstance.SetActive(true);

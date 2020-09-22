@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour
             return false;
         }
 
-        return true;
+        return Instance.didWinCurrentLevel;
     }
 
     public static void NextLevel()
