@@ -20,6 +20,7 @@ public class LevelEditorHUD : MonoBehaviour
     public Button saveButton;
 
     public Inspector inspector;
+    public LevelEditorGizmo levelEditorGizmo;
 
     public Camera levelEditorCamera;
     public GameObject currentSelectedObject;
@@ -43,6 +44,7 @@ public class LevelEditorHUD : MonoBehaviour
     void Start()
     {
         levelEditorCamera = GetComponentInParent<Camera>();
+        levelEditorGizmo = GetComponent<LevelEditorGizmo>();
         prefabViewToggleButton.onClick.RemoveAllListeners();
         prefabViewToggleButton.onClick.AddListener(() => TogglePrefabMenu());
 
@@ -53,18 +55,20 @@ public class LevelEditorHUD : MonoBehaviour
         saveButton.onClick.AddListener(() => Save());
 
         prefabScrollView.SetActive(false);
-        inspector.gameObject.SetActive(false);
         PopulatePrefabMenu();
     }
 
     void Update()
     {
+        // If we are loading into a workshop level, we don't want the HUD to do anything
         if (isWorkshopLevel)
         {
             return;
         }
+
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
         if (Input.GetMouseButtonDown(0))
         {
             // Break out if we clicked on the UI, prevents clearing the object when clicking on UI
@@ -99,10 +103,8 @@ public class LevelEditorHUD : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isUsingGizmo = false;
+            levelEditorGizmo.lastMousePosition = Vector3.zero;
         }
-
-        ShowInspector();
-        
     }
 
     private void SelectObject(GameObject objectToSelect)
@@ -127,6 +129,8 @@ public class LevelEditorHUD : MonoBehaviour
         if (currentSelectedObject == null) {
             return;
         }
+
+        // Add outline material
         Renderer renderer = currentSelectedObject.GetComponentInChildren<Renderer>();
         List<Material> currentMaterials = renderer.sharedMaterials.ToList();
         for (int i = currentMaterials.Count - 1; i >= 0; i--)
@@ -137,28 +141,15 @@ public class LevelEditorHUD : MonoBehaviour
             }
         }
         renderer.sharedMaterials = currentMaterials.ToArray();
+
         currentSelectedObject = null;
+        inspector.Clear();
     }
 
     private void PlayTest()
     {
         playerInstance.transform.position = transform.parent.position;
         playerInstance.SetActive(!playerInstance.activeInHierarchy);
-    }
-
-    
-
-    private void ShowInspector()
-    {
-        if (currentSelectedObject == null)
-        {
-            inspector.gameObject.SetActive(false);
-        }
-        else
-        {
-            inspector.gameObject.SetActive(true);
-
-        }
     }
 
     private void TogglePrefabMenu()

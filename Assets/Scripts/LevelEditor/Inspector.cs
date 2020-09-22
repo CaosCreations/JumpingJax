@@ -12,6 +12,8 @@ public enum ManipulationType
 
 public class Inspector : MonoBehaviour
 {
+    public GameObject container;
+
     public Button positionButton;
     public Button rotationButton;
     public Button scaleButton;
@@ -60,6 +62,21 @@ public class Inspector : MonoBehaviour
 
         scaleButton.onClick.RemoveAllListeners();
         scaleButton.onClick.AddListener(() => SetManipulationType(ManipulationType.Scale));
+
+        xInput.onValueChanged.RemoveAllListeners();
+        xInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.X));
+
+        yInput.onValueChanged.RemoveAllListeners();
+        yInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.Y));
+
+        zInput.onValueChanged.RemoveAllListeners();
+        zInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.Z));
+
+        snapInput.onValueChanged.RemoveAllListeners();
+        snapInput.onValueChanged.AddListener((value) => SnapChanged(value));
+        snapInput.text = "0";
+
+        Clear();
     }
 
     private void Update()
@@ -78,30 +95,19 @@ public class Inspector : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    public void Clear()
     {
         levelEditorGizmo.ClearGizmo();
+        objectToInspect = null;
+        container.SetActive(false);
     }
 
     public void InspectObject(Transform toInspect)
     {
         objectToInspect = toInspect;
+        container.SetActive(true);
         UpdateInputs();
         ShowTransformGizmo();
-
-        xInput.onValueChanged.RemoveAllListeners();
-        xInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.X));
-
-        yInput.onValueChanged.RemoveAllListeners();
-        yInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.Y));
-
-        zInput.onValueChanged.RemoveAllListeners();
-        zInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.Z));
-
-        snapInput.onValueChanged.RemoveAllListeners();
-        snapInput.onValueChanged.AddListener((value) => SnapChanged(value));
-        //snapInput.text = "0";
-
         AddCustomDataInspector();
     }
 
