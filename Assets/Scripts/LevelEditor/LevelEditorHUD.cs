@@ -246,14 +246,14 @@ public class LevelEditorHUD : MonoBehaviour
 
             GameObject newObject = Instantiate(prefabOfType.prefab);
 
-            if (prefabOfType.objectType == ObjectType.Checkpoint)
-            {
-                Checkpoint temp = newObject.GetComponent<Checkpoint>();
-                if (temp != null)
-                {
-                    temp.level = objectData.checkpointNumber;
-                }
-            }
+            //if (prefabOfType.objectType == ObjectType.Checkpoint)
+            //{
+            //    Checkpoint temp = newObject.GetComponent<Checkpoint>();
+            //    if (temp != null)
+            //    {
+            //        temp.level = objectData.checkpointNumber;
+            //    }
+            //}
 
 
             newObject.transform.position = objectData.position;

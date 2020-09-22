@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum ObjectType
 {
-    FloatingPlatform, Floor, ResetFloor, GlassWall, Checkpoint
+    FloatingPlatform, Floor, ResetFloor, GlassWall, Checkpoint, FirstCheckpoint, FinalCheckpoint, Wall, PortalWall
 }
 
 [Serializable]

@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &7534643043476837679
 Transform:
@@ -104,14 +104,13 @@ GameObject:
   - component: {fileID: 8472135874840113545}
   - component: {fileID: 8472135874840113544}
   - component: {fileID: 8472135874840113551}
-  - component: {fileID: 953588492334586989}
-  - component: {fileID: -5761247185319285656}
+  - component: {fileID: 8472135874840113550}
   m_Layer: 9
-  m_Name: Checkpoint
+  m_Name: FinalCheckpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8472135874840113549
 Transform:
@@ -188,7 +187,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1, z: 1.52}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &953588492334586989
+--- !u!114 &8472135874840113550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,22 +199,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e588f5f16eb84044833c9bd7c790d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawGizmo: 0
+  drawGizmo: 1
   isFirstCheckpoint: 0
-  isFinalCheckpoint: 0
+  isFinalCheckpoint: 1
   startMaterial: {fileID: 2100000, guid: 540058a387130cb47b2e159186c7d751, type: 2}
   completedMaterial: {fileID: 2100000, guid: 392da3c4226d14b45b15ce2b0c4b516d, type: 2}
   myLight: {fileID: 636548691860835679}
---- !u!114 &-5761247185319285656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8472135874840113548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d369e0bd5eb20f4eb78d4f0ac207d51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectType: 4

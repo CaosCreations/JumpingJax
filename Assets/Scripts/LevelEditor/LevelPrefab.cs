@@ -16,4 +16,7 @@ public class LevelPrefab : ScriptableObject
 
     [SerializeField]
     public ObjectType objectType;
+
+    [SerializeField]
+    public bool isRequired;
 }

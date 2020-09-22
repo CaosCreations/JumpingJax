@@ -18,9 +18,6 @@ public class Level : ScriptableObject
     public string[] tutorialTexts;
 
     [SerializeField]
-    public int numberOfCheckpoints;
-
-    [SerializeField]
     public Sprite previewSprite;
 
     [Header("Workshop data")]
