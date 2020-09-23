@@ -124,6 +124,16 @@ public class LevelEditorHUD : MonoBehaviour
             isUsingGizmo = false;
             levelEditorGizmo.lastMousePosition = Vector3.zero;
         }
+
+        FocusCamera();
+    }
+
+    private void FocusCamera()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            levelEditorCamera.transform.position = currentSelectedObject.transform.position - (levelEditorCamera.transform.forward * 10);
+        }
     }
 
     private void SelectObject(GameObject objectToSelect)
