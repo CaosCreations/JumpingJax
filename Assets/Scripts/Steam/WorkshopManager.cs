@@ -17,7 +17,7 @@ public class WorkshopManager : MonoBehaviour
         TaskScheduler.UnobservedTaskException += (_, e) => { Debug.LogError($"{e.Exception}\n{e.Exception.Message}\n{e.Exception.StackTrace}"); };
     }
 
-    public static async Task PublishItem(Level levelToPublish)
+    public static async Task<Steamworks.Data.PublishedFileId> PublishItem(Level levelToPublish)
     {
         if (SteamClient.IsValid)
         {
@@ -38,10 +38,38 @@ public class WorkshopManager : MonoBehaviour
                 {
                     SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{result.FileId}");
                 }
+
+                return result.FileId;
             }
             else
             {
                 Debug.LogError($"could not publish: {levelToPublish.levelName}, error: {result.ToString()}");
+            }
+        }
+
+        return 0;
+    }
+
+    public static async Task UpdateItem(Level levelToPublish)
+    {
+        if (SteamClient.IsValid)
+        {
+            Debug.Log($"updating: {levelToPublish.levelEditorScriptableObjectPath}. WAIT to see \"updated\"");
+
+            var result = await new Steamworks.Ugc.Editor(levelToPublish.fileId)
+                .WithTitle(levelToPublish.levelName)
+                .WithDescription(levelToPublish.description)
+                .WithPreviewFile(levelToPublish.previewImagePath)
+                .WithContent(levelToPublish.levelEditorScenePath)
+                .SubmitAsync();
+
+            if (result.Success)
+            {
+                Debug.Log($"updated : {levelToPublish.levelName}");
+            }
+            else
+            {
+                Debug.LogError($"could not update: {levelToPublish.levelName}, error: {result.ToString()}");
             }
         }
     }
@@ -62,6 +90,11 @@ public class WorkshopManager : MonoBehaviour
                 Debug.Log($"Found Item: {entry.Title}");
                 if (!entry.IsInstalled)
                 {
+                    await DownloadWorkshopFile(entry.Id);
+                }
+                else if(entry.IsInstalled && entry.NeedsUpdate)
+                {
+                    Debug.Log($"Updating installed item {entry.Title}");
                     await DownloadWorkshopFile(entry.Id);
                 }
                 toReturn.Add(entry);
@@ -85,11 +118,6 @@ public class WorkshopManager : MonoBehaviour
         Steamworks.Ugc.Item file = result.Value;
 
         Debug.Log($"Found File: {file.Title}..");
-        if (file.IsInstalled)
-        {
-            Debug.Log($"{file.Title} is already installed to {file.Directory}");
-            return file.Directory;
-        }
 
         if (!await file.DownloadAsync())
         {

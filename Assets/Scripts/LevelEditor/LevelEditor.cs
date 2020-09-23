@@ -98,6 +98,7 @@ public class LevelEditor : MonoBehaviour
         }
 
         File.Delete(selectedLevel.level.levelEditorScriptableObjectPath);
+        Directory.Delete(selectedLevel.level.levelEditorFolder);
         RefreshEditorProjectWindow();
         levelEditorButtons.Remove(selectedLevel);
         ScriptableObject.Destroy(selectedLevel.level);
@@ -123,12 +124,15 @@ public class LevelEditor : MonoBehaviour
         newLevel.levelBuildIndex = PlayerConstants.LevelEditorSceneIndex;
         newLevel.gravityMultiplier = 1;
 
-        string folder = Path.Combine(Application.persistentDataPath, DateTime.Now.ToString("MM-dd-yyyy_hh-mm-ss-FFF"));
-        string scriptableObjectPath = Path.Combine(Application.persistentDataPath, "scriptableObject.level");
-        string levelDataPath = Path.Combine(folder, "levelData.json");
+        string currentTime = DateTime.Now.ToString("MM-dd-yyyy_hh-mm-ss-FFF");
+        string scriptableObjectPath = Path.Combine(Application.persistentDataPath, currentTime + "scriptableObject.level");
         newLevel.levelEditorScriptableObjectPath = scriptableObjectPath;
-        newLevel.levelEditorScenePath = levelDataPath;
+
+        string folder = Path.Combine(Application.persistentDataPath, currentTime);
         newLevel.levelEditorFolder = folder;
+
+        string levelDataPath = Path.Combine(folder, "levelData.json");
+        newLevel.levelEditorScenePath = levelDataPath;
 
         if (!Directory.Exists(folder))
         {
@@ -160,9 +164,21 @@ public class LevelEditor : MonoBehaviour
         }
     }
 
-    private void Publish()
+    private async void Publish()
     {
-        WorkshopManager.PublishItem(selectedLevel.level);
+        if (selectedLevel.level.fileId == 0)
+        {
+            Steamworks.Data.PublishedFileId fileId = await WorkshopManager.PublishItem(selectedLevel.level);
+            if (fileId.Value != 0)
+            {
+                selectedLevel.level.fileId = fileId;
+                File.WriteAllText(selectedLevel.level.levelEditorScriptableObjectPath, JsonUtility.ToJson(selectedLevel.level));
+            }
+        }
+        else
+        {
+            await WorkshopManager.UpdateItem(selectedLevel.level);
+        }
     }
 
     private void LevelButtonClicked(LevelEditorButton button)
