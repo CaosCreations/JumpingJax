@@ -195,6 +195,7 @@ public class LevelEditorHUD : MonoBehaviour
         foreach(LevelPrefab levelPrefab in levelPrefabContainer.levelPrefabs)
         {
             GameObject levelButton = Instantiate(levelButtonPrefab, prefabScrollViewContent);
+            levelButton.name = levelPrefab.objectName;
             LevelEditorPrefabButton newPrefabButton = levelButton.GetComponent<LevelEditorPrefabButton>();
             newPrefabButton.button.onClick.RemoveAllListeners();
             newPrefabButton.button.onClick.AddListener(() => PrefabButtonClicked(levelPrefab));

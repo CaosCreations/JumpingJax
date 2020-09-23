@@ -12,7 +12,10 @@ public enum ManipulationType
 
 public class Inspector : MonoBehaviour
 {
+    [Header("Set in Editor")]
     public GameObject container;
+
+    public Text currentObjectName;
 
     public Button positionButton;
     public Button rotationButton;
@@ -23,16 +26,7 @@ public class Inspector : MonoBehaviour
     public InputField zInput;
     public InputField snapInput;
 
-    public GameObject customDataContainer;
-    public Text customLabel;
-    public InputField customInput;
-    public CustomDataType currentCustomType;
-
-    public enum CustomDataType
-    {
-        Checkpoint
-    }
-
+    [Header("Set at Runtime")]
     public Transform objectToInspect;
 
     public ManipulationType manipulationType;
@@ -93,6 +87,17 @@ public class Inspector : MonoBehaviour
             levelEditorGizmo.GizmoFollowMouse(levelEditorHUD.currentGizmoColor);
             UpdateInputs();
         }
+
+        CheckInspectorCommands();
+    }
+
+    public void InspectObject(Transform toInspect)
+    {
+        objectToInspect = toInspect;
+        currentObjectName.text = objectToInspect.name;
+        container.SetActive(true);
+        UpdateInputs();
+        levelEditorGizmo.SetGizmo(objectToInspect.transform, manipulationType);
     }
 
     public void Clear()
@@ -102,47 +107,27 @@ public class Inspector : MonoBehaviour
         container.SetActive(false);
     }
 
-    public void InspectObject(Transform toInspect)
+    private void CheckInspectorCommands()
     {
-        objectToInspect = toInspect;
-        container.SetActive(true);
-        UpdateInputs();
-        ShowTransformGizmo();
-        AddCustomDataInspector();
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.D))
+        {
+            GameObject duplicate = Instantiate(objectToInspect.gameObject);
+            duplicate.name = objectToInspect.name;
+            InspectObject(duplicate.transform);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            Destroy(objectToInspect.gameObject);
+            Clear();
+            // Delete 
+        }
     }
-
-    private void AddCustomDataInspector()
-    {
-        //customDataContainer.SetActive(false);
-
-        //Checkpoint checkpoint = objectToInspect.GetComponent<Checkpoint>();
-        //if (checkpoint != null)
-        //{
-        //    customDataContainer.SetActive(true);
-        //    customLabel.text = "Checkpoint order: ";
-        //    customInput.text = "0";
-        //    customInput.onValueChanged.RemoveAllListeners();
-        //    customInput.onValueChanged.AddListener((value) => CustomInputChanged(value));
-        //    currentCustomType = CustomDataType.Checkpoint;
-        //}
-
-    }
-
-    private void CustomInputChanged(string newValue)
-    {
-        //switch (currentCustomType)
-        //{
-        //    case CustomDataType.Checkpoint:
-        //        int.TryParse(newValue)
-        //        break;
-        //}
-    }
-
     private void SetManipulationType(ManipulationType manipulationType)
     {
         this.manipulationType = manipulationType;
         UpdateInputs();
-        ShowTransformGizmo();
+        levelEditorGizmo.SetGizmo(objectToInspect.transform, manipulationType);
     }
     
     private void UpdateInputs()
@@ -165,11 +150,6 @@ public class Inspector : MonoBehaviour
                 zInput.text = objectToInspect.localScale.z.ToString("F2");
                 break;
         }
-    }
-
-    private void ShowTransformGizmo()
-    {
-        levelEditorGizmo.SetGizmo(objectToInspect.transform, manipulationType);
     }
 
     private void InputChanged(string input, InputType inputType)
