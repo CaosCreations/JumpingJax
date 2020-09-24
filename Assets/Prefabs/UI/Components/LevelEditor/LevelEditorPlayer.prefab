@@ -2399,6 +2399,7 @@ GameObject:
   - component: {fileID: 4888172731182529322}
   - component: {fileID: 1883390943462415571}
   - component: {fileID: 8024851548175147741}
+  - component: {fileID: 192514377258972435}
   m_Layer: 5
   m_Name: ScaleButton
   m_TagString: Untagged
@@ -2506,6 +2507,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &192514377258972435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4925966855374412202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba37a6a8a4da4a47a8c6d5fc46f7e29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 8024851548175147741}
+  text: {fileID: 2544068286602971799}
+  buttonHoverSprite: {fileID: 0}
+  buttonActiveSprite: {fileID: 0}
+  buttonDisabledSprite: {fileID: 0}
+  defaultTextColor: {r: 0, g: 0, b: 0, a: 0}
+  selectedTextColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &5107156036070977947
 GameObject:
   m_ObjectHideFlags: 0
@@ -2778,6 +2798,7 @@ GameObject:
   - component: {fileID: 3733926115818337178}
   - component: {fileID: 3128565050359456125}
   - component: {fileID: 6673875769250028941}
+  - component: {fileID: 4021980949842846761}
   m_Layer: 5
   m_Name: PositionButton
   m_TagString: Untagged
@@ -2885,6 +2906,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4021980949842846761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5399274692072735840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba37a6a8a4da4a47a8c6d5fc46f7e29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 6673875769250028941}
+  text: {fileID: 3132156571538448772}
+  buttonHoverSprite: {fileID: 0}
+  buttonActiveSprite: {fileID: 0}
+  buttonDisabledSprite: {fileID: 0}
+  defaultTextColor: {r: 0, g: 0, b: 0, a: 0}
+  selectedTextColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &5482365886071979074
 GameObject:
   m_ObjectHideFlags: 0
@@ -3941,6 +3981,7 @@ GameObject:
   - component: {fileID: 8609847196749971597}
   - component: {fileID: 375510263761840901}
   - component: {fileID: 8967611742547428597}
+  - component: {fileID: 6427529826676510244}
   m_Layer: 5
   m_Name: RotationButton
   m_TagString: Untagged
@@ -4048,6 +4089,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6427529826676510244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7046477859800385445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba37a6a8a4da4a47a8c6d5fc46f7e29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 8967611742547428597}
+  text: {fileID: 7528124617259399567}
+  buttonHoverSprite: {fileID: 0}
+  buttonActiveSprite: {fileID: 0}
+  buttonDisabledSprite: {fileID: 0}
+  defaultTextColor: {r: 0, g: 0, b: 0, a: 0}
+  selectedTextColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &7245967863493072156
 GameObject:
   m_ObjectHideFlags: 0

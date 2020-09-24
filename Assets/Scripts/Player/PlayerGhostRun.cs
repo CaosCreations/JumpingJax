@@ -35,7 +35,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     private void Update()
     {
-        if (Time.timeScale == 0)
+        if (Time.timeScale == 0 || GameManager.GetCurrentLevel().workshopFilePath != string.Empty)
         {
             return;
         }

@@ -42,9 +42,6 @@ public class WinMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        // Only show the "next" button if it is NOT a workshop map
-        nextButton.enabled = GameManager.GetCurrentLevel().workshopFilePath == string.Empty;
-
         levelText.text = "You found Jax on: " + GameManager.GetCurrentLevel().levelName;
         completionTimeText.text = TimeUtils.GetTimeString(GameManager.Instance.currentCompletionTime);
         bestTimeText.text = TimeUtils.GetTimeString(GameManager.GetCurrentLevel().completionTime);
@@ -67,22 +64,31 @@ public class WinMenu : MonoBehaviour
 
     public void NextLevel()
     {
-        gameObject.SetActive(false);
-        Time.timeScale = 1;
-
-        Level currentLevel = GameManager.GetCurrentLevel();
-        // Load credits scene
-        if (currentLevel.levelBuildIndex >= GameManager.Instance.levelDataContainer.levels.Length)
+        if(GameManager.GetCurrentLevel().workshopFilePath == string.Empty)
         {
-            Cursor.visible = true;
+            gameObject.SetActive(false);
+            Time.timeScale = 1;
+
+            Level currentLevel = GameManager.GetCurrentLevel();
+            // Load credits scene
+            if (currentLevel.levelBuildIndex >= GameManager.Instance.levelDataContainer.levels.Length)
+            {
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.visible = false;
+            }
+
+            GameManager.NextLevel();
+            GameManager.LoadScene(currentLevel.levelBuildIndex + 1);
         }
         else
         {
-            Cursor.visible = false;
+            Time.timeScale = 1;
+            GameManager.LoadScene(PlayerConstants.BuildSceneIndex);
         }
-
-        GameManager.NextLevel();
-        GameManager.LoadScene(currentLevel.levelBuildIndex + 1);
+        
     }
 
     public void GoToMainMenu()
