@@ -17,9 +17,9 @@ public class Inspector : MonoBehaviour
 
     public Text currentObjectName;
 
-    public Button positionButton;
-    public Button rotationButton;
-    public Button scaleButton;
+    public ColorChangingButton positionButton;
+    public ColorChangingButton rotationButton;
+    public ColorChangingButton scaleButton;
 
     public InputField xInput;
     public InputField yInput;
@@ -48,14 +48,17 @@ public class Inspector : MonoBehaviour
 
     void Start()
     {
-        positionButton.onClick.RemoveAllListeners();
-        positionButton.onClick.AddListener(() => SetManipulationType(ManipulationType.Position));
+        positionButton.Init();
+        positionButton.button.onClick.RemoveAllListeners();
+        positionButton.button.onClick.AddListener(() => SetManipulationType(ManipulationType.Position));
 
-        rotationButton.onClick.RemoveAllListeners();
-        rotationButton.onClick.AddListener(() => SetManipulationType(ManipulationType.Rotation));
+        rotationButton.Init();
+        rotationButton.button.onClick.RemoveAllListeners();
+        rotationButton.button.onClick.AddListener(() => SetManipulationType(ManipulationType.Rotation));
 
-        scaleButton.onClick.RemoveAllListeners();
-        scaleButton.onClick.AddListener(() => SetManipulationType(ManipulationType.Scale));
+        scaleButton.Init();
+        scaleButton.button.onClick.RemoveAllListeners();
+        scaleButton.button.onClick.AddListener(() => SetManipulationType(ManipulationType.Scale));
 
         xInput.onValueChanged.RemoveAllListeners();
         xInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.X));
@@ -128,6 +131,25 @@ public class Inspector : MonoBehaviour
         this.manipulationType = manipulationType;
         UpdateInputs();
         levelEditorGizmo.SetGizmo(objectToInspect.transform, manipulationType);
+
+        switch (manipulationType)
+        {
+            case ManipulationType.Position:
+                positionButton.SetActive();
+                rotationButton.ClearActive();
+                scaleButton.ClearActive();
+                break;
+            case ManipulationType.Rotation:
+                positionButton.ClearActive();
+                rotationButton.SetActive();
+                scaleButton.ClearActive();
+                break;
+            case ManipulationType.Scale:
+                positionButton.ClearActive();
+                rotationButton.ClearActive();
+                scaleButton.SetActive();
+                break;
+        }
     }
     
     private void UpdateInputs()
