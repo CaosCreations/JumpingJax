@@ -9,6 +9,7 @@ public class PlayerGhostRun : MonoBehaviour
     private GameObject ghostRunner;
 
     private List<Vector3> currentRunPositionData;
+    private List<Quaternion> currentRunRotationData; 
     private List<KeysPressed> currentRunKeyData;
     private float ghostRunSaveTimer = 0;
     private float ghostRunnerTimer = 0;
@@ -51,6 +52,7 @@ public class PlayerGhostRun : MonoBehaviour
         ghostRunnerTimer = 0;
         currentDataIndex = 0;
         currentRunPositionData = new List<Vector3>();
+        currentRunRotationData = new List<Quaternion>(); 
         currentRunKeyData = new List<KeysPressed>();
     }
 
@@ -71,6 +73,8 @@ public class PlayerGhostRun : MonoBehaviour
             float lerpValue = ghostRunnerTimer / ghostRunSaveInterval;
             Vector3 position = Vector3.Lerp(ghostRunner.transform.position, currentLevel.ghostRunPositions[currentDataIndex], lerpValue);
             ghostRunner.transform.position = position;
+            //Quaternion rotation = Quaternion.Slerp(ghostRunner.transform.localRotation, currentLevel.ghostRunRotations[currentDataIndex], lerpValue);
+            //ghostRunner.transform.localRotation = rotation;
             keyPressed.SetPressed(currentLevel.ghostRunKeys[currentDataIndex]);
         }
 
@@ -89,6 +93,7 @@ public class PlayerGhostRun : MonoBehaviour
         {
             ghostRunSaveTimer = 0;
             currentRunPositionData.Add(transform.position);
+            currentRunRotationData.Add(transform.localRotation); 
             currentRunKeyData.Add(GetCurrentKeysPressed());
         }
     }
@@ -115,13 +120,13 @@ public class PlayerGhostRun : MonoBehaviour
         if(currentLevel.completionTime > GameManager.Instance.currentCompletionTime || currentLevel.completionTime == 0)
         {
             currentLevel.ghostRunPositions = currentRunPositionData.ToArray();
+            currentLevel.ghostRunRotations = currentRunRotationData.ToArray(); 
             currentLevel.ghostRunKeys = currentRunKeyData.ToArray();
         }
     }
 
     private void ToggleGhost(bool isOn)
     {
-        Debug.Log("ToggleGhost fired.");
         ghostRunner.SetActive(isOn); 
         OptionsPreferencesManager.SetGhostToggle(isOn);
     }
