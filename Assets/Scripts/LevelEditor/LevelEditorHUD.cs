@@ -9,12 +9,14 @@ using UnityEngine.UI;
 
 public enum ObjectTypeTab
 {
-    Prefab, Required
+    Prefab, Required, None
 }
 
 public class LevelEditorHUD : MonoBehaviour
 {
     [Header("Set In Editor")]
+    public GameObject UIContainer;
+
     public Button prefabViewToggleButton;
     public Button requiredViewToggleButton;
 
@@ -43,7 +45,7 @@ public class LevelEditorHUD : MonoBehaviour
     public Camera levelEditorCamera;
 
     private List<LevelEditorPrefabButton> prefabButtons;
-
+    public ObjectTypeTab currentTab;
 
     private bool isWorkshopLevel;
 
@@ -185,8 +187,14 @@ public class LevelEditorHUD : MonoBehaviour
     private void TogglePrefabMenu(ObjectTypeTab tab)
     {
         prefabScrollView.SetActive(true);
+        if(tab == currentTab)
+        {
+            prefabScrollView.SetActive(false);
+            currentTab = ObjectTypeTab.None;
+            return;
+        }
 
-        foreach(LevelEditorPrefabButton button in prefabButtons)
+        foreach (LevelEditorPrefabButton button in prefabButtons)
         {
             switch (tab)
             {
@@ -198,6 +206,8 @@ public class LevelEditorHUD : MonoBehaviour
                     break;
             }
         }
+
+        currentTab = tab;
     }
 
     private void PopulatePrefabMenu()
@@ -254,12 +264,11 @@ public class LevelEditorHUD : MonoBehaviour
         Level currentLevel = GameManager.GetCurrentLevel();
 
         string filePath = "";
-        if(currentLevel.workshopFilePath != string.Empty && currentLevel.workshopFilePath != null)
+        if (currentLevel.workshopFilePath != string.Empty && currentLevel.workshopFilePath != null)
         {
             DirectoryInfo fileInfo = new DirectoryInfo(currentLevel.workshopFilePath);
             string scenePath = fileInfo.EnumerateFiles().First().FullName;
             filePath = scenePath;
-            SetupForWorkshopLevel();
         }
         else
         {
@@ -282,6 +291,11 @@ public class LevelEditorHUD : MonoBehaviour
         LevelEditorLevel levelToLoad = JsonUtility.FromJson<LevelEditorLevel>(jsonData);
 
         CreateObjects(levelToLoad.levelObjects);
+
+        if (currentLevel.workshopFilePath != string.Empty && currentLevel.workshopFilePath != null)
+        {
+            SetupForWorkshopLevel();
+        }
     }
 
     private void CreateObjects(List<ObjectData> allObjects)
@@ -315,12 +329,17 @@ public class LevelEditorHUD : MonoBehaviour
     private void SetupForWorkshopLevel()
     {
         isWorkshopLevel = true;
-        playButton.gameObject.SetActive(false);
-        saveButton.gameObject.SetActive(false);
-        requiredViewToggleButton.gameObject.SetActive(false);
-        prefabViewToggleButton.gameObject.SetActive(false);
-        playerInstance.transform.position = PlayerConstants.PlayerSpawnOffset;
+
+        Checkpoint[] checkpoints = FindObjectsOfType<Checkpoint>();
+        foreach(Checkpoint checkpoint in checkpoints)
+        {
+            if (checkpoint.isFirstCheckpoint)
+            {
+                playerInstance.transform.position = checkpoint.gameObject.transform.position + PlayerConstants.PlayerSpawnOffset;
+            }
+        }
         playerInstance.SetActive(true);
+        gameObject.SetActive(false);
     }
     #endregion
 }
