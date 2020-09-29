@@ -127,7 +127,6 @@ public class LevelEditorGizmo : MonoBehaviour
                 break;
         }
 
-        Debug.Log(mouseDelta);
         selectedObject.position += newMouseChange;
         lastMousePosition = worldPoint;
     }

@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class PlayerGhostRun : MonoBehaviour
 {
-    private KeyPressed keyPressed;
+    public KeyPressed keyPressed;
 
     public GameObject ghostRunnerPrefab;
-    private GameObject ghostRunner;
+    public GameObject ghostRunner;
 
     private List<Vector3> currentRunPositionData;
     private List<KeysPressed> currentRunKeyData;
@@ -21,7 +21,6 @@ public class PlayerGhostRun : MonoBehaviour
 
     void Start()
     {
-        keyPressed = GetComponentInChildren<KeyPressed>();
         currentLevel = GameManager.GetCurrentLevel();
         if(ghostRunner == null)
         {

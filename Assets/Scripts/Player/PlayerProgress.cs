@@ -25,6 +25,8 @@ public class PlayerProgress : MonoBehaviour
         playerGhostRun = GetComponent<PlayerGhostRun>();
         crosshair = GetComponent<Crosshair>();
         portalPair = GameObject.FindObjectOfType<PortalPair>();
+
+        GetFirstCheckpoint();
     }
 
     private void Update()
@@ -45,11 +47,19 @@ public class PlayerProgress : MonoBehaviour
         Checkpoint checkPointHit = other.gameObject.GetComponent<Checkpoint>();
         if (checkPointHit)
         {
-            if(firstCheckpoint == null)
-            {
-                firstCheckpoint = checkPointHit;
-            }
             HitNewCheckPoint(checkPointHit);
+        }
+    }
+
+    private void GetFirstCheckpoint()
+    {
+        Checkpoint[] allCheckpoints = FindObjectsOfType<Checkpoint>();
+        foreach(Checkpoint checkpoint in allCheckpoints)
+        {
+            if (checkpoint.isFirstCheckpoint)
+            {
+                firstCheckpoint = checkpoint;
+            }
         }
     }
 

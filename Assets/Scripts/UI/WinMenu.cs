@@ -64,12 +64,19 @@ public class WinMenu : MonoBehaviour
 
     public void NextLevel()
     {
-        if(GameManager.GetCurrentLevel().workshopFilePath == string.Empty)
+        Level currentLevel = GameManager.GetCurrentLevel();
+
+        if (currentLevel.workshopFilePath != string.Empty || currentLevel.levelEditorScenePath != string.Empty)
+        {
+            Time.timeScale = 1;
+            GameManager.LoadScene(PlayerConstants.BuildSceneIndex);
+            
+        }
+        else
         {
             gameObject.SetActive(false);
             Time.timeScale = 1;
 
-            Level currentLevel = GameManager.GetCurrentLevel();
             // Load credits scene
             if (currentLevel.levelBuildIndex >= GameManager.Instance.levelDataContainer.levels.Length)
             {
@@ -83,12 +90,6 @@ public class WinMenu : MonoBehaviour
             GameManager.NextLevel();
             GameManager.LoadScene(currentLevel.levelBuildIndex + 1);
         }
-        else
-        {
-            Time.timeScale = 1;
-            GameManager.LoadScene(PlayerConstants.BuildSceneIndex);
-        }
-        
     }
 
     public void GoToMainMenu()

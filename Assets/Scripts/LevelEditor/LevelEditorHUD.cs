@@ -65,6 +65,7 @@ public class LevelEditorHUD : MonoBehaviour
     void Start()
     {
         isInPlayMode = false;
+        currentTab = ObjectTypeTab.None;
         prefabButtons = new List<LevelEditorPrefabButton>();
 
         prefabViewToggleButton.onClick.RemoveAllListeners();
@@ -346,16 +347,6 @@ public class LevelEditorHUD : MonoBehaviour
             }
 
             GameObject newObject = Instantiate(prefabOfType.prefab);
-
-            //if (prefabOfType.objectType == ObjectType.Checkpoint)
-            //{
-            //    Checkpoint temp = newObject.GetComponent<Checkpoint>();
-            //    if (temp != null)
-            //    {
-            //        temp.level = objectData.checkpointNumber;
-            //    }
-            //}
-
 
             newObject.transform.position = objectData.position;
             newObject.transform.rotation = Quaternion.Euler(objectData.rotation);
