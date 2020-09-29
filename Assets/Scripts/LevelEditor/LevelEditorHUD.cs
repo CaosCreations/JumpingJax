@@ -368,6 +368,7 @@ public class LevelEditorHUD : MonoBehaviour
         }
         playerInstance.SetActive(true);
         gameObject.SetActive(false);
+        levelEditorGizmo.ClearGizmo();
     }
     #endregion
 }

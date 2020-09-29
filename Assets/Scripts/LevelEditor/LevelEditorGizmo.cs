@@ -42,7 +42,7 @@ public class LevelEditorGizmo : MonoBehaviour
         mainCamera = GetComponentInParent<Camera>();
         inspector = GetComponentInChildren<Inspector>();
     }
-    
+
     public void GizmoFollowMouse(GizmoColor gizmoColor)
     {
         switch (manipulationType)
