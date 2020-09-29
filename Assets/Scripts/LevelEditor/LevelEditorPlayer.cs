@@ -18,6 +18,11 @@ public class LevelEditorPlayer : MonoBehaviour
 
     private void Update()
     {
+        if(Time.timeScale == 0)
+        {
+            return;
+        }
+
         UpdatePosition();
 
         if (Input.GetKey(KeyCode.Mouse1))

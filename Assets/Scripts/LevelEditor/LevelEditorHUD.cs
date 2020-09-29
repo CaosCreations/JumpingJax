@@ -43,11 +43,13 @@ public class LevelEditorHUD : MonoBehaviour
     public Inspector inspector;
     public LevelEditorGizmo levelEditorGizmo;
     public Camera levelEditorCamera;
+    public CameraMove playerCamera;
 
     private List<LevelEditorPrefabButton> prefabButtons;
     public ObjectTypeTab currentTab;
 
     private bool isWorkshopLevel;
+    private bool isInPlayMode;
 
     private void Awake()
     {
@@ -57,10 +59,12 @@ public class LevelEditorHUD : MonoBehaviour
 
         playerInstance = Instantiate(playerPrefab);
         playerInstance.SetActive(false);
+        playerCamera = playerInstance.GetComponent<CameraMove>();
     }
 
     void Start()
     {
+        isInPlayMode = false;
         prefabButtons = new List<LevelEditorPrefabButton>();
 
         prefabViewToggleButton.onClick.RemoveAllListeners();
@@ -83,6 +87,12 @@ public class LevelEditorHUD : MonoBehaviour
     {
         // If we are loading into a workshop level, we don't want the HUD to do anything
         if (isWorkshopLevel)
+        {
+            return;
+        }
+
+        CheckPlayMode();
+        if (isInPlayMode)
         {
             return;
         }
@@ -138,6 +148,14 @@ public class LevelEditorHUD : MonoBehaviour
         }
     }
 
+    private void CheckPlayMode()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            PlayTest();
+        }
+    }
+
     private void SelectObject(GameObject objectToSelect)
     {
         if (!objectToSelect.Equals(currentSelectedObject))
@@ -179,8 +197,27 @@ public class LevelEditorHUD : MonoBehaviour
 
     private void PlayTest()
     {
-        playerInstance.transform.position = transform.parent.position;
-        playerInstance.SetActive(!playerInstance.activeInHierarchy);
+        isInPlayMode = !isInPlayMode;
+
+        UnselectCurrentObject();
+        requiredViewToggleButton.gameObject.SetActive(!isInPlayMode);
+        prefabViewToggleButton.gameObject.SetActive(!isInPlayMode);
+
+
+        if (!isInPlayMode)
+        {
+            transform.parent.position = playerCamera.playerCamera.transform.position;
+            transform.parent.rotation = playerCamera.playerCamera.transform.rotation;
+        }
+        else
+        {
+            playerInstance.transform.position = transform.parent.position;
+            playerCamera.SetTargetRotation(transform.parent.rotation);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+        playerInstance.SetActive(isInPlayMode);
+
     }
 
     #region Prefab Menu
