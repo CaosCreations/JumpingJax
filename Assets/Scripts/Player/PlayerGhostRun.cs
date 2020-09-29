@@ -7,9 +7,11 @@ public class PlayerGhostRun : MonoBehaviour
 
     public GameObject ghostRunnerPrefab;
     private GameObject ghostRunner;
+    private Camera playerCamera;  
 
     private List<Vector3> currentRunPositionData;
-    private List<Quaternion> currentRunRotationData; 
+    private List<Quaternion> currentRunRotationData;
+    private List<Quaternion> currentRunLookRotationData;
     private List<KeysPressed> currentRunKeyData;
     private float ghostRunSaveTimer = 0;
     private float ghostRunnerTimer = 0;
@@ -29,6 +31,7 @@ public class PlayerGhostRun : MonoBehaviour
             ghostRunner = Instantiate(ghostRunnerPrefab);
             ghostRunner.name = "ghost runner";
         }
+        playerCamera = GetComponent<CameraMove>().playerCamera;
         RestartRun();
 
         MiscOptions.onGhostToggle += ToggleGhost;
@@ -52,7 +55,8 @@ public class PlayerGhostRun : MonoBehaviour
         ghostRunnerTimer = 0;
         currentDataIndex = 0;
         currentRunPositionData = new List<Vector3>();
-        currentRunRotationData = new List<Quaternion>(); 
+        currentRunRotationData = new List<Quaternion>();
+        currentRunLookRotationData = new List<Quaternion>(); 
         currentRunKeyData = new List<KeysPressed>();
     }
 
@@ -73,8 +77,8 @@ public class PlayerGhostRun : MonoBehaviour
             float lerpValue = ghostRunnerTimer / ghostRunSaveInterval;
             Vector3 position = Vector3.Lerp(ghostRunner.transform.position, currentLevel.ghostRunPositions[currentDataIndex], lerpValue);
             ghostRunner.transform.position = position;
-            //Quaternion rotation = Quaternion.Slerp(ghostRunner.transform.localRotation, currentLevel.ghostRunRotations[currentDataIndex], lerpValue);
-            //ghostRunner.transform.localRotation = rotation;
+            Quaternion rotation = Quaternion.Slerp(ghostRunner.transform.rotation, currentLevel.ghostRunLookRotations[currentDataIndex], lerpValue);
+            ghostRunner.transform.rotation = Quaternion.Euler(0f, rotation.eulerAngles.y, 0f);
             keyPressed.SetPressed(currentLevel.ghostRunKeys[currentDataIndex]);
         }
 
@@ -93,7 +97,8 @@ public class PlayerGhostRun : MonoBehaviour
         {
             ghostRunSaveTimer = 0;
             currentRunPositionData.Add(transform.position);
-            currentRunRotationData.Add(transform.localRotation); 
+            currentRunRotationData.Add(transform.localRotation);
+            currentRunLookRotationData.Add(playerCamera.transform.localRotation);
             currentRunKeyData.Add(GetCurrentKeysPressed());
         }
     }
@@ -120,7 +125,8 @@ public class PlayerGhostRun : MonoBehaviour
         if(currentLevel.completionTime > GameManager.Instance.currentCompletionTime || currentLevel.completionTime == 0)
         {
             currentLevel.ghostRunPositions = currentRunPositionData.ToArray();
-            currentLevel.ghostRunRotations = currentRunRotationData.ToArray(); 
+            currentLevel.ghostRunRotations = currentRunRotationData.ToArray();
+            currentLevel.ghostRunLookRotations = currentRunLookRotationData.ToArray(); 
             currentLevel.ghostRunKeys = currentRunKeyData.ToArray();
         }
     }
