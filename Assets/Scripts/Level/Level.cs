@@ -40,10 +40,7 @@ public class Level : ScriptableObject
     public Vector3[] ghostRunPositions;
 
     [SerializeField]
-    public Quaternion[] ghostRunRotations;
-
-    [SerializeField]
-    public Quaternion[] ghostRunLookRotations; 
+    public Vector3[] ghostRunCameraRotations; 
 
     [SerializeField]
     public KeysPressed[] ghostRunKeys;
