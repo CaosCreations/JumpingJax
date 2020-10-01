@@ -6,9 +6,12 @@ public class PlayerGhostRun : MonoBehaviour
     public KeyPressed keyPressed;
 
     public GameObject ghostRunnerPrefab;
+	
+    private Camera playerCamera;  
     public GameObject ghostRunner;
 
     private List<Vector3> currentRunPositionData;
+    private List<Vector3> currentRunCameraRotationData;
     private List<KeysPressed> currentRunKeyData;
     private float ghostRunSaveTimer = 0;
     private float ghostRunnerTimer = 0;
@@ -27,6 +30,7 @@ public class PlayerGhostRun : MonoBehaviour
             ghostRunner = Instantiate(ghostRunnerPrefab);
             ghostRunner.name = "ghost runner";
         }
+        playerCamera = GetComponent<CameraMove>().playerCamera;
         RestartRun();
 
         MiscOptions.onGhostToggle += ToggleGhost;
@@ -50,6 +54,7 @@ public class PlayerGhostRun : MonoBehaviour
         ghostRunnerTimer = 0;
         currentDataIndex = 0;
         currentRunPositionData = new List<Vector3>();
+        currentRunCameraRotationData = new List<Vector3>(); 
         currentRunKeyData = new List<KeysPressed>();
     }
 
@@ -70,6 +75,8 @@ public class PlayerGhostRun : MonoBehaviour
             float lerpValue = ghostRunnerTimer / ghostRunSaveInterval;
             Vector3 position = Vector3.Lerp(ghostRunner.transform.position, currentLevel.ghostRunPositions[currentDataIndex], lerpValue);
             ghostRunner.transform.position = position;
+            Vector3 rotation = Vector3.Lerp(ghostRunner.transform.eulerAngles, currentLevel.ghostRunCameraRotations[currentDataIndex], lerpValue);
+            ghostRunner.transform.eulerAngles = new Vector3(0f, rotation.y, 0f); // only rotate ghost on y axis 
             keyPressed.SetPressed(currentLevel.ghostRunKeys[currentDataIndex]);
         }
 
@@ -88,6 +95,7 @@ public class PlayerGhostRun : MonoBehaviour
         {
             ghostRunSaveTimer = 0;
             currentRunPositionData.Add(transform.position);
+            currentRunCameraRotationData.Add(playerCamera.transform.eulerAngles);
             currentRunKeyData.Add(GetCurrentKeysPressed());
         }
     }
@@ -104,7 +112,7 @@ public class PlayerGhostRun : MonoBehaviour
             isCrouchPressed = InputManager.GetKey(PlayerConstants.Crouch),
             isMouseLeftPressed = InputManager.GetKey(PlayerConstants.Portal1),
             isMouseRightPressed = InputManager.GetKey(PlayerConstants.Portal2)
-        };
+        };	
 
         return toReturn;
     }
@@ -114,14 +122,14 @@ public class PlayerGhostRun : MonoBehaviour
         if(currentLevel.completionTime > GameManager.Instance.currentCompletionTime || currentLevel.completionTime == 0)
         {
             currentLevel.ghostRunPositions = currentRunPositionData.ToArray();
+            currentLevel.ghostRunCameraRotations = currentRunCameraRotationData.ToArray(); 
             currentLevel.ghostRunKeys = currentRunKeyData.ToArray();
         }
     }
 
     private void ToggleGhost(bool isOn)
     {
-        Debug.Log("ToggleGhost fired.");
-        ghostRunner.SetActive(isOn && ShouldGhostBeActive()); 
+        ghostRunner.SetActive(isOn && ShouldGhostBeActive());
         OptionsPreferencesManager.SetGhostToggle(isOn);
     }
 

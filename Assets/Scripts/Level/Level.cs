@@ -58,5 +58,8 @@ public class Level : ScriptableObject
     public Vector3[] ghostRunPositions;
 
     [SerializeField]
+    public Vector3[] ghostRunCameraRotations; 
+
+    [SerializeField]
     public KeysPressed[] ghostRunKeys;
 }
