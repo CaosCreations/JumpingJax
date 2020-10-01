@@ -3,8 +3,8 @@
 public class Checkpoint : MonoBehaviour
 {
     public bool drawGizmo;
-    [SerializeField]
-    public int level;
+    public bool isFirstCheckpoint;
+    public bool isFinalCheckpoint;
 
     public Material startMaterial;
     public Material completedMaterial;

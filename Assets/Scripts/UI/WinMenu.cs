@@ -19,7 +19,7 @@ public class WinMenu : MonoBehaviour
 
     private PlayerProgress playerProgress;
 
-    private void Start()
+    private void Awake()
     {
         playerProgress = GetComponentInParent<PlayerProgress>();
         SetupButtons();
@@ -42,9 +42,6 @@ public class WinMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        // Only show the "next" button if it is NOT a workshop map
-        nextButton.gameObject.SetActive(GameManager.GetCurrentLevel().filePath == string.Empty);
-
         levelText.text = "You found Jax on: " + GameManager.GetCurrentLevel().levelName;
         completionTimeText.text = TimeUtils.GetTimeString(GameManager.Instance.currentCompletionTime);
         bestTimeText.text = TimeUtils.GetTimeString(GameManager.GetCurrentLevel().completionTime);
@@ -67,22 +64,32 @@ public class WinMenu : MonoBehaviour
 
     public void NextLevel()
     {
-        gameObject.SetActive(false);
-        Time.timeScale = 1;
-
         Level currentLevel = GameManager.GetCurrentLevel();
-        // Load credits scene
-        if (currentLevel.levelBuildIndex >= GameManager.Instance.levelDataContainer.levels.Length)
+
+        if (currentLevel.workshopFilePath != string.Empty || currentLevel.levelEditorScenePath != string.Empty)
         {
-            Cursor.visible = true;
+            Time.timeScale = 1;
+            GameManager.LoadScene(PlayerConstants.BuildSceneIndex);
+            
         }
         else
         {
-            Cursor.visible = false;
-        }
+            gameObject.SetActive(false);
+            Time.timeScale = 1;
 
-        GameManager.NextLevel();
-        GameManager.LoadScene(currentLevel.levelBuildIndex + 1);
+            // Load credits scene
+            if (currentLevel.levelBuildIndex >= GameManager.Instance.levelDataContainer.levels.Length)
+            {
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.visible = false;
+            }
+
+            GameManager.NextLevel();
+            GameManager.LoadScene(currentLevel.levelBuildIndex + 1);
+        }
     }
 
     public void GoToMainMenu()

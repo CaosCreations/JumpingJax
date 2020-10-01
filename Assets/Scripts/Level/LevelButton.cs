@@ -28,7 +28,7 @@ public class LevelButton : MonoBehaviour
         }
 
 
-        if (level.filePath != string.Empty)
+        if (level.workshopFilePath != string.Empty)
         {
             tab = LevelSelectionTab.Workshop;
         }

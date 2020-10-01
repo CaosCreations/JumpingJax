@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class PlayerGhostRun : MonoBehaviour
 {
-    private KeyPressed keyPressed;
+    public KeyPressed keyPressed;
 
     public GameObject ghostRunnerPrefab;
-    private GameObject ghostRunner;
+    public GameObject ghostRunner;
 
     private List<Vector3> currentRunPositionData;
     private List<KeysPressed> currentRunKeyData;
     private float ghostRunSaveTimer = 0;
     private float ghostRunnerTimer = 0;
-    private Level currentLevel;
+    public Level currentLevel;
     private int currentDataIndex = 0;
 
     private const int maxDataCount = 25000; //Makes it so max file save is 5MB, stores 20.8 min of Ghost data saved
@@ -21,7 +21,6 @@ public class PlayerGhostRun : MonoBehaviour
 
     void Start()
     {
-        keyPressed = GetComponentInChildren<KeyPressed>();
         currentLevel = GameManager.GetCurrentLevel();
         if(ghostRunner == null)
         {
@@ -35,7 +34,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     private void Update()
     {
-        if (Time.timeScale == 0)
+        if (Time.timeScale == 0 || GameManager.GetCurrentLevel().workshopFilePath != string.Empty)
         {
             return;
         }
@@ -46,7 +45,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     public void RestartRun()
     {
-        ghostRunner.SetActive(OptionsPreferencesManager.GetGhostToggle() && GameManager.GetCurrentLevel().isCompleted);
+        ghostRunner.SetActive(ShouldGhostBeActive());
         ghostRunSaveTimer = 0;
         ghostRunnerTimer = 0;
         currentDataIndex = 0;
@@ -122,7 +121,12 @@ public class PlayerGhostRun : MonoBehaviour
     private void ToggleGhost(bool isOn)
     {
         Debug.Log("ToggleGhost fired.");
-        ghostRunner.SetActive(isOn); 
+        ghostRunner.SetActive(isOn && ShouldGhostBeActive()); 
         OptionsPreferencesManager.SetGhostToggle(isOn);
+    }
+
+    private bool ShouldGhostBeActive()
+    {
+        return OptionsPreferencesManager.GetGhostToggle() && currentLevel.isCompleted && currentLevel.ghostRunPositions != null && currentLevel.ghostRunPositions.Length > 0;
     }
 }
