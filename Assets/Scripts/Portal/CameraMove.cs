@@ -9,7 +9,7 @@ public class CameraMove : MonoBehaviour
 
     [NonSerialized]
     public float sensitivityMultiplier;
-    [NonSerialized]
+
     public Camera playerCamera;
     public Quaternion TargetRotation { private set; get; }
 
@@ -25,7 +25,6 @@ public class CameraMove : MonoBehaviour
         Cursor.visible = false;
 
         TargetRotation = transform.rotation;
-        playerCamera = Camera.main;
     }
 
     private void Start()
