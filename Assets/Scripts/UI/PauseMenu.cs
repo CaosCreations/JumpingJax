@@ -100,6 +100,11 @@ public class PauseMenu : MonoBehaviour {
         Time.timeScale = 1;
         GameManager.LoadScene(PlayerConstants.BuildSceneIndex);
     }
+    public void ResetLevel()
+    {
+        SceneManager.LoadScene(levelName.text);
+        UnPause();
+    }
 
     public void QuitGame() {
         if (Application.isEditor)
