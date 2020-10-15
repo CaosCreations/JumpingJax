@@ -6,7 +6,7 @@ public class LevelEditorPlayer : MonoBehaviour
 {
     public float moveSpeed = 10f;
 
-    private const float maxMoveSpeed = 200f;
+    private const float maxMoveSpeed = 250f;
     private const float minMoveSpeed = 5f;
     private const float moveSpeedDelta = 5f;
 
@@ -36,13 +36,10 @@ public class LevelEditorPlayer : MonoBehaviour
 
         if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSpeedIncrease))
         {
-            Debug.Log("Increase key");
             UpdateSpeed(increasing: true);
         }
         else if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSpeedDecrease))
         {
-            Debug.Log("Decrease key");
-
             UpdateSpeed(increasing: false);
         }
     }
@@ -91,15 +88,7 @@ public class LevelEditorPlayer : MonoBehaviour
 
     private void UpdateSpeed(bool increasing)
     {
-        moveSpeed += increasing ? moveSpeedDelta : -moveSpeedDelta;
-
-        if (moveSpeed > maxMoveSpeed)
-        {
-            moveSpeed = maxMoveSpeed; 
-        }
-        else if (moveSpeed < minMoveSpeed)
-        {
-            moveSpeed = minMoveSpeed; 
-        }
+        float delta = increasing ? moveSpeedDelta : -moveSpeedDelta;
+        moveSpeed = Mathf.Clamp(moveSpeed + delta, minMoveSpeed, maxMoveSpeed);
     }
 }
