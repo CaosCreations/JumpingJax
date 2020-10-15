@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelEditorPlayer : MonoBehaviour
 {
     public float moveSpeed = 10f;
+    public float moveSpeedDelta = 2.5f; 
 
     private float sensitivityMultiplier;
     private const float maxCameraXRotation = 90;
@@ -28,6 +29,15 @@ public class LevelEditorPlayer : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse1))
         {
             UpdateRotation();
+        }
+
+        if (Input.GetKeyDown(PlayerConstants.LevelEditorSpeedIncrease))
+        {
+            UpdateSpeed(increasing: true);
+        }
+        else if (Input.GetKeyDown(PlayerConstants.LevelEditorSpeedDecrease))
+        {
+            UpdateSpeed(increasing: false);
         }
         
     }
@@ -72,5 +82,10 @@ public class LevelEditorPlayer : MonoBehaviour
         targetEuler.x = Mathf.Clamp(targetEuler.x, -maxCameraXRotation, maxCameraXRotation);
         transform.rotation = Quaternion.Euler(targetEuler);
 
+    }
+
+    private void UpdateSpeed(bool increasing)
+    {
+        moveSpeed += increasing ? moveSpeedDelta : -moveSpeedDelta;
     }
 }
