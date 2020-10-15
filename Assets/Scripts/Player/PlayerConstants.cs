@@ -84,16 +84,14 @@ public static class PlayerConstants
     public static string ToggleUIDefault = "Z";
     public static string ToggleUITooltip = "Toggles off all UI.";
 
-    // New keyinds here: 
     public static string LevelEditorSpeedIncrease = "Level Editor Speed Increase";
-    public static string LevelEditorSpeedIncreaseDefault = "Plus";
-    public static string LevelEditorSpeedIncreaseTooltip = "Increases movement speed in the level editor";
+    public static string LevelEditorSpeedIncreaseDefault = "KeypadPlus";
+    public static string LevelEditorSpeedIncreaseTooltip = "Increases editor movement speed";
 
     public static string LevelEditorSpeedDecrease = "Level Editor Speed Decrease";
-    public static string LevelEditorSpeedDecreaseDefault = "Minus";
-    public static string LevelEditorSpeedDecreaseTooltip = "Decreases movement speed in the level editor";
+    public static string LevelEditorSpeedDecreaseDefault = "KeypadMinus";
+    public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
 
-    //
     public static string SensitivityTooltip = "Mouse Sensitivity.";
     public static string VolumeTooltip = "Master Volume.";
 

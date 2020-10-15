@@ -5,7 +5,10 @@ using UnityEngine;
 public class LevelEditorPlayer : MonoBehaviour
 {
     public float moveSpeed = 10f;
-    public float moveSpeedDelta = 2.5f; 
+
+    private const float maxMoveSpeed = 200f;
+    private const float minMoveSpeed = 5f;
+    private const float moveSpeedDelta = 5f;
 
     private float sensitivityMultiplier;
     private const float maxCameraXRotation = 90;
@@ -19,7 +22,7 @@ public class LevelEditorPlayer : MonoBehaviour
 
     private void Update()
     {
-        if(Time.timeScale == 0)
+        if (Time.timeScale == 0)
         {
             return;
         }
@@ -31,15 +34,17 @@ public class LevelEditorPlayer : MonoBehaviour
             UpdateRotation();
         }
 
-        if (Input.GetKeyDown(PlayerConstants.LevelEditorSpeedIncrease))
+        if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSpeedIncrease))
         {
+            Debug.Log("Increase key");
             UpdateSpeed(increasing: true);
         }
-        else if (Input.GetKeyDown(PlayerConstants.LevelEditorSpeedDecrease))
+        else if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSpeedDecrease))
         {
+            Debug.Log("Decrease key");
+
             UpdateSpeed(increasing: false);
         }
-        
     }
 
     private void UpdatePosition()
@@ -87,5 +92,14 @@ public class LevelEditorPlayer : MonoBehaviour
     private void UpdateSpeed(bool increasing)
     {
         moveSpeed += increasing ? moveSpeedDelta : -moveSpeedDelta;
+
+        if (moveSpeed > maxMoveSpeed)
+        {
+            moveSpeed = maxMoveSpeed; 
+        }
+        else if (moveSpeed < minMoveSpeed)
+        {
+            moveSpeed = minMoveSpeed; 
+        }
     }
 }
