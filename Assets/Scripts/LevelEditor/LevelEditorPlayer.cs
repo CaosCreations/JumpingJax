@@ -6,6 +6,10 @@ public class LevelEditorPlayer : MonoBehaviour
 {
     public float moveSpeed = 10f;
 
+    private const float maxMoveSpeed = 250f;
+    private const float minMoveSpeed = 5f;
+    private const float moveSpeedDelta = 5f;
+
     private float sensitivityMultiplier;
     private const float maxCameraXRotation = 90;
     private const float halfRotation = 180;
@@ -18,7 +22,7 @@ public class LevelEditorPlayer : MonoBehaviour
 
     private void Update()
     {
-        if(Time.timeScale == 0)
+        if (Time.timeScale == 0)
         {
             return;
         }
@@ -29,7 +33,15 @@ public class LevelEditorPlayer : MonoBehaviour
         {
             UpdateRotation();
         }
-        
+
+        if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSpeedIncrease))
+        {
+            UpdateSpeed(increasing: true);
+        }
+        else if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSpeedDecrease))
+        {
+            UpdateSpeed(increasing: false);
+        }
     }
 
     private void UpdatePosition()
@@ -72,5 +84,11 @@ public class LevelEditorPlayer : MonoBehaviour
         targetEuler.x = Mathf.Clamp(targetEuler.x, -maxCameraXRotation, maxCameraXRotation);
         transform.rotation = Quaternion.Euler(targetEuler);
 
+    }
+
+    private void UpdateSpeed(bool increasing)
+    {
+        float delta = increasing ? moveSpeedDelta : -moveSpeedDelta;
+        moveSpeed = Mathf.Clamp(moveSpeed + delta, minMoveSpeed, maxMoveSpeed);
     }
 }

@@ -84,6 +84,14 @@ public static class PlayerConstants
     public static string ToggleUIDefault = "Z";
     public static string ToggleUITooltip = "Toggles off all UI.";
 
+    public static string LevelEditorSpeedIncrease = "Level Editor Speed Increase";
+    public static string LevelEditorSpeedIncreaseDefault = "KeypadPlus";
+    public static string LevelEditorSpeedIncreaseTooltip = "Increases editor movement speed";
+
+    public static string LevelEditorSpeedDecrease = "Level Editor Speed Decrease";
+    public static string LevelEditorSpeedDecreaseDefault = "KeypadMinus";
+    public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
+
     public static string SensitivityTooltip = "Mouse Sensitivity.";
     public static string VolumeTooltip = "Master Volume.";
 
@@ -99,6 +107,7 @@ public static class PlayerConstants
     public static string GraphicsTooltip = "Graphics Quality.";
     public static string FullscreenTooltip = "Toggle Fullscreen.";
     public static string FOVTooltip = "Player Camera Field of View.";
+
 
     // Non-changeable hotkeys
     public static string MouseX = "Mouse X";
