@@ -91,6 +91,8 @@ public class Inspector : MonoBehaviour
             UpdateInputs();
         }
 
+        HandleKeyboardArrowInput();
+
         CheckInspectorCommands();
     }
 
@@ -234,6 +236,55 @@ public class Inspector : MonoBehaviour
         objectToInspect.position = newPosition;
         objectToInspect.rotation = Quaternion.Euler(newRotation);
         objectToInspect.localScale = newScale;
+    }
+
+    private void HandleKeyboardArrowInput()
+    {
+        Vector3 vectorBeingManipulated = Vector3.zero;  
+        switch (manipulationType)
+        {
+            case ManipulationType.Position:
+                vectorBeingManipulated = objectToInspect.transform.position;
+                break;
+            case ManipulationType.Rotation:
+                vectorBeingManipulated = objectToInspect.transform.eulerAngles;
+                break;
+            case ManipulationType.Scale:
+                vectorBeingManipulated = objectToInspect.transform.localScale;
+                break;
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            InputChanged((vectorBeingManipulated.x + 1).ToString(), InputType.X);
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            InputChanged((vectorBeingManipulated.x - 1).ToString(), InputType.X);
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                InputChanged((vectorBeingManipulated.z + 1).ToString(), InputType.Z);
+            }
+            else
+            {
+                InputChanged((vectorBeingManipulated.y + 1).ToString(), InputType.Y);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                InputChanged((vectorBeingManipulated.z - 1).ToString(), InputType.Z);
+            }
+            else
+            {
+                InputChanged((vectorBeingManipulated.y - 1).ToString(), InputType.Y);
+            }
+        }
+        UpdateInputs();
     }
 
     private void SnapChanged(string newSnapValue)
