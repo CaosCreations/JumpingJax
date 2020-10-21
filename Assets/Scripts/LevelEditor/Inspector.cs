@@ -240,37 +240,48 @@ public class Inspector : MonoBehaviour
 
     private void HandleKeyboardArrowInput()
     {
+        Vector3 vectorBeingManipulated = Vector3.zero;  
+        switch (manipulationType)
+        {
+            case ManipulationType.Position:
+                vectorBeingManipulated = objectToInspect.transform.position;
+                break;
+            case ManipulationType.Rotation:
+                vectorBeingManipulated = objectToInspect.transform.eulerAngles;
+                break;
+            case ManipulationType.Scale:
+                vectorBeingManipulated = objectToInspect.transform.localScale;
+                break;
+        }
+
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            InputChanged((objectToInspect.transform.position.x + 1).ToString(), InputType.X);
+            InputChanged((vectorBeingManipulated.x + 1).ToString(), InputType.X);
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            InputChanged((objectToInspect.transform.position.x - 1).ToString(), InputType.X);
-
+            InputChanged((vectorBeingManipulated.x - 1).ToString(), InputType.X);
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                InputChanged((objectToInspect.transform.position.z + 1).ToString(), InputType.Z);
-
+                InputChanged((vectorBeingManipulated.z + 1).ToString(), InputType.Z);
             }
             else
             {
-                InputChanged((objectToInspect.transform.position.y + 1).ToString(), InputType.Y);
+                InputChanged((vectorBeingManipulated.y + 1).ToString(), InputType.Y);
             }
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                InputChanged((objectToInspect.transform.position.z - 1).ToString(), InputType.Z);
-
+                InputChanged((vectorBeingManipulated.z - 1).ToString(), InputType.Z);
             }
             else
             {
-                InputChanged((objectToInspect.transform.position.y - 1).ToString(), InputType.Y);
+                InputChanged((vectorBeingManipulated.y - 1).ToString(), InputType.Y);
             }
         }
         UpdateInputs();
