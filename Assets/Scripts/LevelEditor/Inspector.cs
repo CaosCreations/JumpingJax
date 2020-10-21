@@ -91,6 +91,8 @@ public class Inspector : MonoBehaviour
             UpdateInputs();
         }
 
+        HandleKeyboardArrowInput();
+
         CheckInspectorCommands();
     }
 
@@ -234,6 +236,44 @@ public class Inspector : MonoBehaviour
         objectToInspect.position = newPosition;
         objectToInspect.rotation = Quaternion.Euler(newRotation);
         objectToInspect.localScale = newScale;
+    }
+
+    private void HandleKeyboardArrowInput()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            InputChanged((objectToInspect.transform.position.x + 1).ToString(), InputType.X);
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            InputChanged((objectToInspect.transform.position.x - 1).ToString(), InputType.X);
+
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                InputChanged((objectToInspect.transform.position.z + 1).ToString(), InputType.Z);
+
+            }
+            else
+            {
+                InputChanged((objectToInspect.transform.position.y + 1).ToString(), InputType.Y);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                InputChanged((objectToInspect.transform.position.z - 1).ToString(), InputType.Z);
+
+            }
+            else
+            {
+                InputChanged((objectToInspect.transform.position.y - 1).ToString(), InputType.Y);
+            }
+        }
+        UpdateInputs();
     }
 
     private void SnapChanged(string newSnapValue)
