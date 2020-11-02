@@ -18,13 +18,31 @@ public class Level : ScriptableObject
     public string[] tutorialTexts;
 
     [SerializeField]
-    public int numberOfCheckpoints;
+    public Sprite previewSprite;
+
+    [Header("Workshop data")]
+    [SerializeField]
+    public string description;
 
     [SerializeField]
-    public string filePath;
+    public string workshopFilePath;
+
+    [SerializeField]
+    public string levelEditorFolder;
+
+    [SerializeField]
+    public string levelEditorScriptableObjectPath;
+
+    [SerializeField]
+    public string levelEditorScenePath;
+
+    [SerializeField]
+    public string previewImagePath;
 
     [SerializeField]
     public ulong fileId;
+
+    
 
     [Header("Set in Game")]
     [SerializeField]
@@ -40,8 +58,8 @@ public class Level : ScriptableObject
     public Vector3[] ghostRunPositions;
 
     [SerializeField]
-    public KeysPressed[] ghostRunKeys;
+    public Vector3[] ghostRunCameraRotations; 
 
     [SerializeField]
-    public Sprite previewSprite;
+    public KeysPressed[] ghostRunKeys;
 }

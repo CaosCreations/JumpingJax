@@ -84,6 +84,14 @@ public static class PlayerConstants
     public static string ToggleUIDefault = "Z";
     public static string ToggleUITooltip = "Toggles off all UI.";
 
+    public static string LevelEditorSpeedIncrease = "Level Editor Speed Increase";
+    public static string LevelEditorSpeedIncreaseDefault = "KeypadPlus";
+    public static string LevelEditorSpeedIncreaseTooltip = "Increases editor movement speed";
+
+    public static string LevelEditorSpeedDecrease = "Level Editor Speed Decrease";
+    public static string LevelEditorSpeedDecreaseDefault = "KeypadMinus";
+    public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
+
     public static string SensitivityTooltip = "Mouse Sensitivity.";
     public static string VolumeTooltip = "Master Volume.";
 
@@ -100,6 +108,7 @@ public static class PlayerConstants
     public static string FullscreenTooltip = "Toggle Fullscreen.";
     public static string FOVTooltip = "Player Camera Field of View.";
 
+
     // Non-changeable hotkeys
     public static string MouseX = "Mouse X";
     public static string MouseY = "Mouse Y";
@@ -114,10 +123,12 @@ public static class PlayerConstants
 
     // Game Constants
     public static int BuildSceneIndex = 0;
+    public static int LevelEditorSceneIndex = 36;
     public static Vector3 PlayerSpawnOffset = new Vector3(0, 2, 0);
     public static string levelCompletionTimeFormat = "mm':'ss'.'fff";
     public static int PlayerLayer = 12;
     public static int PortalMaterialLayer = 10;
     public static int PortalLayer = 11;
+    public static int GizmoLayer = 15;
     public static string PortalWallTag = "PortalWall";
 }

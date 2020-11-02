@@ -121,7 +121,7 @@ public class LevelSelectionMenu : MonoBehaviour
             {
                 Level newLevel = ScriptableObject.CreateInstance<Level>();
                 newLevel.levelBuildIndex = GameManager.workshopLevelIndex;
-                newLevel.filePath = item.Directory;
+                newLevel.workshopFilePath = item.Directory;
                 newLevel.levelName = item.Title;
                 newLevel.fileId = item.Id.Value;
                 newLevel.gravityMultiplier = 1;

@@ -94,18 +94,8 @@ public class GameManager : MonoBehaviour
     public static void LoadScene(Level workshopLevel)
     {
         Instance.currentLevel = workshopLevel;
-        string sceneAssetPath = AssetBundleManager.LoadSceneFromBundle(workshopLevel.filePath);
-        if(sceneAssetPath == string.Empty)
-        {
-            // Asset Bundle loaded incorrectly
-            AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(PlayerConstants.BuildSceneIndex);
-            LoadingScreenManager.Instance.Show(sceneLoadOperation);
-        }
-        else
-        {
-            AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(sceneAssetPath);
-            LoadingScreenManager.Instance.Show(sceneLoadOperation);
-        }
+        AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(PlayerConstants.LevelEditorSceneIndex);
+        LoadingScreenManager.Instance.Show(sceneLoadOperation);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -122,31 +112,51 @@ public class GameManager : MonoBehaviour
 
         if (scene.buildIndex == PlayerConstants.BuildSceneIndex)
         {
-            AssetBundle.UnloadAllAssetBundles(true);
             return;
         }
 
-        // Set our current level if we are loading from that scene, and not the menu
-        if (Instance.currentLevel == null && scene.buildIndex > 0)
+        // Set our current level if we are loading from that scene in the editor, and not the menu
+        if (Instance.currentLevel == null && scene.buildIndex > 0 && scene.buildIndex < PlayerConstants.LevelEditorSceneIndex)
         {
             Instance.currentLevel = Instance.levelDataContainer.levels[scene.buildIndex - 1];
         }
 
         // Set up the workshop level to have the right number of checkpoints, since it isn't loaded on the scene
-        if (Instance.currentLevel.filePath != string.Empty)
+        if (Instance.currentLevel.workshopFilePath != string.Empty || Instance.currentLevel.levelEditorScriptableObjectPath != string.Empty)
         {
-            Instance.currentLevel.numberOfCheckpoints = GameObject.FindObjectsOfType<Checkpoint>().Length;
+            LevelEditorHUD levelEditorHUD = FindObjectOfType<LevelEditorHUD>();
+            levelEditorHUD.LoadSceneData();
         }
     }
 
     public static Level GetCurrentLevel()
     {
+        if(Instance == null)
+        {
+            return ScriptableObject.CreateInstance<Level>();
+        }
+
         if(Instance.currentLevel == null)
         {
-            return new Level();
+            return ScriptableObject.CreateInstance<Level>();
         }
 
         return Instance.currentLevel;
+    }
+
+    public static bool GetDidFinishLevel()
+    {
+        if (Instance == null)
+        {
+            return false;
+        }
+
+        if (Instance.currentLevel == null)
+        {
+            return false;
+        }
+
+        return Instance.didWinCurrentLevel;
     }
 
     public static void NextLevel()

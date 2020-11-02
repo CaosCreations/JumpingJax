@@ -61,7 +61,9 @@ public class HotKeyManager : MonoBehaviour {
         LoadSavedKey(PlayerConstants.ResetLevel, PlayerConstants.ResetLevelDefault);
         LoadSavedKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
         LoadSavedKey(PlayerConstants.Portal2, PlayerConstants.Portal2Default);
-        LoadSavedKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault); 
+        LoadSavedKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault);
+        LoadSavedKey(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseDefault);
+        LoadSavedKey(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseDefault);
     }
 
     public void LoadSavedKey(string keyName, string defaultValue)
@@ -101,7 +103,9 @@ public class HotKeyManager : MonoBehaviour {
         AddDefaultKey(PlayerConstants.ResetLevel, PlayerConstants.ResetLevelDefault);
         AddDefaultKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
         AddDefaultKey(PlayerConstants.Portal2, PlayerConstants.Portal2Default);
-        AddDefaultKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault); 
+        AddDefaultKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault);
+        AddDefaultKey(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseDefault);
+        AddDefaultKey(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseDefault);
     }
 
     public void AddDefaultKey(string keyName, string defaultValue)
@@ -129,5 +133,7 @@ public class HotKeyManager : MonoBehaviour {
         tooltips.Add(PlayerConstants.Portal1, PlayerConstants.Portal1Tooltip);
         tooltips.Add(PlayerConstants.Portal2, PlayerConstants.Portal2Tooltip);
         tooltips.Add(PlayerConstants.ToggleUI, PlayerConstants.ToggleUITooltip);
+        tooltips.Add(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseTooltip);
+        tooltips.Add(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseTooltip);
     }
 }
