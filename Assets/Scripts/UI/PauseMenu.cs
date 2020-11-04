@@ -19,12 +19,15 @@ public class PauseMenu : MonoBehaviour {
     public bool isPaused;
 
     private DeveloperConsole console;
+    
+    private PlayerProgress PP;
 
 
     private void Start()
     {
         pauseMenuContainer.SetActive(false);
         console = transform.parent.GetComponentInChildren<DeveloperConsole>();
+        PP = transform.parent.GetComponent<PlayerProgress>();
     }
 
     void Update()
@@ -101,7 +104,7 @@ public class PauseMenu : MonoBehaviour {
     }
     public void ResetLevel()
     {
-        GameObject.Find("PortalBhopPlayer").GetComponent<PlayerProgress>().ResetPlayer();
+        PP.ResetPlayer();
         UnPause();
     }
 
