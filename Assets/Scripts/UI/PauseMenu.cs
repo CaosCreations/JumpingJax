@@ -61,7 +61,6 @@ public class PauseMenu : MonoBehaviour {
         pauseMenuContainer.SetActive(true);
         pauseMenuHome.SetActive(true);
         optionsMenu.SetActive(false);
-        levelName.text = SceneManager.GetActiveScene().name;
 
         // If we aren't in the main menu
         if (SceneManager.GetActiveScene().buildIndex != 0)
@@ -102,7 +101,7 @@ public class PauseMenu : MonoBehaviour {
     }
     public void ResetLevel()
     {
-        SceneManager.LoadScene(levelName.text);
+        GameObject.Find("PortalBhopPlayer").GetComponent<PlayerProgress>().ResetPlayer();
         UnPause();
     }
 
