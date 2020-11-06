@@ -20,14 +20,14 @@ public class PauseMenu : MonoBehaviour {
 
     private DeveloperConsole console;
     
-    private PlayerProgress PP;
+    private PlayerProgress playerProgress;
 
 
     private void Start()
     {
         pauseMenuContainer.SetActive(false);
         console = transform.parent.GetComponentInChildren<DeveloperConsole>();
-        PP = transform.parent.GetComponent<PlayerProgress>();
+        playerProgress = transform.parent.GetComponent<PlayerProgress>();
     }
 
     void Update()
@@ -104,7 +104,7 @@ public class PauseMenu : MonoBehaviour {
     }
     public void ResetLevel()
     {
-        PP.ResetPlayer();
+        playerProgress.ResetPlayer();
         UnPause();
     }
 
