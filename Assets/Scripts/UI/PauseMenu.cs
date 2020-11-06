@@ -19,12 +19,15 @@ public class PauseMenu : MonoBehaviour {
     public bool isPaused;
 
     private DeveloperConsole console;
+    
+    private PlayerProgress playerProgress;
 
 
     private void Start()
     {
         pauseMenuContainer.SetActive(false);
         console = transform.parent.GetComponentInChildren<DeveloperConsole>();
+        playerProgress = transform.parent.GetComponent<PlayerProgress>();
     }
 
     void Update()
@@ -61,7 +64,6 @@ public class PauseMenu : MonoBehaviour {
         pauseMenuContainer.SetActive(true);
         pauseMenuHome.SetActive(true);
         optionsMenu.SetActive(false);
-        levelName.text = SceneManager.GetActiveScene().name;
 
         // If we aren't in the main menu
         if (SceneManager.GetActiveScene().buildIndex != 0)
@@ -99,6 +101,11 @@ public class PauseMenu : MonoBehaviour {
     {
         Time.timeScale = 1;
         GameManager.LoadScene(PlayerConstants.BuildSceneIndex);
+    }
+    public void ResetLevel()
+    {
+        playerProgress.ResetPlayer();
+        UnPause();
     }
 
     public void QuitGame() {
