@@ -28,6 +28,7 @@ public class PauseMenu : MonoBehaviour {
         pauseMenuContainer.SetActive(false);
         console = transform.parent.GetComponentInChildren<DeveloperConsole>();
         playerProgress = transform.parent.GetComponent<PlayerProgress>();
+        levelName.text = GameManager.GetCurrentLevel().levelName;
     }
 
     void Update()
