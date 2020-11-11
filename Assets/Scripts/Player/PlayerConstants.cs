@@ -123,7 +123,7 @@ public static class PlayerConstants
 
     // Game Constants
     public static int BuildSceneIndex = 0;
-    public static int LevelEditorSceneIndex = 36;
+    public static int LevelEditorSceneIndex = 37;
     public static Vector3 PlayerSpawnOffset = new Vector3(0, 2, 0);
     public static string levelCompletionTimeFormat = "mm':'ss'.'fff";
     public static int PlayerLayer = 12;
