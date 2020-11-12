@@ -20,6 +20,15 @@ public class Level : ScriptableObject
     [SerializeField]
     public Sprite previewSprite;
 
+    [SerializeField]
+    public float bone1Time;
+
+    [SerializeField]
+    public float bone2Time;
+
+    [SerializeField]
+    public float bone3Time;
+
     [Header("Workshop data")]
     [SerializeField]
     public string description;
@@ -62,4 +71,29 @@ public class Level : ScriptableObject
 
     [SerializeField]
     public KeysPressed[] ghostRunKeys;
+
+    public int GetNumberOfTimeBones()
+    {
+        if (!isCompleted)
+        {
+            return 0;
+        }
+
+        if(completionTime < bone3Time)
+        {
+            return 3;
+        }
+
+        if (completionTime < bone2Time)
+        {
+            return 2;
+        }
+
+        if (completionTime < bone1Time)
+        {
+            return 1;
+        }
+
+        return 0;
+    }
 }

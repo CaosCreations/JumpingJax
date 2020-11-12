@@ -14,16 +14,16 @@ public enum LevelSelectionTab
 public class LevelSelectionMenu : MonoBehaviour
 {
     public Transform levelButtonParent;
-    public GameObject levelObjectPrefab;
+    public GameObject levelCardPrefab;
     public LevelPreview levelPreview;
 
-    public TabButton hopTabButton;
-    public TabButton portalTabButton;
-    public TabButton workshopTabButton;
+    public Button hopTabButton;
+    public Button portalTabButton;
+    public Button workshopTabButton;
 
-    public List<LevelButton> hopButtonList;
-    public List<LevelButton> portalButtonList;
-    public List<LevelButton> workshopButtonList;
+    public List<LevelSelectionCard> hopCardList;
+    public List<LevelSelectionCard> portalCardList;
+    public List<LevelSelectionCard> workshopCardList;
 
     public LevelSelectionTab currentTab;
 
@@ -38,41 +38,41 @@ public class LevelSelectionMenu : MonoBehaviour
 
     void SetupTabButtons()
     {
-        hopTabButton.button.onClick.RemoveAllListeners();
-        hopTabButton.button.onClick.AddListener(() => SetTab(LevelSelectionTab.Hop));
+        hopTabButton.onClick.RemoveAllListeners();
+        hopTabButton.onClick.AddListener(() => SetTab(LevelSelectionTab.Hop));
 
-        portalTabButton.button.onClick.RemoveAllListeners();
-        portalTabButton.button.onClick.AddListener(() => SetTab(LevelSelectionTab.Portal));
+        portalTabButton.onClick.RemoveAllListeners();
+        portalTabButton.onClick.AddListener(() => SetTab(LevelSelectionTab.Portal));
 
-        workshopTabButton.button.onClick.RemoveAllListeners();
-        workshopTabButton.button.onClick.AddListener(() => SetTab(LevelSelectionTab.Workshop));
+        workshopTabButton.onClick.RemoveAllListeners();
+        workshopTabButton.onClick.AddListener(() => SetTab(LevelSelectionTab.Workshop));
     }
 
     void SetTab(LevelSelectionTab tab)
     {
-        hopButtonList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Hop));
-        portalButtonList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Portal));
-        workshopButtonList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Workshop));
+        hopCardList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Hop));
+        portalCardList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Portal));
+        workshopCardList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Workshop));
 
 
-        switch (tab)
-        {
-            case LevelSelectionTab.Hop:
-                hopTabButton.SelectTab();
-                portalTabButton.UnselectTab();
-                workshopTabButton.UnselectTab();
-                break;
-            case LevelSelectionTab.Portal:
-                hopTabButton.UnselectTab();
-                portalTabButton.SelectTab();
-                workshopTabButton.UnselectTab();
-                break;
-            case LevelSelectionTab.Workshop:
-                hopTabButton.UnselectTab();
-                portalTabButton.UnselectTab();
-                workshopTabButton.SelectTab();
-                break;
-        }
+        //switch (tab)
+        //{
+        //    case LevelSelectionTab.Hop:
+        //        hopTabButton.SelectTab();
+        //        portalTabButton.UnselectTab();
+        //        workshopTabButton.UnselectTab();
+        //        break;
+        //    case LevelSelectionTab.Portal:
+        //        hopTabButton.UnselectTab();
+        //        portalTabButton.SelectTab();
+        //        workshopTabButton.UnselectTab();
+        //        break;
+        //    case LevelSelectionTab.Workshop:
+        //        hopTabButton.UnselectTab();
+        //        portalTabButton.UnselectTab();
+        //        workshopTabButton.SelectTab();
+        //        break;
+        //}
 
         currentTab = tab;
     }
@@ -81,24 +81,24 @@ public class LevelSelectionMenu : MonoBehaviour
     {
         for (int i = 0; i < levels.Length; i++)
         {
-            GameObject newLevelButton = Instantiate(levelObjectPrefab, levelButtonParent);
-            LevelButton levelButton = newLevelButton.GetComponentInChildren<LevelButton>();
+            GameObject newLevelCard = Instantiate(levelCardPrefab, levelButtonParent);
+            LevelSelectionCard levelCard = newLevelCard.GetComponentInChildren<LevelSelectionCard>();
 
             Level currentLevel = levels[i];
-            levelButton.SetupButton(currentLevel);
-            levelButton.button.onClick.AddListener(() => OnClickLevel(currentLevel));
+            levelCard.Init(currentLevel);
+            levelCard.selectButton.onClick.AddListener(() => OnClickLevel(currentLevel));
 
-            if (levelButton.tab == LevelSelectionTab.Hop)
+            if (levelCard.tab == LevelSelectionTab.Hop)
             {
-                hopButtonList.Add(levelButton);
+                hopCardList.Add(levelCard);
             }
-            else if(levelButton.tab == LevelSelectionTab.Portal)
+            else if(levelCard.tab == LevelSelectionTab.Portal)
             {
-                portalButtonList.Add(levelButton);
+                portalCardList.Add(levelCard);
             }
             else
             {
-                workshopButtonList.Add(levelButton);
+                workshopCardList.Add(levelCard);
             }
         }
     }
