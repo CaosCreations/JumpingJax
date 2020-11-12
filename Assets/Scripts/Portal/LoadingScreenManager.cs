@@ -89,6 +89,17 @@ public class LoadingScreenManager : MonoBehaviour
         isLoading = true;
 
         mainImage.sprite = animatedImages[0];
+
+        string levelName = GameManager.GetCurrentLevel().name;
+
+        if (string.IsNullOrEmpty(levelName))
+        {
+            levelNameText.text = "Main Menu";
+        }
+        else
+        {
+            levelNameText.text = levelName;
+        }
     }
 
     public void Hide()
@@ -105,14 +116,6 @@ public class LoadingScreenManager : MonoBehaviour
         float percentComplete = timeElapsed / MIN_TIME_TO_SHOW;
 
         loadingBar.value = percentComplete;
-
-        string levelName = GameManager.GetCurrentLevel().name;
-
-        if (string.IsNullOrEmpty(levelName))
-        {
-            levelNameText.text = "Main Menu";
-
-        }
 
         if(timeSinceSpriteChange > spriteChangeInterval)
         {

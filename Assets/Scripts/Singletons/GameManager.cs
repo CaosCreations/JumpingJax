@@ -82,9 +82,13 @@ public class GameManager : MonoBehaviour
 
     public static void LoadScene(int buildIndex)
     {
-        if(buildIndex != PlayerConstants.BuildSceneIndex)
+        if(buildIndex != PlayerConstants.MainMenuSceneIndex)
         {
             Instance.currentLevel = Instance.levelDataContainer.levels[buildIndex - 1];
+        }
+        else
+        {
+            Instance.currentLevel = ScriptableObject.CreateInstance<Level>();
         }
 
         AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(buildIndex);
@@ -110,7 +114,7 @@ public class GameManager : MonoBehaviour
         currentCompletionTime = 0;
         didWinCurrentLevel = false;
 
-        if (scene.buildIndex == PlayerConstants.BuildSceneIndex)
+        if (scene.buildIndex == PlayerConstants.MainMenuSceneIndex)
         {
             return;
         }

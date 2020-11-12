@@ -77,6 +77,8 @@ public class LevelPreview : MonoBehaviour
 
     private void UpdateDetailPane()
     {
+        levelNameText.text = levelToPreview.levelName;
+
         // We need this check in case the workshop dev forgot to upload a screen shot
         if (levelToPreview.previewSprite == null)
         {

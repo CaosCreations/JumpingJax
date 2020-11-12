@@ -69,7 +69,7 @@ public class WinMenu : MonoBehaviour
         if (currentLevel.workshopFilePath != string.Empty || currentLevel.levelEditorScenePath != string.Empty)
         {
             Time.timeScale = 1;
-            GameManager.LoadScene(PlayerConstants.BuildSceneIndex);
+            GameManager.LoadScene(PlayerConstants.MainMenuSceneIndex);
             
         }
         else
@@ -97,6 +97,6 @@ public class WinMenu : MonoBehaviour
         gameObject.SetActive(false);
         Time.timeScale = 1;
         Cursor.visible = true;
-        GameManager.LoadScene(PlayerConstants.BuildSceneIndex);
+        GameManager.LoadScene(PlayerConstants.MainMenuSceneIndex);
     }
 }
