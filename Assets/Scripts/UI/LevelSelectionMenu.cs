@@ -17,9 +17,9 @@ public class LevelSelectionMenu : MonoBehaviour
     public GameObject levelCardPrefab;
     public LevelPreview levelPreview;
 
-    public Button hopTabButton;
-    public Button portalTabButton;
-    public Button workshopTabButton;
+    public TabButton hopTabButton;
+    public TabButton portalTabButton;
+    public TabButton workshopTabButton;
 
     public List<LevelSelectionCard> hopCardList;
     public List<LevelSelectionCard> portalCardList;
@@ -47,14 +47,9 @@ public class LevelSelectionMenu : MonoBehaviour
 
     void SetupTabButtons()
     {
-        hopTabButton.onClick.RemoveAllListeners();
-        hopTabButton.onClick.AddListener(() => SetTab(LevelSelectionTab.Hop));
-
-        portalTabButton.onClick.RemoveAllListeners();
-        portalTabButton.onClick.AddListener(() => SetTab(LevelSelectionTab.Portal));
-
-        workshopTabButton.onClick.RemoveAllListeners();
-        workshopTabButton.onClick.AddListener(() => SetTab(LevelSelectionTab.Workshop));
+        hopTabButton.Init("Hop", () => SetTab(LevelSelectionTab.Hop));
+        portalTabButton.Init("Portal", () => SetTab(LevelSelectionTab.Portal));
+        workshopTabButton.Init("Workshop", () => SetTab(LevelSelectionTab.Workshop));
     }
 
     void SetTab(LevelSelectionTab tab)
@@ -63,25 +58,24 @@ public class LevelSelectionMenu : MonoBehaviour
         portalCardList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Portal));
         workshopCardList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Workshop));
 
-
-        //switch (tab)
-        //{
-        //    case LevelSelectionTab.Hop:
-        //        hopTabButton.SelectTab();
-        //        portalTabButton.UnselectTab();
-        //        workshopTabButton.UnselectTab();
-        //        break;
-        //    case LevelSelectionTab.Portal:
-        //        hopTabButton.UnselectTab();
-        //        portalTabButton.SelectTab();
-        //        workshopTabButton.UnselectTab();
-        //        break;
-        //    case LevelSelectionTab.Workshop:
-        //        hopTabButton.UnselectTab();
-        //        portalTabButton.UnselectTab();
-        //        workshopTabButton.SelectTab();
-        //        break;
-        //}
+        switch (tab)
+        {
+            case LevelSelectionTab.Hop:
+                hopTabButton.SelectTab();
+                portalTabButton.UnselectTab();
+                workshopTabButton.UnselectTab();
+                break;
+            case LevelSelectionTab.Portal:
+                hopTabButton.UnselectTab();
+                portalTabButton.SelectTab();
+                workshopTabButton.UnselectTab();
+                break;
+            case LevelSelectionTab.Workshop:
+                hopTabButton.UnselectTab();
+                portalTabButton.UnselectTab();
+                workshopTabButton.SelectTab();
+                break;
+        }
 
         currentTab = tab;
     }
