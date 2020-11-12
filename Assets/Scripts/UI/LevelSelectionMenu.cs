@@ -30,10 +30,11 @@ public class LevelSelectionMenu : MonoBehaviour
     void Start()
     {
         levelPreview = GetComponentInChildren<LevelPreview>();
+        levelPreview.gameObject.SetActive(false);
         SetupTabButtons();
-        LoadButtons(GameManager.Instance.levelDataContainer.levels);
+        LoadCards(GameManager.Instance.levelDataContainer.levels);
         SetTab(LevelSelectionTab.Hop);
-        LoadWorkshopButtons();
+        LoadWorkshopCards();
     }
 
     void SetupTabButtons()
@@ -77,7 +78,7 @@ public class LevelSelectionMenu : MonoBehaviour
         currentTab = tab;
     }
     
-    void LoadButtons(Level[] levels)
+    void LoadCards(Level[] levels)
     {
         for (int i = 0; i < levels.Length; i++)
         {
@@ -103,10 +104,10 @@ public class LevelSelectionMenu : MonoBehaviour
         }
     }
 
-    private async void LoadWorkshopButtons()
+    private async void LoadWorkshopCards()
     {
         List<Level> levels = await GetWorkshopLevels();
-        LoadButtons(levels.ToArray());
+        LoadCards(levels.ToArray());
         // Re-toggle the correct buttons once the levels have loaded from Steam
         SetTab(currentTab);
     }
@@ -167,6 +168,7 @@ public class LevelSelectionMenu : MonoBehaviour
 
     public void OnClickLevel(Level level)
     {
+        levelPreview.gameObject.SetActive(true);
         levelPreview.Init(level);
     }
 }

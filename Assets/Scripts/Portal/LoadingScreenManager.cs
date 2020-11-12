@@ -14,7 +14,7 @@ public class LoadingScreenManager : MonoBehaviour
     public Text levelNameText;
 
     private GameObject loadScreenContainer;
-    private const float MIN_TIME_TO_SHOW = 3f;
+    private const float MIN_TIME_TO_SHOW = 2f;
     // The reference to the current loading operation running in the background:
     private AsyncOperation currentLoadingOperation;
     private bool isLoading;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,13 +10,29 @@ using UnityEngine.UI;
 public class LevelPreview : MonoBehaviour
 {
     public GameObject leaderboardItemPrefab;
+    public Transform leaderboardParent;
 
     public Button playButton;
+    public Button backButton;
+
     public Image previewImage;
-    public Text leaderboardNameText;
-    public Transform leaderboard;
-    public Transform scrollViewContent;
     public Sprite noImageSprite;
+
+    public Text levelNameText;
+    public Text bestTimeText;
+    public Text rankText;
+
+    public Image singleBoneImage;
+    public Image doubleBoneImage;
+    public Image tripleBoneImage;
+
+    public Sprite boneEmptySprite;
+    public Sprite boneFilledSprite;
+
+    public Text singleBoneText;
+    public Text doubleBoneText;
+    public Text tripleBoneText;
+
 
     private Level levelToPreview;
     private Dictionary<string, Steamworks.Data.LeaderboardEntry[]> leaderboardCache;
@@ -24,10 +41,8 @@ public class LevelPreview : MonoBehaviour
     {
         playButton.onClick.RemoveAllListeners();
         playButton.onClick.AddListener(Play);
-        playButton.gameObject.SetActive(false);
-        previewImage.gameObject.SetActive(false);
-        leaderboard.gameObject.SetActive(false);
-        leaderboardNameText.gameObject.SetActive(false);
+        backButton.onClick.RemoveAllListeners();
+        backButton.onClick.AddListener(Back);
         leaderboardCache = new Dictionary<string, Steamworks.Data.LeaderboardEntry[]>();
     }
 
@@ -42,34 +57,83 @@ public class LevelPreview : MonoBehaviour
         {
             GameManager.LoadScene(levelToPreview.levelBuildIndex);
         }
+
+        gameObject.SetActive(false);
+    }
+
+    void Back()
+    {
+        gameObject.SetActive(false);
     }
 
     public async void Init(Level level)
     {
-        playButton.gameObject.SetActive(true);
-        previewImage.gameObject.SetActive(true);
-        leaderboard.gameObject.SetActive(true);
-        leaderboardNameText.gameObject.SetActive(true);
         levelToPreview = level;
 
+        UpdateDetailPane();
+
+        CleanScrollView();
+        await PopulateLeaderboard();
+    }
+
+    private void UpdateDetailPane()
+    {
         // We need this check in case the workshop dev forgot to upload a screen shot
-        if(level.previewSprite == null)
+        if (levelToPreview.previewSprite == null)
         {
             previewImage.sprite = noImageSprite;
         }
         else
         {
-            previewImage.sprite = level.previewSprite;
+            previewImage.sprite = levelToPreview.previewSprite;
         }
         previewImage.preserveAspect = true;
-        leaderboardNameText.text = $"{level.levelName} leaderboard";
-        CleanScrollView();
-        await PopulateLeaderboard();
+
+
+        if (levelToPreview.isCompleted)
+        {
+            TimeSpan time = TimeSpan.FromSeconds(levelToPreview.completionTime);
+            string timeString = time.ToString(PlayerConstants.levelCompletionTimeFormat);
+            bestTimeText.text = timeString;
+        }
+        else
+        {
+            bestTimeText.text = "N/A";
+        }
+
+        SetBoneImages();
+        singleBoneText.text = TimeSpan.FromSeconds(levelToPreview.bone1Time).ToString(PlayerConstants.levelCompletionTimeFormat);
+        doubleBoneText.text = TimeSpan.FromSeconds(levelToPreview.bone2Time).ToString(PlayerConstants.levelCompletionTimeFormat);
+        tripleBoneText.text = TimeSpan.FromSeconds(levelToPreview.bone3Time).ToString(PlayerConstants.levelCompletionTimeFormat);
+    }
+
+    void SetBoneImages()
+    {
+        int numberOfBones = levelToPreview.GetNumberOfTimeBones();
+
+        singleBoneImage.sprite = boneEmptySprite;
+        doubleBoneImage.sprite = boneEmptySprite;
+        tripleBoneImage.sprite = boneEmptySprite;
+
+        if (numberOfBones >= 1)
+        {
+            singleBoneImage.sprite = boneFilledSprite;
+        }
+
+        if (numberOfBones >= 2)
+        {
+            doubleBoneImage.sprite = boneFilledSprite;
+        }
+
+        if (numberOfBones == 3)
+        {
+            tripleBoneImage.sprite = boneFilledSprite;
+        }
     }
 
     private void CleanScrollView()
     {
-        foreach(Transform child in scrollViewContent)
+        foreach(Transform child in leaderboardParent)
         {
             Destroy(child.gameObject);
         }
@@ -96,7 +160,7 @@ public class LevelPreview : MonoBehaviour
                 Debug.Log($"Leaderboard found, populating preview with {entries.Count()} entries");
                 foreach (Steamworks.Data.LeaderboardEntry entry in entries)
                 {
-                    GameObject entryObject = Instantiate(leaderboardItemPrefab, scrollViewContent);
+                    GameObject entryObject = Instantiate(leaderboardItemPrefab, leaderboardParent);
                     LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
                     leaderboardEntry.Init(entry);
                 }
