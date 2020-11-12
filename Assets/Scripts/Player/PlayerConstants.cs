@@ -130,5 +130,6 @@ public static class PlayerConstants
     public static int PortalMaterialLayer = 10;
     public static int PortalLayer = 11;
     public static int GizmoLayer = 15;
+    public static int GhostLayer = 16;
     public static string PortalWallTag = "PortalWall";
 }
