@@ -101,7 +101,7 @@ public class PauseMenu : MonoBehaviour {
     public void GoToMainMenu()
     {
         Time.timeScale = 1;
-        GameManager.LoadScene(PlayerConstants.BuildSceneIndex);
+        GameManager.LoadScene(PlayerConstants.MainMenuSceneIndex);
     }
     public void ResetLevel()
     {

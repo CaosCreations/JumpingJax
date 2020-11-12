@@ -28,12 +28,23 @@ public class PlayerGhostRun : MonoBehaviour
         if(ghostRunner == null)
         {
             ghostRunner = Instantiate(ghostRunnerPrefab);
+            SetGhostLayer();
             ghostRunner.name = "ghost runner";
         }
         playerCamera = GetComponent<CameraMove>().playerCamera;
         RestartRun();
 
         MiscOptions.onGhostToggle += ToggleGhost;
+    }
+
+    void SetGhostLayer()
+    {
+        ghostRunner.layer = PlayerConstants.GhostLayer;
+        Transform[] allChildren = ghostRunner.GetComponentsInChildren<Transform>();
+        foreach (Transform child in allChildren)
+        {
+            child.gameObject.layer = PlayerConstants.GhostLayer;
+        }
     }
 
     private void Update()
