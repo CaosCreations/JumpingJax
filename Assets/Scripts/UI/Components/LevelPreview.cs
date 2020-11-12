@@ -33,7 +33,6 @@ public class LevelPreview : MonoBehaviour
     public Text doubleBoneText;
     public Text tripleBoneText;
 
-
     private Level levelToPreview;
     private Dictionary<string, Steamworks.Data.LeaderboardEntry[]> leaderboardCache;
 

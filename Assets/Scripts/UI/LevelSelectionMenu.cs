@@ -25,12 +25,20 @@ public class LevelSelectionMenu : MonoBehaviour
     public List<LevelSelectionCard> portalCardList;
     public List<LevelSelectionCard> workshopCardList;
 
+    public Button backToMenuButton;
+    public MainMenuController mainMenuController;
+
     public LevelSelectionTab currentTab;
 
     void Start()
     {
+        mainMenuController = GetComponentInParent<MainMenuController>();
+        backToMenuButton.onClick.RemoveAllListeners();
+        backToMenuButton.onClick.AddListener(mainMenuController.Init);
+
         levelPreview = GetComponentInChildren<LevelPreview>();
         levelPreview.gameObject.SetActive(false);
+
         SetupTabButtons();
         LoadCards(GameManager.Instance.levelDataContainer.levels);
         SetTab(LevelSelectionTab.Hop);

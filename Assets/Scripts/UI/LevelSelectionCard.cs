@@ -27,7 +27,8 @@ public class LevelSelectionCard : MonoBehaviour
     public Sprite outlineInactiveSprite;
     public Sprite noImageSprite;
 
-    private Color activeColor = new Color(149 / 255, 237 / 255, 194 / 255, 1);
+    private Color activeColor = new Color(.58f, .93f, .76f);
+    //private Color activeColor = new Color(1, 1, 1);
     private Color inactiveColor = new Color(0.5f, 0.5f, 0.5f);
 
     public void Init(Level level)
