@@ -12,14 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eeaf6308043c5546b611bf38302f53a, type: 3}
   m_Name: Portal3
   m_EditorClassIdentifier: 
-  levelBuildIndex: 28
+  levelBuildIndex: 18
   levelName: Portal 3
   gravityMultiplier: 1
   tutorialTexts:
   - 'This level is quite difficult. You must: <br>- Place a portal on the wall above
     you, and the floor right below <br>- while you''re falling, place a portal near
     the final checkpoint, and use your air movement to land on the platform'
-  previewSprite: {fileID: 0}
+  previewSprite: {fileID: 21300000, guid: 58556cfa0a058604d844da5c56ba7742, type: 3}
+  bone1Time: 30
+  bone2Time: 18
+  bone3Time: 11
   description: 
   workshopFilePath: 
   levelEditorFolder: 
@@ -28,8 +31,1998 @@ MonoBehaviour:
   previewImagePath: 
   fileId: 0
   collectibles: []
-  isCompleted: 0
-  completionTime: 0
-  ghostRunPositions: []
-  ghostRunCameraRotations: []
-  ghostRunKeys: []
+  isCompleted: 1
+  completionTime: 10.179029
+  ghostRunPositions:
+  - {x: 0, y: 1.11, z: 0}
+  - {x: 0, y: 1.11, z: 0}
+  - {x: 0, y: 1.11, z: 0}
+  - {x: 0, y: 1.11, z: 0}
+  - {x: 0, y: 1.11, z: 0}
+  - {x: 0, y: 1.11, z: 0}
+  - {x: 0, y: 1.11, z: 0}
+  - {x: 0, y: 1.11, z: 0}
+  - {x: 0, y: 1.11, z: 0}
+  - {x: -0.0020103264, y: 1.11, z: 0.0575649}
+  - {x: -0.00536087, y: 1.11, z: 0.1535064}
+  - {x: -0.012112371, y: 1.11, z: 0.36939737}
+  - {x: -0.020166866, y: 1.11, z: 0.6716837}
+  - {x: -0.02574256, y: 1.11, z: 0.91161865}
+  - {x: -0.03435684, y: 1.11, z: 1.2715214}
+  - {x: -0.040520094, y: 1.11, z: 1.5114443}
+  - {x: -0.048484385, y: 1.11, z: 1.8281472}
+  - {x: -0.051983863, y: 1.11, z: 1.967305}
+  - {x: -0.054518003, y: 1.11, z: 2.068076}
+  - {x: -0.054638695, y: 1.11, z: 2.0728753}
+  - {x: -0.054638695, y: 1.11, z: 2.0728753}
+  - {x: -0.054638695, y: 1.11, z: 2.0728753}
+  - {x: -0.054638695, y: 1.11, z: 2.0728753}
+  - {x: -0.054638695, y: 1.11, z: 2.0728753}
+  - {x: -0.059268903, y: 1.11, z: 2.1735685}
+  - {x: -0.065522194, y: 1.11, z: 2.288596}
+  - {x: -0.08503711, y: 1.11, z: 2.5325217}
+  - {x: -0.10846401, y: 1.11, z: 2.742237}
+  - {x: -0.1540913, y: 1.11, z: 3.0992932}
+  - {x: -0.20339927, y: 1.11, z: 3.456008}
+  - {x: -0.23783189, y: 1.11, z: 3.6935585}
+  - {x: -0.2875628, y: 1.11, z: 4.0355935}
+  - {x: -0.31161162, y: 1.11, z: 4.2018914}
+  - {x: -0.33222747, y: 1.11, z: 4.3444505}
+  - {x: -0.33566642, y: 1.11, z: 4.368231}
+  - {x: -0.33566642, y: 1.11, z: 4.368231}
+  - {x: -0.33566642, y: 1.11, z: 4.368231}
+  - {x: -0.33566642, y: 1.11, z: 4.368231}
+  - {x: -0.33566642, y: 1.11, z: 4.368231}
+  - {x: -0.33566642, y: 1.11, z: 4.368231}
+  - {x: -0.33566642, y: 1.11, z: 4.368231}
+  - {x: -0.33566642, y: 1.11, z: 4.368231}
+  - {x: -0.3341178, y: 1.11, z: 4.392181}
+  - {x: -0.3293295, y: 1.11, z: 4.468831}
+  - {x: -0.31994733, y: 1.11, z: 4.655788}
+  - {x: -0.31197655, y: 1.11, z: 4.8283978}
+  - {x: -0.29710215, y: 1.11, z: 5.1592546}
+  - {x: -0.28641826, y: 1.11, z: 5.399017}
+  - {x: -0.27039242, y: 1.074, z: 5.7586603}
+  - {x: -0.25436658, y: 0.98399997, z: 6.118304}
+  - {x: -0.24368268, y: 0.894, z: 6.358066}
+  - {x: -0.22765684, y: 0.714, z: 6.7177095}
+  - {x: -0.21697295, y: 0.564, z: 6.957472}
+  - {x: -0.2009471, y: 0.29400003, z: 7.3171153}
+  - {x: -0.19026321, y: 0.08400002, z: 7.5568776}
+  - {x: -0.17423737, y: -0.27600002, z: 7.916521}
+  - {x: -0.16355348, y: -0.54600006, z: 8.156282}
+  - {x: -0.14752764, y: -0.9960002, z: 8.515924}
+  - {x: -0.1315018, y: -1.5000002, z: 8.8755665}
+  - {x: -0.1208179, y: -1.8660004, z: 9.115328}
+  - {x: -0.10970123, y: -2.4600005, z: 9.3410635}
+  - {x: -0.10883568, y: -2.8860006, z: 9.313012}
+  - {x: -0.10753736, y: -3.5700011, z: 9.270935}
+  - {x: -0.10667181, y: -4.056001, z: 9.242884}
+  - {x: -0.10537349, y: -4.8300014, z: 9.200807}
+  - {x: -0.10450794, y: -5.3760014, z: 9.172755}
+  - {x: -0.10115796, y: -6.2400017, z: 9.186642}
+  - {x: -0.09678216, y: -7.1580024, z: 9.22851}
+  - {x: -0.09386496, y: -7.800003, z: 9.256422}
+  - {x: -0.08948916, y: -8.808003, z: 9.29829}
+  - {x: -0.08657196, y: -9.510004, z: 9.326202}
+  - {x: -0.24716257, y: 9.289995, z: 9.819844}
+  - {x: -0.25008017, y: 8.527995, z: 9.791923}
+  - {x: -0.25445655, y: 7.339995, z: 9.75004}
+  - {x: -0.25737414, y: 6.517995, z: 9.722118}
+  - {x: -0.26175052, y: 5.239995, z: 9.680236}
+  - {x: -0.2661269, y: 3.9079957, z: 9.638353}
+  - {x: -0.2690445, y: 2.989996, z: 9.610432}
+  - {x: -0.27342087, y: 1.5679965, z: 9.568549}
+  - {x: -0.27633846, y: 0.58999693, z: 9.5406275}
+  - {x: -0.28071484, y: -0.9220022, z: 9.498745}
+  - {x: -0.2836327, y: -1.9600016, z: 9.47081}
+  - {x: -0.28801006, y: -3.5620008, z: 9.428873}
+  - {x: -0.29092833, y: -4.66, z: 9.400913}
+  - {x: -0.2953058, y: -6.351999, z: 9.358971}
+  - {x: -0.2982241, y: -7.5099983, z: 9.331009}
+  - {x: -0.30260155, y: -9.291997, z: 9.289066}
+  - {x: -0.022379711, y: 8.770002, z: 9.940793}
+  - {x: -0.019461498, y: 7.516003, z: 9.968755}
+  - {x: -0.015084177, y: 5.590004, z: 10.010697}
+  - {x: -0.012165964, y: 4.2760053, z: 10.038659}
+  - {x: -0.0077886432, y: 2.260007, z: 10.080602}
+  - {x: -0.0048704296, y: 0.8860079, z: 10.108563}
+  - {x: -0.0004931099, y: -1.2199904, z: 10.150506}
+  - {x: 0.0024251032, y: -2.653989, z: 10.178468}
+  - {x: 0.006802423, y: -4.849987, z: 10.22041}
+  - {x: 0.0097206365, y: -6.3439856, z: 10.248372}
+  - {x: 0.014097957, y: -8.629983, z: 10.290315}
+  - {x: 0.14934413, y: -8.940019, z: 22.642437}
+  - {x: 0.14642577, y: -7.4100194, z: 22.670399}
+  - {x: 0.14204822, y: -5.160021, z: 22.712341}
+  - {x: 0.13912986, y: -3.690022, z: 22.740303}
+  - {x: 0.13475232, y: -1.5300233, z: 22.782246}
+  - {x: 0.13183396, y: -0.120024264, z: 22.810207}
+  - {x: 0.12745641, y: 1.9499745, z: 22.85215}
+  - {x: 0.12453806, y: 3.2999737, z: 22.880112}
+  - {x: 0.120160535, y: 5.279973, z: 22.922054}
+  - {x: 0.11724219, y: 6.5699725, z: 22.950016}
+  - {x: 0.112864666, y: 8.459971, z: 22.991959}
+  - {x: 0.10994632, y: 9.689971, z: 23.01992}
+  - {x: 0.1055688, y: 11.48997, z: 23.061863}
+  - {x: 0.101191275, y: 13.2359705, z: 23.103806}
+  - {x: 0.09827293, y: 14.36997, z: 23.131767}
+  - {x: 0.093895406, y: 16.02597, z: 23.17371}
+  - {x: 0.09097706, y: 17.099972, z: 23.201672}
+  - {x: 0.086599536, y: 18.665972, z: 23.243614}
+  - {x: 0.08368119, y: 19.679972, z: 23.271576}
+  - {x: 0.07930367, y: 21.155972, z: 23.313519}
+  - {x: 0.074926145, y: 22.577972, z: 23.355461}
+  - {x: 0.0720078, y: 23.495972, z: 23.383423}
+  - {x: 0.067630276, y: 24.827972, z: 23.425365}
+  - {x: 0.06471193, y: 25.685974, z: 23.453327}
+  - {x: 0.060334407, y: 26.927975, z: 23.49527}
+  - {x: 0.05741606, y: 27.725975, z: 23.523232}
+  - {x: 0.053038538, y: 28.877977, z: 23.565174}
+  - {x: 0.07080684, y: 29.975979, z: 23.61351}
+  - {x: 0.09003431, y: 30.677979, z: 23.647865}
+  - {x: 0.118875526, y: 31.68598, z: 23.699398}
+  - {x: 0.13887724, y: 32.32798, z: 23.73393}
+  - {x: 0.17117877, y: 33.24598, z: 23.786228}
+  - {x: 0.1928667, y: 33.82798, z: 23.821125}
+  - {x: 0.22539859, y: 34.655983, z: 23.87347}
+  - {x: 0.17215516, y: 35.42998, z: 23.902092}
+  - {x: 0.13426444, y: 35.915985, z: 23.920256}
+  - {x: 0.1543157, y: 36.599987, z: 23.980297}
+  - {x: 0.16799103, y: 37.025986, z: 24.02045}
+  - {x: 0.19171265, y: 37.61999, z: 24.0818}
+  - {x: 0.21122462, y: 37.985992, z: 24.123636}
+  - {x: 0.24672014, y: 38.48999, z: 24.187244}
+  - {x: 0.28658915, y: 38.939995, z: 24.251118}
+  - {x: 0.31333786, y: 39.209995, z: 24.293705}
+  - {x: 0.35346094, y: 39.569996, z: 24.357586}
+  - {x: 0.35222197, y: 39.78, z: 24.399342}
+  - {x: 0.30838197, y: 40.05, z: 24.460728}
+  - {x: 0.2791553, y: 40.199997, z: 24.501652}
+  - {x: 0.23531532, y: 40.38, z: 24.563038}
+  - {x: 0.20608866, y: 40.47, z: 24.603962}
+  - {x: 0.16224867, y: 40.56, z: 24.665348}
+  - {x: 0.11840868, y: 40.596004, z: 24.726734}
+  - {x: 0.08918202, y: 40.590004, z: 24.767658}
+  - {x: 0.045342036, y: 40.536007, z: 24.829044}
+  - {x: 0.016115382, y: 40.47001, z: 24.869968}
+  - {x: -0.027724601, y: 40.326008, z: 24.931355}
+  - {x: -0.071564585, y: 40.12801, z: 24.99274}
+  - {x: -0.100791246, y: 39.96601, z: 25.033665}
+  - {x: -0.14463124, y: 39.67801, z: 25.09505}
+  - {x: -0.1738579, y: 39.456013, z: 25.135975}
+  - {x: -0.21769789, y: 39.078014, z: 25.197361}
+  - {x: -0.24692455, y: 38.796013, z: 25.238285}
+  - {x: -0.29076454, y: 38.328014, z: 25.299671}
+  - {x: -0.33460453, y: 37.806015, z: 25.361057}
+  - {x: -0.3638312, y: 37.428013, z: 25.401981}
+  - {x: -0.40767118, y: 36.816017, z: 25.463367}
+  - {x: -0.43689784, y: 36.378017, z: 25.504292}
+  - {x: -0.48073784, y: 35.676018, z: 25.565678}
+  - {x: -0.50996447, y: 35.17802, z: 25.606602}
+  - {x: -0.55380446, y: 34.38602, z: 25.667988}
+  - {x: -0.5830311, y: 33.82802, z: 25.708912}
+  - {x: -0.6268711, y: 32.946022, z: 25.770298}
+  - {x: -0.6707111, y: 32.01002, z: 25.831684}
+  - {x: -0.69993776, y: 31.356022, z: 25.872608}
+  - {x: -0.74377775, y: 30.330023, z: 25.933994}
+  - {x: -0.7730044, y: 29.616024, z: 25.974918}
+  - {x: -0.8168444, y: 28.500025, z: 26.036304}
+  - {x: -0.8606844, y: 27.330027, z: 26.09769}
+  - {x: -0.88991106, y: 26.520027, z: 26.138615}
+  - {x: -0.93375105, y: 25.260029, z: 26.2}
+  - {x: -0.9629777, y: 24.39003, z: 26.240925}
+  - {x: -1.0068177, y: 23.040031, z: 26.30231}
+  - {x: -1.0360442, y: 22.110033, z: 26.343235}
+  - {x: -1.079884, y: 20.670034, z: 26.404621}
+  - {x: -1.1091106, y: 19.680037, z: 26.445545}
+  - {x: -1.1529504, y: 18.15004, z: 26.506931}
+  - {x: -1.1967902, y: 16.566042, z: 26.568317}
+  - {x: -1.2260168, y: 15.480043, z: 26.609241}
+  - {x: -1.2698566, y: 13.8060465, z: 26.670628}
+  - {x: -1.2990831, y: 12.6600485, z: 26.711552}
+  - {x: -1.3429229, y: 10.896051, z: 26.772938}
+  - {x: -1.3867627, y: 9.078054, z: 26.834324}
+  - {x: -1.4159893, y: 7.836056, z: 26.875248}
+  - {x: -1.4598291, y: 5.92806, z: 26.936634}
+  - {x: -1.4890556, y: 4.6260624, z: 26.977558}
+  - {x: -1.5328954, y: 2.6280658, z: 27.038944}
+  - {x: -1.562122, y: 1.2660682, z: 27.079868}
+  - {x: -1.5862018, y: 0.925, z: 27.175663}
+  - {x: -1.5904158, y: 0.925, z: 27.361183}
+  - {x: -1.5908082, y: 0.925, z: 27.532871}
+  - {x: -1.586384, y: 0.925, z: 27.862314}
+  - {x: -1.5783046, y: 0.925, z: 28.102669}
+  ghostRunCameraRotations:
+  - {x: 2.2000058, y: 0.20000002, z: -0.0000000016687566}
+  - {x: 2.2000158, y: 0.20000002, z: -0.0000000045890807}
+  - {x: 2.200018, y: 0.20000002, z: -0.00000000500627}
+  - {x: 2.200018, y: 0.20000002, z: -0.00000000500627}
+  - {x: 2.200018, y: 0.20000002, z: -0.00000000500627}
+  - {x: 2.200018, y: 0.20000002, z: -0.00000000500627}
+  - {x: 359.6, y: 358.79993, z: -0.000000005836485}
+  - {x: 358.49994, y: 358.79993, z: -0.000000013344786}
+  - {x: 0.20003054, y: 358.3999, z: -0.0000000060448206}
+  - {x: 0.9000307, y: 357.99988, z: 0.00000003335465}
+  - {x: 0.9000307, y: 357.99988, z: 0.000000103399415}
+  - {x: 354.69998, y: 358.79993, z: 0.00000012727617}
+  - {x: 344.69983, y: 358.79993, z: 0.00000012447369}
+  - {x: 336.19974, y: 358.79993, z: 0.0000001458014}
+  - {x: 325.69952, y: 358.1999, z: -0.00000025837682}
+  - {x: 318.4994, y: 358.69992, z: -0.00000017811918}
+  - {x: 317.29932, y: 359.39996, z: -0.00000052641553}
+  - {x: 317.29932, y: 359.49997, z: -0.0000005082632}
+  - {x: 316.09924, y: 359.49997, z: -0.00000031474028}
+  - {x: 314.29913, y: 359.19995, z: -0.00000045842367}
+  - {x: 313.5991, y: 358.4999, z: 0.00000046427112}
+  - {x: 311.999, y: 357.69986, z: 0.0000004784885}
+  - {x: 311.899, y: 357.59985, z: -0.00000039951559}
+  - {x: 312.199, y: 357.59985, z: -0.00000031776233}
+  - {x: 321.5991, y: 357.09982, z: -0.00000027235913}
+  - {x: 347.29916, y: 355.39972, z: -0.000000054699267}
+  - {x: 17.199276, y: 351.9995, z: -0.0000003351524}
+  - {x: 40.99937, y: 351.19943, z: -0.00000028281255}
+  - {x: 51.59944, y: 350.9994, z: -0.0000013744929}
+  - {x: 55.699554, y: 350.69934, z: 0.0000022725576}
+  - {x: 64.499664, y: 351.09937, z: 0}
+  - {x: 72.79987, y: 354.69952, z: -0.0000014435977}
+  - {x: 73.30028, y: 358.79956, z: -0.0000020426558}
+  - {x: 66.40064, y: 1.6996001, z: -0.0000019993388}
+  - {x: 62.800846, y: 3.5996046, z: 0}
+  - {x: 62.500877, y: 3.6996067, z: 0.0000013867913}
+  - {x: 62.200886, y: 3.7995975, z: -0.0000089245}
+  - {x: 62.700947, y: 3.6995971, z: -0.000008376991}
+  - {x: 62.901024, y: 3.5996027, z: -0.000005388456}
+  - {x: 65.00117, y: 3.7995992, z: -0.00000454565}
+  - {x: 65.00117, y: 3.7995992, z: -0.00000454565}
+  - {x: 65.00117, y: 3.6995993, z: -0.0000045456495}
+  - {x: 65.00117, y: 3.6995993, z: -0.0000045456495}
+  - {x: 64.90122, y: 2.8995996, z: -0.0000040255236}
+  - {x: 61.50139, y: 2.4995992, z: -0.000004249742}
+  - {x: 61.601387, y: 2.499597, z: -0.00000560981}
+  - {x: 61.601387, y: 2.499597, z: -0.00000560981}
+  - {x: 61.601387, y: 2.499597, z: -0.00000560981}
+  - {x: 61.601387, y: 2.499597, z: -0.00000560981}
+  - {x: 61.601387, y: 2.499597, z: -0.00000560981}
+  - {x: 61.601387, y: 2.499597, z: -0.00000560981}
+  - {x: 61.601387, y: 2.499597, z: -0.00000560981}
+  - {x: 61.601387, y: 2.499597, z: -0.00000560981}
+  - {x: 59.60146, y: 3.099598, z: -0.0000042181496}
+  - {x: 58.501583, y: 2.6995945, z: -0.000005106543}
+  - {x: 58.50165, y: 2.2995946, z: -0.000004698031}
+  - {x: 58.50165, y: 2.2995946, z: -0.000004698031}
+  - {x: 58.50165, y: 2.2995946, z: -0.000004698031}
+  - {x: 58.90167, y: 2.0995939, z: -0.000004339049}
+  - {x: 58.90167, y: 2.0995939, z: -0.000004339049}
+  - {x: 58.90167, y: 2.099594, z: -0.000004339049}
+  - {x: 58.90167, y: 2.099594, z: -0.000004339049}
+  - {x: 58.90167, y: 2.099594, z: -0.000004339049}
+  - {x: 59.001667, y: 2.0995972, z: -0.000002279435}
+  - {x: 59.001667, y: 2.0995972, z: -0.000002279435}
+  - {x: 59.001667, y: 2.0995972, z: -0.000002279435}
+  - {x: 59.001667, y: 2.0995975, z: -0.000002279435}
+  - {x: 59.001667, y: 2.0995972, z: -0.000002279435}
+  - {x: 59.001667, y: 2.0995972, z: -0.000002279435}
+  - {x: 59.001667, y: 2.0995972, z: -0.000002279435}
+  - {x: 59.001667, y: 2.0995972, z: -0.000002279435}
+  - {x: 58.901714, y: 181.8996, z: 0.0000001033108}
+  - {x: 58.901722, y: 181.79959, z: 0.00000020662175}
+  - {x: 58.901722, y: 181.79959, z: 0.00000020662175}
+  - {x: 58.901722, y: 181.79959, z: 0.00000020662175}
+  - {x: 58.901722, y: 181.79959, z: 0.000000103310875}
+  - {x: 58.901722, y: 181.79959, z: 0.00000020662175}
+  - {x: 58.901722, y: 181.79959, z: 0.000000103310875}
+  - {x: 58.901722, y: 181.79959, z: 0.000000103310875}
+  - {x: 58.901722, y: 181.79959, z: 0.000000103310875}
+  - {x: 58.80177, y: 181.49957, z: 0.000000103013065}
+  - {x: 58.10187, y: 180.99954, z: -0.00000015147555}
+  - {x: 56.50194, y: 180.89954, z: -0.00000019336838}
+  - {x: 55.902016, y: 180.79953, z: -0.00000014277535}
+  - {x: 55.20209, y: 180.79953, z: -0.00000023375839}
+  - {x: 54.80215, y: 180.69952, z: -0.00000013886371}
+  - {x: 54.80215, y: 180.69952, z: -0.00000013886371}
+  - {x: 54.80215, y: 0.6995187, z: 0.000000046287905}
+  - {x: 53.20223, y: 0.69951963, z: 0.000000044542166}
+  - {x: 50.40233, y: 0.69952077, z: 0.00000008371738}
+  - {x: 48.502346, y: 0.6995215, z: 0}
+  - {x: 48.402355, y: 0.69952196, z: -0.000000080375365}
+  - {x: 48.402355, y: 0.69952196, z: -0.000000080375365}
+  - {x: 48.402355, y: 0.69952196, z: -0.000000080375365}
+  - {x: 48.402355, y: 0.69952196, z: -0.000000080375365}
+  - {x: 48.402355, y: 0.69952196, z: -0.000000080375365}
+  - {x: 48.402355, y: 0.69952196, z: -0.000000080375365}
+  - {x: 48.402355, y: 0.69952196, z: -0.000000080375365}
+  - {x: 311.59766, y: 359.30048, z: 0}
+  - {x: 311.59766, y: 359.30048, z: 0}
+  - {x: 313.6977, y: 359.10046, z: 0.000000038619522}
+  - {x: 327.39764, y: 0.70052916, z: 0.00000009501234}
+  - {x: 330.29764, y: 2.800528, z: -0.00000043002672}
+  - {x: 330.29764, y: 2.800528, z: -0.00000043002672}
+  - {x: 330.29764, y: 2.800528, z: -0.00000043002672}
+  - {x: 330.29764, y: 2.800528, z: -0.00000043002672}
+  - {x: 330.29764, y: 2.800528, z: -0.00000043002672}
+  - {x: 332.8978, y: 6.300529, z: -0.00000083919997}
+  - {x: 339.29794, y: 7.600527, z: -0.0000025099412}
+  - {x: 353.5978, y: 7.4005346, z: -0.0000038123958}
+  - {x: 12.097753, y: 7.9005313, z: -0.0000043112536}
+  - {x: 25.19778, y: 6.8005443, z: -0.0000025947884}
+  - {x: 33.49782, y: 5.9005485, z: -0.0000020476477}
+  - {x: 38.497887, y: 6.9005494, z: -0.0000019090778}
+  - {x: 38.497894, y: 6.800549, z: -0.0000016363526}
+  - {x: 38.797943, y: 3.3005512, z: -0.00000068467483}
+  - {x: 40.497967, y: 353.60052, z: -0.00000056137634}
+  - {x: 42.698006, y: 342.10043, z: -0.00000058084726}
+  - {x: 43.898045, y: 336.6004, z: -0.0000023697019}
+  - {x: 44.098034, y: 336.20038, z: 0.0000011888512}
+  - {x: 44.098034, y: 336.20038, z: 0.0000011888512}
+  - {x: 44.098034, y: 336.20038, z: 0.0000011888512}
+  - {x: 44.998074, y: 336.40036, z: 0.0000024147548}
+  - {x: 46.698097, y: 340.20047, z: 0.0000018672802}
+  - {x: 47.198147, y: 343.80057, z: 0}
+  - {x: 47.19819, y: 343.90057, z: 0.0000018848083}
+  - {x: 47.19819, y: 343.90057, z: 0.0000025130778}
+  - {x: 47.398224, y: 345.1006, z: -0.0000025226034}
+  - {x: 47.79825, y: 347.80063, z: 0}
+  - {x: 47.89827, y: 348.9007, z: 0}
+  - {x: 47.99828, y: 348.60068, z: 0}
+  - {x: 48.69833, y: 345.50058, z: -0.00000129355}
+  - {x: 49.09835, y: 340.00058, z: -0.0000013039439}
+  - {x: 48.998432, y: 336.90057, z: -0.0000013013262}
+  - {x: 48.998436, y: 336.90057, z: -0.0000039039774}
+  - {x: 48.298496, y: 338.90063, z: 0}
+  - {x: 47.79854, y: 344.40048, z: -0.0000044484623}
+  - {x: 48.39854, y: 351.3004, z: -0.0000003214774}
+  - {x: 49.2986, y: 356.80032, z: 0}
+  - {x: 49.398605, y: 358.3004, z: -0.000000081993626}
+  - {x: 49.398605, y: 358.3004, z: -0.000000081993626}
+  - {x: 49.398605, y: 358.3004, z: -0.000000081993626}
+  - {x: 49.998604, y: 358.3004, z: 0}
+  - {x: 49.99864, y: 358.70044, z: 0.0000000830124}
+  - {x: 49.99864, y: 358.70044, z: 0.0000000830124}
+  - {x: 49.99864, y: 358.70044, z: 0.0000000830124}
+  - {x: 49.99864, y: 358.70044, z: 0.0000000830124}
+  - {x: 49.99864, y: 358.70044, z: 0.0000000830124}
+  - {x: 49.99864, y: 358.70044, z: 0.0000000830124}
+  - {x: 49.99864, y: 358.70044, z: 0.0000000830124}
+  - {x: 49.89871, y: 358.2004, z: -0.00000049704215}
+  - {x: 49.998734, y: 359.40048, z: 0}
+  - {x: 49.99874, y: 359.40048, z: -0.0000002490377}
+  - {x: 49.99874, y: 359.40048, z: -0.0000002490377}
+  - {x: 49.99874, y: 359.40048, z: -0.0000002490377}
+  - {x: 50.298763, y: 359.6005, z: -0.00000008353498}
+  - {x: 50.398773, y: 359.6005, z: 0}
+  - {x: 50.398773, y: 359.6005, z: 0}
+  - {x: 50.398777, y: 359.7005, z: 0}
+  - {x: 50.49878, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.49878, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.49878, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.49878, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.49878, y: 359.7005, z: 0}
+  - {x: 50.49878, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.49878, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.49878, y: 359.7005, z: 0}
+  - {x: 50.49878, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.49878, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.49878, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.49878, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.49878, y: 359.7005, z: 0}
+  - {x: 50.498775, y: 359.7005, z: 0}
+  - {x: 50.398777, y: 359.7005, z: 0}
+  - {x: 48.49884, y: 359.8005, z: 0}
+  - {x: 46.49891, y: 0.2005291, z: 0.000000009689733}
+  - {x: 44.39902, y: 0.3005293, z: 0.00000006534884}
+  - {x: 42.299072, y: 0.30052978, z: 0.00000011723423}
+  - {x: 40.399162, y: 0.40052933, z: 0.00000014013789}
+  - {x: 38.999268, y: 1.0005288, z: 0}
+  - {x: 36.999344, y: 3.2005284, z: -0.0000001336289}
+  - {x: 34.8994, y: 7.900532, z: 0.0000007807402}
+  ghostRunKeys:
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 1
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 1
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 1
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 1
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 1
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 1
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 1
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 1
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 1
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 1
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 1
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 1
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 1
+    isRightPressed: 1
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 1
+    isRightPressed: 1
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 1
+    isRightPressed: 1
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 1
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 1
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 1
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 1
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 1
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 1
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 1
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 1
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 1
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 1
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 1
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 1
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 0
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
+  - isForwardPressed: 1
+    isLeftPressed: 0
+    isRightPressed: 0
+    isBackPressed: 0
+    isJumpPressed: 0
+    isCrouchPressed: 0
+    isMouseLeftPressed: 0
+    isMouseRightPressed: 0
