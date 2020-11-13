@@ -140,6 +140,11 @@ public class LevelPreview : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+
+        foreach (Transform child in myLeaderboardParent)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
     async Task PopulateMyStats()
