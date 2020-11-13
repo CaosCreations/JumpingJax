@@ -11,6 +11,7 @@ public class LevelPreview : MonoBehaviour
 {
     public GameObject leaderboardItemPrefab;
     public Transform leaderboardParent;
+    public Transform myLeaderboardParent;
 
     public Button playButton;
     public Button backButton;
@@ -73,6 +74,7 @@ public class LevelPreview : MonoBehaviour
 
         CleanScrollView();
         await PopulateLeaderboard();
+        await PopulateMyStats();
     }
 
     private void UpdateDetailPane()
@@ -140,6 +142,17 @@ public class LevelPreview : MonoBehaviour
         }
     }
 
+    async Task PopulateMyStats()
+    {
+        Steamworks.Data.LeaderboardEntry myEntry = await StatsManager.GetMyLevelLeaderboard(levelToPreview.levelName);
+
+        rankText.text = myEntry.GlobalRank.ToString();
+
+        GameObject entryObject = Instantiate(leaderboardItemPrefab, myLeaderboardParent);
+        LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
+        leaderboardEntry.Init(myEntry);
+    }
+
     async Task PopulateLeaderboard()
     {
         // make HTTP request from steam for leaderboard data
@@ -152,7 +165,7 @@ public class LevelPreview : MonoBehaviour
             }
             else
             {
-                entries = await StatsManager.GetLevelLeaderboard(levelToPreview.levelName);
+                entries = await StatsManager.GetTopLevelLeaderboard(levelToPreview.levelName);
                 leaderboardCache.Add(levelToPreview.levelName, entries);
             }
 

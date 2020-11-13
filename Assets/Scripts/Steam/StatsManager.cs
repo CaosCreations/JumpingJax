@@ -52,7 +52,7 @@ public class StatsManager : MonoBehaviour
         //}
     }
 
-    public static async Task<Steamworks.Data.LeaderboardEntry[]> GetLevelLeaderboard(string levelLeaderboardName)
+    public static async Task<Steamworks.Data.LeaderboardEntry[]> GetTopLevelLeaderboard(string levelLeaderboardName)
     {
         if (SteamClient.IsValid)
         {
@@ -75,40 +75,53 @@ public class StatsManager : MonoBehaviour
         return new Steamworks.Data.LeaderboardEntry[0];
     }
 
-    public static async Task<float> GetLevelCompletionTime(string levelName)
+    public static async Task<Steamworks.Data.LeaderboardEntry> GetMyLevelLeaderboard(string levelLeaderboardName)
     {
         if (SteamClient.IsValid)
         {
-            var leaderboard = await SteamUserStats.FindOrCreateLeaderboardAsync(levelName, Steamworks.Data.LeaderboardSort.Ascending, Steamworks.Data.LeaderboardDisplay.TimeMilliSeconds);
-            if (leaderboard.HasValue)
+            var leaderboard = await SteamUserStats.FindOrCreateLeaderboardAsync(levelLeaderboardName, Steamworks.Data.LeaderboardSort.Ascending, Steamworks.Data.LeaderboardDisplay.TimeMilliSeconds);
+            if (!leaderboard.HasValue)
+            {
+                Debug.LogWarning($"Could not retrieve leaderboard {levelLeaderboardName} from steam");
+            }
+            else
             {
                 var leaderboardValue = leaderboard.Value;
-                // TODO replace with Leaderboard.etScoresForUsersAsync with the new version of FacePunch
                 var entries = await leaderboardValue.GetScoresAroundUserAsync(-1, 1);
                 if (entries != null)
                 {
                     if (entries.Length > 0)
                     {
-                        Steamworks.Data.LeaderboardEntry myEntry = new Steamworks.Data.LeaderboardEntry();
                         foreach (Steamworks.Data.LeaderboardEntry entry in entries)
                         {
                             if (entry.User.Id == SteamClient.SteamId)
                             {
-                                myEntry = entry;
+                                return entry;
                             }
                         }
-                        int timeInTicks = myEntry.Score;
-                        TimeSpan timeSpan = TimeSpan.FromTicks(timeInTicks);
-                        return (float)timeSpan.TotalSeconds;
                     }
                 }
             }
         }
         else
         {
-            Debug.Log("Not getting level completion time, steam client is NOT valid");
+            Debug.Log("Not getting level leaderboard, steam client is NOT valid");
         }
 
-        return 0;
+        return new Steamworks.Data.LeaderboardEntry();
+    }
+
+    public static async Task<float> GetLevelCompletionTime(string levelLeaderboardName)
+    {
+        Steamworks.Data.LeaderboardEntry myEntry = await GetMyLevelLeaderboard(levelLeaderboardName);
+        int timeInTicks = myEntry.Score;
+        TimeSpan timeSpan = TimeSpan.FromTicks(timeInTicks);
+        return (float)timeSpan.TotalSeconds;
+    }
+
+    public static async Task<int> GetMyRank(string levelLeaderboardName)
+    {
+        Steamworks.Data.LeaderboardEntry myEntry = await GetMyLevelLeaderboard(levelLeaderboardName);
+        return myEntry.GlobalRank;
     }
 }
