@@ -49,6 +49,9 @@ public class OptionsPreferencesManager
     public const string consoleToggleKey = "ConsoleToggle";
     public const int defaultConsoleToggle = 0;
 
+    public const string alphaMenuKey = "AlphaMenu";
+    public const int defaultAlphaToggle = 1;
+
     public static int GetResolutionWidth()
     {
         return PlayerPrefs.GetInt(resolutionWidthKey, defaultResolutionWidth);
@@ -200,5 +203,16 @@ public class OptionsPreferencesManager
     public static void SetConsoleToggle(bool isOn)
     {
         PlayerPrefs.SetInt(consoleToggleKey, isOn ? 1 : 0);
+    }
+
+    public static bool GetAlphaToggle()
+    {
+        int isOn = PlayerPrefs.GetInt(alphaMenuKey, defaultAlphaToggle);
+        return isOn == 0 ? false : true;
+    }
+
+    public static void SetAlphaToggle(bool isOn)
+    {
+        PlayerPrefs.SetInt(alphaMenuKey, isOn ? 1 : 0);
     }
 }
