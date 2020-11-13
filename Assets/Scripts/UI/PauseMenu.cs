@@ -16,6 +16,12 @@ public class PauseMenu : MonoBehaviour {
     [SerializeField]
     Text levelName = null;
 
+    public Button continueButton;
+    public Button resetLevelButton;
+    public Button mainMenuButton;
+    public Button optionsButton;
+    public Button quitButton;
+
     public bool isPaused;
 
     private DeveloperConsole console;
@@ -29,6 +35,7 @@ public class PauseMenu : MonoBehaviour {
         console = transform.parent.GetComponentInChildren<DeveloperConsole>();
         playerProgress = transform.parent.GetComponent<PlayerProgress>();
         levelName.text = GameManager.GetCurrentLevel().levelName;
+        SetupButtons();
     }
 
     void Update()
@@ -115,5 +122,23 @@ public class PauseMenu : MonoBehaviour {
         #else
                     Application.Quit();
         #endif
+    }
+
+    void SetupButtons()
+    {
+        continueButton.onClick.RemoveAllListeners();
+        continueButton.onClick.AddListener(UnPause);
+
+        resetLevelButton.onClick.RemoveAllListeners();
+        resetLevelButton.onClick.AddListener(ResetLevel);
+
+        mainMenuButton.onClick.RemoveAllListeners();
+        mainMenuButton.onClick.AddListener(GoToMainMenu);
+
+        optionsButton.onClick.RemoveAllListeners();
+        optionsButton.onClick.AddListener(ToggleOptionsMenu);
+
+        quitButton.onClick.RemoveAllListeners();
+        quitButton.onClick.AddListener(QuitGame);
     }
 }
