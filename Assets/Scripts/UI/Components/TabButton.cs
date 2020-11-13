@@ -14,10 +14,6 @@ public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public Sprite activeSwoosh;
     public Sprite inactiveSwoosh;
 
-    private Color activeColor = new Color(.58f, .93f, .76f);
-    private Color hoverColor = new Color(1, 1, 1);
-    private Color inactiveColor = new Color(0.5f, 0.5f, 0.5f);
-
     private bool isSelected;
 
     public void Init(string buttonText, UnityAction action)
@@ -32,21 +28,21 @@ public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         isSelected = true;
         image.sprite = activeSwoosh;
-        buttonText.color = activeColor;
+        buttonText.color = PlayerConstants.activeColor;
     }
 
     public void UnselectTab()
     {
         isSelected = false;
         image.sprite = inactiveSwoosh;
-        buttonText.color = inactiveColor;
+        buttonText.color = PlayerConstants.inactiveColor;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!isSelected)
         {
-            buttonText.color = hoverColor;
+            buttonText.color = PlayerConstants.hoverColor;
         }
     }
 
@@ -54,7 +50,7 @@ public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         if (!isSelected)
         {
-            buttonText.color = inactiveColor;
+            buttonText.color = PlayerConstants.inactiveColor;
         }
     }
 }

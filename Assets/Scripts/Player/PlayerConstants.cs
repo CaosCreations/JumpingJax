@@ -132,4 +132,10 @@ public static class PlayerConstants
     public static int GizmoLayer = 15;
     public static int GhostLayer = 16;
     public static string PortalWallTag = "PortalWall";
+
+    // UI Constants
+    public static Color activeColor = new Color(.58f, .93f, .76f);
+    public static Color inactiveColor = new Color(0.5f, 0.5f, 0.5f);
+    public static Color hoverColor = new Color(1, 1, 1);
+
 }

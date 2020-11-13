@@ -27,13 +27,10 @@ public class LevelSelectionCard : MonoBehaviour
     public Sprite outlineInactiveSprite;
     public Sprite noImageSprite;
 
-    private Color activeColor = new Color(.58f, .93f, .76f);
-    private Color inactiveColor = new Color(0.5f, 0.5f, 0.5f);
-
     public void Init(Level level)
     {
         levelNameText.text = level.levelName;
-        levelNameText.color = level.isCompleted ? activeColor : inactiveColor;
+        levelNameText.color = level.isCompleted ? PlayerConstants.activeColor : PlayerConstants.inactiveColor;
         SetBestTime(level);
         SetPreviewImage(level);
         SetBoneImages(level);
@@ -47,12 +44,12 @@ public class LevelSelectionCard : MonoBehaviour
             TimeSpan time = TimeSpan.FromSeconds(level.completionTime);
             string timeString = time.ToString(PlayerConstants.levelCompletionTimeFormat);
             bestTimeText.text = "Best Time: " + timeString;
-            bestTimeText.color = activeColor;
+            bestTimeText.color = PlayerConstants.activeColor;
         }
         else
         {
             bestTimeText.text = "Best Time: N/A";
-            bestTimeText.color = inactiveColor;
+            bestTimeText.color = PlayerConstants.inactiveColor;
         }
     }
 
