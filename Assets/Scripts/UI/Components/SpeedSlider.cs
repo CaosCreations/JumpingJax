@@ -39,7 +39,7 @@ public class SpeedSlider : MonoBehaviour
                 speedText.text = System.Math.Round(speed * 3.6, 2) + "km/h";
                 break;
             case UnitOfSpeed.Mph:
-                speedText.text = System.Math.Round(speed * 2.237f, 2) + "m/h";
+                speedText.text = System.Math.Round(speed * 2.237f, 2) + "mi/h";
                 break;
         }
     }
