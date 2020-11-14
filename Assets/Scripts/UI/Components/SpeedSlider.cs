@@ -5,6 +5,15 @@ using UnityEngine.UI;
 
 public class SpeedSlider : MonoBehaviour
 {
+    public enum UnitOfSpeed
+    {
+        Mps = 1,
+        Mph = 2,
+        Kph = 3
+    }
+
+    public UnitOfSpeed unitOfSpeed = UnitOfSpeed.Mps;
+
     public Image filledSpeedbar;
     public Text speedText;
 
@@ -18,6 +27,17 @@ public class SpeedSlider : MonoBehaviour
         float ratio = speed / PlayerConstants.MaxReasonableVelocity;
         filledSpeedbar.fillAmount = curve.Evaluate(ratio);
 
-        speedText.text = Mathf.Round(speed * 100) / 100 + "m/s";
+        switch (unitOfSpeed)
+        {
+            case UnitOfSpeed.Mps:
+                speedText.text = System.Math.Round(speed, 2) + "m/s";
+                break;
+            case UnitOfSpeed.Mph:
+                speedText.text = System.Math.Round(speed * 2.237f, 2) + "m/h";
+                break;
+            case UnitOfSpeed.Kph:
+                speedText.text = System.Math.Round(speed * 3.6, 2) + "km/h";
+                break;
+        }
     }
 }
