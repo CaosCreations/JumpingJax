@@ -41,13 +41,9 @@ public class SpeedSlider : MonoBehaviour
 
     public void SetUnitOfSpeed(int index)
     {
-        //unitOfSpeed = _unitOfSpeed;
-
-        //int index = System.Array.IndexOf(
-        //    System.Enum.GetValues(_unitOfSpeed.GetType()), _unitOfSpeed);
-
         // Set the current unit of speed value based on the numeric value associated with it 
         unitOfSpeed = (UnitOfSpeed)(System.Enum.GetValues(unitOfSpeed.GetType())).GetValue(index);
+
         OptionsPreferencesManager.SetUnitOfSpeed(index);
     }
 }
