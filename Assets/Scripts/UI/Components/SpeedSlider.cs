@@ -1,18 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+
+public enum UnitOfSpeed
+{
+    Mps = 0,
+    Kph = 1,
+    Mph = 2
+}
 
 public class SpeedSlider : MonoBehaviour
 {
-    public enum UnitOfSpeed
-    {
-        Mps = 1,
-        Mph = 2,
-        Kph = 3
-    }
-
-    public UnitOfSpeed unitOfSpeed = UnitOfSpeed.Mps;
+    public UnitOfSpeed unitOfSpeed; 
 
     public Image filledSpeedbar;
     public Text speedText;
@@ -32,12 +30,24 @@ public class SpeedSlider : MonoBehaviour
             case UnitOfSpeed.Mps:
                 speedText.text = System.Math.Round(speed, 2) + "m/s";
                 break;
-            case UnitOfSpeed.Mph:
-                speedText.text = System.Math.Round(speed * 2.237f, 2) + "m/h";
-                break;
             case UnitOfSpeed.Kph:
                 speedText.text = System.Math.Round(speed * 3.6, 2) + "km/h";
                 break;
+            case UnitOfSpeed.Mph:
+                speedText.text = System.Math.Round(speed * 2.237f, 2) + "m/h";
+                break;
         }
+    }
+
+    public void SetUnitOfSpeed(int index)
+    {
+        //unitOfSpeed = _unitOfSpeed;
+
+        //int index = System.Array.IndexOf(
+        //    System.Enum.GetValues(_unitOfSpeed.GetType()), _unitOfSpeed);
+
+        // Set the current unit of speed value based on the numeric value associated with it 
+        unitOfSpeed = (UnitOfSpeed)(System.Enum.GetValues(unitOfSpeed.GetType())).GetValue(index);
+        OptionsPreferencesManager.SetUnitOfSpeed(index);
     }
 }

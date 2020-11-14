@@ -107,6 +107,7 @@ public static class PlayerConstants
     public static string GraphicsTooltip = "Graphics Quality.";
     public static string FullscreenTooltip = "Toggle Fullscreen.";
     public static string FOVTooltip = "Player Camera Field of View.";
+    public static string UnitOfSpeedTooltip = "Speedometer Unit";
 
 
     // Non-changeable hotkeys

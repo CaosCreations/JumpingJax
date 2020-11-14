@@ -52,6 +52,9 @@ public class OptionsPreferencesManager
     public const string alphaMenuKey = "AlphaMenu";
     public const int defaultAlphaToggle = 1;
 
+    public const string unitOfSpeedKey = "UniOfSpeed";
+    public const int defaultUnitOfSpeed = 0;
+
     public static int GetResolutionWidth()
     {
         return PlayerPrefs.GetInt(resolutionWidthKey, defaultResolutionWidth);
@@ -214,5 +217,15 @@ public class OptionsPreferencesManager
     public static void SetAlphaToggle(bool isOn)
     {
         PlayerPrefs.SetInt(alphaMenuKey, isOn ? 1 : 0);
+    }
+
+    public static int GetUnitOfSpeed()
+    {
+        return PlayerPrefs.GetInt(unitOfSpeedKey, defaultUnitOfSpeed);
+    }
+
+    public static void SetUnitOfSpeed(int index)
+    {
+        PlayerPrefs.SetInt(unitOfSpeedKey, index);
     }
 }
