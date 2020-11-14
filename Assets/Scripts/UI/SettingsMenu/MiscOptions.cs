@@ -21,8 +21,8 @@ public class MiscOptions : MonoBehaviour
 
     // Dropdown-related
     public GameObject dropdownItemPrefab;
-    private DropdownItem unitOfSpeedDropdown;
     public SpeedSlider speedSlider;
+    private DropdownItem unitOfSpeedDropdown;
 
     void Awake()
     {
@@ -64,8 +64,8 @@ public class MiscOptions : MonoBehaviour
         unitOfSpeedDropdown = newDropdown.GetComponent<DropdownItem>();
         unitOfSpeedDropdown.Init
         (
-            "Unit of speed", OptionsPreferencesManager.GetUnitOfSpeed(), PlayerConstants.UnitOfSpeedOptions, 
-            speedSlider.SetUnitOfSpeed, PlayerConstants.UnitOfSpeedTooltip
+            "Unit of speed", OptionsPreferencesManager.GetUnitOfSpeed(), PlayerConstants.UnitOfSpeedOptions,
+            SpeedSlider.SetUnitOfSpeed, PlayerConstants.UnitOfSpeedTooltip
         );
     }
 
@@ -134,6 +134,6 @@ public class MiscOptions : MonoBehaviour
         // Dropdown defaults
         OptionsPreferencesManager.SetUnitOfSpeed(OptionsPreferencesManager.defaultUnitOfSpeed);
         unitOfSpeedDropdown.dropdown.value = OptionsPreferencesManager.defaultUnitOfSpeed;
-        speedSlider.SetUnitOfSpeed(OptionsPreferencesManager.defaultUnitOfSpeed);
+        SpeedSlider.SetUnitOfSpeed(OptionsPreferencesManager.defaultUnitOfSpeed);
     }
 }
