@@ -43,10 +43,10 @@ public class Portal : MonoBehaviour
     };
 
     // Used for the portal alpha cutoff, gives it the blinking effect
-    private const float minAlphaCutOff = 0.01f;
-    private const float maxAlphaCutOff = 0.4f;
-    private float cutOffValue = 0.01f;
-    private const float cutOffInterval = 0.002f;
+    private const float minAlphaCutOff = 0.04f;
+    private const float maxAlphaCutOff = 0.3f;
+    private float cutOffValue = 0.02f;
+    private const float cutOffInterval = 0.001f;
     private bool isIncrementing = true;
 
     private void Awake()

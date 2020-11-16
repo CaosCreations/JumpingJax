@@ -66,8 +66,9 @@ public class InGameUI : MonoBehaviour
 
     private void LoadNextTutorial()
     {
-        if (tutorialTexts == null)
+        if (tutorialTexts == null || tutorialTexts.Length == 0)
         {
+            tutorialPane.SetActive(false);
             return;
         }
 
@@ -115,7 +116,7 @@ public class InGameUI : MonoBehaviour
                 OptionsPreferencesManager.SetSpeedToggle(speed.gameObject.activeSelf);
                 break;
             case ToggleableUIElements.TutorialToggle:
-                tutorialPane.SetActive(!tutorialPane.activeSelf);
+                tutorialPane.SetActive(!tutorialPane.activeSelf && tutorialTexts.Length > 0);
                 OptionsPreferencesManager.SetTutorialToggle(tutorialPane.activeSelf);
                 Invoke("UpdateParentLayoutGroup", 0.1f);
                 break;
