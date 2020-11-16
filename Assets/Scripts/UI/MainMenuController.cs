@@ -40,6 +40,20 @@ public class MainMenuController : MonoBehaviour
         GameManager.LoadScene(1);
     }
 
+    public void Continue()
+    {
+        int latestLevelIndex = 1;
+
+        foreach (Level level in GameManager.Instance.levelDataContainer.levels)
+        {
+            if (level.isCompleted)
+            {
+                latestLevelIndex = level.levelBuildIndex;
+            }
+        }
+        GameManager.LoadScene(latestLevelIndex + 1);
+    }
+
     public void LevelSelection()
     {
         homePanel.SetActive(false);

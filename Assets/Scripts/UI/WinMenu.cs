@@ -10,12 +10,9 @@ public class WinMenu : MonoBehaviour
     public Text completionTimeText;
     public Text bestTimeText;
 
-    public ColorChangingButton retryButton;
-    public ColorChangingButton menuButton;
-    public ColorChangingButton nextButton;
-
-    public Sprite buttonHoverSprite;
-    public Sprite buttonActiveSprite;
+    public SecondaryButton retryButton;
+    public SecondaryButton menuButton;
+    public PrimaryButton nextButton;
 
     private PlayerProgress playerProgress;
 
