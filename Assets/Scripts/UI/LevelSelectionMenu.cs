@@ -145,29 +145,6 @@ public class LevelSelectionMenu : MonoBehaviour
         return toReturn;
     }
 
-    public async Task<Texture2D> LoadTextureFromUrl(string url)
-    {
-        UnityWebRequest request = UnityWebRequestTexture.GetTexture(url, true);
-
-        var r = request.SendWebRequest();
-
-        while (!r.isDone)
-        {
-            await Task.Delay(10);
-        }
-
-        if (request.isNetworkError || request.isHttpError)
-        {
-            Debug.LogError($"Error downloading texture from url: {url}");
-            return new Texture2D(100, 100);
-        }
-
-        DownloadHandlerTexture dh = request.downloadHandler as DownloadHandlerTexture;
-        dh.texture.name = url;
-
-        return dh.texture;
-    }
-
     public void OnClickLevel(Level level)
     {
         levelPreview.gameObject.SetActive(true);

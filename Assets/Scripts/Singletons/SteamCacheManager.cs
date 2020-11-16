@@ -6,9 +6,9 @@ public class SteamCacheManager : MonoBehaviour
 {
     public static SteamCacheManager Instance { get; private set; }
 
-    private Dictionary<string, Steamworks.Data.LeaderboardEntry> leaderboardCache;
-    private Dictionary<string, Steamworks.Data.Image> leaderboardAvatarCache;
-    private Dictionary<string, Steamworks.Ugc.Item> ugcCache;
+    private LRUMemoryCache<Steamworks.Data.LeaderboardEntry> leaderboardCache;
+    private LRUMemoryCache<Steamworks.Data.Image> leaderboardAvatarCache;
+    private LRUMemoryCache<Texture2D> ugcPreviewImageCache;
 
     void Awake()
     {
@@ -32,13 +32,13 @@ public class SteamCacheManager : MonoBehaviour
 
     void Init()
     {
-        leaderboardCache = new Dictionary<string, Steamworks.Data.LeaderboardEntry>();
-        leaderboardAvatarCache = new Dictionary<string, Steamworks.Data.Image>();
-        ugcCache = new Dictionary<string, Steamworks.Ugc.Item>();
+        leaderboardCache = new LRUMemoryCache<Steamworks.Data.LeaderboardEntry>();
+        leaderboardAvatarCache = new LRUMemoryCache<Steamworks.Data.Image>();
+        ugcPreviewImageCache = new LRUMemoryCache<Texture2D>();
     }
 
-    public void AddToLeaderboardCache()
+    public static async void GetUGCPreviewImage(string url)
     {
-
+        await Instance.ugcPreviewImageCache.GetOrCreate(url, async () => await SteamUtil.LoadTextureFromUrl(url));
     }
 }

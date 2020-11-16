@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class SteamUtil
 {
@@ -47,5 +48,28 @@ public class SteamUtil
         }
 
         return null;
+    }
+
+    public static async Task<Texture2D> LoadTextureFromUrl(string url)
+    {
+        UnityWebRequest request = UnityWebRequestTexture.GetTexture(url, true);
+
+        var r = request.SendWebRequest();
+
+        while (!r.isDone)
+        {
+            await Task.Delay(10);
+        }
+
+        if (request.isNetworkError || request.isHttpError)
+        {
+            Debug.LogError($"Error downloading texture from url: {url}");
+            return new Texture2D(100, 100);
+        }
+
+        DownloadHandlerTexture dh = request.downloadHandler as DownloadHandlerTexture;
+        dh.texture.name = url;
+
+        return dh.texture;
     }
 }
