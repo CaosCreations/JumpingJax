@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class LRUMemoryCache<TItem>
 {
     private const int cacheSizeLimit = 100;
-    private Dictionary<object, TItem> _cache;
-    private Dictionary<object, DateTime> _cacheTimes;
+    private ConcurrentDictionary<object, TItem> _cache;
+    private ConcurrentDictionary<object, DateTime> _cacheTimes;
 
     public LRUMemoryCache()
     {
-        _cache = new Dictionary<object, TItem>();
-        _cacheTimes = new Dictionary<object, DateTime>();
+        _cache = new ConcurrentDictionary<object, TItem>();
+        _cacheTimes = new ConcurrentDictionary<object, DateTime>();
     }
 
     public async Task<TItem> GetOrCreate(object key, Func<Task<TItem>> createItem)
@@ -26,10 +28,31 @@ public class LRUMemoryCache<TItem>
             if (_cache.Count >= cacheSizeLimit)
             {
                 // Delete the oldest entry
-                _cache.Remove(GetOldestKey());
+                object oldestKey = GetOldestKey();
+
+                if (oldestKey == null)
+                {
+                    Debug.LogError($"Could not get oldest key in cache");
+                }
+                else
+                {
+                    TItem valueRemoved;
+                    if (!_cache.TryRemove(oldestKey, out valueRemoved))
+                    {
+                        Debug.LogError($"Could not remove key {key} from dictionary");
+                    }
+
+                    DateTime timeRemoved;
+                    _cacheTimes.TryRemove(oldestKey, out timeRemoved);
+                }
             }
 
-            _cache.Add(key, cacheEntry);
+            if(!_cache.TryAdd(key, cacheEntry))
+            {
+                Debug.LogError($"Could not add key {key} to dictionary");
+            }
+
+            _cacheTimes.TryAdd(key, DateTime.Now);
         }
 
         return cacheEntry;
@@ -37,24 +60,19 @@ public class LRUMemoryCache<TItem>
 
     private object GetOldestKey()
     {
-        if(_cache.Count > 0)
+        object oldestKey = null;
+
+        DateTime oldestTime = new DateTime(DateTime.MinValue.Ticks); // Set time to the oldest date possible
+
+        foreach (KeyValuePair<object, DateTime> entry in _cacheTimes)
         {
-            object oldestKey = _cache[0];
-
-            DateTime oldestTime = new DateTime(DateTime.MinValue.Ticks); // Set time to the oldest date possible
-
-            foreach (KeyValuePair<object, DateTime> entry in _cacheTimes)
+            if (entry.Value.CompareTo(oldestTime) > 0)
             {
-                if (entry.Value.CompareTo(oldestTime) < 0)
-                {
-                    oldestTime = entry.Value;
-                    oldestKey = entry.Key;
-                }
+                oldestTime = entry.Value;
+                oldestKey = entry.Key;
             }
-
-            return oldestKey;
         }
 
-        return null;
+        return oldestKey;
     }
 }
