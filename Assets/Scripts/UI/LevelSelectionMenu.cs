@@ -135,7 +135,7 @@ public class LevelSelectionMenu : MonoBehaviour
                 }
                 if (item.PreviewImageUrl != null && item.PreviewImageUrl != string.Empty)
                 {
-                    Texture2D texture = await LoadTextureFromUrl(item.PreviewImageUrl);
+                    Texture2D texture = await SteamCacheManager.GetUGCPreviewImage(item.PreviewImageUrl);
                     newLevel.previewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 }
                 toReturn.Add(newLevel);

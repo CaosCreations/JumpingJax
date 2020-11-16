@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class SteamCacheManager : MonoBehaviour
@@ -37,8 +38,8 @@ public class SteamCacheManager : MonoBehaviour
         ugcPreviewImageCache = new LRUMemoryCache<Texture2D>();
     }
 
-    public static async void GetUGCPreviewImage(string url)
+    public static async Task<Texture2D> GetUGCPreviewImage(string url)
     {
-        await Instance.ugcPreviewImageCache.GetOrCreate(url, async () => await SteamUtil.LoadTextureFromUrl(url));
+        return await Instance.ugcPreviewImageCache.GetOrCreate(url, async () => await SteamUtil.LoadTextureFromUrl(url));
     }
 }
