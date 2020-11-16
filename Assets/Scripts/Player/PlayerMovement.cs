@@ -24,6 +24,11 @@ public class PlayerMovement : MonoBehaviour
     private CameraMove cameraMove;
     private Level currentLevel;
 
+    private void Awake()
+    {
+        newVelocity = Vector3.zero;
+    }
+
     private void Start()
     {
         myCollider = GetComponent<BoxCollider>();
@@ -109,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyGravity()
     {
-        if (!grounded && newVelocity.y < PlayerConstants.MaxFallSpeed)
+        if (!grounded && newVelocity.y > -PlayerConstants.MaxFallSpeed)
         {
             float gravityScale = currentLevel.gravityMultiplier;
             newVelocity.y -= gravityScale * PlayerConstants.Gravity * Time.fixedDeltaTime;
