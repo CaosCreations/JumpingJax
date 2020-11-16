@@ -149,13 +149,21 @@ public class LevelPreview : MonoBehaviour
 
     async Task PopulateMyStats()
     {
-        Steamworks.Data.LeaderboardEntry myEntry = await StatsManager.GetMyLevelLeaderboard(levelToPreview.levelName);
+        Steamworks.Data.LeaderboardEntry? myEntry = await StatsManager.GetMyLevelLeaderboard(levelToPreview.levelName);
 
-        rankText.text = myEntry.GlobalRank.ToString();
+        if (myEntry.HasValue)
+        {
+            Steamworks.Data.LeaderboardEntry entry = myEntry.Value;
+            rankText.text = entry.GlobalRank.ToString();
 
-        GameObject entryObject = Instantiate(leaderboardItemPrefab, myLeaderboardParent);
-        LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
-        leaderboardEntry.Init(myEntry);
+            GameObject entryObject = Instantiate(leaderboardItemPrefab, myLeaderboardParent);
+            LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
+            leaderboardEntry.Init(entry);
+        }
+        else
+        {
+            rankText.text = "N/A";
+        }
     }
 
     async Task PopulateLeaderboard()
@@ -164,15 +172,15 @@ public class LevelPreview : MonoBehaviour
         if (GameManager.Instance.isSteamActive)
         {
             Steamworks.Data.LeaderboardEntry[] entries;
-            if (leaderboardCache.ContainsKey(levelToPreview.levelName))
-            {
-                entries = leaderboardCache[levelToPreview.levelName];
-            }
-            else
-            {
+            //if (leaderboardCache.ContainsKey(levelToPreview.levelName))
+            //{
+            //    entries = leaderboardCache[levelToPreview.levelName];
+            //}
+            //else
+            //{
                 entries = await StatsManager.GetTopLevelLeaderboard(levelToPreview.levelName);
-                leaderboardCache.Add(levelToPreview.levelName, entries);
-            }
+            //    leaderboardCache.Add(levelToPreview.levelName, entries);
+            //}
 
             if (entries != null && entries.Length > 0)
             {

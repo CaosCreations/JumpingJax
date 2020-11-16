@@ -1,6 +1,7 @@
 ﻿using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class SteamUtil
@@ -34,5 +35,16 @@ public class SteamUtil
     public static void StopSteam()
     {
         Steamworks.SteamClient.Shutdown();
+    }
+
+    public static async Task<Steamworks.Data.Image?> GetSteamFriendAvatar(SteamId steamId) {
+        Steamworks.Data.Image? avatar = await SteamFriends.GetMediumAvatarAsync(steamId);
+
+        if (avatar.HasValue)
+        {
+            return avatar.Value;
+        }
+
+        return null;
     }
 }
