@@ -75,7 +75,7 @@ public class StatsManager : MonoBehaviour
         return new Steamworks.Data.LeaderboardEntry[0];
     }
 
-    public static async Task<Steamworks.Data.LeaderboardEntry> GetMyLevelLeaderboard(string levelLeaderboardName)
+    public static async Task<Steamworks.Data.LeaderboardEntry?> GetMyLevelLeaderboard(string levelLeaderboardName)
     {
         if (SteamClient.IsValid)
         {
@@ -108,20 +108,37 @@ public class StatsManager : MonoBehaviour
             Debug.Log("Not getting level leaderboard, steam client is NOT valid");
         }
 
-        return new Steamworks.Data.LeaderboardEntry();
+        return null;
     }
 
     public static async Task<float> GetLevelCompletionTime(string levelLeaderboardName)
     {
-        Steamworks.Data.LeaderboardEntry myEntry = await GetMyLevelLeaderboard(levelLeaderboardName);
-        int timeInTicks = myEntry.Score;
-        TimeSpan timeSpan = TimeSpan.FromTicks(timeInTicks);
-        return (float)timeSpan.TotalSeconds;
+        Steamworks.Data.LeaderboardEntry? myEntry = await GetMyLevelLeaderboard(levelLeaderboardName);
+
+        if (myEntry.HasValue)
+        {
+            int timeInTicks = myEntry.Value.Score;
+            TimeSpan timeSpan = TimeSpan.FromTicks(timeInTicks);
+            return (float)timeSpan.TotalSeconds;
+        }
+        else
+        {
+            return 0;
+        }
+        
     }
 
     public static async Task<int> GetMyRank(string levelLeaderboardName)
     {
-        Steamworks.Data.LeaderboardEntry myEntry = await GetMyLevelLeaderboard(levelLeaderboardName);
-        return myEntry.GlobalRank;
+        Steamworks.Data.LeaderboardEntry? myEntry = await GetMyLevelLeaderboard(levelLeaderboardName);
+
+        if (myEntry.HasValue)
+        {
+            return myEntry.Value.GlobalRank;
+        }
+        else
+        {
+            return 0;
+        }
     }
 }
