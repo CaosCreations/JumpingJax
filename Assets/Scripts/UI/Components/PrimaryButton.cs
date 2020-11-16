@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ColorChangingButton : MonoBehaviour,  IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+public class PrimaryButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Button button;
     public Text text;
@@ -16,9 +16,9 @@ public class ColorChangingButton : MonoBehaviour,  IPointerDownHandler, IPointer
     public Sprite buttonDisabledSprite;
 
     public Color defaultTextColor;
+    public Color disabledTextColor;
     public Color activeTextColor;
 
-    private bool isActive;
 
     private void Awake()
     {
@@ -32,8 +32,11 @@ public class ColorChangingButton : MonoBehaviour,  IPointerDownHandler, IPointer
         button.onClick.AddListener(() => func());
     }
 
-    public void Init()
+    public void Init(string text, Action func)
     {
+        this.text.text = text;
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(() => func());
     }
 
     public void SetActive()

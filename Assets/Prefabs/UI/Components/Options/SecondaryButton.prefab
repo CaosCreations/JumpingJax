@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.58431375, g: 0.92941177, b: 0.7607843, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -88,11 +89,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1275115518611164484}
   - component: {fileID: 1275115518611164483}
-  - component: {fileID: 8724380173745763131}
+  - component: {fileID: 7641107384644601795}
   - component: {fileID: 1275115518611164482}
   - component: {fileID: 1275115518611164485}
   m_Layer: 12
-  m_Name: ColorChangingButton
+  m_Name: SecondaryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,7 +127,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1275115518611164487}
   m_CullTransparentMesh: 0
---- !u!114 &8724380173745763131
+--- !u!114 &7641107384644601795
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,18 +136,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1275115518611164487}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ba37a6a8a4da4a47a8c6d5fc46f7e29, type: 3}
+  m_Script: {fileID: 11500000, guid: f9a5ba1c4c106ce42800bf4558b98038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 1275115518611164485}
-  text: {fileID: 1275115517771785315}
-  buttonDefaultSprite: {fileID: 21300000, guid: a72b3be2ec5d5494a8ef6fe8b7d9f196,
+  button: {fileID: 0}
+  text: {fileID: 0}
+  buttonDefaultSprite: {fileID: 21300000, guid: 3905683bc6f76064e95d3ba0bb468602,
     type: 3}
-  buttonHoverSprite: {fileID: 21300000, guid: 42b7fbbb55be0f249972f1fb604eb111, type: 3}
-  buttonActiveSprite: {fileID: 21300000, guid: 660a582a130b34646a5154f16c4be20c, type: 3}
-  buttonDisabledSprite: {fileID: 0}
-  defaultTextColor: {r: 0.58431375, g: 0.92941177, b: 0.7607844, a: 1}
-  selectedTextColor: {r: 1, g: 1, b: 1, a: 1}
+  buttonHoverSprite: {fileID: 21300000, guid: 899a3250a5e22b24290cc94eba0fc700, type: 3}
+  buttonActiveSprite: {fileID: 21300000, guid: 17c3d5fb0bff8df43b4918cf7658d0e3, type: 3}
+  buttonDisabledSprite: {fileID: 21300000, guid: 2f739dda2eef1704191973e50f77cc55,
+    type: 3}
+  defaultTextColor: {r: 0.58431375, g: 0.92941177, b: 0.7607843, a: 1}
+  disabledTextColor: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
+  activeTextColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1275115518611164482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,11 +165,12 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a72b3be2ec5d5494a8ef6fe8b7d9f196, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3905683bc6f76064e95d3ba0bb468602, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
