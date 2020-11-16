@@ -35,8 +35,6 @@ public class LevelPreview : MonoBehaviour
     public Text tripleBoneText;
 
     private Level levelToPreview;
-    private Dictionary<string, Steamworks.Data.LeaderboardEntry> leaderboardCache;
-    private Dictionary<string, Steamworks.Data.Image> leaderboardAvatarCache;
 
     private void Start()
     {
@@ -44,8 +42,6 @@ public class LevelPreview : MonoBehaviour
         playButton.onClick.AddListener(Play);
         backButton.onClick.RemoveAllListeners();
         backButton.onClick.AddListener(Back);
-        leaderboardCache = new Dictionary<string, Steamworks.Data.LeaderboardEntry>();
-        leaderboardAvatarCache = new Dictionary<string, Steamworks.Data.Image>();
     }
 
     void Play()
