@@ -170,15 +170,7 @@ public class LevelPreview : MonoBehaviour
         if (GameManager.Instance.isSteamActive)
         {
             Steamworks.Data.LeaderboardEntry[] entries;
-            //if (leaderboardCache.ContainsKey(levelToPreview.levelName))
-            //{
-            //    entries = leaderboardCache[levelToPreview.levelName];
-            //}
-            //else
-            //{
-                entries = await StatsManager.GetTopLevelLeaderboard(levelToPreview.levelName);
-            //    leaderboardCache.Add(levelToPreview.levelName, entries);
-            //}
+            entries = await StatsManager.GetTopLevelLeaderboard(levelToPreview.levelName);
 
             if (entries != null && entries.Length > 0)
             {

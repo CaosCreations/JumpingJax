@@ -38,16 +38,36 @@ public class SteamUtil
         SteamClient.Shutdown();
     }
 
-    public static async Task<Steamworks.Data.Image?> GetSteamFriendAvatar(SteamId steamId)
+    public static async Task<Texture2D> GetSteamFriendAvatar(SteamId steamId)
     {
-        Steamworks.Data.Image? avatar = await SteamFriends.GetMediumAvatarAsync(steamId);
+        Friend friend = new Friend(steamId);
+        await friend.RequestInfoAsync();
 
-        if (avatar.HasValue)
+        Steamworks.Data.Image? avatarImage = await friend.GetMediumAvatarAsync();
+
+        if (avatarImage.HasValue)
         {
-            return avatar.Value;
+            return LoadTextureFromImage(avatarImage.Value);
         }
 
         return null;
+    }
+
+    public static Texture2D LoadTextureFromImage(Steamworks.Data.Image img)
+    {
+        var texture = new Texture2D((int)img.Width, (int)img.Height);
+
+        for (int x = 0; x < img.Width; x++)
+            for (int y = 0; y < img.Height; y++)
+            {
+                var p = img.GetPixel(x, y);
+
+                texture.SetPixel(x, (int)img.Height - y, new UnityEngine.Color32(p.r, p.g, p.b, p.a));
+            }
+
+        texture.Apply();
+
+        return texture;
     }
 
     public static async Task<Texture2D> LoadTextureFromUrl(string url)

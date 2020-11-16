@@ -7,8 +7,7 @@ public class SteamCacheManager : MonoBehaviour
 {
     public static SteamCacheManager Instance { get; private set; }
 
-    private LRUMemoryCache<Steamworks.Data.LeaderboardEntry> leaderboardCache;
-    private LRUMemoryCache<Steamworks.Data.Image> leaderboardAvatarCache;
+    private LRUMemoryCache<Texture2D> userAvatarCache;
     private LRUMemoryCache<Texture2D> ugcPreviewImageCache;
 
     void Awake()
@@ -33,13 +32,18 @@ public class SteamCacheManager : MonoBehaviour
 
     void Init()
     {
-        leaderboardCache = new LRUMemoryCache<Steamworks.Data.LeaderboardEntry>();
-        leaderboardAvatarCache = new LRUMemoryCache<Steamworks.Data.Image>();
+        userAvatarCache = new LRUMemoryCache<Texture2D>();
         ugcPreviewImageCache = new LRUMemoryCache<Texture2D>();
     }
 
     public static async Task<Texture2D> GetUGCPreviewImage(string url)
     {
         return await Instance.ugcPreviewImageCache.GetOrCreate(url, async () => await SteamUtil.LoadTextureFromUrl(url));
+    }
+
+    public static async Task<Texture2D> GetUserAvatar(Steamworks.SteamId steamId)
+    {
+        Texture2D texture = await Instance.userAvatarCache.GetOrCreate(steamId, async () => await SteamUtil.GetSteamFriendAvatar(steamId));
+        return texture;
     }
 }
