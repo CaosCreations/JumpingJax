@@ -34,10 +34,11 @@ public class SteamUtil
 
     public static void StopSteam()
     {
-        Steamworks.SteamClient.Shutdown();
+        SteamClient.Shutdown();
     }
 
-    public static async Task<Steamworks.Data.Image?> GetSteamFriendAvatar(SteamId steamId) {
+    public static async Task<Steamworks.Data.Image?> GetSteamFriendAvatar(SteamId steamId)
+    {
         Steamworks.Data.Image? avatar = await SteamFriends.GetMediumAvatarAsync(steamId);
 
         if (avatar.HasValue)

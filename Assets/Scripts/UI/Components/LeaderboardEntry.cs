@@ -25,9 +25,8 @@ public class LeaderboardEntry : MonoBehaviour
             Steamworks.Data.Image unboxxedAvatar = avatar.Value;
             int imageWidth = Convert.ToInt32(unboxxedAvatar.Width);
             int imageHeight = Convert.ToInt32(unboxxedAvatar.Height);
-            
-            Texture2D avatarTexture = new Texture2D(imageWidth, imageHeight);
-            avatarTexture.LoadImage(unboxxedAvatar.Data);
+
+            Texture2D avatarTexture = LoadTextureFromImage(avatar.Value);
 
             Sprite sprite = Sprite.Create(avatarTexture, new Rect(0, 0, imageWidth, imageHeight), new Vector2(0.5f, 0.5f));
             avatarImage.sprite = sprite;
@@ -36,5 +35,22 @@ public class LeaderboardEntry : MonoBehaviour
         {
             // TODO: idfk yet
         }
+    }
+
+    public static Texture2D LoadTextureFromImage(Steamworks.Data.Image img)
+    {
+        var texture = new Texture2D((int)img.Width, (int)img.Height);
+
+        for (int x = 0; x < img.Width; x++)
+            for (int y = 0; y < img.Height; y++)
+            {
+                var p = img.GetPixel(x, y);
+
+                texture.SetPixel(x, (int)img.Height - y, new UnityEngine.Color32(p.r, p.g, p.b, p.a));
+            }
+
+        texture.Apply();
+
+        return texture;
     }
 }
