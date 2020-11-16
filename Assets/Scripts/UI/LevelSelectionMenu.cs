@@ -135,7 +135,7 @@ public class LevelSelectionMenu : MonoBehaviour
                 }
                 if (item.PreviewImageUrl != null && item.PreviewImageUrl != string.Empty)
                 {
-                    Texture2D texture = await LoadTextureFromUrl(item.PreviewImageUrl);
+                    Texture2D texture = await SteamCacheManager.GetUGCPreviewImage(item.PreviewImageUrl);
                     newLevel.previewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 }
                 toReturn.Add(newLevel);
@@ -143,29 +143,6 @@ public class LevelSelectionMenu : MonoBehaviour
         }
 
         return toReturn;
-    }
-
-    public async Task<Texture2D> LoadTextureFromUrl(string url)
-    {
-        UnityWebRequest request = UnityWebRequestTexture.GetTexture(url, true);
-
-        var r = request.SendWebRequest();
-
-        while (!r.isDone)
-        {
-            await Task.Delay(10);
-        }
-
-        if (request.isNetworkError || request.isHttpError)
-        {
-            Debug.LogError($"Error downloading texture from url: {url}");
-            return new Texture2D(100, 100);
-        }
-
-        DownloadHandlerTexture dh = request.downloadHandler as DownloadHandlerTexture;
-        dh.texture.name = url;
-
-        return dh.texture;
     }
 
     public void OnClickLevel(Level level)
