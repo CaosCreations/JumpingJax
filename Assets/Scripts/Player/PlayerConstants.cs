@@ -64,9 +64,13 @@ public static class PlayerConstants
     public static string JumpDefault = "Space";
     public static string JumpTooltip = "Makes player jump.";
 
-    public static string ResetLevel = "Reset Level";
-    public static string ResetLevelDefault = "R";
-    public static string ResetTooltip = "Reset player to the last checkpoint.";
+    public static string Respawn = "Respawn";
+    public static string RespawnDefault = "R";
+    public static string RespawnTooltip = "Reset player to the last checkpoint.";
+
+    public static string ResetLevel = "ResetLevel";
+    public static string ResetLevelDefault = "T";
+    public static string ResetTooltip = "Reset player to the first checkpoint, set timer back to zero, and clear portals.";
 
     public static string Crouch = "Crouch";
     public static string CrouchDefault = "LeftControl";
