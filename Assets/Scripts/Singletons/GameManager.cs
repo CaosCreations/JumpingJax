@@ -82,13 +82,13 @@ public class GameManager : MonoBehaviour
 
     public static void LoadScene(int buildIndex)
     {
-        if(buildIndex != PlayerConstants.MainMenuSceneIndex)
+        if (buildIndex == PlayerConstants.CreditsSceneIndex || buildIndex == PlayerConstants.MainMenuSceneIndex)
         {
-            Instance.currentLevel = Instance.levelDataContainer.levels[buildIndex - 1];
+            Instance.currentLevel = ScriptableObject.CreateInstance<Level>();
         }
         else
         {
-            Instance.currentLevel = ScriptableObject.CreateInstance<Level>();
+            Instance.currentLevel = Instance.levelDataContainer.levels[buildIndex - 1];
         }
 
         AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(buildIndex);
@@ -126,6 +126,11 @@ public class GameManager : MonoBehaviour
         }
 
         // Set up the workshop level to have the right number of checkpoints, since it isn't loaded on the scene
+        if(Instance.currentLevel.workshopFilePath == null)
+        {
+            return;
+        }
+
         if (Instance.currentLevel.workshopFilePath != string.Empty || Instance.currentLevel.levelEditorScriptableObjectPath != string.Empty)
         {
             LevelEditorHUD levelEditorHUD = FindObjectOfType<LevelEditorHUD>();
