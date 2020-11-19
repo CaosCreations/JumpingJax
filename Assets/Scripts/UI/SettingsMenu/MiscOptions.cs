@@ -37,8 +37,6 @@ public class MiscOptions : MonoBehaviour
             if (element == ToggleableUIElements.GhostToggle)
             {
                 item.toggle.onValueChanged.AddListener((value) => onGhostToggle?.Invoke(value));
-
-
             }
             else if(element == ToggleableUIElements.ConsoleToggle)
             {

@@ -140,12 +140,12 @@ public class PlayerGhostRun : MonoBehaviour
 
     private void ToggleGhost(bool isOn)
     {
-        ghostRunner.SetActive(isOn && ShouldGhostBeActive());
         OptionsPreferencesManager.SetGhostToggle(isOn);
+        ghostRunner.SetActive(isOn && ShouldGhostBeActive());
     }
 
     private bool ShouldGhostBeActive()
     {
-        return OptionsPreferencesManager.GetGhostToggle() && currentLevel.isCompleted && currentLevel.ghostRunPositions != null && currentLevel.ghostRunPositions.Length > 0;
+        return currentLevel.ghostRunPositions != null && currentLevel.ghostRunPositions.Length > 0;
     }
 }
