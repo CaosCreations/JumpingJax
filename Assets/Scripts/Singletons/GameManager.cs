@@ -38,8 +38,8 @@ public class GameManager : MonoBehaviour
         {
             StartSteam();
             Init();
-            LoadLevelData();
         }
+        LoadLevelData();
     }
 
     private void StartSteam()
@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
 
     private void LoadLevelData()
     {
+        Debug.Log("Loading all level data");
         foreach(Level level in levelDataContainer.levels)
         {
             level.Load();

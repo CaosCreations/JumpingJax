@@ -93,8 +93,11 @@ public class Level : ScriptableObject
     {
         Debug.Log($"Loading level {levelName}");
         string filePath = Application.persistentDataPath + $"/{levelName}.save";
-        string fileContents = File.ReadAllText(filePath);
-        levelSaveData = JsonUtility.FromJson<PersistentLevelDataModel>(fileContents);
+        if (File.Exists(filePath))
+        {
+            string fileContents = File.ReadAllText(filePath);
+            levelSaveData = JsonUtility.FromJson<PersistentLevelDataModel>(fileContents);
+        }
     }
 
     public void Clear()
