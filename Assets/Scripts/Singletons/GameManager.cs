@@ -82,9 +82,20 @@ public class GameManager : MonoBehaviour
 
     public static void LoadScene(int buildIndex)
     {
-        if (buildIndex == PlayerConstants.CreditsSceneIndex || buildIndex == PlayerConstants.MainMenuSceneIndex)
+        if (buildIndex == PlayerConstants.CreditsSceneIndex)
         {
             Instance.currentLevel = ScriptableObject.CreateInstance<Level>();
+            Instance.currentLevel.levelName = "Credits";
+        }
+        else if (buildIndex == PlayerConstants.MainMenuSceneIndex)
+        {
+            Instance.currentLevel = ScriptableObject.CreateInstance<Level>();
+            Instance.currentLevel.levelName = "Main Menu";
+        }
+        else if (buildIndex == PlayerConstants.LevelEditorSceneIndex)
+        {
+            Instance.currentLevel = ScriptableObject.CreateInstance<Level>();
+            Instance.currentLevel.levelName = "Level Editor";
         }
         else
         {
@@ -114,7 +125,7 @@ public class GameManager : MonoBehaviour
         currentCompletionTime = 0;
         didWinCurrentLevel = false;
 
-        if (scene.buildIndex == PlayerConstants.MainMenuSceneIndex)
+        if (scene.buildIndex == PlayerConstants.MainMenuSceneIndex || scene.buildIndex == PlayerConstants.CreditsSceneIndex)
         {
             return;
         }
@@ -126,11 +137,6 @@ public class GameManager : MonoBehaviour
         }
 
         // Set up the workshop level to have the right number of checkpoints, since it isn't loaded on the scene
-        if(Instance.currentLevel.workshopFilePath == null)
-        {
-            return;
-        }
-
         if (Instance.currentLevel.workshopFilePath != string.Empty || Instance.currentLevel.levelEditorScriptableObjectPath != string.Empty)
         {
             LevelEditorHUD levelEditorHUD = FindObjectOfType<LevelEditorHUD>();

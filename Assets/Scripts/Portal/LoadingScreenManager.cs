@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LoadingScreenManager : MonoBehaviour
 {
@@ -90,7 +91,8 @@ public class LoadingScreenManager : MonoBehaviour
 
         mainImage.sprite = animatedImages[0];
 
-        string levelName = GameManager.GetCurrentLevel().name;
+        string levelName = GameManager.GetCurrentLevel().levelName;
+
 
         if (string.IsNullOrEmpty(levelName))
         {
