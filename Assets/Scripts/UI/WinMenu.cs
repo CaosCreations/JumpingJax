@@ -41,7 +41,7 @@ public class WinMenu : MonoBehaviour
     {
         levelText.text = "You found Jax on: " + GameManager.GetCurrentLevel().levelName;
         completionTimeText.text = TimeUtils.GetTimeString(GameManager.Instance.currentCompletionTime);
-        bestTimeText.text = TimeUtils.GetTimeString(GameManager.GetCurrentLevel().completionTime);
+        bestTimeText.text = TimeUtils.GetTimeString(GameManager.GetCurrentLevel().levelSaveData.completionTime);
     }
 
     private void SetupButtons()

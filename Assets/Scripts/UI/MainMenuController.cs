@@ -46,7 +46,7 @@ public class MainMenuController : MonoBehaviour
 
         foreach (Level level in GameManager.Instance.levelDataContainer.levels)
         {
-            if (level.isCompleted)
+            if (level.levelSaveData.isCompleted)
             {
                 latestLevelIndex = level.levelBuildIndex;
             }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.IO;
 
 [CreateAssetMenu(fileName = "Level X", menuName = "ScriptableObjects/level")]
 public class Level : ScriptableObject
@@ -51,49 +52,57 @@ public class Level : ScriptableObject
     [SerializeField]
     public ulong fileId;
 
-    
-
     [Header("Set in Game")]
     [SerializeField]
-    public Collectible[] collectibles;
-
-    [SerializeField]
-    public bool isCompleted;
-
-    [SerializeField]
-    public float completionTime;
-
-    [SerializeField]
-    public Vector3[] ghostRunPositions;
-
-    [SerializeField]
-    public Vector3[] ghostRunCameraRotations; 
-
-    [SerializeField]
-    public KeysPressed[] ghostRunKeys;
+    public PersistentLevelDataModel levelSaveData;
 
     public int GetNumberOfTimeBones()
     {
-        if (!isCompleted)
+        if (!levelSaveData.isCompleted)
         {
             return 0;
         }
 
-        if(completionTime < bone3Time)
+        if(levelSaveData.completionTime < bone3Time)
         {
             return 3;
         }
 
-        if (completionTime < bone2Time)
+        if (levelSaveData.completionTime < bone2Time)
         {
             return 2;
         }
 
-        if (completionTime < bone1Time)
+        if (levelSaveData.completionTime < bone1Time)
         {
             return 1;
         }
 
         return 0;
+    }
+
+    public void Save()
+    {
+        Debug.Log($"Saving level {levelName}");
+        string filePath = Application.persistentDataPath + $"/{levelName}.save";
+        string fileContents = JsonUtility.ToJson(levelSaveData);
+        File.WriteAllText(filePath, fileContents);
+    }
+
+    public void Load()
+    {
+        Debug.Log($"Loading level {levelName}");
+        string filePath = Application.persistentDataPath + $"/{levelName}.save";
+        string fileContents = File.ReadAllText(filePath);
+        levelSaveData = JsonUtility.FromJson<PersistentLevelDataModel>(fileContents);
+    }
+
+    public void Clear()
+    {
+        string filePath = Application.persistentDataPath + $"/{levelName}.save";
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
     }
 }

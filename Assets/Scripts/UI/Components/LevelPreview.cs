@@ -91,9 +91,9 @@ public class LevelPreview : MonoBehaviour
         previewImage.preserveAspect = true;
 
 
-        if (levelToPreview.isCompleted)
+        if (levelToPreview.levelSaveData.isCompleted)
         {
-            TimeSpan time = TimeSpan.FromSeconds(levelToPreview.completionTime);
+            TimeSpan time = TimeSpan.FromSeconds(levelToPreview.levelSaveData.completionTime);
             string timeString = time.ToString(PlayerConstants.levelCompletionTimeFormat);
             bestTimeText.text = timeString;
         }

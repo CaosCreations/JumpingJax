@@ -9,7 +9,6 @@ public class ClearLevelCompletion : EditorWindow
     private static void ClearCompletion()
     {
         GetWindow<ClearLevelCompletion>();
-        
     }
 
     private void OnGUI()
@@ -23,13 +22,13 @@ public class ClearLevelCompletion : EditorWindow
         {
             foreach(Level level in levelDataContainer.levels)
             {
-                level.isCompleted = false;
-                level.completionTime = 0;
-                level.ghostRunPositions = new Vector3[0];
-                level.ghostRunCameraRotations = new Vector3[0];
-                level.ghostRunKeys = new KeysPressed[0];
+                level.levelSaveData.isCompleted = false;
+                level.levelSaveData.completionTime = 0;
+                level.levelSaveData.ghostRunPositions = new Vector3[0];
+                level.levelSaveData.ghostRunCameraRotations = new Vector3[0];
+                level.levelSaveData.ghostRunKeys = new KeysPressed[0];
                 
-                foreach(Collectible collectible in level.collectibles)
+                foreach(Collectible collectible in level.levelSaveData.collectibles)
                 {
                     collectible.isCollected = false;
                 }

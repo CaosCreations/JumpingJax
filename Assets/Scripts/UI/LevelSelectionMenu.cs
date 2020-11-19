@@ -128,10 +128,10 @@ public class LevelSelectionMenu : MonoBehaviour
                 newLevel.levelName = item.Title;
                 newLevel.fileId = item.Id.Value;
                 newLevel.gravityMultiplier = 1;
-                newLevel.completionTime = await StatsManager.GetLevelCompletionTime(item.Title);
-                if (newLevel.completionTime > 0)
+                newLevel.levelSaveData.completionTime = await StatsManager.GetLevelCompletionTime(item.Title);
+                if (newLevel.levelSaveData.completionTime > 0)
                 {
-                    newLevel.isCompleted = true;
+                    newLevel.levelSaveData.isCompleted = true;
                 }
                 if (item.PreviewImageUrl != null && item.PreviewImageUrl != string.Empty)
                 {

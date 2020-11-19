@@ -19,7 +19,7 @@ public class StatsManager : MonoBehaviour
             if (leaderboard.HasValue)
             {
                 var leaderboardValue = leaderboard.Value;
-                TimeSpan time = TimeSpan.FromSeconds(level.completionTime);
+                TimeSpan time = TimeSpan.FromSeconds(level.levelSaveData.completionTime);
                 Debug.Log($"Leaderboard found, adding score: {time.ToString(PlayerConstants.levelCompletionTimeFormat)}");
                 await leaderboardValue.ReplaceScore((int)time.Ticks);
             }
@@ -31,8 +31,8 @@ public class StatsManager : MonoBehaviour
     }
 
     // NOTE: temporary code, as there is currently no way to attach UGC to the leaderboard in FacePunch
-    private static async Task CreateGhostRunData()
-    {
+    //private static async Task CreateGhostRunData()
+    //{
         //var ghostUGCResult = await Steamworks.Ugc.Editor.NewCommunityFile
         //.WithTitle(SteamClient.SteamId + " " + level.levelName)
         //.WithDescription("ghost run")
@@ -50,7 +50,7 @@ public class StatsManager : MonoBehaviour
         //        leaderboardValue.AttachUgc();
         //    }
         //}
-    }
+    //}
 
     public static async Task<Steamworks.Data.LeaderboardEntry[]> GetTopLevelLeaderboard(string levelLeaderboardName)
     {

@@ -34,10 +34,11 @@ public class GameManager : MonoBehaviour
             GameManager.Instance = this;
         }
         DontDestroyOnLoad(this.gameObject);
-        if (GameManager.Instance.isSteamActive == true)
+        if (GameManager.Instance.isSteamActive == false)
         {
             StartSteam();
             Init();
+            LoadLevelData();
         }
     }
 
@@ -54,6 +55,14 @@ public class GameManager : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogWarning("Could not connect to steam " + e.Message);
+        }
+    }
+
+    private void LoadLevelData()
+    {
+        foreach(Level level in levelDataContainer.levels)
+        {
+            level.Load();
         }
     }
 
@@ -186,22 +195,24 @@ public class GameManager : MonoBehaviour
         Instance.didWinCurrentLevel = false;
     }
 
-    public static void FinishedLevel()
+    public static async void FinishedLevel()
     {
         Instance.didWinCurrentLevel = true;
         float completionTime = Instance.currentCompletionTime;
         Level levelToUpdate = GetCurrentLevel();
 
-        levelToUpdate.isCompleted = true;
+        levelToUpdate.levelSaveData.isCompleted = true;
 
-        if (completionTime < levelToUpdate.completionTime || levelToUpdate.completionTime == 0)
+        if (completionTime < levelToUpdate.levelSaveData.completionTime || levelToUpdate.levelSaveData.completionTime == 0)
         {
-            levelToUpdate.completionTime = completionTime;
+            levelToUpdate.levelSaveData.completionTime = completionTime;
 
             if (ShouldUseSteam())
             {
-                StatsManager.SaveLevelCompletion(levelToUpdate);
+                await StatsManager.SaveLevelCompletion(levelToUpdate);
             }
+
+            levelToUpdate.Save();
         }
     }
 
