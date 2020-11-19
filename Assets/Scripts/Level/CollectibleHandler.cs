@@ -19,7 +19,7 @@ public class CollectibleHandler : MonoBehaviour
     {
         if (other.gameObject.layer == PlayerConstants.PlayerLayer)
         {
-            currentLevel.levelSaveData.collectibles[collectibleNumber].isCollected = true;
+            currentLevel.levelSaveData.collectiblesCollected++;
             child.SetActive(false);
         }
     }

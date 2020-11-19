@@ -6,7 +6,7 @@ using UnityEngine;
 public class PersistentLevelDataModel
 {
     [SerializeField]
-    public Collectible[] collectibles;
+    public int collectiblesCollected;
 
     [SerializeField]
     public bool isCompleted;

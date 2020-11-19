@@ -174,6 +174,7 @@ public class LevelPreview : MonoBehaviour
 
             if (entries != null && entries.Length > 0)
             {
+                Array.Sort(entries, new EntryComparer());
                 Debug.Log($"Leaderboard found, populating preview with {entries.Count()} entries");
                 foreach (Steamworks.Data.LeaderboardEntry entry in entries)
                 {
@@ -182,6 +183,17 @@ public class LevelPreview : MonoBehaviour
                     leaderboardEntry.Init(entry);
                 }
             }
+        }
+    }
+
+    public class EntryComparer : IComparer
+    {
+        public int Compare(object x, object y)
+        {
+            Steamworks.Data.LeaderboardEntry object1 = (Steamworks.Data.LeaderboardEntry)x;
+            Steamworks.Data.LeaderboardEntry object2 = (Steamworks.Data.LeaderboardEntry)y;
+
+            return object1.Score.CompareTo(object2.Score);
         }
     }
 

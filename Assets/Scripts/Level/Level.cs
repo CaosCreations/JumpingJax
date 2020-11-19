@@ -108,4 +108,30 @@ public class Level : ScriptableObject
             File.Delete(filePath);
         }
     }
+
+    public async void InitFromWorkshopItem(Steamworks.Ugc.Item item)
+    {
+        if(levelSaveData == null)
+        {
+            levelSaveData = new PersistentLevelDataModel();
+        }
+
+        levelBuildIndex = GameManager.workshopLevelIndex;
+        workshopFilePath = item.Directory;
+        levelName = item.Title;
+        fileId = item.Id.Value;
+        gravityMultiplier = 1;
+
+        levelSaveData.completionTime = await StatsManager.GetLevelCompletionTime(item.Title);
+        if (levelSaveData.completionTime > 0)
+        {
+            levelSaveData.isCompleted = true;
+        }
+
+        if (item.PreviewImageUrl != null && item.PreviewImageUrl != string.Empty)
+        {
+            Texture2D texture = await SteamCacheManager.GetUGCPreviewImage(item.PreviewImageUrl);
+            previewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        }
+    }
 }

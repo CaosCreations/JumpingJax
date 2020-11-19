@@ -34,11 +34,12 @@ public class GameManager : MonoBehaviour
             GameManager.Instance = this;
         }
         DontDestroyOnLoad(this.gameObject);
-        if (GameManager.Instance.isSteamActive == false)
+        if (GameManager.Instance.isSteamActive == true)
         {
             StartSteam();
-            Init();
         }
+
+        Init();
         LoadLevelData();
     }
 
