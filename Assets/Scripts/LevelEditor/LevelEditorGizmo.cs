@@ -81,6 +81,11 @@ public class LevelEditorGizmo : MonoBehaviour
         Vector3 mouseDelta = worldPoint - lastMousePosition;
         Vector3 newMouseChange = Vector3.zero;
 
+        if (LevelEditorUndo.commandHistory.Count == 0)
+        {
+            LevelEditorUndo.AddCommand(new LevelEditorCommands(selectedObject.gameObject, selectedObject.gameObject.transform.position, selectedObject.gameObject.transform.rotation, selectedObject.gameObject.transform.localScale, "movement"));
+        }
+
         switch (gizmoColor)
         {
             case GizmoColor.Red:
@@ -147,6 +152,11 @@ public class LevelEditorGizmo : MonoBehaviour
         Vector3 mouseDelta = worldPoint - lastMousePosition;
         Vector3 newMouseChange = Vector3.zero;
 
+        if (LevelEditorUndo.commandHistory.Count == 0)
+        {
+            LevelEditorUndo.AddCommand(new LevelEditorCommands(selectedObject.gameObject, selectedObject.gameObject.transform.position, selectedObject.gameObject.transform.rotation, selectedObject.gameObject.transform.localScale, "rotation"));
+        }
+
         switch (gizmoColor)
         {
             case GizmoColor.Red:
@@ -212,6 +222,11 @@ public class LevelEditorGizmo : MonoBehaviour
 
         Vector3 mouseDelta = worldPoint - lastMousePosition;
         Vector3 newMouseChange = Vector3.zero;
+
+        if (LevelEditorUndo.commandHistory.Count == 0)
+        {
+            LevelEditorUndo.AddCommand(new LevelEditorCommands(selectedObject.gameObject, selectedObject.gameObject.transform.position, selectedObject.gameObject.transform.rotation, selectedObject.gameObject.transform.localScale, "scale"));
+        }
 
         switch (gizmoColor)
         {
