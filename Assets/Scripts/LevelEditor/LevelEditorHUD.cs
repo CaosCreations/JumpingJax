@@ -12,6 +12,8 @@ public enum ObjectTypeTab
     Prefab, Required, None
 }
 
+
+
 public class LevelEditorHUD : MonoBehaviour
 {
     [Header("Set In Editor")]
@@ -27,7 +29,7 @@ public class LevelEditorHUD : MonoBehaviour
 
     public Button playButton;
     public Button saveButton;
-
+   
     public LayerMask gizmoLayerMask;
     public LayerMask selectionLayerMask;
     public Material outlineMaterial;
@@ -83,6 +85,7 @@ public class LevelEditorHUD : MonoBehaviour
         prefabScrollView.SetActive(false);
         PopulatePrefabMenu();
     }
+
 
     void Update()
     {
@@ -269,8 +272,17 @@ public class LevelEditorHUD : MonoBehaviour
         GameObject newObject = Instantiate(levelPrefab.prefab);
         // Set the object 10 units in front of the camera
         newObject.transform.position = levelEditorCamera.transform.position + (levelEditorCamera.transform.forward * 10);
+
+        LevelEditorUndo.AddCommand(new LevelEditorCommands(newObject, newObject.transform.position, newObject.transform.rotation, newObject.transform.localScale, "create"));
+        
         SelectObject(newObject);
         Save();
+    }
+
+    public static void Create(GameObject gameObject, Vector3 position)
+    {
+        GameObject newObject = Instantiate(gameObject);
+        newObject.transform.position = position;
     }
     #endregion
 
@@ -285,7 +297,11 @@ public class LevelEditorHUD : MonoBehaviour
             LevelEditorObject[] sceneObjects = FindObjectsOfType<LevelEditorObject>();
             foreach (LevelEditorObject sceneObject in sceneObjects)
             {
-                newLevel.levelObjects.Add(sceneObject.GetObjectData());
+                if(sceneObject.gameObject.activeSelf == true)
+                {
+                    newLevel.levelObjects.Add(sceneObject.GetObjectData());
+                }
+                
             }
 
             string jsonData = JsonUtility.ToJson(newLevel, true);

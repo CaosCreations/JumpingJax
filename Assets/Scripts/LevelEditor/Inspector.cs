@@ -123,7 +123,9 @@ public class Inspector : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            Destroy(objectToInspect.gameObject);
+            LevelEditorUndo.AddCommand(new LevelEditorCommands(objectToInspect.gameObject, objectToInspect.gameObject.transform.position, objectToInspect.gameObject.transform.rotation, objectToInspect.gameObject.transform.localScale, "delete"));
+
+            Delete(objectToInspect.gameObject);
             Clear();
             // Delete 
         }
@@ -293,4 +295,17 @@ public class Inspector : MonoBehaviour
         float.TryParse(newSnapValue, out value);
         currentSnap = value;
     }
+
+    public static void Delete(GameObject gameObject)
+    {
+        if (gameObject.activeSelf == true)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
+    }
+
 }
