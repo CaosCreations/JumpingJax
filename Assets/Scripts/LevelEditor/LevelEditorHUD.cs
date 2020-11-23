@@ -273,7 +273,7 @@ public class LevelEditorHUD : MonoBehaviour
         // Set the object 10 units in front of the camera
         newObject.transform.position = levelEditorCamera.transform.position + (levelEditorCamera.transform.forward * 10);
 
-        LevelEditorUndo.AddCommand(new LevelEditorCommands(newObject, newObject.transform.position, newObject.transform.rotation, newObject.transform.localScale, "create"));
+        LevelEditorUndo.AddCommand(new LevelEditorCommands(newObject, newObject.transform.position, newObject.transform.rotation, newObject.transform.localScale, CommandNames.create));
         
         SelectObject(newObject);
         Save();
