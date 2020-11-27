@@ -123,21 +123,7 @@ public class LevelSelectionMenu : MonoBehaviour
             foreach(Steamworks.Ugc.Item item in items)
             {
                 Level newLevel = ScriptableObject.CreateInstance<Level>();
-                newLevel.levelBuildIndex = GameManager.workshopLevelIndex;
-                newLevel.workshopFilePath = item.Directory;
-                newLevel.levelName = item.Title;
-                newLevel.fileId = item.Id.Value;
-                newLevel.gravityMultiplier = 1;
-                newLevel.completionTime = await StatsManager.GetLevelCompletionTime(item.Title);
-                if (newLevel.completionTime > 0)
-                {
-                    newLevel.isCompleted = true;
-                }
-                if (item.PreviewImageUrl != null && item.PreviewImageUrl != string.Empty)
-                {
-                    Texture2D texture = await SteamCacheManager.GetUGCPreviewImage(item.PreviewImageUrl);
-                    newLevel.previewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                }
+                newLevel.InitFromWorkshopItem(item);
                 toReturn.Add(newLevel);
             }
         }

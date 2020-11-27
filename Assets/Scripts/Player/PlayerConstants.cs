@@ -4,6 +4,7 @@ using UnityEngine;
 public static class PlayerConstants
 {
     public static float MoveSpeed = 6f;
+    public static float NoClipMoveSpeed = 12f;
     public static float BackWardsMoveSpeedScale = 0.9f;
     public static float CrouchingMoveSpeed = 5f;
     public static float MaxVelocity = 60f;
@@ -63,9 +64,13 @@ public static class PlayerConstants
     public static string JumpDefault = "Space";
     public static string JumpTooltip = "Makes player jump.";
 
-    public static string ResetLevel = "Reset Level";
-    public static string ResetLevelDefault = "R";
-    public static string ResetTooltip = "Reset player to the last checkpoint.";
+    public static string Respawn = "Respawn";
+    public static string RespawnDefault = "R";
+    public static string RespawnTooltip = "Reset player to the last checkpoint.";
+
+    public static string ResetLevel = "ResetLevel";
+    public static string ResetLevelDefault = "T";
+    public static string ResetTooltip = "Reset player to the first checkpoint, set timer back to zero, and clear portals.";
 
     public static string Crouch = "Crouch";
     public static string CrouchDefault = "LeftControl";
@@ -131,7 +136,9 @@ public static class PlayerConstants
     // Game Constants
     public static int MainMenuSceneIndex = 0;
     public static int LevelEditorSceneIndex = 27;
-    public static Vector3 PlayerSpawnOffset = new Vector3(0, 2, 0);
+    public static int CreditsSceneIndex = 28;
+
+    public static Vector3 PlayerSpawnOffset = new Vector3(0, 0.81f, 0);
     public static string levelCompletionTimeFormat = "mm':'ss'.'fff";
     public static int PlayerLayer = 12;
     public static int PortalMaterialLayer = 10;

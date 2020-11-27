@@ -30,7 +30,7 @@ public class LevelSelectionCard : MonoBehaviour
     public void Init(Level level)
     {
         levelNameText.text = level.levelName;
-        levelNameText.color = level.isCompleted ? PlayerConstants.activeColor : PlayerConstants.inactiveColor;
+        levelNameText.color = level.levelSaveData.isCompleted ? PlayerConstants.activeColor : PlayerConstants.inactiveColor;
         SetBestTime(level);
         SetPreviewImage(level);
         SetBoneImages(level);
@@ -39,9 +39,9 @@ public class LevelSelectionCard : MonoBehaviour
 
     private void SetBestTime(Level level)
     {
-        if (level.isCompleted)
+        if (level.levelSaveData.isCompleted)
         {
-            TimeSpan time = TimeSpan.FromSeconds(level.completionTime);
+            TimeSpan time = TimeSpan.FromSeconds(level.levelSaveData.completionTime);
             string timeString = time.ToString(PlayerConstants.levelCompletionTimeFormat);
             bestTimeText.text = "Best Time: " + timeString;
             bestTimeText.color = PlayerConstants.activeColor;
@@ -65,7 +65,7 @@ public class LevelSelectionCard : MonoBehaviour
         }
 
 
-        if (level.isCompleted)
+        if (level.levelSaveData.isCompleted)
         {
             previewOutlineImage.sprite = outlineActiveSprite;
         }
@@ -77,7 +77,7 @@ public class LevelSelectionCard : MonoBehaviour
 
     private void SetBoneImages(Level level)
     {
-        if (!level.isCompleted)
+        if (!level.levelSaveData.isCompleted)
         {
             boneImage1.sprite = boneEmptyInactiveSprite;
             boneImage2.sprite = boneEmptyInactiveSprite;

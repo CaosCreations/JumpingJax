@@ -24,9 +24,12 @@ public class PlayerMovement : MonoBehaviour
     private CameraMove cameraMove;
     private Level currentLevel;
 
+    private bool noClip;
+
     private void Awake()
     {
         newVelocity = Vector3.zero;
+        noClip = false;
     }
 
     private void Start()
@@ -38,6 +41,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (noClip)
+        {
+            NoClipMove();
+            return;
+        }
         CheckCrouch();
         ApplyGravity();
         CheckGrounded();
@@ -444,4 +452,36 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void NoClip()
+    {
+        noClip = !noClip;
+    }
+
+    private void NoClipMove()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.position += cameraMove.playerCamera.transform.forward * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.position += -cameraMove.playerCamera.transform.forward * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.position += cameraMove.playerCamera.transform.right * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.position += -cameraMove.playerCamera.transform.right * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            transform.position += cameraMove.playerCamera.transform.up * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
+        }
+        if (Input.GetKey(KeyCode.Q))
+        {
+            transform.position += -cameraMove.playerCamera.transform.up * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
+        }
+    }
 }

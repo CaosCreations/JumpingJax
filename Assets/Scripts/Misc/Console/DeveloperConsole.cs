@@ -18,6 +18,8 @@ using UnityEngine.UI;
 
 public class DeveloperConsole : MonoBehaviour
 {
+    public static DeveloperConsole Instance { get; private set; }
+
     [SerializeField] public ConsoleCommand[] commands;
 
     [Header("UI Components")]
@@ -41,39 +43,55 @@ public class DeveloperConsole : MonoBehaviour
     [SerializeField]
     private bool isEnabledInOptions;
 
-    private void Start()
+    // Outputs to: C:\Users\<your-user>\AppData\LocalLow\DefaultCompany\UnityDebugConsole\log.txt
+    private string logFilePath;
+
+    private void Awake()
+    {
+        if (FindObjectsOfType(GetType()).Length > 1)
+        {
+            Destroy(gameObject);
+        }
+
+        if (DeveloperConsole.Instance == null)
+        {
+            DeveloperConsole.Instance = this;
+        }
+        else if (DeveloperConsole.Instance == this)
+        {
+            Destroy(DeveloperConsole.Instance.gameObject);
+            DeveloperConsole.Instance = this;
+        }
+        DontDestroyOnLoad(this.gameObject);
+        Init();
+    }
+
+    private void Init()
     {
         consoleContainer.SetActive(false);
         autoComplete = GetComponentInChildren<AutoComplete>();
         fileLogger = GetComponent<FileLogger>();
         cachedCommands = new List<string>();
         focusSelection = FocusSelection.Cache;
-        pauseMenu = transform.parent.GetComponentInChildren<PauseMenu>();
+        pauseMenu = GameObject.FindObjectOfType<PauseMenu>();
         isEnabledInOptions = OptionsPreferencesManager.GetConsoleToggle();
 
         MiscOptions.onConsoleToggle += ToggleConsoleEnabled;
 
-        if (pauseMenu == null)
-        {
-            Debug.LogError("Could not find pause menu");
-        }
-    }
-
-    
-
-    private void OnEnable()
-    {
         if (ConsoleConstants.shouldOutputDebugLogs)
         {
             Application.logMessageReceived += HandleLog;
         }
-    }
 
-    private void OnDisable()
-    {
-        if (ConsoleConstants.shouldOutputDebugLogs)
+        logFilePath = Path.Combine(Application.persistentDataPath, ConsoleConstants.fileLoggerFileName);
+        // Delete large log files
+        if (File.Exists(logFilePath))
         {
-            Application.logMessageReceived -= HandleLog;
+            FileInfo fileInfo = new FileInfo(logFilePath);
+            if (fileInfo.Length > ConsoleConstants.MaxLogSizeInBytes)
+            {
+                File.Delete(logFilePath);
+            }
         }
     }
 
@@ -211,26 +229,19 @@ public class DeveloperConsole : MonoBehaviour
             currentCacheIndex = cachedCommands.Count;
             SetupInputField();
             MoveScrollViewToBottom();
-
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
-            Time.timeScale = 0;
-        }
-        else
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            Time.timeScale = 1;
         }
     }
 
     private void LogMessage(string message)
     {
-        consoleText.text += message + "\n";
-        if (fileLogger != null)
+        if(consoleText != null)
         {
-            fileLogger.LogToFile(message);
+            consoleText.text += message + "\n";
         }
+
+        DateTime now = DateTime.Now;
+        message = string.Format("[{0:H:mm:ss}] {1}\n", now, message);
+        File.AppendAllText(logFilePath, message);
     }
 
     private void SetupInputField()
@@ -302,7 +313,7 @@ public class DeveloperConsole : MonoBehaviour
 
     public ConsoleCommand GetValidCommand(string inputCommand)
     {
-        foreach (var command in commands)
+        foreach (var command in Instance.commands)
         {
             if(command.Command == inputCommand)
             {

@@ -72,23 +72,23 @@ public class PlayerGhostRun : MonoBehaviour
     private void UpdateGhost()
     {
         if (currentLevel == null 
-            || currentLevel.ghostRunPositions == null)
+            || currentLevel.levelSaveData.ghostRunPositions == null)
         {
             return; // ghost run is finished
         }
-        if (currentDataIndex >= currentLevel.ghostRunPositions.Length - 1)
+        if (currentDataIndex >= currentLevel.levelSaveData.ghostRunPositions.Length - 1)
         {
             currentDataIndex = 0;
         }
         // Only show the ghost run for a level we've completed
-        if (currentLevel.isCompleted)
+        if (currentLevel.levelSaveData.isCompleted)
         {
             float lerpValue = ghostRunnerTimer / ghostRunSaveInterval;
-            Vector3 position = Vector3.Lerp(ghostRunner.transform.position, currentLevel.ghostRunPositions[currentDataIndex], lerpValue);
+            Vector3 position = Vector3.Lerp(ghostRunner.transform.position, currentLevel.levelSaveData.ghostRunPositions[currentDataIndex], lerpValue);
             ghostRunner.transform.position = position;
-            Vector3 rotation = Vector3.Lerp(ghostRunner.transform.eulerAngles, currentLevel.ghostRunCameraRotations[currentDataIndex], lerpValue);
+            Vector3 rotation = Vector3.Lerp(ghostRunner.transform.eulerAngles, currentLevel.levelSaveData.ghostRunCameraRotations[currentDataIndex], lerpValue);
             ghostRunner.transform.eulerAngles = new Vector3(0f, rotation.y, 0f); // only rotate ghost on y axis 
-            keyPressed.SetPressed(currentLevel.ghostRunKeys[currentDataIndex]);
+            keyPressed.SetPressed(currentLevel.levelSaveData.ghostRunKeys[currentDataIndex]);
         }
 
         ghostRunnerTimer += Time.deltaTime;
@@ -130,22 +130,22 @@ public class PlayerGhostRun : MonoBehaviour
 
     public void SaveCurrentRunData()
     {
-        if(currentLevel.completionTime > GameManager.Instance.currentCompletionTime || currentLevel.completionTime == 0)
+        if(currentLevel.levelSaveData.completionTime > GameManager.Instance.currentCompletionTime || currentLevel.levelSaveData.completionTime == 0)
         {
-            currentLevel.ghostRunPositions = currentRunPositionData.ToArray();
-            currentLevel.ghostRunCameraRotations = currentRunCameraRotationData.ToArray(); 
-            currentLevel.ghostRunKeys = currentRunKeyData.ToArray();
+            currentLevel.levelSaveData.ghostRunPositions = currentRunPositionData.ToArray();
+            currentLevel.levelSaveData.ghostRunCameraRotations = currentRunCameraRotationData.ToArray(); 
+            currentLevel.levelSaveData.ghostRunKeys = currentRunKeyData.ToArray();
         }
     }
 
     private void ToggleGhost(bool isOn)
     {
-        ghostRunner.SetActive(isOn && ShouldGhostBeActive());
         OptionsPreferencesManager.SetGhostToggle(isOn);
+        ghostRunner.SetActive(isOn && ShouldGhostBeActive());
     }
 
     private bool ShouldGhostBeActive()
     {
-        return OptionsPreferencesManager.GetGhostToggle() && currentLevel.isCompleted && currentLevel.ghostRunPositions != null && currentLevel.ghostRunPositions.Length > 0;
+        return currentLevel.levelSaveData.ghostRunPositions != null && currentLevel.levelSaveData.ghostRunPositions.Length > 0;
     }
 }
