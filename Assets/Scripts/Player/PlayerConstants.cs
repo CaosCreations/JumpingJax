@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public static class PlayerConstants
@@ -112,6 +111,14 @@ public static class PlayerConstants
     public static string GraphicsTooltip = "Graphics Quality.";
     public static string FullscreenTooltip = "Toggle Fullscreen.";
     public static string FOVTooltip = "Player Camera Field of View.";
+    public static string UnitOfSpeedTooltip = "Speedometer Unit";
+
+    public static List<string> UnitOfSpeedOptions = new List<string>()
+    {
+        "Metres per second",
+        "Kilometres per hour",
+        "Miles per hour"
+    };
 
 
     // Non-changeable hotkeys
