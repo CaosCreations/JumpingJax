@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     public bool didWinCurrentLevel;
     public bool isSteamActive;
 
+    private bool shiftPressed;
+    private bool tabPressed;
+
     void Awake()
     {
         if (FindObjectsOfType(GetType()).Length > 1)
@@ -74,6 +77,8 @@ public class GameManager : MonoBehaviour
         {
             currentCompletionTime += Time.deltaTime;
         }
+
+        CheckSteamOverlay();
     }
 
     private void OnApplicationQuit()
@@ -227,5 +232,33 @@ public class GameManager : MonoBehaviour
     public static bool ShouldUseSteam()
     {
         return GameManager.Instance.isSteamActive == true && SteamClient.IsValid;
+    }
+
+    public void CheckSteamOverlay()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            shiftPressed = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            shiftPressed = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            tabPressed = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            tabPressed = false;
+        }
+
+        if(shiftPressed && tabPressed)
+        {
+            SteamFriends.OpenOverlay("friends");
+        }
     }
 }
