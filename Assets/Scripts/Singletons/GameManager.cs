@@ -205,6 +205,11 @@ public class GameManager : MonoBehaviour
 
         levelToUpdate.levelSaveData.isCompleted = true;
 
+        if (DeveloperConsole.Instance.consoleIsActive)
+        {
+            return;
+        }
+
         if (completionTime < levelToUpdate.levelSaveData.completionTime || levelToUpdate.levelSaveData.completionTime == 0)
         {
             levelToUpdate.levelSaveData.completionTime = completionTime;
