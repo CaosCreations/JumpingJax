@@ -253,6 +253,7 @@ public class Portal : MonoBehaviour
         else
         {
             playerCrosshair.CrossCheck(portalType == PortalType.Blue);
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Portal);
         }
     }
 

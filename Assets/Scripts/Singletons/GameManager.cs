@@ -205,6 +205,7 @@ public class GameManager : MonoBehaviour
 
         levelToUpdate.levelSaveData.isCompleted = true;
 
+        // TODO: Check if the player is no-clipping
         if (DeveloperConsole.Instance.consoleIsActive)
         {
             return;
