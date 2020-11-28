@@ -45,8 +45,12 @@ public class WorkshopManager : MonoBehaviour
 
             if (result.NeedsWorkshopAgreement)
             {
-                Debug.LogError($"opening steam overlay to: steam://url/CommunityFilePage/{result.FileId}");
+                Debug.Log($"opening steam overlay to: steam://url/CommunityFilePage/{result.FileId}");
                 SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{result.FileId}");
+            }
+            else
+            {
+                Debug.Log("User has accepted workshop agreement already");
             }
         }
 
