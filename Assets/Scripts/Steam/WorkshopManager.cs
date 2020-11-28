@@ -19,6 +19,8 @@ public class WorkshopManager : MonoBehaviour
 
     public static async Task<Steamworks.Data.PublishedFileId> PublishItem(Level levelToPublish)
     {
+        Steamworks.Data.PublishedFileId toReturn = new Steamworks.Data.PublishedFileId();
+
         if (SteamClient.IsValid)
         {
             Debug.Log($"publishing: {levelToPublish.levelEditorScriptableObjectPath}. WAIT to see \"published\"");
@@ -34,20 +36,21 @@ public class WorkshopManager : MonoBehaviour
             {
                 Debug.Log($"published : {levelToPublish.levelName}");
                 // See this for more info: https://partner.steamgames.com/doc/features/workshop/implementation#Legal
-                return result.FileId;
+                toReturn = result.FileId;
             }
             else
             {
                 Debug.LogError($"could not publish: {levelToPublish.levelName}, error: {result}");
             }
 
-            if (SteamClient.IsValid)
+            if (result.NeedsWorkshopAgreement)
             {
+                Debug.LogError($"opening steam overlay to: steam://url/CommunityFilePage/{result.FileId}");
                 SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{result.FileId}");
             }
         }
 
-        return 0;
+        return toReturn;
     }
 
     public static async Task UpdateItem(Level levelToPublish)
