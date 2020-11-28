@@ -8,8 +8,11 @@ public class OptionsPreferencesManager
     public const string resolutionHeightKey = "ResolutionHeight";
     public const int defaultResolutionHeight = 1080;
 
-    public const string volumeKey = "Volume";
-    public const int defaultVolume = -20;
+    public const string musicVolumeKey = "Volume";
+    public const int defaultMusicVolume = -20;
+
+    public const string soundEffectVolumeKey = "SoundEffects";
+    public const int defaultSoundEffectVolume = -20;
 
     public const string qualityKey = "Quality";
     public const int defaultQuality = 0;
@@ -69,14 +72,24 @@ public class OptionsPreferencesManager
         PlayerPrefs.SetInt(resolutionHeightKey, height);
     }
 
-    public static float GetVolume()
+    public static float GetMusicVolume()
     {
-        return PlayerPrefs.GetFloat(volumeKey, defaultVolume);
+        return PlayerPrefs.GetFloat(musicVolumeKey, defaultMusicVolume);
     }
 
-    public static void SetVolume(float volume)
+    public static void SetMusicVolume(float volume)
     {
-        PlayerPrefs.SetFloat(volumeKey, volume);
+        PlayerPrefs.SetFloat(musicVolumeKey, volume);
+    }
+
+    public static float GetSoundEffectVolume()
+    {
+        return PlayerPrefs.GetFloat(musicVolumeKey, defaultMusicVolume);
+    }
+
+    public static void SetSoundEffectVolume(float volume)
+    {
+        PlayerPrefs.SetFloat(musicVolumeKey, volume);
     }
 
     public static int GetQuality()

@@ -21,6 +21,13 @@ public class PlayerSoundEffects : MonoBehaviour
     public AudioSource terminalVelocityAudioSource;
     public AudioSource winAudioSource;
 
+    public float footstepTimer;
+    public float footstepInverval;
+
+    public AudioClip footstep1;
+    public AudioClip footstep2;
+    public bool lastFootstep1;
+
     void Awake()
     {
         if (FindObjectsOfType(GetType()).Length > 1)
@@ -38,6 +45,12 @@ public class PlayerSoundEffects : MonoBehaviour
             PlayerSoundEffects.Instance = this;
         }
         DontDestroyOnLoad(this.gameObject);
+        Instance.footstepInverval = 0.5f;
+    }
+
+    private void Update()
+    {
+        Instance.footstepTimer += Time.deltaTime;
     }
 
     public static void PlaySoundEffect(SoundEffectType type)
@@ -69,7 +82,21 @@ public class PlayerSoundEffects : MonoBehaviour
                 Instance.jumpAudioSource.Play();
                 break;
             case SoundEffectType.Footstep:
-                Instance.footstepAudioSource.Play();
+                if(Instance.footstepTimer > Instance.footstepInverval)
+                {
+                    Instance.footstepTimer = 0;
+                    if (Instance.lastFootstep1)
+                    {
+                        Instance.footstepAudioSource.clip = Instance.footstep1;
+                        Instance.lastFootstep1 = false;
+                    }
+                    else
+                    {
+                        Instance.footstepAudioSource.clip = Instance.footstep2;
+                        Instance.lastFootstep1 = true;
+                    }
+                    Instance.footstepAudioSource.Play();
+                }
                 break;
         }
     }
