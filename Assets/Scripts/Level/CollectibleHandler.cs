@@ -21,6 +21,7 @@ public class CollectibleHandler : MonoBehaviour
         {
             currentLevel.levelSaveData.collectiblesCollected++;
             child.SetActive(false);
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Collectible);
         }
     }
 

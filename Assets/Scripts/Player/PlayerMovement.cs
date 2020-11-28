@@ -17,6 +17,9 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     private bool grounded;
+
+    private bool wasGrounded;
+
     [SerializeField]
     private bool crouching;
 
@@ -66,6 +69,11 @@ public class PlayerMovement : MonoBehaviour
             ApplyFriction();
             ApplyGroundAcceleration(wishDir, wishSpeed, PlayerConstants.NormalSurfaceFriction);
             ClampVelocity(PlayerConstants.MoveSpeed);
+
+            if (newVelocity.magnitude > 0)
+            {
+                PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Footstep);
+            }
         }
         else
         {
@@ -126,6 +134,11 @@ public class PlayerMovement : MonoBehaviour
         {
             float gravityScale = currentLevel.gravityMultiplier;
             newVelocity.y -= gravityScale * PlayerConstants.Gravity * Time.fixedDeltaTime;
+        }
+
+        if(newVelocity.y <= -PlayerConstants.MaxFallSpeed)
+        {
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Falling);
         }
     }
 
@@ -203,10 +216,17 @@ public class PlayerMovement : MonoBehaviour
 
         grounded = willBeGrounded;
 
+        if (!wasGrounded && grounded)
+        {
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Land);
+        }
+
         if (grounded && newVelocity.y < 0)
         {
             newVelocity.y = 0;
         }
+
+        wasGrounded = grounded;
     }
 
     private Ray[] GetRays(Vector3 direction)
@@ -241,6 +261,7 @@ public class PlayerMovement : MonoBehaviour
             newVelocity.y = 0;
             newVelocity.y += crouching ? PlayerConstants.CrouchingJumpPower : PlayerConstants.JumpPower;
             grounded = false;
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Jump);
         }
     }
 

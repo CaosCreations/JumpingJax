@@ -79,6 +79,7 @@ public class PlayerProgress : MonoBehaviour
             GameManager.FinishedLevel();
             playerUI.ShowWinScreen();
             Time.timeScale = 0;
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Win);
         }
     }
 

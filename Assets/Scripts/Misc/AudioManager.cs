@@ -12,7 +12,6 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         availableClips = audioClips.audioClips.ToList();
-        audiosource = GetComponent<AudioSource>();
         audiosource.loop = false;
     }
 

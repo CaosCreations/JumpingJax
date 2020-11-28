@@ -7,11 +7,11 @@ public class AudioInitializer : MonoBehaviour
 {
     public AudioMixer audioMixer;
     private const string musicVolumeParam = "MusicVolume";
+    private const string soundEffectVolumeParam = "SoundEffectVolume";
 
     void Start()
     {
-        float volume = OptionsPreferencesManager.GetVolume();
-        InitializeVolume(volume);
+        InitializeVolume();
     }
 
     public void SetDefaults()
@@ -19,16 +19,27 @@ public class AudioInitializer : MonoBehaviour
 
     }
 
-    public void SetVolume(float volume)
+    public void SetMusicVolume(float volume)
     {
         float volumeInDecibels = ConvertToDecibel(volume);
         audioMixer.SetFloat(musicVolumeParam, volumeInDecibels);
-        OptionsPreferencesManager.SetVolume(volumeInDecibels);
+        OptionsPreferencesManager.SetMusicVolume(volumeInDecibels);
     }
 
-    public void InitializeVolume(float volume)
+    public void SetSoundEffectVolume(float volume)
     {
-        SetVolume(ConvertFromDecibel(volume));
+        float volumeInDecibels = ConvertToDecibel(volume);
+        audioMixer.SetFloat(soundEffectVolumeParam, volumeInDecibels);
+        OptionsPreferencesManager.SetMusicVolume(volumeInDecibels);
+    }
+
+    public void InitializeVolume()
+    {
+        float musicVolume = OptionsPreferencesManager.GetMusicVolume();
+        SetMusicVolume(ConvertFromDecibel(musicVolume));
+
+        float soundEffectVolume = OptionsPreferencesManager.GetSoundEffectVolume();
+        SetSoundEffectVolume(ConvertFromDecibel(soundEffectVolume));
     }
 
     public float ConvertToDecibel(float value)

@@ -18,5 +18,6 @@ public class UntouchableObject : MonoBehaviour
         }
 
         playerProgress.Respawn();
+        PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Death);
     }
 }

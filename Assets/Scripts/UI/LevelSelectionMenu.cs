@@ -30,6 +30,9 @@ public class LevelSelectionMenu : MonoBehaviour
 
     public LevelSelectionTab currentTab;
 
+    public Text groupTimeText;
+    public Text totalTimeText;
+
     void Start()
     {
         mainMenuController = GetComponentInParent<MainMenuController>();
@@ -58,22 +61,26 @@ public class LevelSelectionMenu : MonoBehaviour
         portalCardList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Portal));
         workshopCardList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Workshop));
 
+        totalTimeText.text = $"Total Time: {GameManager.Instance.levelDataContainer.GetTotalTime(TotalTimeType.All)}";
         switch (tab)
         {
             case LevelSelectionTab.Hop:
                 hopTabButton.SelectTab();
                 portalTabButton.UnselectTab();
                 workshopTabButton.UnselectTab();
+                groupTimeText.text = $"Hop Total Time: {GameManager.Instance.levelDataContainer.GetTotalTime(TotalTimeType.Hop)}";
                 break;
             case LevelSelectionTab.Portal:
                 hopTabButton.UnselectTab();
                 portalTabButton.SelectTab();
                 workshopTabButton.UnselectTab();
+                groupTimeText.text = $"Portal Total Time: {GameManager.Instance.levelDataContainer.GetTotalTime(TotalTimeType.Portal)}";
                 break;
             case LevelSelectionTab.Workshop:
                 hopTabButton.UnselectTab();
                 portalTabButton.UnselectTab();
                 workshopTabButton.SelectTab();
+                groupTimeText.text = "";
                 break;
         }
 
