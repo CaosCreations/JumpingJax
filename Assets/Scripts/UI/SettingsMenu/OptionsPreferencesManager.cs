@@ -9,7 +9,7 @@ public class OptionsPreferencesManager
     public const int defaultResolutionHeight = 1080;
 
     public const string volumeKey = "Volume";
-    public const int defaultVolume = -10;
+    public const int defaultVolume = -20;
 
     public const string qualityKey = "Quality";
     public const int defaultQuality = 0;
