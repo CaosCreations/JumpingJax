@@ -34,16 +34,16 @@ public class WorkshopManager : MonoBehaviour
             {
                 Debug.Log($"published : {levelToPublish.levelName}");
                 // See this for more info: https://partner.steamgames.com/doc/features/workshop/implementation#Legal
-                if (result.NeedsWorkshopAgreement)
-                {
-                    SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{result.FileId}");
-                }
-
                 return result.FileId;
             }
             else
             {
-                Debug.LogError($"could not publish: {levelToPublish.levelName}, error: {result.ToString()}");
+                Debug.LogError($"could not publish: {levelToPublish.levelName}, error: {result}");
+            }
+
+            if (SteamClient.IsValid)
+            {
+                SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{result.FileId}");
             }
         }
 
