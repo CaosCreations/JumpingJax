@@ -17,13 +17,14 @@ public class LevelDataContainer : ScriptableObject
     {
         float totalTime = 0;
 
+        if (!CheckLevelCompletion(type))
+        {
+            return "Not all levels completed";
+        }
+
         foreach(Level level in levels)
         {
-            if (level.workshopFilePath != string.Empty)
-            {
-                continue;
-            }
-            else if (level.levelName.ToLower().Contains("portal"))
+            if (level.levelName.ToLower().Contains("portal"))
             {
                 if(type == TotalTimeType.Portal || type == TotalTimeType.All)
                 {
@@ -40,5 +41,34 @@ public class LevelDataContainer : ScriptableObject
         }
 
         return TimeUtils.GetTimeString(totalTime);
+    }
+
+    public bool CheckLevelCompletion(TotalTimeType type)
+    {
+        foreach (Level level in levels)
+        {
+            if (level.levelName.ToLower().Contains("portal"))
+            {
+                if (type == TotalTimeType.Portal || type == TotalTimeType.All)
+                {
+                    if (!level.levelSaveData.isCompleted)
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                if (type == TotalTimeType.Hop || type == TotalTimeType.All)
+                {
+                    if (!level.levelSaveData.isCompleted)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 }

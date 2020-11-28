@@ -63,7 +63,7 @@ public class StatsManager : MonoBehaviour
             }
             else
             {
-                var entries = await leaderboard.Value.GetScoresAsync(10);
+                var entries = await leaderboard.Value.GetScoresAsync(9);
                 return entries;
             }
         }
