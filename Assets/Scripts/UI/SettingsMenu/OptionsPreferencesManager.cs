@@ -12,7 +12,7 @@ public class OptionsPreferencesManager
     public const int defaultMusicVolume = -20;
 
     public const string soundEffectVolumeKey = "SoundEffects";
-    public const int defaultSoundEffectVolume = -20;
+    public const int defaultSoundEffectVolume = -80;
 
     public const string qualityKey = "Quality";
     public const int defaultQuality = 0;
