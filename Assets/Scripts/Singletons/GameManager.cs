@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public Level currentLevel;
     public float currentCompletionTime;
     public bool didWinCurrentLevel;
-    public bool isSteamActive;
+    public bool shouldUseSteam;
 
     private bool shiftPressed;
     private bool tabPressed;
@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
             GameManager.Instance = this;
         }
         DontDestroyOnLoad(this.gameObject);
-        if (GameManager.Instance.isSteamActive == true)
+        if (GameManager.Instance.shouldUseSteam == true)
         {
             StartSteam();
         }
@@ -231,7 +231,7 @@ public class GameManager : MonoBehaviour
 
     public static bool ShouldUseSteam()
     {
-        return GameManager.Instance.isSteamActive == true && SteamClient.IsValid;
+        return GameManager.Instance.shouldUseSteam == true && SteamClient.IsValid;
     }
 
     public void CheckSteamOverlay()

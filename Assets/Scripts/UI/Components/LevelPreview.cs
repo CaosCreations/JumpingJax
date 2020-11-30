@@ -167,7 +167,7 @@ public class LevelPreview : MonoBehaviour
     async Task PopulateLeaderboard()
     {
         // make HTTP request from steam for leaderboard data
-        if (GameManager.Instance.isSteamActive)
+        if (GameManager.Instance.shouldUseSteam)
         {
             Steamworks.Data.LeaderboardEntry[] entries;
             entries = await StatsManager.GetTopLevelLeaderboard(levelToPreview.levelName);
