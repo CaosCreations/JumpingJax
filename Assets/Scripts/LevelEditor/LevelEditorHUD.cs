@@ -149,12 +149,14 @@ public class LevelEditorHUD : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            Vector3 position = currentSelectedObject.gameObject.transform.position;
-            Quaternion rotation = currentSelectedObject.gameObject.transform.rotation;
-            Vector3 scale = currentSelectedObject.gameObject.transform.localScale;
+            
 
             if (isUsingGizmo == true)
             {
+                Vector3 position = currentSelectedObject.gameObject.transform.position;
+                Quaternion rotation = currentSelectedObject.gameObject.transform.rotation;
+                Vector3 scale = currentSelectedObject.gameObject.transform.localScale;
+
                 switch (manipulationType)
                 {
                     case ManipulationType.Position:
