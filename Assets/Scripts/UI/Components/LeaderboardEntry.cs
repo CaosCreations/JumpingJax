@@ -14,7 +14,7 @@ public class LeaderboardEntry : MonoBehaviour
     public async void Init(Steamworks.Data.LeaderboardEntry entry)
     {
         place.text = entry.GlobalRank + ".";
-        TimeSpan timeSpan = TimeSpan.FromTicks(entry.Score);
+        TimeSpan timeSpan = TimeSpan.FromMilliseconds(entry.Score);
         time.text = timeSpan.ToString(PlayerConstants.levelCompletionTimeFormat);
         playerName.text = entry.User.Name;
 

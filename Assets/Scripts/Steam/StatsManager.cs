@@ -21,7 +21,7 @@ public class StatsManager : MonoBehaviour
                 var leaderboardValue = leaderboard.Value;
                 TimeSpan time = TimeSpan.FromSeconds(level.levelSaveData.completionTime);
                 Debug.Log($"Leaderboard found, adding score: {time.ToString(PlayerConstants.levelCompletionTimeFormat)}");
-                await leaderboardValue.ReplaceScore((int)time.Ticks);
+                await leaderboardValue.ReplaceScore((int)time.TotalMilliseconds);
             }
         }
         else
@@ -118,7 +118,7 @@ public class StatsManager : MonoBehaviour
         if (myEntry.HasValue)
         {
             int timeInTicks = myEntry.Value.Score;
-            TimeSpan timeSpan = TimeSpan.FromTicks(timeInTicks);
+            TimeSpan timeSpan = TimeSpan.FromMilliseconds(timeInTicks);
             return (float)timeSpan.TotalSeconds;
         }
         else
