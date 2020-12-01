@@ -53,6 +53,10 @@ public class LevelEditorHUD : MonoBehaviour
     private bool isWorkshopLevel;
     private bool isInPlayMode;
 
+    public Vector3 prevPos;
+    public Quaternion prevRotation;
+    public Vector3 prevScale;
+
     private void Awake()
     {
         levelEditorCamera = GetComponentInParent<Camera>();
@@ -104,6 +108,9 @@ public class LevelEditorHUD : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
+        ManipulationType manipulationType = ManipulationType.Position; //needs to change based on what's being used
+        
+
         if (Input.GetMouseButtonDown(0))
         {
             // Break out if we clicked on the UI, prevents clearing the object when clicking on UI
@@ -123,11 +130,16 @@ public class LevelEditorHUD : MonoBehaviour
                     return;
                 }
                 currentGizmoColor = tempType.gizmoColor;
+
+                prevPos = gizmoHit.collider.gameObject.transform.position;
+                prevRotation = gizmoHit.collider.gameObject.transform.rotation;
+                prevScale = gizmoHit.collider.gameObject.transform.localScale;
+
                 return; // break out so that we dont also select an object
             }
             if (Physics.Raycast(ray, out RaycastHit hit, 1000, selectionLayerMask))
             {
-                SelectObject(hit.collider.gameObject);
+                SelectObject(hit.collider.gameObject);  
             }
             else
             {
@@ -137,8 +149,29 @@ public class LevelEditorHUD : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
+            Vector3 position = currentSelectedObject.gameObject.transform.position;
+            Quaternion rotation = currentSelectedObject.gameObject.transform.rotation;
+            Vector3 scale = currentSelectedObject.gameObject.transform.localScale;
+
+            if (isUsingGizmo == true)
+            {
+                switch (manipulationType)
+                {
+                    case ManipulationType.Position:
+                        LevelEditorUndo.AddCommand(new LevelEditorCommands(currentSelectedObject.gameObject, position, prevPos, rotation, prevRotation, scale, prevScale, CommandNames.position));
+                        break;
+                    case ManipulationType.Rotation:
+                        LevelEditorUndo.AddCommand(new LevelEditorCommands(currentSelectedObject.gameObject, position, prevPos, rotation, prevRotation, scale, prevScale, CommandNames.rotation));
+                        break;
+                    case ManipulationType.Scale:
+                        LevelEditorUndo.AddCommand(new LevelEditorCommands(currentSelectedObject.gameObject, position, prevPos, rotation, prevRotation, scale, prevScale, CommandNames.scale));
+                        break;
+                }
+            }
             isUsingGizmo = false;
             levelEditorGizmo.lastMousePosition = Vector3.zero;
+
+            
         }
 
         FocusCamera();
@@ -273,8 +306,12 @@ public class LevelEditorHUD : MonoBehaviour
         // Set the object 10 units in front of the camera
         newObject.transform.position = levelEditorCamera.transform.position + (levelEditorCamera.transform.forward * 10);
 
-        LevelEditorUndo.AddCommand(new LevelEditorCommands(newObject, newObject.transform.position, newObject.transform.rotation, newObject.transform.localScale, CommandNames.create));
-        
+        Vector3 position = newObject.transform.position;
+        Quaternion rotation = newObject.transform.rotation;
+        Vector3 scale = newObject.transform.localScale;
+
+        LevelEditorUndo.AddCommand(new LevelEditorCommands(newObject, position, position, rotation, rotation, scale, scale, CommandNames.create));
+       
         SelectObject(newObject);
         Save();
     }

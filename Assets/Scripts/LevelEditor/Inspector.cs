@@ -89,7 +89,9 @@ public class Inspector : MonoBehaviour
         {
             levelEditorGizmo.GizmoFollowMouse(levelEditorHUD.currentGizmoColor);
             UpdateInputs();
+            
         }
+        
 
         HandleKeyboardArrowInput();
 
@@ -123,9 +125,12 @@ public class Inspector : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            LevelEditorUndo.AddCommand(new LevelEditorCommands(objectToInspect.gameObject, objectToInspect.gameObject.transform.position, objectToInspect.gameObject.transform.rotation, objectToInspect.gameObject.transform.localScale, CommandNames.delete));
+            Vector3 position = objectToInspect.gameObject.transform.position;
+            Quaternion rotation = objectToInspect.gameObject.transform.rotation;
+            Vector3 scale = objectToInspect.gameObject.transform.localScale;
+            LevelEditorUndo.AddCommand(new LevelEditorCommands(objectToInspect.gameObject, position, position, rotation, rotation, scale, scale, CommandNames.delete));
 
-            Delete(objectToInspect.gameObject);
+            FlipActive(objectToInspect.gameObject);
             Clear();
             // Delete 
         }
@@ -296,7 +301,7 @@ public class Inspector : MonoBehaviour
         currentSnap = value;
     }
 
-    public static void Delete(GameObject gameObject)
+    public static void FlipActive(GameObject gameObject)
     {
         if (gameObject.activeSelf == true)
         {
