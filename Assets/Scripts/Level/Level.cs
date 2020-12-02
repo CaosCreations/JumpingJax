@@ -84,7 +84,14 @@ public class Level : ScriptableObject
     public void Save()
     {
         Debug.Log($"Saving level {levelName}");
-        string filePath = Application.persistentDataPath + $"/{levelName}.save";
+        string folderPath = Path.Combine(Application.persistentDataPath, levelName);
+
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        string filePath = Path.Combine(folderPath, $"{levelName}.save");
         string fileContents = JsonUtility.ToJson(levelSaveData);
         File.WriteAllText(filePath, fileContents);
     }
@@ -92,6 +99,7 @@ public class Level : ScriptableObject
     public void Load()
     {
         Debug.Log($"Loading level {levelName}");
+        string folderPath = Path.Combine(Application.persistentDataPath, levelName);
         string filePath = Application.persistentDataPath + $"/{levelName}.save";
         if (File.Exists(filePath))
         {
@@ -102,7 +110,8 @@ public class Level : ScriptableObject
 
     public void Clear()
     {
-        string filePath = Application.persistentDataPath + $"/{levelName}.save";
+        string folderPath = Path.Combine(Application.persistentDataPath, levelName);
+        string filePath = Path.Combine(folderPath, $"/{levelName}.save");
         if (File.Exists(filePath))
         {
             File.Delete(filePath);

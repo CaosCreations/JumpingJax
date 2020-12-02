@@ -219,13 +219,13 @@ public class GameManager : MonoBehaviour
         if (completionTime < levelToUpdate.levelSaveData.completionTime || levelToUpdate.levelSaveData.completionTime == 0)
         {
             levelToUpdate.levelSaveData.completionTime = completionTime;
+            levelToUpdate.Save();
 
             if (ShouldUseSteam())
             {
                 await StatsManager.SaveLevelCompletion(levelToUpdate);
             }
 
-            levelToUpdate.Save();
         }
     }
 

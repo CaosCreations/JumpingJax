@@ -30,6 +30,7 @@ public class WorkshopManager : MonoBehaviour
                 .WithDescription(levelToPublish.description)
                 .WithPreviewFile(levelToPublish.previewImagePath)
                 .WithContent(levelToPublish.levelEditorScenePath)
+                .WithPublicVisibility()
                 .SubmitAsync();
 
             if (result.Success)
@@ -68,6 +69,7 @@ public class WorkshopManager : MonoBehaviour
                 .WithDescription(levelToPublish.description)
                 .WithPreviewFile(levelToPublish.previewImagePath)
                 .WithContent(levelToPublish.levelEditorScenePath)
+                .WithPublicVisibility()
                 .SubmitAsync();
 
             if (result.Success)
