@@ -99,12 +99,12 @@ public class WorkshopManager : MonoBehaviour
                 Debug.Log($"Found Item: {entry.Title}");
                 if (!entry.IsInstalled)
                 {
-                    await DownloadWorkshopFile(entry.Id);
+                    await DownloadUGCFile(entry.Id);
                 }
                 else if(entry.IsInstalled && entry.NeedsUpdate)
                 {
                     Debug.Log($"Updating installed item {entry.Title}");
-                    await DownloadWorkshopFile(entry.Id);
+                    await DownloadUGCFile(entry.Id);
                 }
                 toReturn.Add(entry);
             }
@@ -117,7 +117,7 @@ public class WorkshopManager : MonoBehaviour
         return toReturn;
     }
 
-    public static async Task<string> DownloadWorkshopFile(Steamworks.Data.PublishedFileId id)
+    public static async Task<string> DownloadUGCFile(Steamworks.Data.PublishedFileId id)
     {
         var result = await SteamUGC.QueryFileAsync(id);
         if (!result.HasValue)

@@ -69,6 +69,11 @@ public class StatsManager : MonoBehaviour
         }
     }
 
+    public static async Task GetGhostRunFileId(Steamworks.Data.Leaderboard leaderboard, Level level)
+    {
+        
+    }
+
     public static async Task<Steamworks.Data.LeaderboardEntry[]> GetTopLevelLeaderboard(string levelLeaderboardName)
     {
         if (SteamClient.IsValid)

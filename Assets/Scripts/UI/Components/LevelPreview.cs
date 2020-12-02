@@ -35,9 +35,11 @@ public class LevelPreview : MonoBehaviour
     public Text tripleBoneText;
 
     private Level levelToPreview;
+    private Steamworks.Data.PublishedFileId replayFileId;
 
     private void Start()
     {
+        replayFileId = new Steamworks.Data.PublishedFileId();
         playButton.onClick.RemoveAllListeners();
         playButton.onClick.AddListener(Play);
         backButton.onClick.RemoveAllListeners();
@@ -46,6 +48,11 @@ public class LevelPreview : MonoBehaviour
 
     void Play()
     {
+        if(replayFileId.Value != 0)
+        {
+            Debug.Log("Downloading ghost file UGC");
+            WorkshopManager.DownloadUGCFile(replayFileId);
+        }
         // If this is a workshop map
         if(levelToPreview.workshopFilePath != string.Empty) 
         {
@@ -156,7 +163,7 @@ public class LevelPreview : MonoBehaviour
 
             GameObject entryObject = Instantiate(leaderboardItemPrefab, myLeaderboardParent);
             LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
-            leaderboardEntry.Init(entry);
+            leaderboardEntry.Init(entry, () => SetReplay(entry));
         }
         else
         {
@@ -180,9 +187,21 @@ public class LevelPreview : MonoBehaviour
                 {
                     GameObject entryObject = Instantiate(leaderboardItemPrefab, leaderboardParent);
                     LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
-                    leaderboardEntry.Init(entry);
+                    leaderboardEntry.Init(entry, () => SetReplay(entry));
                 }
             }
+        }
+    }
+
+    public void SetReplay(Steamworks.Data.LeaderboardEntry entry)
+    {
+        if (entry.AttachedUgcId.HasValue)
+        {
+            replayFileId = entry.AttachedUgcId.Value;
+        }
+        else
+        {
+            Debug.LogError($"No UGC Attached for: {entry.User.Name}");
         }
     }
 
