@@ -121,6 +121,7 @@ public class LevelEditorHUD : MonoBehaviour
 
             Ray ray = levelEditorCamera.ScreenPointToRay(Input.mousePosition);
 
+            // If we click on a gizmo
             if(Physics.Raycast(ray, out RaycastHit gizmoHit, 1000, gizmoLayerMask))
             {
                 isUsingGizmo = true;
@@ -131,15 +132,15 @@ public class LevelEditorHUD : MonoBehaviour
                 }
                 currentGizmoColor = tempType.gizmoColor;
 
-                prevPos = gizmoHit.collider.gameObject.transform.position;
-                prevRotation = gizmoHit.collider.gameObject.transform.rotation;
-                prevScale = gizmoHit.collider.gameObject.transform.localScale;
+                prevPos = gizmoHit.collider.transform.position;
+                prevRotation = gizmoHit.collider.transform.rotation;
+                prevScale = gizmoHit.collider.transform.localScale;
 
                 return; // break out so that we dont also select an object
             }
             if (Physics.Raycast(ray, out RaycastHit hit, 1000, selectionLayerMask))
             {
-                SelectObject(hit.collider.gameObject);  
+                SelectObject(hit.collider.gameObject);
             }
             else
             {
@@ -149,8 +150,6 @@ public class LevelEditorHUD : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            
-
             if (isUsingGizmo == true)
             {
                 Vector3 position = currentSelectedObject.gameObject.transform.position;

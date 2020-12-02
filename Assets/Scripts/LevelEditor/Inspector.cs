@@ -117,9 +117,9 @@ public class Inspector : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            Vector3 position = objectToInspect.gameObject.transform.position;
-            Quaternion rotation = objectToInspect.gameObject.transform.rotation;
-            Vector3 scale = objectToInspect.gameObject.transform.localScale;
+            Vector3 position = objectToInspect.position;
+            Quaternion rotation = objectToInspect.rotation;
+            Vector3 scale = objectToInspect.localScale;
             LevelEditorUndo.AddCommand(new LevelEditorCommands(objectToInspect.gameObject, position, position, rotation, rotation, scale, scale, CommandNames.delete));
 
             FlipActive(objectToInspect.gameObject);
@@ -295,14 +295,7 @@ public class Inspector : MonoBehaviour
 
     public static void FlipActive(GameObject gameObject)
     {
-        if (gameObject.activeSelf == true)
-        {
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            gameObject.SetActive(true);
-        }
+        gameObject.SetActive(!gameObject.activeSelf);
     }
 
 }

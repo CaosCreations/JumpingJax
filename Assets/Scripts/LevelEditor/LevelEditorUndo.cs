@@ -14,7 +14,6 @@ public class LevelEditorUndo : MonoBehaviour
 
     public static void AddCommand(ICommand command)
     {
-        
         while (commandHistory.Count > counter)
         {
             //Destroy(commandHistory[counter].GetGameObject()); //problem here with it deleting objects when removing a move command
@@ -26,16 +25,13 @@ public class LevelEditorUndo : MonoBehaviour
         Debug.Log("Length of Command History: " + commandHistory.Count);
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         //(Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.LeftControl)) && Input.GetKeyDown(KeyCode.Z) if you want ctrl + z
-        if (Input.GetKeyDown(KeyCode.U))
+        if (InputManager.GetKeyDown(PlayerConstants.Undo))
         {
             if(counter > 0)
             {
-
                 counter--;
                 switch (commandHistory[counter].CommandName())
                 {
@@ -63,11 +59,12 @@ public class LevelEditorUndo : MonoBehaviour
                         Debug.Log("Default case");
                         break;
                 }
+                Debug.Log($"undo {commandHistory[counter].CommandName()}");
                 Debug.Log("Length of Command History: " + commandHistory.Count);
                 Debug.Log("Counter is at " + counter);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.P))
+        else if (InputManager.GetKeyDown(PlayerConstants.Redo))
         {
             if (counter < commandHistory.Count)
             {
