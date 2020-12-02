@@ -1,88 +1,98 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public enum CommandNames
 {
     create, delete, position, rotation, scale
 }
 public class LevelEditorCommands : ICommand
 {
-    GameObject gameObject;
-    Vector3 position;
-    Vector3 prevPos;
-    Quaternion rotation;
-    Quaternion prevRotation;
-    Vector3 scale;
-    Vector3 prevScale;
-    CommandNames commandName; 
-
-    public LevelEditorCommands(GameObject gameObject, Vector3 position, Vector3 prevPos, Quaternion rotation, Quaternion prevRotation, Vector3 scale, Vector3 prevScale, CommandNames commandName)
-    {
-        this.gameObject = gameObject;
-        this.position = position;
-        this.prevPos = prevPos;
-        this.rotation = rotation;
-        this.prevRotation = prevRotation;
-        this.scale = scale;
-        this.prevScale = prevScale;
-        this.commandName = commandName;
-    }
-
+    public GameObject gameObject;
+    public CommandNames commandName; 
     public CommandNames CommandName()
     {
         return commandName;
     }
-
     public GameObject GetGameObject()
     {
         return gameObject;
     }
-
-    public Vector3 Position()
+    public virtual void Undo() { }
+    public virtual void Redo() { }
+}
+public class CreateObjectCommand : LevelEditorCommands
+{
+    public CreateObjectCommand(GameObject gameObject)
     {
-        return position;
+        this.gameObject = gameObject;
+        this.commandName = CommandNames.create;
     }
-
-    public Vector3 PrevPosition()
+    override public void Undo()
     {
-        return prevPos;
+        Inspector.FlipActive(this.gameObject);
     }
-
-    public Quaternion Rotation()
+}
+public class DeleteObjectCommand : LevelEditorCommands
+{
+    public DeleteObjectCommand(GameObject gameObject)
     {
-        return rotation;
+        this.gameObject = gameObject;
+        this.commandName = CommandNames.delete;
     }
-
-    public Quaternion PrevRotation()
+    override public void Undo()
     {
-        return prevRotation;
+        Inspector.FlipActive(gameObject);
     }
-
-    public Vector3 Scale()
+}
+public class MoveObjectCommand : LevelEditorCommands
+{
+    Vector3 position;
+    Vector3 prevPos;
+    public MoveObjectCommand(GameObject gameObject, Vector3 position, Vector3 prevPos)
     {
-        return scale;
+        this.gameObject = gameObject;
+        this.commandName = CommandNames.position;
+        this.position = position;
+        this.prevPos = prevPos;
     }
-
-    public Vector3 PrevScale()
+    override public void Undo()
     {
-        return prevScale;
+        gameObject.transform.position = prevPos;
     }
-
-
-    public void Execute()
+    override public void Redo()
     {
-        LevelEditorHUD.Create(gameObject, gameObject.transform.position);
+        gameObject.transform.position = position;
     }
-
-    public void Undo()
+}
+public class RotateObjectCommand : LevelEditorCommands
+{
+    Quaternion rotation;
+    Quaternion prevRotation;
+    public RotateObjectCommand(GameObject gameObject, Quaternion rotation, Quaternion prevRotation)
     {
-        if(gameObject.transform.position == position)
-        {
-            Inspector.FlipActive(this.gameObject);
-        }
-        
+        this.gameObject = gameObject;
+        this.commandName = CommandNames.rotation;
+        this.rotation = rotation;
+        this.prevRotation = prevRotation;
     }
-
-    
+    override public void Undo()
+    {
+        gameObject.transform.rotation = prevRotation;
+    }
+}
+public class ScaleObjectCommand : LevelEditorCommands
+{
+    Vector3 scale;
+    Vector3 prevScale;
+    public ScaleObjectCommand(GameObject gameObject, Vector3 scale, Vector3 prevScale)
+    {
+        this.gameObject = gameObject;
+        this.commandName = CommandNames.scale;
+        this.scale = scale;
+        this.prevScale = prevScale;
+    }
+    override public void Undo()
+    {
+        gameObject.transform.localScale = prevScale;
+    }
 }

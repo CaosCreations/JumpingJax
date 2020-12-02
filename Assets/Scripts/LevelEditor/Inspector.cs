@@ -117,11 +117,7 @@ public class Inspector : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            Vector3 position = objectToInspect.position;
-            Quaternion rotation = objectToInspect.rotation;
-            Vector3 scale = objectToInspect.localScale;
-            LevelEditorUndo.AddCommand(new LevelEditorCommands(objectToInspect.gameObject, position, position, rotation, rotation, scale, scale, CommandNames.delete));
-
+            LevelEditorUndo.AddCommand(new DeleteObjectCommand(objectToInspect.gameObject));
             FlipActive(objectToInspect.gameObject);
             Clear();
             // Delete 

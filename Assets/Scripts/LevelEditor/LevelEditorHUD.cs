@@ -159,13 +159,13 @@ public class LevelEditorHUD : MonoBehaviour
                 switch (manipulationType)
                 {
                     case ManipulationType.Position:
-                        LevelEditorUndo.AddCommand(new LevelEditorCommands(currentSelectedObject.gameObject, position, prevPos, rotation, prevRotation, scale, prevScale, CommandNames.position));
+                        LevelEditorUndo.AddCommand(new MoveObjectCommand(currentSelectedObject.gameObject, position, prevPos));
                         break;
                     case ManipulationType.Rotation:
-                        LevelEditorUndo.AddCommand(new LevelEditorCommands(currentSelectedObject.gameObject, position, prevPos, rotation, prevRotation, scale, prevScale, CommandNames.rotation));
+                        LevelEditorUndo.AddCommand(new RotateObjectCommand(currentSelectedObject.gameObject, rotation, prevRotation));
                         break;
                     case ManipulationType.Scale:
-                        LevelEditorUndo.AddCommand(new LevelEditorCommands(currentSelectedObject.gameObject, position, prevPos, rotation, prevRotation, scale, prevScale, CommandNames.scale));
+                        LevelEditorUndo.AddCommand(new ScaleObjectCommand(currentSelectedObject.gameObject, scale, prevScale));
                         break;
                 }
             }
@@ -306,13 +306,7 @@ public class LevelEditorHUD : MonoBehaviour
         GameObject newObject = Instantiate(levelPrefab.prefab);
         // Set the object 10 units in front of the camera
         newObject.transform.position = levelEditorCamera.transform.position + (levelEditorCamera.transform.forward * 10);
-
-        Vector3 position = newObject.transform.position;
-        Quaternion rotation = newObject.transform.rotation;
-        Vector3 scale = newObject.transform.localScale;
-
-        LevelEditorUndo.AddCommand(new LevelEditorCommands(newObject, position, position, rotation, rotation, scale, scale, CommandNames.create));
-       
+        LevelEditorUndo.AddCommand(new CreateObjectCommand(newObject));
         SelectObject(newObject);
         Save();
     }
