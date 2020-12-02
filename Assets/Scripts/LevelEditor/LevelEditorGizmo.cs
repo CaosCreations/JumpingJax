@@ -126,11 +126,8 @@ public class LevelEditorGizmo : MonoBehaviour
                 }
                 break;
         }
-
         selectedObject.position += newMouseChange;
         lastMousePosition = worldPoint;
-
-        
     }
 
     private void GizmoFollowRotation(GizmoColor gizmoColor)
@@ -194,8 +191,6 @@ public class LevelEditorGizmo : MonoBehaviour
         }
         selectedObject.Rotate(newMouseChange * 2);
         lastMousePosition = worldPoint;
-
-        
     }
 
 
@@ -259,9 +254,7 @@ public class LevelEditorGizmo : MonoBehaviour
                 break;
         }
         selectedObject.localScale += newMouseChange;
-        lastMousePosition = worldPoint;
-
-        
+        lastMousePosition = worldPoint;  
     }
 
     public void UpdateGizmos()

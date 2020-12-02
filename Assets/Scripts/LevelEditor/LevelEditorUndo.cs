@@ -40,13 +40,13 @@ public class LevelEditorUndo : MonoBehaviour
             if (counter < commandHistory.Count)
             {
                 commandHistory[counter].Redo();
-                counter++;
 
-                Debug.Log($"Redo {commandHistory[counter].CommandName()}");
+                Debug.Log($"Redo {commandHistory[counter].CommandName()}"); //this debug log has to happen before the counter increments
+                
+                counter++;
                 Debug.Log("Length of Command History: " + commandHistory.Count);
                 Debug.Log("Counter is at " + counter);
             }
         }
-        
     }
 }

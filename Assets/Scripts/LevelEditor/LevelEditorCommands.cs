@@ -31,6 +31,10 @@ public class CreateObjectCommand : LevelEditorCommands
     {
         Inspector.FlipActive(this.gameObject);
     }
+    override public void Redo()
+    {
+        Inspector.FlipActive(this.gameObject);
+    }
 }
 public class DeleteObjectCommand : LevelEditorCommands
 {
@@ -42,6 +46,10 @@ public class DeleteObjectCommand : LevelEditorCommands
     override public void Undo()
     {
         Inspector.FlipActive(gameObject);
+    }
+    override public void Redo()
+    {
+        Inspector.FlipActive(this.gameObject);
     }
 }
 public class MoveObjectCommand : LevelEditorCommands
@@ -79,6 +87,10 @@ public class RotateObjectCommand : LevelEditorCommands
     {
         gameObject.transform.rotation = prevRotation;
     }
+    override public void Redo()
+    {
+        gameObject.transform.rotation = rotation;
+    }
 }
 public class ScaleObjectCommand : LevelEditorCommands
 {
@@ -94,5 +106,9 @@ public class ScaleObjectCommand : LevelEditorCommands
     override public void Undo()
     {
         gameObject.transform.localScale = prevScale;
+    }
+    override public void Redo()
+    {
+        gameObject.transform.localScale = scale;
     }
 }

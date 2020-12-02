@@ -12,8 +12,6 @@ public enum ObjectTypeTab
     Prefab, Required, None
 }
 
-
-
 public class LevelEditorHUD : MonoBehaviour
 {
     [Header("Set In Editor")]
@@ -56,6 +54,8 @@ public class LevelEditorHUD : MonoBehaviour
     public Vector3 prevPos;
     public Quaternion prevRotation;
     public Vector3 prevScale;
+
+    ManipulationType manipulationType;
 
     private void Awake()
     {
@@ -108,9 +108,6 @@ public class LevelEditorHUD : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
-        ManipulationType manipulationType = ManipulationType.Position; //needs to change based on what's being used
-        
-
         if (Input.GetMouseButtonDown(0))
         {
             // Break out if we clicked on the UI, prevents clearing the object when clicking on UI
@@ -152,27 +149,10 @@ public class LevelEditorHUD : MonoBehaviour
         {
             if (isUsingGizmo == true)
             {
-                Vector3 position = currentSelectedObject.gameObject.transform.position;
-                Quaternion rotation = currentSelectedObject.gameObject.transform.rotation;
-                Vector3 scale = currentSelectedObject.gameObject.transform.localScale;
-
-                switch (manipulationType)
-                {
-                    case ManipulationType.Position:
-                        LevelEditorUndo.AddCommand(new MoveObjectCommand(currentSelectedObject.gameObject, position, prevPos));
-                        break;
-                    case ManipulationType.Rotation:
-                        LevelEditorUndo.AddCommand(new RotateObjectCommand(currentSelectedObject.gameObject, rotation, prevRotation));
-                        break;
-                    case ManipulationType.Scale:
-                        LevelEditorUndo.AddCommand(new ScaleObjectCommand(currentSelectedObject.gameObject, scale, prevScale));
-                        break;
-                }
+                AddMovementCommand();
             }
             isUsingGizmo = false;
             levelEditorGizmo.lastMousePosition = Vector3.zero;
-
-            
         }
 
         FocusCamera();
@@ -256,6 +236,26 @@ public class LevelEditorHUD : MonoBehaviour
         }
         playerInstance.SetActive(isInPlayMode);
 
+    }
+
+    private void AddMovementCommand()
+    {
+        manipulationType = Inspector.manipType;
+        switch (manipulationType)
+        {
+            case ManipulationType.Position:
+                Vector3 position = currentSelectedObject.gameObject.transform.position;
+                LevelEditorUndo.AddCommand(new MoveObjectCommand(currentSelectedObject.gameObject, position, prevPos));
+                break;
+            case ManipulationType.Rotation:
+                Quaternion rotation = currentSelectedObject.gameObject.transform.rotation;
+                LevelEditorUndo.AddCommand(new RotateObjectCommand(currentSelectedObject.gameObject, rotation, prevRotation));
+                break;
+            case ManipulationType.Scale:
+                Vector3 scale = currentSelectedObject.gameObject.transform.localScale;
+                LevelEditorUndo.AddCommand(new ScaleObjectCommand(currentSelectedObject.gameObject, scale, prevScale));
+                break;
+        }
     }
 
     #region Prefab Menu

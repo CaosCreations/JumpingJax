@@ -30,6 +30,7 @@ public class Inspector : MonoBehaviour
     public Transform objectToInspect;
 
     public ManipulationType manipulationType;
+    public static ManipulationType manipType;
     public float currentSnap = 1;
 
     public LevelEditorHUD levelEditorHUD;
@@ -81,9 +82,7 @@ public class Inspector : MonoBehaviour
         {
             levelEditorGizmo.GizmoFollowMouse(levelEditorHUD.currentGizmoColor);
             UpdateInputs();
-            
         }
-        
 
         HandleKeyboardArrowInput();
 
@@ -126,6 +125,7 @@ public class Inspector : MonoBehaviour
     private void SetManipulationType(ManipulationType manipulationType)
     {
         this.manipulationType = manipulationType;
+        manipType = manipulationType;
         UpdateInputs();
         levelEditorGizmo.SetGizmo(objectToInspect.transform, manipulationType);
 
@@ -293,5 +293,4 @@ public class Inspector : MonoBehaviour
     {
         gameObject.SetActive(!gameObject.activeSelf);
     }
-
 }
