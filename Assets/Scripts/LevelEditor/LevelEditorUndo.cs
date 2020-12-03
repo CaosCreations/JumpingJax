@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class LevelEditorUndo : MonoBehaviour
 {
+    public static Vector3 prevPos;
+    public static Quaternion prevRotation;
+    public static Vector3 prevScale;
+
     public static List<ICommand> commandHistory;
     static int counter;
     void Awake()

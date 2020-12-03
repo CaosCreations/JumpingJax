@@ -20,9 +20,9 @@ public class LevelEditorCommands : ICommand
     public virtual void Undo() { }
     public virtual void Redo() { }
 }
-public class CreateObjectCommand : LevelEditorCommands
+public class CreateCommand : LevelEditorCommands
 {
-    public CreateObjectCommand(GameObject gameObject)
+    public CreateCommand(GameObject gameObject)
     {
         this.gameObject = gameObject;
         this.commandName = CommandNames.create;
@@ -36,9 +36,9 @@ public class CreateObjectCommand : LevelEditorCommands
         Inspector.FlipActive(this.gameObject);
     }
 }
-public class DeleteObjectCommand : LevelEditorCommands
+public class DeleteCommand : LevelEditorCommands
 {
-    public DeleteObjectCommand(GameObject gameObject)
+    public DeleteCommand(GameObject gameObject)
     {
         this.gameObject = gameObject;
         this.commandName = CommandNames.delete;
@@ -52,11 +52,11 @@ public class DeleteObjectCommand : LevelEditorCommands
         Inspector.FlipActive(this.gameObject);
     }
 }
-public class MoveObjectCommand : LevelEditorCommands
+public class PositionCommand : LevelEditorCommands
 {
     Vector3 position;
     Vector3 prevPos;
-    public MoveObjectCommand(GameObject gameObject, Vector3 position, Vector3 prevPos)
+    public PositionCommand(GameObject gameObject, Vector3 position, Vector3 prevPos)
     {
         this.gameObject = gameObject;
         this.commandName = CommandNames.position;
@@ -72,11 +72,11 @@ public class MoveObjectCommand : LevelEditorCommands
         gameObject.transform.position = position;
     }
 }
-public class RotateObjectCommand : LevelEditorCommands
+public class RotateCommand : LevelEditorCommands
 {
     Quaternion rotation;
     Quaternion prevRotation;
-    public RotateObjectCommand(GameObject gameObject, Quaternion rotation, Quaternion prevRotation)
+    public RotateCommand(GameObject gameObject, Quaternion rotation, Quaternion prevRotation)
     {
         this.gameObject = gameObject;
         this.commandName = CommandNames.rotation;
@@ -92,11 +92,11 @@ public class RotateObjectCommand : LevelEditorCommands
         gameObject.transform.rotation = rotation;
     }
 }
-public class ScaleObjectCommand : LevelEditorCommands
+public class ScaleCommand : LevelEditorCommands
 {
     Vector3 scale;
     Vector3 prevScale;
-    public ScaleObjectCommand(GameObject gameObject, Vector3 scale, Vector3 prevScale)
+    public ScaleCommand(GameObject gameObject, Vector3 scale, Vector3 prevScale)
     {
         this.gameObject = gameObject;
         this.commandName = CommandNames.scale;

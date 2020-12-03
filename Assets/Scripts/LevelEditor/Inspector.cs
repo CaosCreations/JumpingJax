@@ -116,7 +116,7 @@ public class Inspector : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            LevelEditorUndo.AddCommand(new DeleteObjectCommand(objectToInspect.gameObject));
+            LevelEditorUndo.AddCommand(new DeleteCommand(objectToInspect.gameObject));
             FlipActive(objectToInspect.gameObject);
             Clear();
             // Delete 

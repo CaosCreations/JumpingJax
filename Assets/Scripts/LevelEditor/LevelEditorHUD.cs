@@ -51,10 +51,6 @@ public class LevelEditorHUD : MonoBehaviour
     private bool isWorkshopLevel;
     private bool isInPlayMode;
 
-    public Vector3 prevPos;
-    public Quaternion prevRotation;
-    public Vector3 prevScale;
-
     private void Awake()
     {
         levelEditorCamera = GetComponentInParent<Camera>();
@@ -126,9 +122,9 @@ public class LevelEditorHUD : MonoBehaviour
                 }
                 currentGizmoColor = tempType.gizmoColor;
 
-                prevPos = currentSelectedObject.transform.position;
-                prevRotation = currentSelectedObject.transform.rotation;
-                prevScale = currentSelectedObject.transform.localScale;
+                LevelEditorUndo.prevPos = currentSelectedObject.transform.position;
+                LevelEditorUndo.prevRotation = currentSelectedObject.transform.rotation;
+                LevelEditorUndo.prevScale = currentSelectedObject.transform.localScale;
 
                 return; // break out so that we dont also select an object
             }
@@ -241,15 +237,15 @@ public class LevelEditorHUD : MonoBehaviour
         {
             case ManipulationType.Position:
                 Vector3 position = currentSelectedObject.transform.position;
-                LevelEditorUndo.AddCommand(new MoveObjectCommand(currentSelectedObject, position, prevPos));
+                LevelEditorUndo.AddCommand(new PositionCommand(currentSelectedObject, position, LevelEditorUndo.prevPos));
                 break;
             case ManipulationType.Rotation:
                 Quaternion rotation = currentSelectedObject.transform.rotation;
-                LevelEditorUndo.AddCommand(new RotateObjectCommand(currentSelectedObject, rotation, prevRotation));
+                LevelEditorUndo.AddCommand(new RotateCommand(currentSelectedObject, rotation, LevelEditorUndo.prevRotation));
                 break;
             case ManipulationType.Scale:
                 Vector3 scale = currentSelectedObject.transform.localScale;
-                LevelEditorUndo.AddCommand(new ScaleObjectCommand(currentSelectedObject, scale, prevScale));
+                LevelEditorUndo.AddCommand(new ScaleCommand(currentSelectedObject, scale, LevelEditorUndo.prevScale));
                 break;
         }
     }
@@ -302,7 +298,7 @@ public class LevelEditorHUD : MonoBehaviour
         GameObject newObject = Instantiate(levelPrefab.prefab);
         // Set the object 10 units in front of the camera
         newObject.transform.position = levelEditorCamera.transform.position + (levelEditorCamera.transform.forward * 10);
-        LevelEditorUndo.AddCommand(new CreateObjectCommand(newObject));
+        LevelEditorUndo.AddCommand(new CreateCommand(newObject));
         SelectObject(newObject);
         Save();
     }
