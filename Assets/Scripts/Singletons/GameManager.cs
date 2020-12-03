@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public float currentCompletionTime;
     public bool didWinCurrentLevel;
     public bool shouldUseSteam;
-    public Steamworks.Data.PublishedFileId replayFileId;
+    public string replayFileLocation;
 
     private bool shiftPressed;
     private bool tabPressed;
@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
 
         if (scene.buildIndex == PlayerConstants.MainMenuSceneIndex || scene.buildIndex == PlayerConstants.CreditsSceneIndex)
         {
-            replayFileId = 0;
+            replayFileLocation = string.Empty;
             return;
         }
 

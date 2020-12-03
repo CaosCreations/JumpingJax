@@ -46,13 +46,12 @@ public class LevelPreview : MonoBehaviour
         backButton.onClick.AddListener(Back);
     }
 
-    void Play()
+    async void Play()
     {
         if(replayFileId.Value != 0)
         {
-            GameManager.Instance.replayFileId = replayFileId;
             Debug.Log("Downloading ghost file UGC");
-            WorkshopManager.DownloadUGCFile(replayFileId);
+            GameManager.Instance.replayFileLocation = await WorkshopManager.DownloadGhostRun(replayFileId);
         }
         // If this is a workshop map
         if(levelToPreview.workshopFilePath != string.Empty) 

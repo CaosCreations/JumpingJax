@@ -22,29 +22,41 @@ public class PlayerGhostRun : MonoBehaviour
 
     private const float ghostRunSaveInterval = 0.05f;
 
+    private bool usingLeaderboardGhost;
+
     void Start()
     {
-        Debug.Log("xxxxx");
-        currentLevel = GameManager.GetCurrentLevel();
-        if(ghostRunner == null)
+        if (GameManager.Instance.replayFileLocation != string.Empty)
         {
-            ghostRunner = Instantiate(ghostRunnerPrefab);
-            SetGhostLayer();
-            ghostRunner.name = "ghost runner";
+            usingLeaderboardGhost = true;
+            currentLevel = Get
         }
+        else{
+            usingLeaderboardGhost = false;
+            currentLevel = GameManager.GetCurrentLevel();
+        }
+
+        SetupGhostObject();
+        
         playerCamera = GetComponent<CameraMove>().playerCamera;
         RestartRun();
 
         MiscOptions.onGhostToggle += ToggleGhost;
     }
 
-    void SetGhostLayer()
+    void SetupGhostObject()
     {
-        ghostRunner.layer = PlayerConstants.GhostLayer;
-        Transform[] allChildren = ghostRunner.GetComponentsInChildren<Transform>();
-        foreach (Transform child in allChildren)
+        if (ghostRunner == null)
         {
-            child.gameObject.layer = PlayerConstants.GhostLayer;
+            ghostRunner = Instantiate(ghostRunnerPrefab);
+            ghostRunner.name = "ghost runner";
+
+            ghostRunner.layer = PlayerConstants.GhostLayer;
+            Transform[] allChildren = ghostRunner.GetComponentsInChildren<Transform>();
+            foreach (Transform child in allChildren)
+            {
+                child.gameObject.layer = PlayerConstants.GhostLayer;
+            }
         }
     }
 
@@ -75,6 +87,7 @@ public class PlayerGhostRun : MonoBehaviour
         if (currentLevel == null 
             || currentLevel.levelSaveData.ghostRunPositions == null)
         {
+            Debug.LogError("Ghost run doesn't have current level data");
             return; // ghost run is finished
         }
         if (currentDataIndex >= currentLevel.levelSaveData.ghostRunPositions.Length - 1)

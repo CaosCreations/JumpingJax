@@ -163,4 +163,59 @@ public class WorkshopManager : MonoBehaviour
 
         return fileToReturn;
     }
+
+
+    public static async Task<string> DownloadGhostRun(Steamworks.Data.PublishedFileId id)
+    {
+        var result = await SteamUGC.QueryFileAsync(id);
+        if (!result.HasValue)
+        {
+            Debug.LogError($"ghost run doesn't exist: {id}");
+            return string.Empty;
+        }
+        Steamworks.Ugc.Item file = result.Value;
+
+        if(file.IsInstalled && !file.NeedsUpdate)
+        {
+            Debug.Log("Ghost run file installed and doesn't need update");
+            return file.Directory;
+        }
+
+        Debug.Log($"Found Ghost run File: {file.Title}..");
+
+        if (!await file.DownloadAsync())
+        {
+            Debug.Log($"Download ghost run file with id: {id.Value} doesn't exist");
+            return string.Empty;
+        }
+
+        Debug.Log($"Starting download for ghost run: {file.Title}..");
+
+        while (file.NeedsUpdate)
+        {
+            await Task.Delay(1000);
+
+            Debug.Log($"Downloading ghost run Update... ({file.DownloadAmount:0.000}) [{file.DownloadBytesDownloaded}/{file.DownloadBytesTotal}]");
+        }
+
+        while (!file.IsInstalled)
+        {
+            await Task.Delay(1000);
+
+            Debug.Log($"Installing ghost run... {file.Title}");
+        }
+
+        Debug.Log($"Installed ghost run to {file.Directory}");
+
+        var dir = new DirectoryInfo(file.Directory);
+
+        string fileToReturn = "";
+        foreach (var dirFiles in dir.EnumerateFiles())
+        {
+            Debug.Log($"{dirFiles.FullName}");
+            fileToReturn = dirFiles.FullName;
+        }
+
+        return fileToReturn;
+    }
 }
