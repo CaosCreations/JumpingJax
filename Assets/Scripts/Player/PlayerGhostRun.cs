@@ -24,6 +24,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("xxxxx");
         currentLevel = GameManager.GetCurrentLevel();
         if(ghostRunner == null)
         {

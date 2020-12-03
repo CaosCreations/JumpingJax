@@ -98,7 +98,6 @@ public class Level : ScriptableObject
 
     public void Load()
     {
-        Debug.Log($"Loading level {levelName}");
         string folderPath = Path.Combine(Application.persistentDataPath, levelName);
         string filePath = Application.persistentDataPath + $"/{levelName}.save";
         if (File.Exists(filePath))

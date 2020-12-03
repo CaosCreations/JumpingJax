@@ -14,14 +14,15 @@ public class HotKeyManager : MonoBehaviour {
 
     private void Awake()
     {
-        if(Instance != null)
+        if (Instance == null)
         {
-            Destroy(gameObject);
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            Destroy(gameObject);
+            return;
         }
 
         InitDefaults();

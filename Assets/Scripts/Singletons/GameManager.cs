@@ -16,27 +16,24 @@ public class GameManager : MonoBehaviour
     public float currentCompletionTime;
     public bool didWinCurrentLevel;
     public bool shouldUseSteam;
+    public Steamworks.Data.PublishedFileId replayFileId;
 
     private bool shiftPressed;
     private bool tabPressed;
 
     void Awake()
     {
-        if (FindObjectsOfType(GetType()).Length > 1)
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
         {
             Destroy(gameObject);
+            return;
         }
 
-        if (GameManager.Instance == null)
-        {
-            GameManager.Instance = this;
-        }
-        else if (GameManager.Instance == this)
-        {
-            Destroy(GameManager.Instance.gameObject);
-            GameManager.Instance = this;
-        }
-        DontDestroyOnLoad(this.gameObject);
         if (GameManager.Instance.shouldUseSteam == true)
         {
             StartSteam();
@@ -143,6 +140,7 @@ public class GameManager : MonoBehaviour
 
         if (scene.buildIndex == PlayerConstants.MainMenuSceneIndex || scene.buildIndex == PlayerConstants.CreditsSceneIndex)
         {
+            replayFileId = 0;
             return;
         }
 
