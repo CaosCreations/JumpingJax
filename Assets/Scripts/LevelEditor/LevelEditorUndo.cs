@@ -12,9 +12,9 @@ public class LevelEditorUndo : MonoBehaviour
     }
     public static void AddCommand(ICommand command)
     {
-        while (commandHistory.Count > counter)
+        if (commandHistory.Count > counter)
         {
-            commandHistory.RemoveAt(counter);
+            commandHistory.RemoveRange(counter, commandHistory.Count - counter);
         }
         commandHistory.Add(command);
         counter++;

@@ -240,16 +240,16 @@ public class LevelEditorHUD : MonoBehaviour
         switch (Inspector.manipType)
         {
             case ManipulationType.Position:
-                Vector3 position = currentSelectedObject.gameObject.transform.position;
-                LevelEditorUndo.AddCommand(new MoveObjectCommand(currentSelectedObject.gameObject, position, prevPos));
+                Vector3 position = currentSelectedObject.transform.position;
+                LevelEditorUndo.AddCommand(new MoveObjectCommand(currentSelectedObject, position, prevPos));
                 break;
             case ManipulationType.Rotation:
-                Quaternion rotation = currentSelectedObject.gameObject.transform.rotation;
-                LevelEditorUndo.AddCommand(new RotateObjectCommand(currentSelectedObject.gameObject, rotation, prevRotation));
+                Quaternion rotation = currentSelectedObject.transform.rotation;
+                LevelEditorUndo.AddCommand(new RotateObjectCommand(currentSelectedObject, rotation, prevRotation));
                 break;
             case ManipulationType.Scale:
-                Vector3 scale = currentSelectedObject.gameObject.transform.localScale;
-                LevelEditorUndo.AddCommand(new ScaleObjectCommand(currentSelectedObject.gameObject, scale, prevScale));
+                Vector3 scale = currentSelectedObject.transform.localScale;
+                LevelEditorUndo.AddCommand(new ScaleObjectCommand(currentSelectedObject, scale, prevScale));
                 break;
         }
     }
