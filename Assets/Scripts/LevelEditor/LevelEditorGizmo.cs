@@ -127,7 +127,7 @@ public class LevelEditorGizmo : MonoBehaviour
                 break;
         }
         selectedObject.position += newMouseChange;
-        lastMousePosition = worldPoint;
+        lastMousePosition = worldPoint;   
     }
 
     private void GizmoFollowRotation(GizmoColor gizmoColor)

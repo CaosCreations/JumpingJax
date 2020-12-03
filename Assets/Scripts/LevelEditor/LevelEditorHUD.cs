@@ -55,8 +55,6 @@ public class LevelEditorHUD : MonoBehaviour
     public Quaternion prevRotation;
     public Vector3 prevScale;
 
-    ManipulationType manipulationType;
-
     private void Awake()
     {
         levelEditorCamera = GetComponentInParent<Camera>();
@@ -89,7 +87,6 @@ public class LevelEditorHUD : MonoBehaviour
         prefabScrollView.SetActive(false);
         PopulatePrefabMenu();
     }
-
 
     void Update()
     {
@@ -129,9 +126,9 @@ public class LevelEditorHUD : MonoBehaviour
                 }
                 currentGizmoColor = tempType.gizmoColor;
 
-                prevPos = gizmoHit.collider.transform.position;
-                prevRotation = gizmoHit.collider.transform.rotation;
-                prevScale = gizmoHit.collider.transform.localScale;
+                prevPos = currentSelectedObject.transform.position;
+                prevRotation = currentSelectedObject.transform.rotation;
+                prevScale = currentSelectedObject.transform.localScale;
 
                 return; // break out so that we dont also select an object
             }
@@ -240,8 +237,7 @@ public class LevelEditorHUD : MonoBehaviour
 
     private void AddMovementCommand()
     {
-        manipulationType = Inspector.manipType;
-        switch (manipulationType)
+        switch (Inspector.manipType)
         {
             case ManipulationType.Position:
                 Vector3 position = currentSelectedObject.gameObject.transform.position;
@@ -333,12 +329,14 @@ public class LevelEditorHUD : MonoBehaviour
                 {
                     newLevel.levelObjects.Add(sceneObject.GetObjectData());
                 }
-                
+                else
+                {
+                    Destroy(sceneObject.gameObject);
+                }
             }
 
             string jsonData = JsonUtility.ToJson(newLevel, true);
 
-        
             string filePath = GameManager.GetCurrentLevel().levelEditorScenePath;
             Debug.Log($"Saving level {GameManager.GetCurrentLevel().levelName} to {filePath}");
             File.WriteAllText(filePath, jsonData);
