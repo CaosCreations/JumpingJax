@@ -99,6 +99,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     public void RestartRun()
     {
+        SetPastRunData();
         ghostRunner.SetActive(ShouldGhostBeActive());
         ghostRunSaveTimer = 0;
         ghostRunnerTimer = 0;
