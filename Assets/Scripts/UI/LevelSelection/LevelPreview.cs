@@ -36,6 +36,7 @@ public class LevelPreview : MonoBehaviour
 
     private Level levelToPreview;
     private Steamworks.Data.PublishedFileId replayFileId;
+    private List<LeaderboardEntry> leaderboardEntries;
 
     private void Start()
     {
@@ -141,6 +142,7 @@ public class LevelPreview : MonoBehaviour
 
     private void CleanScrollView()
     {
+        leaderboardEntries = new List<LeaderboardEntry>();
         foreach(Transform child in leaderboardParent)
         {
             Destroy(child.gameObject);
@@ -164,6 +166,7 @@ public class LevelPreview : MonoBehaviour
             GameObject entryObject = Instantiate(leaderboardItemPrefab, myLeaderboardParent);
             LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
             leaderboardEntry.Init(entry, () => SetReplay(entry));
+            leaderboardEntries.Add(leaderboardEntry);
         }
         else
         {
@@ -188,6 +191,7 @@ public class LevelPreview : MonoBehaviour
                     GameObject entryObject = Instantiate(leaderboardItemPrefab, leaderboardParent);
                     LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
                     leaderboardEntry.Init(entry, () => SetReplay(entry));
+                    leaderboardEntries.Add(leaderboardEntry);
                 }
             }
         }
@@ -202,6 +206,11 @@ public class LevelPreview : MonoBehaviour
         else
         {
             Debug.LogError($"No UGC Attached for: {entry.User.Name}");
+        }
+
+        foreach(LeaderboardEntry leaderboardEntry in leaderboardEntries)
+        {
+            leaderboardEntry.replayButton.ClearActive();
         }
     }
 

@@ -22,7 +22,13 @@ public class LeaderboardEntry : MonoBehaviour
         Texture2D avatarTexture = await SteamCacheManager.GetUserAvatar(entry.User.Id);
         Sprite sprite = Sprite.Create(avatarTexture, new Rect(0, 0, avatarTexture.width, avatarTexture.height), new Vector2(0.5f, 0.5f));
         avatarImage.sprite = sprite;
-        
+
         replayButton.Init(replaySet);
+        replayButton.button.onClick.AddListener(SetButtonActive);
+    }
+
+    public void SetButtonActive()
+    {
+        replayButton.SetActive();
     }
 }

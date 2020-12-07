@@ -153,15 +153,7 @@ public class WorkshopManager : MonoBehaviour
         Debug.Log($"Installed to {file.Directory}");
 
         var dir = new DirectoryInfo(file.Directory);
-
-        string fileToReturn = "";
-        foreach (var dirFiles in dir.EnumerateFiles())
-        {
-            Debug.Log($"{dirFiles.FullName}");
-            fileToReturn = dirFiles.FullName;
-        }
-
-        return fileToReturn;
+        return dir.GetFiles().FirstOrDefault().FullName;
     }
 
 
@@ -178,7 +170,8 @@ public class WorkshopManager : MonoBehaviour
         if(file.IsInstalled && !file.NeedsUpdate)
         {
             Debug.Log("Ghost run file installed and doesn't need update");
-            return file.Directory;
+            DirectoryInfo directoryInfo = new DirectoryInfo(file.Directory);
+            return directoryInfo.GetFiles().FirstOrDefault().FullName;
         }
 
         Debug.Log($"Found Ghost run File: {file.Title}..");
@@ -208,14 +201,6 @@ public class WorkshopManager : MonoBehaviour
         Debug.Log($"Installed ghost run to {file.Directory}");
 
         var dir = new DirectoryInfo(file.Directory);
-
-        string fileToReturn = "";
-        foreach (var dirFiles in dir.EnumerateFiles())
-        {
-            Debug.Log($"{dirFiles.FullName}");
-            fileToReturn = dirFiles.FullName;
-        }
-
-        return fileToReturn;
+        return dir.GetFiles().FirstOrDefault().FullName;
     }
 }
