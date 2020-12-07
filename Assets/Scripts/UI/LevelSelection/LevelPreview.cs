@@ -49,11 +49,6 @@ public class LevelPreview : MonoBehaviour
 
     async void Play()
     {
-        if(replayFileId.Value != 0)
-        {
-            Debug.Log("Downloading ghost file UGC");
-            GameManager.Instance.replayFileLocation = await WorkshopManager.DownloadGhostRun(replayFileId);
-        }
         // If this is a workshop map
         if(levelToPreview.workshopFilePath != string.Empty) 
         {
@@ -64,7 +59,11 @@ public class LevelPreview : MonoBehaviour
             GameManager.LoadScene(levelToPreview.levelBuildIndex);
         }
 
-        gameObject.SetActive(false);
+        if (replayFileId.Value != 0)
+        {
+            Debug.Log("Downloading ghost file UGC");
+            GameManager.Instance.replayFileLocation = await WorkshopManager.DownloadGhostRun(replayFileId).ConfigureAwait(false);
+        }
     }
 
     void Back()

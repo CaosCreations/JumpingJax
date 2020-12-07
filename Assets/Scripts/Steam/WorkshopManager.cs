@@ -9,14 +9,6 @@ using UnityEngine.SceneManagement;
 
 public class WorkshopManager : MonoBehaviour
 {
-    void Start()
-    {
-        //
-        // Log unhandled exceptions created in Async Tasks so we know when something has gone wrong
-        //
-        TaskScheduler.UnobservedTaskException += (_, e) => { Debug.LogError($"{e.Exception}\n{e.Exception.Message}\n{e.Exception.StackTrace}"); };
-    }
-
     public static async Task<Steamworks.Data.PublishedFileId> PublishItem(Level levelToPublish)
     {
         Steamworks.Data.PublishedFileId toReturn = new Steamworks.Data.PublishedFileId();

@@ -49,8 +49,7 @@ public class StatsManager : MonoBehaviour
             .WithDescription($"ghost_{level.levelName}_{SteamClient.SteamId}")
             //.WithContent(SteamUtil.GetGhostRunFilePath(level))
             .WithContent(Path.Combine(Application.persistentDataPath, level.levelName))
-            .WithTag("Ghost")
-            .WithTag("ghost")
+            .WithTag("ghostRuns")
             .WithPublicVisibility()
             .SubmitAsync();
 

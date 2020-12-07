@@ -1,6 +1,7 @@
 ﻿using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -41,6 +42,11 @@ public class GameManager : MonoBehaviour
 
         Init();
         LoadLevelData();
+
+        //
+        // Log unhandled exceptions created in Async Tasks so we know when something has gone wrong
+        //
+        TaskScheduler.UnobservedTaskException += (_, e) => { Debug.LogError($"{e.Exception}\n{e.Exception.Message}\n{e.Exception.StackTrace}"); };
     }
 
     private void StartSteam()

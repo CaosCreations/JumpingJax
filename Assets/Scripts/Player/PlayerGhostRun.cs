@@ -56,16 +56,20 @@ public class PlayerGhostRun : MonoBehaviour
             }
         }
         else{
-            Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.replayFileLocation}");
-            if (File.Exists(GameManager.Instance.replayFileLocation)){
-                string replayLevelData = File.ReadAllText(GameManager.Instance.replayFileLocation);
-                Level replayLevel = ScriptableObject.CreateInstance<Level>();
-                replayLevel.levelSaveData = new PersistentLevelDataModel();
-                JsonUtility.FromJsonOverwrite(replayLevelData, replayLevel.levelSaveData);
+            if(pastRunPositionData == null)
+            {
+                Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.replayFileLocation}");
+                if (File.Exists(GameManager.Instance.replayFileLocation))
+                {
+                    string replayLevelData = File.ReadAllText(GameManager.Instance.replayFileLocation);
+                    Level replayLevel = ScriptableObject.CreateInstance<Level>();
+                    replayLevel.levelSaveData = new PersistentLevelDataModel();
+                    JsonUtility.FromJsonOverwrite(replayLevelData, replayLevel.levelSaveData);
 
-                pastRunPositionData = replayLevel.levelSaveData.ghostRunPositions;
-                pastRunCameraRotationData = replayLevel.levelSaveData.ghostRunCameraRotations;
-                pastRunKeyData = replayLevel.levelSaveData.ghostRunKeys;
+                    pastRunPositionData = replayLevel.levelSaveData.ghostRunPositions;
+                    pastRunCameraRotationData = replayLevel.levelSaveData.ghostRunCameraRotations;
+                    pastRunKeyData = replayLevel.levelSaveData.ghostRunKeys;
+                }
             }
         }
     }
