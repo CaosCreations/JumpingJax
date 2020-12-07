@@ -112,7 +112,6 @@ public class PlayerGhostRun : MonoBehaviour
     {
         if (pastRunPositionData == null)
         {
-            Debug.LogError("Ghost run doesn't have current level data");
             return; 
         }
 
