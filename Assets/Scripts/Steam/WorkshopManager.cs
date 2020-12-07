@@ -163,7 +163,18 @@ public class WorkshopManager : MonoBehaviour
         {
             Debug.Log("Ghost run file installed and doesn't need update");
             DirectoryInfo directoryInfo = new DirectoryInfo(file.Directory);
-            return directoryInfo.GetFiles().FirstOrDefault().FullName;
+            try
+            {
+                // If I manually clear ghost run data, I have to check that it still exists, otherwise re-download it
+                if (Directory.Exists(file.Directory))
+                {
+                    return directoryInfo.GetFiles().FirstOrDefault().FullName;
+                }
+            }
+            catch
+            {
+                Debug.LogError("Ghost run data deleted by user");
+            }
         }
 
         Debug.Log($"Found Ghost run File: {file.Title}..");
