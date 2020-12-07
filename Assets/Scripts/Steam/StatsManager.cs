@@ -20,18 +20,12 @@ public class StatsManager : MonoBehaviour
             if (leaderboard.HasValue)
             {
                 var leaderboardValue = leaderboard.Value;
+                await CreateOrUpdateGhostRun(level);
+
                 TimeSpan time = TimeSpan.FromSeconds(level.levelSaveData.completionTime);
                 Debug.Log($"Leaderboard found, adding score: {time.ToString(PlayerConstants.levelCompletionTimeFormat)}");
                 Steamworks.Data.LeaderboardUpdate? leaderboardUpdate = await leaderboardValue.ReplaceScore((int)time.TotalMilliseconds); // We can use the return here to show the placement update on the winMenu
 
-                if (leaderboardUpdate.HasValue)
-                {
-                    await CreateOrUpdateGhostRun(leaderboardValue, level);
-                }
-                else
-                {
-                    Debug.LogError($"Could not save leaderboard update");
-                }
             }
         }
         else
@@ -40,23 +34,29 @@ public class StatsManager : MonoBehaviour
         }
     }
 
-    private static async Task CreateOrUpdateGhostRun(Steamworks.Data.Leaderboard leaderboard, Level level)
+    private static async Task CreateOrUpdateGhostRun(Level level)
     {
-        string fileTitle = $"ghost_{level.levelName}_{SteamClient.SteamId}";
-
-        Steamworks.Data.LeaderboardEntry[] entries = await leaderboard.GetScoresForUsersAsync(new Steamworks.SteamId[] { SteamClient.SteamId });
-
-        bool runExists = entries.Length > 0;
-
-
-        if (runExists)
+        var leaderboardResult = await SteamUserStats.FindOrCreateLeaderboardAsync(level.levelName, Steamworks.Data.LeaderboardSort.Ascending, Steamworks.Data.LeaderboardDisplay.TimeMilliSeconds);
+        if (leaderboardResult.HasValue)
         {
+            Steamworks.Data.Leaderboard leaderboard = leaderboardResult.Value;
+            Steamworks.Data.LeaderboardEntry[] entries = await leaderboard.GetScoresForUsersAsync(new Steamworks.SteamId[] { SteamClient.SteamId });
             Steamworks.Data.LeaderboardEntry myEntry = entries[0];
-            await UpdateGhostRun(leaderboard, myEntry, level);
-        }
-        else
-        {
-            await CreateNewGhostRun(leaderboard, level);
+
+            // Steam has a ulong for if an error occurred: https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCFileStreamHandleInvalid
+
+            bool runExists = entries != null
+                && entries.Length > 0 
+                && myEntry.AttachedUgcId != 18446744073709551615; 
+
+            if (runExists)
+            {
+                await UpdateGhostRun(leaderboard, myEntry, level);
+            }
+            else
+            {
+                await CreateNewGhostRun(leaderboard, level);
+            }
         }
     }
 
@@ -81,7 +81,7 @@ public class StatsManager : MonoBehaviour
             else
             {
                 Debug.Log($"FAILED to update ghost run with: \ntitle {fileTitle} \nfileId {myEntry.AttachedUgcId.Value} \nresult: {updateResult.Result} \n Creating NEW run");
-                await CreateNewGhostRun(leaderboard, level);
+                //await CreateNewGhostRun(leaderboard, level);
             }
         }
         else
@@ -117,8 +117,6 @@ public class StatsManager : MonoBehaviour
             Debug.LogError($"FAILED to upload new ghost run with: \ntitle {fileTitle} \nresult: {newFileResult.Result}");
         }
     }
-
-    
 
     public static async Task<Steamworks.Data.LeaderboardEntry[]> GetTopLevelLeaderboard(string levelLeaderboardName)
     {

@@ -198,7 +198,8 @@ public class LevelPreview : MonoBehaviour
 
     public void SetReplay(Steamworks.Data.LeaderboardEntry entry)
     {
-        if (entry.AttachedUgcId.HasValue)
+        // Steam has a ulong for if an error occurred: https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCFileStreamHandleInvalid
+        if (entry.AttachedUgcId.HasValue && entry.AttachedUgcId.Value != 18446744073709551615)
         {
             replayFileId = entry.AttachedUgcId.Value;
         }
