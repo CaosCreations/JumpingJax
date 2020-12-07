@@ -61,7 +61,7 @@ public class LevelPreview : MonoBehaviour
 
         if (replayFileId.Value != 0)
         {
-            Debug.Log("Downloading ghost file UGC");
+            Debug.Log($"Downloading ghost file UGC with ID: {replayFileId}");
             GameManager.Instance.replayFileLocation = await WorkshopManager.DownloadGhostRun(replayFileId).ConfigureAwait(false);
         }
     }

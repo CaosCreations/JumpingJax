@@ -26,7 +26,7 @@ public class StatsManager : MonoBehaviour
 
                 if (leaderboardUpdate.HasValue)
                 {
-                    await CreateGhostRunData(leaderboardValue, level);
+                    await CreateOrUpdateGhostRun(leaderboardValue, level);
                 }
                 else
                 {
@@ -40,15 +40,65 @@ public class StatsManager : MonoBehaviour
         }
     }
 
-    private static async Task CreateGhostRunData(Steamworks.Data.Leaderboard leaderboard, Level level)
+    private static async Task CreateOrUpdateGhostRun(Steamworks.Data.Leaderboard leaderboard, Level level)
     {
-        // Create ghost run ugc item
         string fileTitle = $"ghost_{level.levelName}_{SteamClient.SteamId}";
+
+        Steamworks.Data.LeaderboardEntry[] entries = await leaderboard.GetScoresForUsersAsync(new Steamworks.SteamId[] { SteamClient.SteamId });
+
+        bool runExists = entries.Length > 0;
+
+
+        if (runExists)
+        {
+            Steamworks.Data.LeaderboardEntry myEntry = entries[0];
+            await UpdateGhostRun(leaderboard, myEntry, level);
+        }
+        else
+        {
+            await CreateNewGhostRun(leaderboard, level);
+        }
+    }
+
+    public static async Task UpdateGhostRun(Steamworks.Data.Leaderboard leaderboard, Steamworks.Data.LeaderboardEntry myEntry, Level level)
+    {
+        string fileTitle = $"ghost_{level.levelName}_{SteamClient.SteamId}";
+
+        if (myEntry.AttachedUgcId.HasValue)
+        {
+            var updateResult = await new Steamworks.Ugc.Editor(myEntry.AttachedUgcId.Value)
+            .WithTitle(fileTitle)
+            .WithDescription("no description")
+            .WithContent(Path.Combine(Application.persistentDataPath, level.levelName))
+            .WithTag("ghostRuns")
+            .WithPublicVisibility()
+            .SubmitAsync();
+
+            if (updateResult.Success)
+            {
+                Debug.Log($"Updated ghost run with \ntitle: {fileTitle} \nfileId: {updateResult.FileId}");
+            }
+            else
+            {
+                Debug.Log($"FAILED to update ghost run with: \ntitle {fileTitle} \nfileId {myEntry.AttachedUgcId.Value} \nresult: {updateResult.Result} \n Creating NEW run");
+                await CreateNewGhostRun(leaderboard, level);
+            }
+        }
+        else
+        {
+            Debug.LogError("Tried to update run data, but the leaderboard entry has no attachedUgcId");
+        }
+    }
+
+    public static async Task CreateNewGhostRun(Steamworks.Data.Leaderboard leaderboard, Level level)
+    {
+        string fileTitle = $"ghost_{level.levelName}_{SteamClient.SteamId}";
+
+        // Create ghost run ugc item
         var newFileResult = await Steamworks.Ugc.Editor.NewCommunityFile
             .WithTitle(fileTitle)
-            .WithDescription($"ghost_{level.levelName}_{SteamClient.SteamId}")
-            //.WithContent(SteamUtil.GetGhostRunFilePath(level))
             .WithContent(Path.Combine(Application.persistentDataPath, level.levelName))
+            .WithDescription("no description")
             .WithTag("ghostRuns")
             .WithPublicVisibility()
             .SubmitAsync();
@@ -68,10 +118,7 @@ public class StatsManager : MonoBehaviour
         }
     }
 
-    public static async Task GetGhostRunFileId(Steamworks.Data.Leaderboard leaderboard, Level level)
-    {
-        
-    }
+    
 
     public static async Task<Steamworks.Data.LeaderboardEntry[]> GetTopLevelLeaderboard(string levelLeaderboardName)
     {
@@ -108,18 +155,12 @@ public class StatsManager : MonoBehaviour
             else
             {
                 var leaderboardValue = leaderboard.Value;
-                var entries = await leaderboardValue.GetScoresAroundUserAsync(-1, 1);
+                var entries = await leaderboardValue.GetScoresForUsersAsync(new Steamworks.SteamId[] { SteamClient.SteamId });
                 if (entries != null)
                 {
                     if (entries.Length > 0)
                     {
-                        foreach (Steamworks.Data.LeaderboardEntry entry in entries)
-                        {
-                            if (entry.User.Id == SteamClient.SteamId)
-                            {
-                                return entry;
-                            }
-                        }
+                        return entries[0];   
                     }
                 }
             }
