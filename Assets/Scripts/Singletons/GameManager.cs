@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         {
             if (!SteamClient.IsValid)
             {
-                SteamClient.Init(AppId, true);
+                SteamClient.Init(AppId, false);
             }
         }
         catch (System.Exception e)
@@ -76,6 +76,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        SteamClient.RunCallbacks();
+
         if (!didWinCurrentLevel)
         {
             currentCompletionTime += Time.deltaTime;
