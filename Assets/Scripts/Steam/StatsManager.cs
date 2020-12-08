@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
@@ -20,12 +21,13 @@ public class StatsManager : MonoBehaviour
             if (leaderboard.HasValue)
             {
                 var leaderboardValue = leaderboard.Value;
-                await CreateOrUpdateGhostRun(level);
 
                 TimeSpan time = TimeSpan.FromSeconds(level.levelSaveData.completionTime);
                 Debug.Log($"Leaderboard found, adding score: {time.ToString(PlayerConstants.levelCompletionTimeFormat)}");
-                Steamworks.Data.LeaderboardUpdate? leaderboardUpdate = await leaderboardValue.ReplaceScore((int)time.TotalMilliseconds); // We can use the return here to show the placement update on the winMenu
+                Steamworks.Data.LeaderboardUpdate? leaderboardUpdate = await leaderboardValue.SubmitScoreAsync((int)time.TotalMilliseconds); // We can use the return here to show the placement update on the winMenu
 
+                // the ghost run data is erased whenever the score is changed.
+                await CreateOrUpdateGhostRun(level);
             }
         }
         else
@@ -40,29 +42,41 @@ public class StatsManager : MonoBehaviour
         if (leaderboardResult.HasValue)
         {
             Steamworks.Data.Leaderboard leaderboard = leaderboardResult.Value;
-            Steamworks.Data.LeaderboardEntry[] entries = await leaderboard.GetScoresForUsersAsync(new Steamworks.SteamId[] { SteamClient.SteamId });
-            Steamworks.Data.LeaderboardEntry myEntry = entries[0];
 
-            // Steam has a ulong for if an error occurred: https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCFileStreamHandleInvalid
+            Steamworks.Data.LeaderboardEntry[] topEntries = await leaderboard.GetScoresAsync(1, 9);
 
-            bool runExists = entries != null
-                && entries.Length > 0 
-                && myEntry.AttachedUgcId != 18446744073709551615; 
-
-            if (runExists)
+            if(topEntries != null)
+            // Only add ghost run if the run is top 10
+            if(level.levelSaveData.completionTime < topEntries[0].Score)
             {
-                await UpdateGhostRun(leaderboard, myEntry, level);
-            }
-            else
-            {
-                await CreateNewGhostRun(leaderboard, level);
+                Steamworks.Data.LeaderboardEntry[] entries = await leaderboard.GetScoresForUsersAsync(new Steamworks.SteamId[] { SteamClient.SteamId });
+
+                if (entries != null && entries.Length > 0)
+                {
+                    Steamworks.Data.LeaderboardEntry myEntry = entries[0];
+
+                    // Steam has a ulong for if an error occurred: https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCFileStreamHandleInvalid
+                    if (myEntry.AttachedUgcId != 18446744073709551615)
+                    {
+                        Debug.Log($"CreateOrUpdateGhostRun: Updating Ghost run for UGCId: {myEntry.AttachedUgcId}");
+                        await UpdateGhostRun(leaderboard, myEntry, level);
+                    }
+                    else
+                    {
+                        Debug.Log($"CreateOrUpdateGhostRun: no valid UGCId found, doing nothing");
+                    }
+                }
+                else
+                {
+                    await CreateNewGhostRun(leaderboard, level);
+                }
             }
         }
     }
 
     public static async Task UpdateGhostRun(Steamworks.Data.Leaderboard leaderboard, Steamworks.Data.LeaderboardEntry myEntry, Level level)
     {
-        string fileTitle = $"ghost_{level.levelName}_{SteamClient.SteamId}";
+        string fileTitle = $"ghost_{level.levelName}";
 
         if (myEntry.AttachedUgcId.HasValue)
         {
@@ -92,8 +106,15 @@ public class StatsManager : MonoBehaviour
 
     public static async Task CreateNewGhostRun(Steamworks.Data.Leaderboard leaderboard, Level level)
     {
-        string fileTitle = $"ghost_{level.levelName}_{SteamClient.SteamId}";
-
+        string fileTitle = $"ghost_{level.levelName}";
+        if (SteamRemoteStorage.IsCloudEnabled)
+        {
+            SteamRemoteStorage.FileWrite(fileTitle, LevelToByteArray(level));
+        }
+        else
+        {
+            Debug.LogError("Steam Cloud NOT Enabled");
+        }
         // Create ghost run ugc item
         var newFileResult = await Steamworks.Ugc.Editor.NewCommunityFile
             .WithTitle(fileTitle)
@@ -199,6 +220,28 @@ public class StatsManager : MonoBehaviour
         else
         {
             return 0;
+        }
+    }
+
+    public static byte[] LevelToByteArray(Level level)
+    {
+        var binaryFormatter = new BinaryFormatter();
+        using (var ms = new MemoryStream())
+        {
+            binaryFormatter.Serialize(ms, level);
+            return ms.ToArray();
+        }
+    }
+
+    public static Level LevelFromByteArray(byte[] levelData)
+    {
+        using(var memoryStream = new MemoryStream())
+        {
+            var binaryFormatter = new BinaryFormatter();
+            memoryStream.Write(levelData, 0, levelData.Length);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            var obj = binaryFormatter.Deserialize(memoryStream);
+            return (Level)obj;
         }
     }
 }
