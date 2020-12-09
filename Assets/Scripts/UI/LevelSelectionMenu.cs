@@ -30,6 +30,9 @@ public class LevelSelectionMenu : MonoBehaviour
 
     public LevelSelectionTab currentTab;
 
+    public Text groupTimeText;
+    public Text totalTimeText;
+
     void Start()
     {
         mainMenuController = GetComponentInParent<MainMenuController>();
@@ -58,22 +61,26 @@ public class LevelSelectionMenu : MonoBehaviour
         portalCardList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Portal));
         workshopCardList.ForEach(x => x.gameObject.SetActive(tab == LevelSelectionTab.Workshop));
 
+        totalTimeText.text = $"Total Time: {GameManager.Instance.levelDataContainer.GetTotalTime(TotalTimeType.All)}";
         switch (tab)
         {
             case LevelSelectionTab.Hop:
                 hopTabButton.SelectTab();
                 portalTabButton.UnselectTab();
                 workshopTabButton.UnselectTab();
+                groupTimeText.text = $"Hop Total Time: {GameManager.Instance.levelDataContainer.GetTotalTime(TotalTimeType.Hop)}";
                 break;
             case LevelSelectionTab.Portal:
                 hopTabButton.UnselectTab();
                 portalTabButton.SelectTab();
                 workshopTabButton.UnselectTab();
+                groupTimeText.text = $"Portal Total Time: {GameManager.Instance.levelDataContainer.GetTotalTime(TotalTimeType.Portal)}";
                 break;
             case LevelSelectionTab.Workshop:
                 hopTabButton.UnselectTab();
                 portalTabButton.UnselectTab();
                 workshopTabButton.SelectTab();
+                groupTimeText.text = "";
                 break;
         }
 
@@ -123,21 +130,7 @@ public class LevelSelectionMenu : MonoBehaviour
             foreach(Steamworks.Ugc.Item item in items)
             {
                 Level newLevel = ScriptableObject.CreateInstance<Level>();
-                newLevel.levelBuildIndex = GameManager.workshopLevelIndex;
-                newLevel.workshopFilePath = item.Directory;
-                newLevel.levelName = item.Title;
-                newLevel.fileId = item.Id.Value;
-                newLevel.gravityMultiplier = 1;
-                newLevel.completionTime = await StatsManager.GetLevelCompletionTime(item.Title);
-                if (newLevel.completionTime > 0)
-                {
-                    newLevel.isCompleted = true;
-                }
-                if (item.PreviewImageUrl != null && item.PreviewImageUrl != string.Empty)
-                {
-                    Texture2D texture = await SteamCacheManager.GetUGCPreviewImage(item.PreviewImageUrl);
-                    newLevel.previewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                }
+                newLevel.InitFromWorkshopItem(item);
                 toReturn.Add(newLevel);
             }
         }

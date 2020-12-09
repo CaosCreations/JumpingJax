@@ -61,6 +61,7 @@ public class HotKeyManager : MonoBehaviour {
         LoadSavedKey(PlayerConstants.Undo, PlayerConstants.UndoDefault);
         LoadSavedKey(PlayerConstants.Redo, PlayerConstants.RedoDefault);
         LoadSavedKey(PlayerConstants.ResetLevel, PlayerConstants.ResetLevelDefault);
+        LoadSavedKey(PlayerConstants.Respawn, PlayerConstants.RespawnDefault);
         LoadSavedKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
         LoadSavedKey(PlayerConstants.Portal2, PlayerConstants.Portal2Default);
         LoadSavedKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault);
@@ -105,6 +106,7 @@ public class HotKeyManager : MonoBehaviour {
         AddDefaultKey(PlayerConstants.Undo, PlayerConstants.UndoDefault);
         AddDefaultKey(PlayerConstants.Redo, PlayerConstants.RedoDefault);
         AddDefaultKey(PlayerConstants.ResetLevel, PlayerConstants.ResetLevelDefault);
+        AddDefaultKey(PlayerConstants.Respawn, PlayerConstants.RespawnDefault);
         AddDefaultKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
         AddDefaultKey(PlayerConstants.Portal2, PlayerConstants.Portal2Default);
         AddDefaultKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault);
@@ -136,6 +138,7 @@ public class HotKeyManager : MonoBehaviour {
         tooltips.Add(PlayerConstants.Undo, PlayerConstants.UndoTooltip);
         tooltips.Add(PlayerConstants.Redo, PlayerConstants.RedoTooltip);
         tooltips.Add(PlayerConstants.ResetLevel, PlayerConstants.ResetTooltip);
+        tooltips.Add(PlayerConstants.Respawn, PlayerConstants.RespawnTooltip);
         tooltips.Add(PlayerConstants.Portal1, PlayerConstants.Portal1Tooltip);
         tooltips.Add(PlayerConstants.Portal2, PlayerConstants.Portal2Tooltip);
         tooltips.Add(PlayerConstants.ToggleUI, PlayerConstants.ToggleUITooltip);

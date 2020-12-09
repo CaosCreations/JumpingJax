@@ -41,7 +41,7 @@ public class WinMenu : MonoBehaviour
     {
         levelText.text = "You found Jax on: " + GameManager.GetCurrentLevel().levelName;
         completionTimeText.text = TimeUtils.GetTimeString(GameManager.Instance.currentCompletionTime);
-        bestTimeText.text = TimeUtils.GetTimeString(GameManager.GetCurrentLevel().completionTime);
+        bestTimeText.text = TimeUtils.GetTimeString(GameManager.GetCurrentLevel().levelSaveData.completionTime);
     }
 
     private void SetupButtons()
@@ -78,14 +78,14 @@ public class WinMenu : MonoBehaviour
             if (currentLevel.levelBuildIndex >= GameManager.Instance.levelDataContainer.levels.Length)
             {
                 Cursor.visible = true;
+                GameManager.LoadScene(PlayerConstants.CreditsSceneIndex);
             }
             else
             {
                 Cursor.visible = false;
+                GameManager.NextLevel();
+                GameManager.LoadScene(currentLevel.levelBuildIndex + 1);
             }
-
-            GameManager.NextLevel();
-            GameManager.LoadScene(currentLevel.levelBuildIndex + 1);
         }
     }
 

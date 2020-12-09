@@ -57,7 +57,7 @@ public class MainMenuButtons : MonoBehaviour
 
         foreach (Level level in allLevels)
         {
-            if (level.isCompleted)
+            if (level.levelSaveData.isCompleted)
             {
                 return true;
             }

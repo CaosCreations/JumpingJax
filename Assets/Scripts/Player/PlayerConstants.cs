@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public static class PlayerConstants
 {
     public static float MoveSpeed = 6f;
+    public static float NoClipMoveSpeed = 12f;
     public static float BackWardsMoveSpeedScale = 0.9f;
     public static float CrouchingMoveSpeed = 5f;
     public static float MaxVelocity = 60f;
@@ -76,6 +76,14 @@ public static class PlayerConstants
     public static string ResetLevelDefault = "R";
     public static string ResetTooltip = "Reset player to the last checkpoint.";
 
+    public static string Respawn = "Respawn";
+    public static string RespawnDefault = "R";
+    public static string RespawnTooltip = "Reset player to the last checkpoint.";
+
+    public static string ResetLevel = "ResetLevel";
+    public static string ResetLevelDefault = "T";
+    public static string ResetTooltip = "Reset player to the first checkpoint, set timer back to zero, and clear portals.";
+
     public static string Crouch = "Crouch";
     public static string CrouchDefault = "LeftControl";
     public static string CrouchTooltip = "Makes player crouch.";
@@ -101,7 +109,8 @@ public static class PlayerConstants
     public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
 
     public static string SensitivityTooltip = "Mouse Sensitivity.";
-    public static string VolumeTooltip = "Master Volume.";
+    public static string MusicVolumeTooltip = "Music Volume.";
+    public static string SoundEffectVolumeTooltip = "Sound Effect Volume.";
 
     public static string CrosshairTooltip = "Toggle Crosshair UI.";
     public static string SpeedTooltip = "Toggle Speed UI.";
@@ -115,6 +124,14 @@ public static class PlayerConstants
     public static string GraphicsTooltip = "Graphics Quality.";
     public static string FullscreenTooltip = "Toggle Fullscreen.";
     public static string FOVTooltip = "Player Camera Field of View.";
+    public static string UnitOfSpeedTooltip = "Speedometer Unit";
+
+    public static List<string> UnitOfSpeedOptions = new List<string>()
+    {
+        "Metres per second",
+        "Kilometres per hour",
+        "Miles per hour"
+    };
 
 
     // Non-changeable hotkeys
@@ -132,7 +149,9 @@ public static class PlayerConstants
     // Game Constants
     public static int MainMenuSceneIndex = 0;
     public static int LevelEditorSceneIndex = 27;
-    public static Vector3 PlayerSpawnOffset = new Vector3(0, 2, 0);
+    public static int CreditsSceneIndex = 28;
+
+    public static Vector3 PlayerSpawnOffset = new Vector3(0, 0.81f, 0);
     public static string levelCompletionTimeFormat = "mm':'ss'.'fff";
     public static int PlayerLayer = 12;
     public static int PortalMaterialLayer = 10;

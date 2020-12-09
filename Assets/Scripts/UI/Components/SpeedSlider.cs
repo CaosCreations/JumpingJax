@@ -1,15 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+
+public enum UnitOfSpeed
+{
+    Mps = 0,
+    Kph = 1,
+    Mph = 2
+}
 
 public class SpeedSlider : MonoBehaviour
 {
+    public static UnitOfSpeed unitOfSpeed; 
+
     public Image filledSpeedbar;
     public Text speedText;
 
     [SerializeField]
     private AnimationCurve curve;
+
+    private void Start()
+    {
+        SetUnitOfSpeed(OptionsPreferencesManager.GetUnitOfSpeed());
+    }
 
     public void SetSpeed(float speed)
     {
@@ -18,6 +30,25 @@ public class SpeedSlider : MonoBehaviour
         float ratio = speed / PlayerConstants.MaxReasonableVelocity;
         filledSpeedbar.fillAmount = curve.Evaluate(ratio);
 
-        speedText.text = Mathf.Round(speed * 100) / 100 + "m/s";
+        switch (unitOfSpeed)
+        {
+            case UnitOfSpeed.Mps:
+                speedText.text = System.Math.Round(speed, 2) + "m/s";
+                break;
+            case UnitOfSpeed.Kph:
+                speedText.text = System.Math.Round(speed * 3.6, 2) + "km/h";
+                break;
+            case UnitOfSpeed.Mph:
+                speedText.text = System.Math.Round(speed * 2.237f, 2) + "mi/h";
+                break;
+        }
+    }
+
+    public static void SetUnitOfSpeed(int index)
+    {
+        // Set the current unit of speed value based on the numeric value associated with it 
+        unitOfSpeed = (UnitOfSpeed)(System.Enum.GetValues(unitOfSpeed.GetType())).GetValue(index);
+
+        OptionsPreferencesManager.SetUnitOfSpeed(index);
     }
 }

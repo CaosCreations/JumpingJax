@@ -20,7 +20,6 @@ public class PauseMenu : MonoBehaviour {
     public Button resetLevelButton;
     public Button mainMenuButton;
     public Button optionsButton;
-    public Button quitButton;
 
     public bool isPaused;
 
@@ -110,6 +109,7 @@ public class PauseMenu : MonoBehaviour {
         Time.timeScale = 1;
         GameManager.LoadScene(PlayerConstants.MainMenuSceneIndex);
     }
+
     public void ResetLevel()
     {
         playerProgress.ResetPlayer();
@@ -137,8 +137,5 @@ public class PauseMenu : MonoBehaviour {
 
         optionsButton.onClick.RemoveAllListeners();
         optionsButton.onClick.AddListener(ToggleOptionsMenu);
-
-        quitButton.onClick.RemoveAllListeners();
-        quitButton.onClick.AddListener(QuitGame);
     }
 }
