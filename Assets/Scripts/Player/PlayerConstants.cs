@@ -72,10 +72,6 @@ public static class PlayerConstants
     public static string RedoDefault = "P";
     public static string RedoTooltip = "Level Editor Redo button";
 
-    public static string ResetLevel = "Reset Level";
-    public static string ResetLevelDefault = "R";
-    public static string ResetTooltip = "Reset player to the last checkpoint.";
-
     public static string Respawn = "Respawn";
     public static string RespawnDefault = "R";
     public static string RespawnTooltip = "Reset player to the last checkpoint.";
