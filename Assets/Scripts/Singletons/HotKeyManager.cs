@@ -58,6 +58,8 @@ public class HotKeyManager : MonoBehaviour {
         LoadSavedKey(PlayerConstants.Right, PlayerConstants.RightDefault);
         LoadSavedKey(PlayerConstants.Jump, PlayerConstants.JumpDefault);
         LoadSavedKey(PlayerConstants.Crouch, PlayerConstants.CrouchDefault);
+        LoadSavedKey(PlayerConstants.Undo, PlayerConstants.UndoDefault);
+        LoadSavedKey(PlayerConstants.Redo, PlayerConstants.RedoDefault);
         LoadSavedKey(PlayerConstants.ResetLevel, PlayerConstants.ResetLevelDefault);
         LoadSavedKey(PlayerConstants.Respawn, PlayerConstants.RespawnDefault);
         LoadSavedKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
@@ -101,6 +103,8 @@ public class HotKeyManager : MonoBehaviour {
         AddDefaultKey(PlayerConstants.Right, PlayerConstants.RightDefault);
         AddDefaultKey(PlayerConstants.Jump, PlayerConstants.JumpDefault);
         AddDefaultKey(PlayerConstants.Crouch, PlayerConstants.CrouchDefault);
+        AddDefaultKey(PlayerConstants.Undo, PlayerConstants.UndoDefault);
+        AddDefaultKey(PlayerConstants.Redo, PlayerConstants.RedoDefault);
         AddDefaultKey(PlayerConstants.ResetLevel, PlayerConstants.ResetLevelDefault);
         AddDefaultKey(PlayerConstants.Respawn, PlayerConstants.RespawnDefault);
         AddDefaultKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
@@ -131,6 +135,8 @@ public class HotKeyManager : MonoBehaviour {
         tooltips.Add(PlayerConstants.Right, PlayerConstants.RightTooltip);
         tooltips.Add(PlayerConstants.Jump, PlayerConstants.JumpTooltip);
         tooltips.Add(PlayerConstants.Crouch, PlayerConstants.CrouchTooltip);
+        tooltips.Add(PlayerConstants.Undo, PlayerConstants.UndoTooltip);
+        tooltips.Add(PlayerConstants.Redo, PlayerConstants.RedoTooltip);
         tooltips.Add(PlayerConstants.ResetLevel, PlayerConstants.ResetTooltip);
         tooltips.Add(PlayerConstants.Respawn, PlayerConstants.RespawnTooltip);
         tooltips.Add(PlayerConstants.Portal1, PlayerConstants.Portal1Tooltip);

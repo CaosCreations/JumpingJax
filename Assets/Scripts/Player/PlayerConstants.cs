@@ -64,6 +64,14 @@ public static class PlayerConstants
     public static string JumpDefault = "Space";
     public static string JumpTooltip = "Makes player jump.";
 
+    public static string Undo = "Undo";
+    public static string UndoDefault = "U";
+    public static string UndoTooltip = "Level Editor Undo button";
+
+    public static string Redo = "Redo";
+    public static string RedoDefault = "P";
+    public static string RedoTooltip = "Level Editor Redo button";
+
     public static string Respawn = "Respawn";
     public static string RespawnDefault = "R";
     public static string RespawnTooltip = "Reset player to the last checkpoint.";

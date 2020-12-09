@@ -30,6 +30,7 @@ public class Inspector : MonoBehaviour
     public Transform objectToInspect;
 
     public ManipulationType manipulationType;
+    public static ManipulationType manipType;
     public float currentSnap = 1;
 
     public LevelEditorHUD levelEditorHUD;
@@ -48,14 +49,9 @@ public class Inspector : MonoBehaviour
 
     void Start()
     {
-        positionButton.button.onClick.RemoveAllListeners();
-        positionButton.button.onClick.AddListener(() => SetManipulationType(ManipulationType.Position));
-
-        rotationButton.button.onClick.RemoveAllListeners();
-        rotationButton.button.onClick.AddListener(() => SetManipulationType(ManipulationType.Rotation));
-
-        scaleButton.button.onClick.RemoveAllListeners();
-        scaleButton.button.onClick.AddListener(() => SetManipulationType(ManipulationType.Scale));
+        positionButton.Init(() => SetManipulationType(ManipulationType.Position));
+        rotationButton.Init(() => SetManipulationType(ManipulationType.Rotation));
+        scaleButton.Init(() => SetManipulationType(ManipulationType.Scale));
 
         xInput.onValueChanged.RemoveAllListeners();
         xInput.onValueChanged.AddListener((value) => InputChanged(value, InputType.X));
@@ -120,7 +116,8 @@ public class Inspector : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            Destroy(objectToInspect.gameObject);
+            LevelEditorUndo.AddCommand(new DeleteCommand(objectToInspect.gameObject));
+            FlipActive(objectToInspect.gameObject);
             Clear();
             // Delete 
         }
@@ -128,6 +125,7 @@ public class Inspector : MonoBehaviour
     private void SetManipulationType(ManipulationType manipulationType)
     {
         this.manipulationType = manipulationType;
+        manipType = manipulationType;
         UpdateInputs();
         levelEditorGizmo.SetGizmo(objectToInspect.transform, manipulationType);
 
@@ -289,5 +287,10 @@ public class Inspector : MonoBehaviour
         float value = 0;
         float.TryParse(newSnapValue, out value);
         currentSnap = value;
+    }
+
+    public static void FlipActive(GameObject gameObject)
+    {
+        gameObject.SetActive(!gameObject.activeSelf);
     }
 }

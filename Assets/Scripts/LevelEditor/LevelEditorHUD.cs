@@ -27,7 +27,7 @@ public class LevelEditorHUD : MonoBehaviour
 
     public Button playButton;
     public Button saveButton;
-
+   
     public LayerMask gizmoLayerMask;
     public LayerMask selectionLayerMask;
     public Material outlineMaterial;
@@ -111,6 +111,7 @@ public class LevelEditorHUD : MonoBehaviour
 
             Ray ray = levelEditorCamera.ScreenPointToRay(Input.mousePosition);
 
+            // If we click on a gizmo
             if(Physics.Raycast(ray, out RaycastHit gizmoHit, 1000, gizmoLayerMask))
             {
                 isUsingGizmo = true;
@@ -120,6 +121,11 @@ public class LevelEditorHUD : MonoBehaviour
                     return;
                 }
                 currentGizmoColor = tempType.gizmoColor;
+
+                LevelEditorUndo.prevPos = currentSelectedObject.transform.position;
+                LevelEditorUndo.prevRotation = currentSelectedObject.transform.rotation;
+                LevelEditorUndo.prevScale = currentSelectedObject.transform.localScale;
+
                 return; // break out so that we dont also select an object
             }
             if (Physics.Raycast(ray, out RaycastHit hit, 1000, selectionLayerMask))
@@ -134,6 +140,10 @@ public class LevelEditorHUD : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
+            if (isUsingGizmo == true)
+            {
+                AddMovementCommand();
+            }
             isUsingGizmo = false;
             levelEditorGizmo.lastMousePosition = Vector3.zero;
         }
@@ -221,6 +231,25 @@ public class LevelEditorHUD : MonoBehaviour
 
     }
 
+    private void AddMovementCommand()
+    {
+        switch (Inspector.manipType)
+        {
+            case ManipulationType.Position:
+                Vector3 position = currentSelectedObject.transform.position;
+                LevelEditorUndo.AddCommand(new PositionCommand(currentSelectedObject, position, LevelEditorUndo.prevPos));
+                break;
+            case ManipulationType.Rotation:
+                Quaternion rotation = currentSelectedObject.transform.rotation;
+                LevelEditorUndo.AddCommand(new RotateCommand(currentSelectedObject, rotation, LevelEditorUndo.prevRotation));
+                break;
+            case ManipulationType.Scale:
+                Vector3 scale = currentSelectedObject.transform.localScale;
+                LevelEditorUndo.AddCommand(new ScaleCommand(currentSelectedObject, scale, LevelEditorUndo.prevScale));
+                break;
+        }
+    }
+
     #region Prefab Menu
     private void TogglePrefabMenu(ObjectTypeTab tab)
     {
@@ -269,8 +298,15 @@ public class LevelEditorHUD : MonoBehaviour
         GameObject newObject = Instantiate(levelPrefab.prefab);
         // Set the object 10 units in front of the camera
         newObject.transform.position = levelEditorCamera.transform.position + (levelEditorCamera.transform.forward * 10);
+        LevelEditorUndo.AddCommand(new CreateCommand(newObject));
         SelectObject(newObject);
         Save();
+    }
+
+    public static void Create(GameObject gameObject, Vector3 position)
+    {
+        GameObject newObject = Instantiate(gameObject);
+        newObject.transform.position = position;
     }
     #endregion
 
@@ -285,12 +321,18 @@ public class LevelEditorHUD : MonoBehaviour
             LevelEditorObject[] sceneObjects = FindObjectsOfType<LevelEditorObject>();
             foreach (LevelEditorObject sceneObject in sceneObjects)
             {
-                newLevel.levelObjects.Add(sceneObject.GetObjectData());
+                if(sceneObject.gameObject.activeSelf == true)
+                {
+                    newLevel.levelObjects.Add(sceneObject.GetObjectData());
+                }
+                else
+                {
+                    Destroy(sceneObject.gameObject);
+                }
             }
 
             string jsonData = JsonUtility.ToJson(newLevel, true);
 
-        
             string filePath = GameManager.GetCurrentLevel().levelEditorScenePath;
             Debug.Log($"Saving level {GameManager.GetCurrentLevel().levelName} to {filePath}");
             File.WriteAllText(filePath, jsonData);
