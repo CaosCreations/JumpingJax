@@ -166,6 +166,8 @@ public class LevelEditor : MonoBehaviour
 
     private async void Publish()
     {
+        if (publishCheck()) { } //after the publish check is all good then we publish
+
         if (selectedLevel.level.fileId == 0)
         {
             Steamworks.Data.PublishedFileId fileId = await WorkshopManager.PublishItem(selectedLevel.level);
@@ -206,5 +208,22 @@ public class LevelEditor : MonoBehaviour
         #if UNITY_EDITOR
             UnityEditor.AssetDatabase.Refresh();
         #endif
+    }
+
+    private bool publishCheck()
+    {
+        //if theres no start checkpoint
+        //debug.log("Level must have a starting checkpoint");
+        //if theres no end checkpoint
+        //debug.log("Level must have an end checkpoint");
+        //if theres no level name
+        //debug.log("Level must have a name");
+        //if theres no level description
+        //debug.log("Level must have a description");
+        //if theres no picture (I don't know about this one)
+        //debug.log("Level must have an image");
+
+        //if(!sCheckFlag && !eCheckFlag && !nameFlag && !descFlag && !imgFlag)
+        return true;
     }
 }
