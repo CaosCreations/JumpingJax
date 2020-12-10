@@ -88,12 +88,26 @@ public class Level : ScriptableObject
 
         if (!Directory.Exists(folderPath))
         {
-            Directory.CreateDirectory(folderPath);
+            try
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"{e.Message}\n{e.StackTrace}");
+            }
         }
 
         string filePath = Path.Combine(folderPath, $"{levelName}.save");
         string fileContents = JsonUtility.ToJson(levelSaveData);
-        File.WriteAllText(filePath, fileContents);
+        try
+        {
+            File.WriteAllText(filePath, fileContents);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"{e.Message}\n{e.StackTrace}");
+        }
     }
 
     public void Load()
@@ -102,8 +116,15 @@ public class Level : ScriptableObject
         string filePath = Path.Combine(folderPath, $"{levelName}.save");
         if (File.Exists(filePath))
         {
-            string fileContents = File.ReadAllText(filePath);
-            levelSaveData = JsonUtility.FromJson<PersistentLevelDataModel>(fileContents);
+            try
+            {
+                string fileContents = File.ReadAllText(filePath);
+                levelSaveData = JsonUtility.FromJson<PersistentLevelDataModel>(fileContents);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"{e.Message}\n{e.StackTrace}");
+            }
         }
     }
 
@@ -113,7 +134,14 @@ public class Level : ScriptableObject
         string filePath = Path.Combine(folderPath, $"/{levelName}.save");
         if (File.Exists(filePath))
         {
-            File.Delete(filePath);
+            try
+            {
+                File.Delete(filePath);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"{e.Message}\n{e.StackTrace}");
+            }
         }
     }
 

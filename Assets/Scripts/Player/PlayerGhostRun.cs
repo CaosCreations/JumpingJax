@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -62,14 +63,22 @@ public class PlayerGhostRun : MonoBehaviour
                 if (File.Exists(GameManager.Instance.replayFileLocation))
                 {
                     Debug.Log("Found leaderboard replay file");
-                    string replayLevelData = File.ReadAllText(GameManager.Instance.replayFileLocation);
-                    Level replayLevel = ScriptableObject.CreateInstance<Level>();
-                    replayLevel.levelSaveData = new PersistentLevelDataModel();
-                    JsonUtility.FromJsonOverwrite(replayLevelData, replayLevel.levelSaveData);
 
-                    pastRunPositionData = replayLevel.levelSaveData.ghostRunPositions;
-                    pastRunCameraRotationData = replayLevel.levelSaveData.ghostRunCameraRotations;
-                    pastRunKeyData = replayLevel.levelSaveData.ghostRunKeys;
+                    try
+                    {
+                        string replayLevelData = File.ReadAllText(GameManager.Instance.replayFileLocation);
+                        Level replayLevel = ScriptableObject.CreateInstance<Level>();
+                        replayLevel.levelSaveData = new PersistentLevelDataModel();
+                        JsonUtility.FromJsonOverwrite(replayLevelData, replayLevel.levelSaveData);
+
+                        pastRunPositionData = replayLevel.levelSaveData.ghostRunPositions;
+                        pastRunCameraRotationData = replayLevel.levelSaveData.ghostRunCameraRotations;
+                        pastRunKeyData = replayLevel.levelSaveData.ghostRunKeys;
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError($"{e.Message}\n{e.StackTrace}");
+                    }
                 }
             }
         }
