@@ -1468,6 +1468,7 @@ GameObject:
   - component: {fileID: 3290239666497858288}
   - component: {fileID: 8424969168763366838}
   - component: {fileID: 744422813815733022}
+  - component: {fileID: 3663660126680703655}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -1508,6 +1509,7 @@ MonoBehaviour:
   currentCompletionTime: 0
   didWinCurrentLevel: 0
   shouldUseSteam: 1
+  replayFileLocation: 
 --- !u!114 &7174419794005054913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1709,6 +1711,18 @@ MonoBehaviour:
   footstep1: {fileID: 8300000, guid: 3aa3e4886d57dfd43a6c6760f09da0be, type: 3}
   footstep2: {fileID: 8300000, guid: ffe5d671741116742a244a3aaaee6ddd, type: 3}
   lastFootstep1: 0
+--- !u!114 &3663660126680703655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7360296815112912555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb38156f521cd094aa7a6636cfd2ef46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8135483881931830398
 GameObject:
   m_ObjectHideFlags: 0
