@@ -26,8 +26,8 @@ public class StatsManager : MonoBehaviour
                 Debug.Log($"Leaderboard found, adding score: {time.ToString(PlayerConstants.levelCompletionTimeFormat)}");
                 Steamworks.Data.LeaderboardUpdate? leaderboardUpdate = await leaderboardValue.SubmitScoreAsync((int)time.TotalMilliseconds); // We can use the return here to show the placement update on the winMenu
 
-                // the ghost run data is erased whenever the score is changed.
-                await CreateOrUpdateGhostRun(level);
+                // The ghost run data is erased whenever the score is changed, so we HAVE to add it AFTER submitting a score.
+                await CheckGhostRunCreate(leaderboardValue, level);
             }
         }
         else
@@ -36,85 +36,34 @@ public class StatsManager : MonoBehaviour
         }
     }
 
-    private static async Task CreateOrUpdateGhostRun(Level level)
+    private static async Task CheckGhostRunCreate(Steamworks.Data.Leaderboard leaderboard, Level level)
     {
-        var leaderboardResult = await SteamUserStats.FindOrCreateLeaderboardAsync(level.levelName, Steamworks.Data.LeaderboardSort.Ascending, Steamworks.Data.LeaderboardDisplay.TimeMilliSeconds);
-        if (leaderboardResult.HasValue)
+        Steamworks.Data.LeaderboardEntry[] topEntries = await leaderboard.GetScoresAsync(10, 1);
+
+        // Only add ghost run if the run is top 10
+        if (topEntries == null)
         {
-            Steamworks.Data.Leaderboard leaderboard = leaderboardResult.Value;
-
-            Steamworks.Data.LeaderboardEntry[] topEntries = await leaderboard.GetScoresAsync(1, 9);
-
-            if(topEntries != null)
-            // Only add ghost run if the run is top 10
-            if(level.levelSaveData.completionTime < topEntries[0].Score)
-            {
-                Steamworks.Data.LeaderboardEntry[] entries = await leaderboard.GetScoresForUsersAsync(new Steamworks.SteamId[] { SteamClient.SteamId });
-
-                if (entries != null && entries.Length > 0)
-                {
-                    Steamworks.Data.LeaderboardEntry myEntry = entries[0];
-
-                    // Steam has a ulong for if an error occurred: https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCFileStreamHandleInvalid
-                    if (myEntry.AttachedUgcId != 18446744073709551615)
-                    {
-                        Debug.Log($"CreateOrUpdateGhostRun: Updating Ghost run for UGCId: {myEntry.AttachedUgcId}");
-                        await UpdateGhostRun(leaderboard, myEntry, level);
-                    }
-                    else
-                    {
-                        Debug.Log($"CreateOrUpdateGhostRun: no valid UGCId found, doing nothing");
-                    }
-                }
-                else
-                {
-                    await CreateNewGhostRun(leaderboard, level);
-                }
-            }
+            Debug.Log("Adding first entry to leaderboard");
+            await CreateNewGhostRun(leaderboard, level);
         }
-    }
 
-    public static async Task UpdateGhostRun(Steamworks.Data.Leaderboard leaderboard, Steamworks.Data.LeaderboardEntry myEntry, Level level)
-    {
-        string fileTitle = $"ghost_{level.levelName}";
-
-        if (myEntry.AttachedUgcId.HasValue)
+        if (topEntries.Length < 10) 
         {
-            var updateResult = await new Steamworks.Ugc.Editor(myEntry.AttachedUgcId.Value)
-            .WithTitle(fileTitle)
-            .WithDescription("no description")
-            .WithContent(Path.Combine(Application.persistentDataPath, level.levelName))
-            .WithTag("ghostRuns")
-            .WithPublicVisibility()
-            .SubmitAsync();
-
-            if (updateResult.Success)
-            {
-                Debug.Log($"Updated ghost run with \ntitle: {fileTitle} \nfileId: {updateResult.FileId}");
-            }
-            else
-            {
-                Debug.Log($"FAILED to update ghost run with: \ntitle {fileTitle} \nfileId {myEntry.AttachedUgcId.Value} \nresult: {updateResult.Result} \n Creating NEW run");
-                //await CreateNewGhostRun(leaderboard, level);
-            }
+            Debug.Log($"Adding new ghost run for entry number {topEntries.Length}");
+            await CreateNewGhostRun(leaderboard, level);
         }
-        else
+
+        if(level.levelSaveData.completionTime < topEntries[9].Score)
         {
-            Debug.LogError("Tried to update run data, but the leaderboard entry has no attachedUgcId");
+            Debug.Log($"Adding ghost run, replacing top 10 score");
+            await CreateNewGhostRun(leaderboard, level);
         }
     }
 
     public static async Task CreateNewGhostRun(Steamworks.Data.Leaderboard leaderboard, Level level)
     {
         string fileTitle = $"ghost_{level.levelName}";
-        if (SteamRemoteStorage.IsCloudEnabled)
-        {
-            SteamRemoteStorage.FileWrite(fileTitle, LevelToByteArray(level));
-        }
-        else
-        {
-            Debug.LogError("Steam Cloud NOT Enabled");
-        }
+
         // Create ghost run ugc item
         var newFileResult = await Steamworks.Ugc.Editor.NewCommunityFile
             .WithTitle(fileTitle)
