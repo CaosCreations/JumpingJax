@@ -17,12 +17,23 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     private bool grounded;
+
+    private bool wasGrounded;
+
     [SerializeField]
     private bool crouching;
 
     private BoxCollider myCollider;
     private CameraMove cameraMove;
     private Level currentLevel;
+
+    private bool noClip;
+
+    private void Awake()
+    {
+        newVelocity = Vector3.zero;
+        noClip = false;
+    }
 
     private void Start()
     {
@@ -33,6 +44,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (noClip)
+        {
+            NoClipMove();
+            return;
+        }
         CheckCrouch();
         ApplyGravity();
         CheckGrounded();
@@ -53,6 +69,11 @@ public class PlayerMovement : MonoBehaviour
             ApplyFriction();
             ApplyGroundAcceleration(wishDir, wishSpeed, PlayerConstants.NormalSurfaceFriction);
             ClampVelocity(PlayerConstants.MoveSpeed);
+
+            if (newVelocity.magnitude > 0)
+            {
+                PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Footstep);
+            }
         }
         else
         {
@@ -109,10 +130,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyGravity()
     {
-        if (!grounded && newVelocity.y < PlayerConstants.MaxFallSpeed)
+        if (!grounded && newVelocity.y > -PlayerConstants.MaxFallSpeed)
         {
             float gravityScale = currentLevel.gravityMultiplier;
             newVelocity.y -= gravityScale * PlayerConstants.Gravity * Time.fixedDeltaTime;
+        }
+
+        if(newVelocity.y <= -PlayerConstants.MaxFallSpeed)
+        {
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Falling);
         }
     }
 
@@ -190,10 +216,17 @@ public class PlayerMovement : MonoBehaviour
 
         grounded = willBeGrounded;
 
+        if (!wasGrounded && grounded)
+        {
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Land);
+        }
+
         if (grounded && newVelocity.y < 0)
         {
             newVelocity.y = 0;
         }
+
+        wasGrounded = grounded;
     }
 
     private Ray[] GetRays(Vector3 direction)
@@ -228,6 +261,7 @@ public class PlayerMovement : MonoBehaviour
             newVelocity.y = 0;
             newVelocity.y += crouching ? PlayerConstants.CrouchingJumpPower : PlayerConstants.JumpPower;
             grounded = false;
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Jump);
         }
     }
 
@@ -439,4 +473,36 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void NoClip()
+    {
+        noClip = !noClip;
+    }
+
+    private void NoClipMove()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.position += cameraMove.playerCamera.transform.forward * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.position += -cameraMove.playerCamera.transform.forward * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.position += cameraMove.playerCamera.transform.right * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.position += -cameraMove.playerCamera.transform.right * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            transform.position += cameraMove.playerCamera.transform.up * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
+        }
+        if (Input.GetKey(KeyCode.Q))
+        {
+            transform.position += -cameraMove.playerCamera.transform.up * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
+        }
+    }
 }

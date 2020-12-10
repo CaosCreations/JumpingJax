@@ -36,9 +36,14 @@ public class PlayerProgress : MonoBehaviour
             return;
         }
 
-        if (InputManager.GetKeyDown(PlayerConstants.ResetLevel))
+        if (InputManager.GetKeyDown(PlayerConstants.Respawn))
         {
             Respawn();
+        }
+
+        if (InputManager.GetKeyDown(PlayerConstants.ResetLevel))
+        {
+            ResetPlayer();
         }
     }
 
@@ -74,6 +79,7 @@ public class PlayerProgress : MonoBehaviour
             GameManager.FinishedLevel();
             playerUI.ShowWinScreen();
             Time.timeScale = 0;
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Win);
         }
     }
 

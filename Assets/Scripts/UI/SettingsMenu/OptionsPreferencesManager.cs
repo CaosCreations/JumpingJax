@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OptionsPreferencesManager
 {
@@ -10,8 +8,11 @@ public class OptionsPreferencesManager
     public const string resolutionHeightKey = "ResolutionHeight";
     public const int defaultResolutionHeight = 1080;
 
-    public const string volumeKey = "Volume";
-    public const int defaultVolume = -10;
+    public const string musicVolumeKey = "Volume";
+    public const int defaultMusicVolume = -20;
+
+    public const string soundEffectVolumeKey = "SoundEffects";
+    public const int defaultSoundEffectVolume = -80;
 
     public const string qualityKey = "Quality";
     public const int defaultQuality = 0;
@@ -49,6 +50,12 @@ public class OptionsPreferencesManager
     public const string consoleToggleKey = "ConsoleToggle";
     public const int defaultConsoleToggle = 0;
 
+    public const string alphaMenuKey = "AlphaMenu";
+    public const int defaultAlphaToggle = 1;
+
+    public const string unitOfSpeedKey = "UnitOfSpeed";
+    public const int defaultUnitOfSpeed = 0;
+
     public static int GetResolutionWidth()
     {
         return PlayerPrefs.GetInt(resolutionWidthKey, defaultResolutionWidth);
@@ -65,14 +72,24 @@ public class OptionsPreferencesManager
         PlayerPrefs.SetInt(resolutionHeightKey, height);
     }
 
-    public static float GetVolume()
+    public static float GetMusicVolume()
     {
-        return PlayerPrefs.GetFloat(volumeKey, defaultVolume);
+        return PlayerPrefs.GetFloat(musicVolumeKey, defaultMusicVolume);
     }
 
-    public static void SetVolume(float volume)
+    public static void SetMusicVolume(float volume)
     {
-        PlayerPrefs.SetFloat(volumeKey, volume);
+        PlayerPrefs.SetFloat(musicVolumeKey, volume);
+    }
+
+    public static float GetSoundEffectVolume()
+    {
+        return PlayerPrefs.GetFloat(musicVolumeKey, defaultMusicVolume);
+    }
+
+    public static void SetSoundEffectVolume(float volume)
+    {
+        PlayerPrefs.SetFloat(musicVolumeKey, volume);
     }
 
     public static int GetQuality()
@@ -200,5 +217,26 @@ public class OptionsPreferencesManager
     public static void SetConsoleToggle(bool isOn)
     {
         PlayerPrefs.SetInt(consoleToggleKey, isOn ? 1 : 0);
+    }
+
+    public static bool GetAlphaToggle()
+    {
+        int isOn = PlayerPrefs.GetInt(alphaMenuKey, defaultAlphaToggle);
+        return isOn == 0 ? false : true;
+    }
+
+    public static void SetAlphaToggle(bool isOn)
+    {
+        PlayerPrefs.SetInt(alphaMenuKey, isOn ? 1 : 0);
+    }
+
+    public static int GetUnitOfSpeed()
+    {
+        return PlayerPrefs.GetInt(unitOfSpeedKey, defaultUnitOfSpeed);
+    }
+
+    public static void SetUnitOfSpeed(int index)
+    {
+        PlayerPrefs.SetInt(unitOfSpeedKey, index);
     }
 }

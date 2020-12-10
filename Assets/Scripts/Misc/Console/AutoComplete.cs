@@ -58,7 +58,7 @@ public class AutoComplete : MonoBehaviour
             return;
         }
 
-        ConsoleCommand[] commands = console.commands;
+        ConsoleCommand[] commands = DeveloperConsole.Instance.commands;
         bool foundValidCommand = false;
 
         foreach(ConsoleCommand command in commands)

@@ -15,13 +15,30 @@ MonoBehaviour:
   levelBuildIndex: 9
   levelName: Hop 9
   gravityMultiplier: 1
-  tutorialTexts: []
-  numberOfCheckpoints: 2
-  filePath: 
+  tutorialTexts:
+  - 'This level forces you to learn how to gain speed. There are 3 ways to bunny
+    hop: <br>- traditional: use A/D after moving forward <br>- backwards: now you
+    flip A/D. Use A when looking to the right <br>- sideways: you may use W/S while
+    looking to the side of where you want to jump'
+  - 'You must gain about 15m/s and jump on the very edge to make it across this gap.
+    The quickest way to do this is to: <br>- NEVER PRESS W <br>- Hold SPACE and D,
+    while looking to the right. Just keep spinning in circles and watch your speed
+    increase'
+  previewSprite: {fileID: 21300000, guid: db2d02ff4967c31498d97f929aefe4f2, type: 3}
+  bone1Time: 40
+  bone2Time: 25
+  bone3Time: 20
+  description: 
+  workshopFilePath: 
+  levelEditorFolder: 
+  levelEditorScriptableObjectPath: 
+  levelEditorScenePath: 
+  previewImagePath: 
   fileId: 0
-  collectibles: []
-  isCompleted: 0
-  completionTime: 0
-  ghostRunPositions: []
-  ghostRunKeys: []
-  previewSprite: {fileID: 0}
+  levelSaveData:
+    collectiblesCollected: 0
+    isCompleted: 0
+    completionTime: 0
+    ghostRunPositions: []
+    ghostRunCameraRotations: []
+    ghostRunKeys: []

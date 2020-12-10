@@ -19,8 +19,9 @@ public class CollectibleHandler : MonoBehaviour
     {
         if (other.gameObject.layer == PlayerConstants.PlayerLayer)
         {
-            currentLevel.collectibles[collectibleNumber].isCollected = true;
+            currentLevel.levelSaveData.collectiblesCollected++;
             child.SetActive(false);
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Collectible);
         }
     }
 

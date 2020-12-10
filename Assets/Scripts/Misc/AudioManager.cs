@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
     public AudioClipContainer audioClips;
-    private AudioSource audiosource;
+    public AudioSource audiosource;
+    private List<AudioClip> availableClips;
 
     void Start()
     {
-        audiosource = GetComponent<AudioSource>();
+        availableClips = audioClips.audioClips.ToList();
         audiosource.loop = false;
     }
 
@@ -24,7 +26,15 @@ public class AudioManager : MonoBehaviour
 
     private AudioClip GetRandomClip()
     {
-        return audioClips.audioClips[Random.Range(0, audioClips.audioClips.Length)];
+        if(availableClips.Count == 0)
+        {
+            availableClips = audioClips.audioClips.ToList();
+        }
+
+        int clipIndex = Random.Range(0, availableClips.Count);
+        AudioClip clip = availableClips[clipIndex];
+        availableClips.RemoveAt(clipIndex);
+        return clip;
     }
 
     private void Awake()

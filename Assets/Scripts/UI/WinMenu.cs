@@ -10,12 +10,9 @@ public class WinMenu : MonoBehaviour
     public Text completionTimeText;
     public Text bestTimeText;
 
-    public ColorChangingButton retryButton;
-    public ColorChangingButton menuButton;
-    public ColorChangingButton nextButton;
-
-    public Sprite buttonHoverSprite;
-    public Sprite buttonActiveSprite;
+    public SecondaryButton retryButton;
+    public SecondaryButton menuButton;
+    public PrimaryButton nextButton;
 
     private PlayerProgress playerProgress;
 
@@ -44,7 +41,7 @@ public class WinMenu : MonoBehaviour
     {
         levelText.text = "You found Jax on: " + GameManager.GetCurrentLevel().levelName;
         completionTimeText.text = TimeUtils.GetTimeString(GameManager.Instance.currentCompletionTime);
-        bestTimeText.text = TimeUtils.GetTimeString(GameManager.GetCurrentLevel().completionTime);
+        bestTimeText.text = TimeUtils.GetTimeString(GameManager.GetCurrentLevel().levelSaveData.completionTime);
     }
 
     private void SetupButtons()
@@ -69,7 +66,7 @@ public class WinMenu : MonoBehaviour
         if (currentLevel.workshopFilePath != string.Empty || currentLevel.levelEditorScenePath != string.Empty)
         {
             Time.timeScale = 1;
-            GameManager.LoadScene(PlayerConstants.BuildSceneIndex);
+            GameManager.LoadScene(PlayerConstants.MainMenuSceneIndex);
             
         }
         else
@@ -81,14 +78,14 @@ public class WinMenu : MonoBehaviour
             if (currentLevel.levelBuildIndex >= GameManager.Instance.levelDataContainer.levels.Length)
             {
                 Cursor.visible = true;
+                GameManager.LoadScene(PlayerConstants.CreditsSceneIndex);
             }
             else
             {
                 Cursor.visible = false;
+                GameManager.NextLevel();
+                GameManager.LoadScene(currentLevel.levelBuildIndex + 1);
             }
-
-            GameManager.NextLevel();
-            GameManager.LoadScene(currentLevel.levelBuildIndex + 1);
         }
     }
 
@@ -97,6 +94,6 @@ public class WinMenu : MonoBehaviour
         gameObject.SetActive(false);
         Time.timeScale = 1;
         Cursor.visible = true;
-        GameManager.LoadScene(PlayerConstants.BuildSceneIndex);
+        GameManager.LoadScene(PlayerConstants.MainMenuSceneIndex);
     }
 }

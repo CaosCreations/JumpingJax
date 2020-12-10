@@ -51,6 +51,7 @@ public class HotKeyOptions : MonoBehaviour
 
     void ReloadUI()
     {
+        currentSliderItem = null;
         CleanScrollView();
         PopulateHotkeys();
         SetupSensitivitySlider();

@@ -12,16 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eeaf6308043c5546b611bf38302f53a, type: 3}
   m_Name: Portal3
   m_EditorClassIdentifier: 
-  levelBuildIndex: 28
+  levelBuildIndex: 18
   levelName: Portal 3
   gravityMultiplier: 1
-  tutorialTexts: []
-  numberOfCheckpoints: 2
-  filePath: 
+  tutorialTexts:
+  - 'This level is quite difficult. You must: <br>- Place a portal on the wall above
+    you, and the floor right below <br>- while you''re falling, place a portal near
+    the final checkpoint, and use your air movement to land on the platform'
+  previewSprite: {fileID: 21300000, guid: 58556cfa0a058604d844da5c56ba7742, type: 3}
+  bone1Time: 30
+  bone2Time: 18
+  bone3Time: 11
+  description: 
+  workshopFilePath: 
+  levelEditorFolder: 
+  levelEditorScriptableObjectPath: 
+  levelEditorScenePath: 
+  previewImagePath: 
   fileId: 0
-  collectibles: []
-  isCompleted: 0
-  completionTime: 0
-  ghostRunPositions: []
-  ghostRunKeys: []
-  previewSprite: {fileID: 0}
+  levelSaveData:
+    collectiblesCollected: 0
+    isCompleted: 0
+    completionTime: 0
+    ghostRunPositions: []
+    ghostRunCameraRotations: []
+    ghostRunKeys: []

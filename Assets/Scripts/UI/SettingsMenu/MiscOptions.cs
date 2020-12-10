@@ -9,22 +9,29 @@ public enum ToggleableUIElements
 
 public class MiscOptions : MonoBehaviour
 {
-    public GameObject togglePrefab;
+    // Parent transform 
     public Transform scrollViewContent;
 
+    // Toggle-related
+    public GameObject togglePrefab;
     public static event Action<ToggleableUIElements> onMiscToggle;
     public static event Action<bool> onGhostToggle;
     public static event Action<bool> onConsoleToggle;
+    private List<ToggleItem> toggleItems;
 
-    private List<ToggleItem> toggleItems; 
+    // Dropdown-related
+    public GameObject dropdownItemPrefab;
+    public SpeedSlider speedSlider;
+    private DropdownItem unitOfSpeedDropdown;
 
     void Awake()
     {
         toggleItems = new List<ToggleItem>();
-        Populate();
+        PopulateToggles();
+        SetupUnitOfSpeedDropdown();
     }
 
-    private void Populate()
+    private void PopulateToggles()
     {
         foreach (ToggleableUIElements element in Enum.GetValues(typeof(ToggleableUIElements)))
         {
@@ -32,15 +39,13 @@ public class MiscOptions : MonoBehaviour
             string name = element.ToString();
             newToggle.name = name;
             ToggleItem item = newToggle.GetComponent<ToggleItem>();
-            item.Init(name, GetOptionPreference(element), GetTooltip(element));
+            item.Init(name, GetToggleableOptionPreference(element), GetTooltip(element));
 
             if (element == ToggleableUIElements.GhostToggle)
             {
                 item.toggle.onValueChanged.AddListener((value) => onGhostToggle?.Invoke(value));
-
-
             }
-            else if(element == ToggleableUIElements.ConsoleToggle)
+            else if (element == ToggleableUIElements.ConsoleToggle)
             {
                 item.toggle.onValueChanged.AddListener((value) => onConsoleToggle?.Invoke(value));
             }
@@ -53,7 +58,18 @@ public class MiscOptions : MonoBehaviour
         }
     }
 
-    public static bool GetOptionPreference(ToggleableUIElements element)
+    private void SetupUnitOfSpeedDropdown()
+    {
+        GameObject newDropdown = Instantiate(dropdownItemPrefab, scrollViewContent);
+        unitOfSpeedDropdown = newDropdown.GetComponent<DropdownItem>();
+        unitOfSpeedDropdown.Init
+        (
+            "Unit of speed", OptionsPreferencesManager.GetUnitOfSpeed(), PlayerConstants.UnitOfSpeedOptions,
+            SpeedSlider.SetUnitOfSpeed, PlayerConstants.UnitOfSpeedTooltip
+        );
+    }
+
+    public static bool GetToggleableOptionPreference(ToggleableUIElements element)
     {
         switch (element)
         {
@@ -101,17 +117,23 @@ public class MiscOptions : MonoBehaviour
 
     public void SetDefaults()
     {
+        // Toggle defaults
         OptionsPreferencesManager.SetCrosshairToggle(OptionsPreferencesManager.defaultCrosshairToggle != 0);
         OptionsPreferencesManager.SetSpeedToggle(OptionsPreferencesManager.defaultSpeedToggle != 0);
         OptionsPreferencesManager.SetTimeToggle(OptionsPreferencesManager.defaultTimeToggle != 0);
         OptionsPreferencesManager.SetKeyPressedToggle(OptionsPreferencesManager.defaultKeyPressedToggle != 0);
         OptionsPreferencesManager.SetTutorialToggle(OptionsPreferencesManager.defaultTutorialToggle != 0); 
         OptionsPreferencesManager.SetGhostToggle(OptionsPreferencesManager.defaultGhostToggle != 0); 
-        OptionsPreferencesManager.SetConsoleToggle(OptionsPreferencesManager.defaultConsoleToggle != 1); 
+        OptionsPreferencesManager.SetConsoleToggle(OptionsPreferencesManager.defaultConsoleToggle != 1);
 
         foreach(ToggleItem item in toggleItems)
         {
             item.toggle.isOn = true;
         }
+
+        // Dropdown defaults
+        OptionsPreferencesManager.SetUnitOfSpeed(OptionsPreferencesManager.defaultUnitOfSpeed);
+        unitOfSpeedDropdown.dropdown.value = OptionsPreferencesManager.defaultUnitOfSpeed;
+        SpeedSlider.SetUnitOfSpeed(OptionsPreferencesManager.defaultUnitOfSpeed);
     }
 }

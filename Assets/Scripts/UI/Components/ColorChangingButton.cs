@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ColorChangingButton : MonoBehaviour,  IPointerDownHandler, IPointerUpHandler
+public class ColorChangingButton : MonoBehaviour,  IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Button button;
     public Text text;
@@ -16,7 +16,7 @@ public class ColorChangingButton : MonoBehaviour,  IPointerDownHandler, IPointer
     public Sprite buttonDisabledSprite;
 
     public Color defaultTextColor;
-    public Color selectedTextColor;
+    public Color activeTextColor;
 
     private bool isActive;
 
@@ -28,33 +28,18 @@ public class ColorChangingButton : MonoBehaviour,  IPointerDownHandler, IPointer
 
     public void Init(Action func)
     {
-        SpriteState spriteState = new SpriteState();
-        spriteState.highlightedSprite = buttonHoverSprite;
-        spriteState.pressedSprite = buttonActiveSprite;
-        spriteState.disabledSprite = buttonDisabledSprite;
-
-        button.transition = Selectable.Transition.SpriteSwap;
-        button.spriteState = spriteState;
-
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() => func());
     }
 
     public void Init()
     {
-        SpriteState spriteState = new SpriteState();
-        spriteState.highlightedSprite = buttonHoverSprite;
-        spriteState.pressedSprite = buttonActiveSprite;
-        spriteState.disabledSprite = buttonDisabledSprite;
-
-        button.transition = Selectable.Transition.SpriteSwap;
-        button.spriteState = spriteState;
     }
 
     public void SetActive()
     {
         button.image.sprite = buttonActiveSprite;
-        text.color = selectedTextColor;
+        text.color = activeTextColor;
     }
 
     public void ClearActive()
@@ -65,11 +50,25 @@ public class ColorChangingButton : MonoBehaviour,  IPointerDownHandler, IPointer
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        text.color = selectedTextColor;
+        button.image.sprite = buttonActiveSprite;
+        text.color = activeTextColor;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        button.image.sprite = buttonDefaultSprite;
+        text.color = defaultTextColor;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        button.image.sprite = buttonHoverSprite;
+        text.color = defaultTextColor;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        button.image.sprite = buttonDefaultSprite;
         text.color = defaultTextColor;
     }
 }
