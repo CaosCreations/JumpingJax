@@ -92,7 +92,7 @@ public class InGameUI : MonoBehaviour
         tutorialNextText.gameObject.SetActive(true);
     }
 
-    private void ToggleUI()
+    public void ToggleUI()
     {
         container.SetActive(!container.activeSelf);
     }

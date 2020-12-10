@@ -120,7 +120,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3505716282595454428}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.6252625
+  m_Size: 0.67219007
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -602,7 +602,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000091552734}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7363916234442696654
@@ -617,7 +617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
+  m_HorizontalFit: 0
   m_VerticalFit: 2
 --- !u!114 &6503101434500513283
 MonoBehaviour:
@@ -1001,7 +1001,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000015258789}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2294115066601962698
@@ -1574,6 +1574,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 720277492349670469}
+  - component: {fileID: 7566075198433378591}
   - component: {fileID: 7455283706774262508}
   - component: {fileID: 1856183688746183814}
   - component: {fileID: 5923017548181411833}
@@ -1606,6 +1607,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &7566075198433378591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9043057140729899269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85fc84244a8e00d44a18629c126adda3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7455283706774262508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1698,9 +1711,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bb442e014ccd9e34e99b944406313379, type: 2}
   - {fileID: 11400000, guid: 2c75fce2106ba094aac387513366cd3f, type: 2}
   - {fileID: 11400000, guid: 9d3f7935cab9bfa4aa71056a8fca34bc, type: 2}
-  - {fileID: 11400000, guid: 5b83f6c9d1e5f4247910843a3132b44e, type: 2}
-  - {fileID: 11400000, guid: 159895df0e018a14b8ffbddb2715554d, type: 2}
-  - {fileID: 11400000, guid: f851db98358ad7f45afc2e6ae70aa003, type: 2}
+  - {fileID: 11400000, guid: 4184de32d65440b4aa94ba0b588978c1, type: 2}
   consoleContainer: {fileID: 4217946704571495377}
   consoleText: {fileID: 8648079569687684703}
   consoleInput: {fileID: 4096795683711782032}
