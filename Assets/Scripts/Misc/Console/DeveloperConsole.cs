@@ -48,21 +48,16 @@ public class DeveloperConsole : MonoBehaviour
 
     private void Awake()
     {
-        if (FindObjectsOfType(GetType()).Length > 1)
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
         {
             Destroy(gameObject);
+            return;
         }
-
-        if (DeveloperConsole.Instance == null)
-        {
-            DeveloperConsole.Instance = this;
-        }
-        else if (DeveloperConsole.Instance == this)
-        {
-            Destroy(DeveloperConsole.Instance.gameObject);
-            DeveloperConsole.Instance = this;
-        }
-        DontDestroyOnLoad(this.gameObject);
         Init();
     }
 
@@ -241,7 +236,7 @@ public class DeveloperConsole : MonoBehaviour
 
         DateTime now = DateTime.Now;
         message = string.Format("[{0:H:mm:ss}] {1}\n", now, message);
-        File.AppendAllText(logFilePath, message);
+        //File.AppendAllText(logFilePath, message);
     }
 
     private void SetupInputField()

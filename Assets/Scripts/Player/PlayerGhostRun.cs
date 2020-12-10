@@ -57,7 +57,7 @@ public class PlayerGhostRun : MonoBehaviour
             }
         }
         else{
-            if(pastRunPositionData == null)
+            if (pastRunPositionData == null)
             {
                 Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.replayFileLocation}");
                 if (File.Exists(GameManager.Instance.replayFileLocation))
