@@ -1,6 +1,7 @@
 ﻿using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -91,5 +92,18 @@ public class SteamUtil
         dh.texture.name = url;
 
         return dh.texture;
+    }
+
+    public static string GetGhostRunFilePath(Level level)
+    {
+        string folderPath = Path.Combine(Application.persistentDataPath, "GhostRunData");
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        string filePath = Path.Combine(folderPath, $"{level.levelName}_{SteamClient.SteamId}");
+
+        return filePath;
     }
 }

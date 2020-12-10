@@ -35,16 +35,19 @@ public class LevelPreview : MonoBehaviour
     public Text tripleBoneText;
 
     private Level levelToPreview;
+    private Steamworks.Data.PublishedFileId replayFileId;
+    private List<LeaderboardEntry> leaderboardEntries;
 
     private void Start()
     {
+        replayFileId = new Steamworks.Data.PublishedFileId();
         playButton.onClick.RemoveAllListeners();
         playButton.onClick.AddListener(Play);
         backButton.onClick.RemoveAllListeners();
         backButton.onClick.AddListener(Back);
     }
 
-    void Play()
+    async void Play()
     {
         // If this is a workshop map
         if(levelToPreview.workshopFilePath != string.Empty) 
@@ -56,7 +59,11 @@ public class LevelPreview : MonoBehaviour
             GameManager.LoadScene(levelToPreview.levelBuildIndex);
         }
 
-        gameObject.SetActive(false);
+        if (replayFileId.Value != 0)
+        {
+            Debug.Log($"Downloading ghost file UGC with ID: {replayFileId}");
+            GameManager.Instance.replayFileLocation = await WorkshopManager.DownloadGhostRun(replayFileId).ConfigureAwait(false);
+        }
     }
 
     void Back()
@@ -134,6 +141,7 @@ public class LevelPreview : MonoBehaviour
 
     private void CleanScrollView()
     {
+        leaderboardEntries = new List<LeaderboardEntry>();
         foreach(Transform child in leaderboardParent)
         {
             Destroy(child.gameObject);
@@ -156,7 +164,8 @@ public class LevelPreview : MonoBehaviour
 
             GameObject entryObject = Instantiate(leaderboardItemPrefab, myLeaderboardParent);
             LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
-            leaderboardEntry.Init(entry);
+            leaderboardEntry.Init(entry, () => SetReplay(entry));
+            leaderboardEntries.Add(leaderboardEntry);
         }
         else
         {
@@ -167,7 +176,7 @@ public class LevelPreview : MonoBehaviour
     async Task PopulateLeaderboard()
     {
         // make HTTP request from steam for leaderboard data
-        if (GameManager.Instance.isSteamActive)
+        if (GameManager.Instance.shouldUseSteam)
         {
             Steamworks.Data.LeaderboardEntry[] entries;
             entries = await StatsManager.GetTopLevelLeaderboard(levelToPreview.levelName);
@@ -180,9 +189,30 @@ public class LevelPreview : MonoBehaviour
                 {
                     GameObject entryObject = Instantiate(leaderboardItemPrefab, leaderboardParent);
                     LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
-                    leaderboardEntry.Init(entry);
+                    leaderboardEntry.Init(entry, () => SetReplay(entry));
+                    leaderboardEntries.Add(leaderboardEntry);
                 }
             }
+        }
+    }
+
+    public void SetReplay(Steamworks.Data.LeaderboardEntry entry)
+    {
+        // Steam has a ulong for if an error occurred: https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCFileStreamHandleInvalid
+        if (entry.AttachedUgcId.HasValue && entry.AttachedUgcId.Value != 18446744073709551615)
+        {
+            Debug.Log($"Set replay, for ugc Id: {entry.AttachedUgcId}");
+            replayFileId = entry.AttachedUgcId.Value;
+        }
+        else
+        {
+            Debug.LogError($"No UGC Attached for: {entry.User.Name}");
+            replayFileId = new Steamworks.Data.PublishedFileId();
+        }
+
+        foreach(LeaderboardEntry leaderboardEntry in leaderboardEntries)
+        {
+            leaderboardEntry.replayButton.ClearActive();
         }
     }
 

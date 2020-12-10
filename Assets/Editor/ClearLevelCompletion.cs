@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 public class ClearLevelCompletion : EditorWindow
@@ -30,6 +31,8 @@ public class ClearLevelCompletion : EditorWindow
                 level.levelSaveData.collectiblesCollected = 0;
                 EditorUtility.SetDirty(level);
             }
+
+            Directory.Delete(Application.persistentDataPath, true);
         }
     }
 }

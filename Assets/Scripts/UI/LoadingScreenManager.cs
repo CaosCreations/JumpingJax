@@ -52,7 +52,7 @@ public class LoadingScreenManager : MonoBehaviour
     {
         if (isLoading)
         {
-            if (!currentLoadingOperation.isDone)
+            if (!currentLoadingOperation.isDone || AsyncTaskReporter.TasksAreRunning())
             {
                 timeElapsed += Time.deltaTime;
                 timeSinceSpriteChange += Time.deltaTime;

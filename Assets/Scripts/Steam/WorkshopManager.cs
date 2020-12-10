@@ -9,14 +9,6 @@ using UnityEngine.SceneManagement;
 
 public class WorkshopManager : MonoBehaviour
 {
-    void Start()
-    {
-        //
-        // Log unhandled exceptions created in Async Tasks so we know when something has gone wrong
-        //
-        TaskScheduler.UnobservedTaskException += (_, e) => { Debug.LogError($"{e.Exception}\n{e.Exception.Message}\n{e.Exception.StackTrace}"); };
-    }
-
     public static async Task<Steamworks.Data.PublishedFileId> PublishItem(Level levelToPublish)
     {
         Steamworks.Data.PublishedFileId toReturn = new Steamworks.Data.PublishedFileId();
@@ -30,6 +22,7 @@ public class WorkshopManager : MonoBehaviour
                 .WithDescription(levelToPublish.description)
                 .WithPreviewFile(levelToPublish.previewImagePath)
                 .WithContent(levelToPublish.levelEditorScenePath)
+                .WithPublicVisibility()
                 .SubmitAsync();
 
             if (result.Success)
@@ -68,6 +61,7 @@ public class WorkshopManager : MonoBehaviour
                 .WithDescription(levelToPublish.description)
                 .WithPreviewFile(levelToPublish.previewImagePath)
                 .WithContent(levelToPublish.levelEditorScenePath)
+                .WithPublicVisibility()
                 .SubmitAsync();
 
             if (result.Success)
@@ -97,12 +91,12 @@ public class WorkshopManager : MonoBehaviour
                 Debug.Log($"Found Item: {entry.Title}");
                 if (!entry.IsInstalled)
                 {
-                    await DownloadWorkshopFile(entry.Id);
+                    await DownloadUGCFile(entry.Id);
                 }
                 else if(entry.IsInstalled && entry.NeedsUpdate)
                 {
                     Debug.Log($"Updating installed item {entry.Title}");
-                    await DownloadWorkshopFile(entry.Id);
+                    await DownloadUGCFile(entry.Id);
                 }
                 toReturn.Add(entry);
             }
@@ -115,7 +109,7 @@ public class WorkshopManager : MonoBehaviour
         return toReturn;
     }
 
-    public static async Task<string> DownloadWorkshopFile(Steamworks.Data.PublishedFileId id)
+    public static async Task<string> DownloadUGCFile(Steamworks.Data.PublishedFileId id)
     {
         var result = await SteamUGC.QueryFileAsync(id);
         if (!result.HasValue)
@@ -151,14 +145,70 @@ public class WorkshopManager : MonoBehaviour
         Debug.Log($"Installed to {file.Directory}");
 
         var dir = new DirectoryInfo(file.Directory);
+        return dir.GetFiles().FirstOrDefault().FullName;
+    }
 
-        string fileToReturn = "";
-        foreach (var dirFiles in dir.EnumerateFiles())
+
+    public static async Task<string> DownloadGhostRun(Steamworks.Data.PublishedFileId id)
+    {
+        AsyncTaskReporter.Instance.ghostDownloadRunning = true;
+        var result = await SteamUGC.QueryFileAsync(id);
+        if (!result.HasValue)
         {
-            Debug.Log($"{dirFiles.FullName}");
-            fileToReturn = dirFiles.FullName;
+            Debug.LogError($"ghost run doesn't exist: {id}");
+            AsyncTaskReporter.Instance.ghostDownloadRunning = false;
+            return string.Empty;
+        }
+        Steamworks.Ugc.Item file = result.Value;
+
+        if(file.IsInstalled && !file.NeedsUpdate)
+        {
+            Debug.Log("Ghost run file installed and doesn't need update");
+            DirectoryInfo directoryInfo = new DirectoryInfo(file.Directory);
+            try
+            {
+                // If I manually clear ghost run data, I have to check that it still exists, otherwise re-download it
+                if (Directory.Exists(file.Directory))
+                {
+                    AsyncTaskReporter.Instance.ghostDownloadRunning = false;
+                    return directoryInfo.GetFiles().FirstOrDefault().FullName;
+                }
+            }
+            catch
+            {
+                Debug.LogError("Ghost run data deleted by user");
+            }
         }
 
-        return fileToReturn;
+        Debug.Log($"Found Ghost run File: {file.Title}..");
+
+        if (!await file.DownloadAsync())
+        {
+            Debug.Log($"Download ghost run file with id: {id.Value} doesn't exist");
+            AsyncTaskReporter.Instance.ghostDownloadRunning = false;
+            return string.Empty;
+        }
+
+        Debug.Log($"Starting download for ghost run: {file.Title}..");
+
+        while (file.NeedsUpdate)
+        {
+            await Task.Delay(1000);
+
+            Debug.Log($"Downloading ghost run Update... ({file.DownloadAmount:0.000}) [{file.DownloadBytesDownloaded}/{file.DownloadBytesTotal}]");
+        }
+
+        while (!file.IsInstalled)
+        {
+            await Task.Delay(1000);
+
+            Debug.Log($"Installing ghost run... {file.Title}");
+        }
+
+        Debug.Log($"Installed ghost run to {file.Directory}");
+
+        var dir = new DirectoryInfo(file.Directory);
+        AsyncTaskReporter.Instance.ghostDownloadRunning = false;
+        return dir.GetFiles().FirstOrDefault().FullName;
     }
 }

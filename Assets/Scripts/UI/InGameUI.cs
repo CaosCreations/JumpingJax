@@ -131,6 +131,6 @@ public class InGameUI : MonoBehaviour
         speed.gameObject.SetActive(OptionsPreferencesManager.GetSpeedToggle());
         timeContainer.gameObject.SetActive(OptionsPreferencesManager.GetTimeToggle());
         keyPressed.SetActive(OptionsPreferencesManager.GetKeyPressedToggle());
-        tutorialPane.SetActive(OptionsPreferencesManager.GetTutorialToggle());
+        tutorialPane.SetActive(OptionsPreferencesManager.GetTutorialToggle() && tutorialTexts.Length > 0);
     }
 }
