@@ -99,7 +99,7 @@ public class Level : ScriptableObject
     public void Load()
     {
         string folderPath = Path.Combine(Application.persistentDataPath, levelName);
-        string filePath = Application.persistentDataPath + $"/{levelName}.save";
+        string filePath = Path.Combine(folderPath, $"{levelName}.save");
         if (File.Exists(filePath))
         {
             string fileContents = File.ReadAllText(filePath);
