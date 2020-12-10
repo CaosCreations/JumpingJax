@@ -46,14 +46,11 @@ public class StatsManager : MonoBehaviour
             Debug.Log("Adding first entry to leaderboard");
             await CreateNewGhostRun(leaderboard, level);
         }
-
         if (topEntries.Length < 10) 
         {
             Debug.Log($"Adding new ghost run for entry number {topEntries.Length}");
             await CreateNewGhostRun(leaderboard, level);
-        }
-
-        if(level.levelSaveData.completionTime < topEntries[9].Score)
+        }else if(level.levelSaveData.completionTime < topEntries[9].Score)
         {
             Debug.Log($"Adding ghost run, replacing top 10 score");
             await CreateNewGhostRun(leaderboard, level);
