@@ -61,6 +61,7 @@ public class PlayerGhostRun : MonoBehaviour
                 Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.replayFileLocation}");
                 if (File.Exists(GameManager.Instance.replayFileLocation))
                 {
+                    Debug.Log("Found leaderboard replay file");
                     string replayLevelData = File.ReadAllText(GameManager.Instance.replayFileLocation);
                     Level replayLevel = ScriptableObject.CreateInstance<Level>();
                     replayLevel.levelSaveData = new PersistentLevelDataModel();

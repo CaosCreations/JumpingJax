@@ -207,6 +207,7 @@ public class LevelPreview : MonoBehaviour
         else
         {
             Debug.LogError($"No UGC Attached for: {entry.User.Name}");
+            replayFileId = new Steamworks.Data.PublishedFileId();
         }
 
         foreach(LeaderboardEntry leaderboardEntry in leaderboardEntries)

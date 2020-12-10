@@ -65,7 +65,7 @@ public class StatsManager : MonoBehaviour
         string fileTitle = $"ghost_{level.levelName}";
 
         // Create ghost run ugc item
-        var newFileResult = await Steamworks.Ugc.Editor.NewCommunityFile
+        var newFileResult = await Steamworks.Ugc.Editor.NewGameManagedFile
             .WithTitle(fileTitle)
             .WithContent(Path.Combine(Application.persistentDataPath, level.levelName))
             .WithDescription("no description")
@@ -73,6 +73,11 @@ public class StatsManager : MonoBehaviour
             .WithPublicVisibility()
             .SubmitAsync();
 
+        if (newFileResult.NeedsWorkshopAgreement)
+        {
+            Debug.Log("When creating ghost run, player needs workshop agreement");
+            SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{newFileResult.FileId}");
+        }
 
         // Attach UGC to leaderboard item
         if (newFileResult.Success)
@@ -80,7 +85,6 @@ public class StatsManager : MonoBehaviour
             Debug.Log($"Uploaded new ghost run with \ntitle: {fileTitle} \nfileId: {newFileResult.FileId}");
             var attachUGCresult = await leaderboard.AttachUgc(newFileResult.FileId);
             Debug.Log($"Attach ghost UGC result: {attachUGCresult}");
-            SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{newFileResult.FileId}");
         }
         else
         {
