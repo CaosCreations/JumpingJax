@@ -21,6 +21,12 @@ public class LevelEditor : MonoBehaviour
     public Button loadButton;
     public Button publishButton;
 
+    public bool sCheckFlag;
+    public bool eCheckFlag;
+    public bool nameFlag;
+    public bool descFlag;
+    public bool imgFlag;
+
     private List<Level> playerCreatedLevels;
     private List<LevelEditorButton> levelEditorButtons;
 
@@ -166,6 +172,9 @@ public class LevelEditor : MonoBehaviour
 
     private async void Publish()
     {
+        publishButton.interactable = false;
+        Debug.Log("Process has begun");
+
         if (publishCheck()) { } //after the publish check is all good then we publish
 
         if (selectedLevel.level.fileId == 0)
@@ -181,6 +190,9 @@ public class LevelEditor : MonoBehaviour
         {
             await WorkshopManager.UpdateItem(selectedLevel.level);
         }
+
+        publishButton.interactable = true;
+        Debug.Log("Process has ended");
     }
 
     private void LevelButtonClicked(LevelEditorButton button)
@@ -213,17 +225,32 @@ public class LevelEditor : MonoBehaviour
     private bool publishCheck()
     {
         //if theres no start checkpoint
-        //debug.log("Level must have a starting checkpoint");
+        if (sCheckFlag)
+        {
+            Debug.Log("Level must have a starting checkpoint");
+        }
         //if theres no end checkpoint
-        //debug.log("Level must have an end checkpoint");
+        if (eCheckFlag)
+        {
+            Debug.Log("Level must have an end checkpoint");
+        }
         //if theres no level name
-        //debug.log("Level must have a name");
+        if (nameFlag)
+        {
+            Debug.Log("Level must have a name");
+        }
         //if theres no level description
-        //debug.log("Level must have a description");
+        if (descFlag)
+        {
+            Debug.Log("Level must have a description");
+        }
         //if theres no picture (I don't know about this one)
-        //debug.log("Level must have an image");
+        if (imgFlag)
+        {
+            Debug.Log("Level must have an image");
+        }
 
-        //if(!sCheckFlag && !eCheckFlag && !nameFlag && !descFlag && !imgFlag)
-        return true;
+        if (!sCheckFlag && !eCheckFlag && !nameFlag && !descFlag && !imgFlag) { return true; }
+        else { return false; }
     }
 }
