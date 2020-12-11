@@ -70,7 +70,7 @@ public class KeyPressed : MonoBehaviour
     private void GetPressed()
     {
         // if the level isn't completed, just show the currently pressed buttons
-        if (!currentLevel.levelSaveData.isCompleted)
+        if (!currentLevel.levelSaveData.isCompleted && string.IsNullOrEmpty(GameManager.Instance.replayFileLocation))
         {
             isForwardPressed = InputManager.GetKey(PlayerConstants.Forward);
             isLeftPressed = InputManager.GetKey(PlayerConstants.Left);

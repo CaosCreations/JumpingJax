@@ -19,11 +19,13 @@ public class PrimaryButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public Color disabledTextColor;
     public Color activeTextColor;
 
+    private bool isActive;
 
     private void Awake()
     {
         button = GetComponent<Button>();
         text = GetComponentInChildren<Text>();
+        isActive = false;
     }
 
     public void Init(Action func)
@@ -43,35 +45,49 @@ public class PrimaryButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     {
         button.image.sprite = buttonActiveSprite;
         text.color = activeTextColor;
+        isActive = true;
     }
 
     public void ClearActive()
     {
         button.image.sprite = buttonDefaultSprite;
         text.color = defaultTextColor;
+        isActive = false;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        button.image.sprite = buttonActiveSprite;
-        text.color = activeTextColor;
+        if (!isActive)
+        {
+            button.image.sprite = buttonActiveSprite;
+            text.color = activeTextColor;
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        button.image.sprite = buttonDefaultSprite;
-        text.color = defaultTextColor;
+        if (!isActive)
+        {
+            button.image.sprite = buttonDefaultSprite;
+            text.color = defaultTextColor;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        button.image.sprite = buttonHoverSprite;
-        text.color = defaultTextColor;
+        if (!isActive)
+        {
+            button.image.sprite = buttonHoverSprite;
+            text.color = defaultTextColor;
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        button.image.sprite = buttonDefaultSprite;
-        text.color = defaultTextColor;
+        if (!isActive)
+        {
+            button.image.sprite = buttonDefaultSprite;
+            text.color = defaultTextColor;
+        }
     }
 }

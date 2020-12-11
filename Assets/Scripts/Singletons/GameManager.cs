@@ -1,6 +1,7 @@
 ﻿using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,35 +16,37 @@ public class GameManager : MonoBehaviour
     public Level currentLevel;
     public float currentCompletionTime;
     public bool didWinCurrentLevel;
-    public bool isSteamActive;
+    public bool shouldUseSteam;
+    public string replayFileLocation;
 
     private bool shiftPressed;
     private bool tabPressed;
 
     void Awake()
     {
-        if (FindObjectsOfType(GetType()).Length > 1)
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
         {
             Destroy(gameObject);
+            return;
         }
 
-        if (GameManager.Instance == null)
-        {
-            GameManager.Instance = this;
-        }
-        else if (GameManager.Instance == this)
-        {
-            Destroy(GameManager.Instance.gameObject);
-            GameManager.Instance = this;
-        }
-        DontDestroyOnLoad(this.gameObject);
-        if (GameManager.Instance.isSteamActive == true)
+        if (GameManager.Instance.shouldUseSteam == true)
         {
             StartSteam();
         }
 
         Init();
         LoadLevelData();
+
+        //
+        // Log unhandled exceptions created in Async Tasks so we know when something has gone wrong
+        //
+        TaskScheduler.UnobservedTaskException += (_, e) => { Debug.LogError($"{e.Exception}\n{e.Exception.Message}\n{e.Exception.StackTrace}"); };
     }
 
     private void StartSteam()
@@ -53,7 +56,7 @@ public class GameManager : MonoBehaviour
         {
             if (!SteamClient.IsValid)
             {
-                SteamClient.Init(AppId, true);
+                SteamClient.Init(AppId, false);
             }
         }
         catch (System.Exception e)
@@ -73,6 +76,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        SteamClient.RunCallbacks();
+
         if (!didWinCurrentLevel)
         {
             currentCompletionTime += Time.deltaTime;
@@ -143,6 +148,7 @@ public class GameManager : MonoBehaviour
 
         if (scene.buildIndex == PlayerConstants.MainMenuSceneIndex || scene.buildIndex == PlayerConstants.CreditsSceneIndex)
         {
+            replayFileLocation = string.Empty;
             return;
         }
 
@@ -219,19 +225,19 @@ public class GameManager : MonoBehaviour
         if (completionTime < levelToUpdate.levelSaveData.completionTime || levelToUpdate.levelSaveData.completionTime == 0)
         {
             levelToUpdate.levelSaveData.completionTime = completionTime;
+            levelToUpdate.Save();
 
             if (ShouldUseSteam())
             {
                 await StatsManager.SaveLevelCompletion(levelToUpdate);
             }
 
-            levelToUpdate.Save();
         }
     }
 
     public static bool ShouldUseSteam()
     {
-        return GameManager.Instance.isSteamActive == true && SteamClient.IsValid;
+        return GameManager.Instance.shouldUseSteam == true && SteamClient.IsValid;
     }
 
     public void CheckSteamOverlay()

@@ -84,28 +84,64 @@ public class Level : ScriptableObject
     public void Save()
     {
         Debug.Log($"Saving level {levelName}");
-        string filePath = Application.persistentDataPath + $"/{levelName}.save";
+        string folderPath = Path.Combine(Application.persistentDataPath, levelName);
+
+        if (!Directory.Exists(folderPath))
+        {
+            try
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"{e.Message}\n{e.StackTrace}");
+            }
+        }
+
+        string filePath = Path.Combine(folderPath, $"{levelName}.save");
         string fileContents = JsonUtility.ToJson(levelSaveData);
-        File.WriteAllText(filePath, fileContents);
+        try
+        {
+            File.WriteAllText(filePath, fileContents);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"{e.Message}\n{e.StackTrace}");
+        }
     }
 
     public void Load()
     {
-        Debug.Log($"Loading level {levelName}");
-        string filePath = Application.persistentDataPath + $"/{levelName}.save";
+        string folderPath = Path.Combine(Application.persistentDataPath, levelName);
+        string filePath = Path.Combine(folderPath, $"{levelName}.save");
         if (File.Exists(filePath))
         {
-            string fileContents = File.ReadAllText(filePath);
-            levelSaveData = JsonUtility.FromJson<PersistentLevelDataModel>(fileContents);
+            try
+            {
+                string fileContents = File.ReadAllText(filePath);
+                levelSaveData = JsonUtility.FromJson<PersistentLevelDataModel>(fileContents);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"{e.Message}\n{e.StackTrace}");
+            }
         }
     }
 
     public void Clear()
     {
-        string filePath = Application.persistentDataPath + $"/{levelName}.save";
+        string folderPath = Path.Combine(Application.persistentDataPath, levelName);
+        string filePath = Path.Combine(folderPath, $"/{levelName}.save");
         if (File.Exists(filePath))
         {
-            File.Delete(filePath);
+            try
+            {
+                File.Delete(filePath);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"{e.Message}\n{e.StackTrace}");
+            }
         }
     }
 

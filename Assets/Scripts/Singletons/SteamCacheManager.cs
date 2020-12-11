@@ -12,21 +12,17 @@ public class SteamCacheManager : MonoBehaviour
 
     void Awake()
     {
-        if (FindObjectsOfType(GetType()).Length > 1)
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
         {
             Destroy(gameObject);
+            return;
         }
 
-        if (SteamCacheManager.Instance == null)
-        {
-            SteamCacheManager.Instance = this;
-        }
-        else if (SteamCacheManager.Instance == this)
-        {
-            Destroy(SteamCacheManager.Instance.gameObject);
-            SteamCacheManager.Instance = this;
-        }
-        DontDestroyOnLoad(this.gameObject);
         Init();
     }
 
