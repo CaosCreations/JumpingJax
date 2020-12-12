@@ -73,7 +73,7 @@ public class InGameUI : MonoBehaviour
         if (tutorialTextIndex < tutorialTexts.Length)
         {
             tutorialPane.SetActive(true);
-            tutorialText.text = tutorialTexts[tutorialTextIndex].Replace("<br>", "\n");
+            tutorialText.text = tutorialTexts[tutorialTextIndex].InsertCustomHotKeys().InsertNewLines();
             Invoke("UpdateParentLayoutGroup", 0.1f);
             tutorialTextIndex++;
         }
