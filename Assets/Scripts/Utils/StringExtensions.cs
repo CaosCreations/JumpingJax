@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 public static class StringExtensions 
 { 
@@ -15,7 +13,6 @@ public static class StringExtensions
         {
             str = str.Replace(kvp.Key, kvp.Value);
         }
-        Debug.Log("New string: " + str); 
         return str; 
     }
 }

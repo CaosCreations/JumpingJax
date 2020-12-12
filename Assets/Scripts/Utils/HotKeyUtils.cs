@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class HotKeyUtils : MonoBehaviour
@@ -16,11 +15,6 @@ public class HotKeyUtils : MonoBehaviour
                 mismatches.Add(defaults[kvp.Key].ToString(), kvp.Value.ToString());
             }
         }
-        foreach (var kvp in mismatches)
-        {
-            Debug.Log($"Mismatches:\nKey: {kvp.Key}\nValue: {kvp.Value}");
-        }
-
         return mismatches;
     }
 }
