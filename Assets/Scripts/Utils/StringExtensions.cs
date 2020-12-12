@@ -11,7 +11,7 @@ public static class StringExtensions
     {
         foreach (KeyValuePair<string, string> kvp in HotKeyUtils.GetHotKeyMismatches())
         {
-            str = str.Replace(kvp.Key, kvp.Value);
+            str = str.Replace($"[{kvp.Key}]", $"[{kvp.Value}]");
         }
         return str; 
     }
