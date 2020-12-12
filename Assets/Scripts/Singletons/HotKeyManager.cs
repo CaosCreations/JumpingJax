@@ -34,6 +34,11 @@ public class HotKeyManager : MonoBehaviour {
     {
         return keys;
     }
+	
+	public Dictionary<String, KeyCode> GetDefaultHotKeys() 
+	{
+		return defaults;
+	}
 
     public Dictionary<string, string> GetTooltips()
     {
