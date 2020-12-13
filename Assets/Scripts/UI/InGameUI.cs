@@ -38,7 +38,7 @@ public class InGameUI : MonoBehaviour
 
         SetStartingValues();
         MiscOptions.onMiscToggle += ToggleIndividual;
-        HotKeyManager.Instance.onHotKeySet += () => tutorialTexts[tutorialTextIndex].InsertCustomHotKeys();
+        HotKeyManager.Instance.onHotKeySet += () => tutorialText.text = tutorialsText[tutorialTextIndex].InsertCustomHotKeys();
     }
 
     void Update()
