@@ -21,7 +21,7 @@ public static class StringExtensions
         foreach (Match match in matches.Cast<Match>().Reverse())
         {
             string key = defaultKeys.FirstOrDefault(x => x.Value.ToString() == match.Value).Key;
-            if (currentKeys[key].ToString() != match.Value)
+            if (key != null && !currentKeys[key].ToString().Equals(match.Value, System.StringComparison.InvariantCultureIgnoreCase))
             {
                 self = self.Remove(match.Index, match.Length).Insert(match.Index, currentKeys[key].ToString());
             }

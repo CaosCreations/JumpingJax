@@ -9,7 +9,8 @@ public class HotKeyManager : MonoBehaviour {
     private Dictionary<string, string> tooltips = new Dictionary<string, string>();
 
     public static HotKeyManager Instance;
-    
+
+    public event Action onHotKeySet;   
 
     private void Awake()
     {
@@ -48,6 +49,7 @@ public class HotKeyManager : MonoBehaviour {
     {
         keys[key] = keyCode;
         PlayerPrefs.SetString(key, keyCode.ToString());
+        onHotKeySet?.Invoke();
     }
 
     public KeyCode GetKeyFor(string action)
