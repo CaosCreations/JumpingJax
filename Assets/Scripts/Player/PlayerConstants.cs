@@ -129,6 +129,8 @@ public static class PlayerConstants
         "Miles per hour"
     };
 
+    public static string HotKeyPattern = "(?<=\\[)[^\\]]*(?=\\])";
+
 
     // Non-changeable hotkeys
     public static string MouseX = "Mouse X";

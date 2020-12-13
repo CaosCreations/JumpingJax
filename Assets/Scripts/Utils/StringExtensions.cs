@@ -1,18 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 
 public static class StringExtensions 
 { 
-    public static string InsertNewLines(this string str)
+    public static string InsertNewLines(this string self)
     {
-        return str.Replace("<br>", "\n");
+        return self.Replace("<br>", "\n");
     }
 
-    public static string InsertCustomHotKeys(this string str)
+    public static string InsertCustomHotKeys(this string self)
     {
-        foreach (KeyValuePair<string, string> kvp in HotKeyUtils.GetHotKeyMismatches())
+        MatchCollection matches = new Regex(PlayerConstants.HotKeyPattern).Matches(self);
+        if (matches.Count <= 0)
         {
-            str = str.Replace($"[{kvp.Key}]", $"[{kvp.Value}]");
+            return self; 
         }
-        return str; 
+        var currentKeys = HotKeyManager.Instance.GetHotKeys(); 
+        var defaultKeys = HotKeyManager.Instance.GetDefaultHotKeys();
+
+        foreach (Match match in matches.Cast<Match>().Reverse())
+        {
+            string key = defaultKeys.FirstOrDefault(x => x.Value.ToString() == match.Value).Key;
+            if (currentKeys[key].ToString() != match.Value)
+            {
+                self = self.Remove(match.Index, match.Length).Insert(match.Index, currentKeys[key].ToString());
+            }
+        }
+        return self; 
     }
 }
