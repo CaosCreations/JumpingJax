@@ -92,6 +92,10 @@ public class PlayerGhostRun : MonoBehaviour
             ghostRunner = Instantiate(ghostRunnerPrefab);
             ghostRunner.name = "ghost runner";
 
+            ghostCamera = ghostRunner.AddComponent<Camera>();
+            GetComponent<PlayerMovement>().ghostCamera = ghostCamera;
+            ghostCamera.enabled = false;
+
             ghostRunner.layer = PlayerConstants.GhostLayer;
             Transform[] allChildren = ghostRunner.GetComponentsInChildren<Transform>();
             foreach (Transform child in allChildren)
@@ -204,17 +208,8 @@ public class PlayerGhostRun : MonoBehaviour
 
     private void ToggleGhostCamera()
     {
-        //ghostCamera.enabled = !ghostCamera.enabled;
-        //playerCamera.enabled = !playerCamera.enabled;
-        if (playerCamera.transform.parent == transform)
-        {
-            playerCamera.transform.parent = ghostRunner.transform;
-        }
-        else
-        {
-            playerCamera.transform.parent = transform;
-        }
-        gameObject.SetActive(gameObject.activeSelf);
+        ghostCamera.enabled = !ghostCamera.enabled;
+        playerCamera.enabled = !playerCamera.enabled;
     }
 
     private bool ShouldGhostBeActive()

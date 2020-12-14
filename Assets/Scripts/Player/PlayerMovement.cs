@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     private BoxCollider myCollider;
     private CameraMove cameraMove;
+    public Camera ghostCamera;
     private Level currentLevel;
 
     private bool noClip;
@@ -44,6 +45,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (ghostCamera.enabled)
+        {
+            return;
+        }
+
         if (noClip)
         {
             NoClipMove();

@@ -253,5 +253,4 @@ public class OptionsPreferencesManager
     {
         PlayerPrefs.SetInt(firstPersonGhostKey, isOn ? 1 : 0);
     }
-
 }
