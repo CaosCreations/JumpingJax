@@ -9,7 +9,8 @@ public class PlayerGhostRun : MonoBehaviour
 
     public GameObject ghostRunnerPrefab;
 	
-    private Camera playerCamera;  
+    private Camera playerCamera;
+    public Camera ghostCamera;
     public GameObject ghostRunner;
 
     private List<Vector3> currentRunPositionData;
@@ -107,6 +108,12 @@ public class PlayerGhostRun : MonoBehaviour
             return;
         }
 
+        if (InputManager.GetKeyDown(PlayerConstants.FirstPersonGhost))
+        {
+            Debug.Log("FPG");
+            ToggleGhostCamera();
+        }
+
         RecordCurrentRunData();
         UpdateGhost();
     }
@@ -193,6 +200,21 @@ public class PlayerGhostRun : MonoBehaviour
     {
         OptionsPreferencesManager.SetGhostToggle(isOn);
         ghostRunner.SetActive(isOn && ShouldGhostBeActive());
+    }
+
+    private void ToggleGhostCamera()
+    {
+        //ghostCamera.enabled = !ghostCamera.enabled;
+        //playerCamera.enabled = !playerCamera.enabled;
+        if (playerCamera.transform.parent == transform)
+        {
+            playerCamera.transform.parent = ghostRunner.transform;
+        }
+        else
+        {
+            playerCamera.transform.parent = transform;
+        }
+        gameObject.SetActive(gameObject.activeSelf);
     }
 
     private bool ShouldGhostBeActive()

@@ -68,6 +68,7 @@ public class HotKeyManager : MonoBehaviour {
         LoadSavedKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault);
         LoadSavedKey(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseDefault);
         LoadSavedKey(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseDefault);
+        LoadSavedKey(PlayerConstants.FirstPersonGhost, PlayerConstants.FirstPersonGhostDefault);
     }
 
     public void LoadSavedKey(string keyName, string defaultValue)

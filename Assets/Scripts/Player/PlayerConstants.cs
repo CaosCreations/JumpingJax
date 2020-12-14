@@ -105,7 +105,7 @@ public static class PlayerConstants
     public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
 
     public static string FirstPersonGhost = "First Person Ghost";
-    public static string FirstPersonGhostDefault = "First Person Ghost";
+    public static string FirstPersonGhostDefault = "G";
     public static string FirstPersonGhostTooltip = "First person ghost perspective";
 
     public static string SensitivityTooltip = "Mouse Sensitivity.";
