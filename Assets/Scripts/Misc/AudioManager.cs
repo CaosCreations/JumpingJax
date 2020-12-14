@@ -39,6 +39,6 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(transform.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 }

@@ -51,7 +51,7 @@ public class DeveloperConsole : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -63,6 +63,12 @@ public class DeveloperConsole : MonoBehaviour
 
     private void Init()
     {
+        if (ConsoleConstants.shouldOutputDebugLogs)
+        {
+            Application.logMessageReceived += HandleLog;
+        }
+
+        Debug.Log("Initializing Dev Console");
         consoleContainer.SetActive(false);
         autoComplete = GetComponentInChildren<AutoComplete>();
         fileLogger = GetComponent<FileLogger>();
@@ -72,11 +78,6 @@ public class DeveloperConsole : MonoBehaviour
         isEnabledInOptions = OptionsPreferencesManager.GetConsoleToggle();
 
         MiscOptions.onConsoleToggle += ToggleConsoleEnabled;
-
-        if (ConsoleConstants.shouldOutputDebugLogs)
-        {
-            Application.logMessageReceived += HandleLog;
-        }
 
         logFilePath = Path.Combine(Application.persistentDataPath, ConsoleConstants.fileLoggerFileName);
         // Delete large log files
@@ -236,6 +237,18 @@ public class DeveloperConsole : MonoBehaviour
 
         DateTime now = DateTime.Now;
         message = string.Format("[{0:H:mm:ss}] {1}\n", now, message);
+
+        FileInfo fileInfo = new FileInfo(logFilePath);
+
+        if (!fileInfo.Exists)
+        {
+            fileInfo.Create();
+        }
+
+        using(StreamWriter writer = fileInfo.AppendText())
+        {
+            writer.WriteLine(message);
+        }
         //File.AppendAllText(logFilePath, message);
     }
 
