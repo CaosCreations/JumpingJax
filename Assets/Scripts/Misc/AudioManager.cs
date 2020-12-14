@@ -52,6 +52,4 @@ public class AudioManager : MonoBehaviour
         availableClips.RemoveAt(clipIndex);
         return clip;
     }
-
-    
 }

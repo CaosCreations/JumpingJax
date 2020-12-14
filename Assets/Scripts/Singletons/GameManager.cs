@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
         Scene scene = SceneManager.GetActiveScene();
-        Debug.Log($"Scene loaded: {scene.name} with index {scene.buildIndex}");
+        Debug.Log($"GameManager.Init(): Scene loaded: {scene.name} with index {scene.buildIndex}");
         currentCompletionTime = 0;
         didWinCurrentLevel = false;
 
@@ -229,9 +229,10 @@ public class GameManager : MonoBehaviour
 
             if (ShouldUseSteam())
             {
+                Debug.Log("saving level completion to Steam");
                 await StatsManager.SaveLevelCompletion(levelToUpdate);
+                Debug.Log("finished saving level completion to Steam");
             }
-
         }
     }
 

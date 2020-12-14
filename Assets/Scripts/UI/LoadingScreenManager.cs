@@ -97,10 +97,13 @@ public class LoadingScreenManager : MonoBehaviour
         {
             levelNameText.text = levelName;
         }
+
+        Debug.Log($"Showing Loading Screen for {levelNameText.text}");
     }
 
     public void Hide()
     {
+        Debug.Log($"Hiding Loading Screen for {levelNameText.text}");
         loadScreenContainer.SetActive(false);
 
         currentLoadingOperation = null;
