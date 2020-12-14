@@ -104,6 +104,10 @@ public static class PlayerConstants
     public static string LevelEditorSpeedDecreaseDefault = "KeypadMinus";
     public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
 
+    public static string FirstPersonGhost = "First Person Ghost";
+    public static string FirstPersonGhostDefault = "First Person Ghost";
+    public static string FirstPersonGhostTooltip = "First person ghost perspective";
+
     public static string SensitivityTooltip = "Mouse Sensitivity.";
     public static string MusicVolumeTooltip = "Music Volume.";
     public static string SoundEffectVolumeTooltip = "Sound Effect Volume.";
