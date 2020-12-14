@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 public static class StringExtensions 
 { 
@@ -27,5 +28,11 @@ public static class StringExtensions
             }
         }
         return self; 
+    }
+
+    public static string InsertSpecificHotKey(this string self, KeyCode oldKeyCode, KeyCode newKeyCode)
+    {
+        string pattern = PlayerConstants.HotKeyPattern.Replace("*", oldKeyCode.ToString());
+        return Regex.Replace(self, pattern, newKeyCode.ToString());
     }
 }

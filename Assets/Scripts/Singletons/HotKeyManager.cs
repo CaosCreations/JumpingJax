@@ -10,7 +10,7 @@ public class HotKeyManager : MonoBehaviour {
 
     public static HotKeyManager Instance;
 
-    public event Action onHotKeySet;   
+    public event Action<KeyCode, KeyCode> onHotKeySet;   
 
     private void Awake()
     {
@@ -47,9 +47,11 @@ public class HotKeyManager : MonoBehaviour {
 
     public void SetButtonForKey(string key, KeyCode keyCode)
     {
+
+        KeyCode oldKeyCode = keys[key];
         keys[key] = keyCode;
+        onHotKeySet?.Invoke(oldKeyCode, keys[key]);
         PlayerPrefs.SetString(key, keyCode.ToString());
-        onHotKeySet?.Invoke();
     }
 
     public KeyCode GetKeyFor(string action)
