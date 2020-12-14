@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,7 @@ using UnityEngine.UI;
 public class DeveloperConsole : MonoBehaviour
 {
     public static DeveloperConsole Instance { get; private set; }
+    private static ReaderWriterLockSlim _readWriteLock = new ReaderWriterLockSlim();
 
     [SerializeField] public ConsoleCommand[] commands;
 
@@ -34,7 +36,6 @@ public class DeveloperConsole : MonoBehaviour
 
     // Set at runtime
     private AutoComplete autoComplete;
-    private FileLogger fileLogger;
 
     private List<string> cachedCommands;
     private int currentCacheIndex;
@@ -67,11 +68,11 @@ public class DeveloperConsole : MonoBehaviour
         {
             Application.logMessageReceived += HandleLog;
         }
+        logFilePath = Path.Combine(Application.persistentDataPath, ConsoleConstants.fileLoggerFileName);
 
         Debug.Log("Initializing Dev Console");
         consoleContainer.SetActive(false);
         autoComplete = GetComponentInChildren<AutoComplete>();
-        fileLogger = GetComponent<FileLogger>();
         cachedCommands = new List<string>();
         focusSelection = FocusSelection.Cache;
         pauseMenu = GameObject.FindObjectOfType<PauseMenu>();
@@ -79,16 +80,22 @@ public class DeveloperConsole : MonoBehaviour
 
         MiscOptions.onConsoleToggle += ToggleConsoleEnabled;
 
-        logFilePath = Path.Combine(Application.persistentDataPath, ConsoleConstants.fileLoggerFileName);
+
         // Delete large log files
-        if (File.Exists(logFilePath))
-        {
-            FileInfo fileInfo = new FileInfo(logFilePath);
-            if (fileInfo.Length > ConsoleConstants.MaxLogSizeInBytes)
-            {
-                File.Delete(logFilePath);
-            }
-        }
+        //if (File.Exists(logFilePath))
+        //{
+        //    FileInfo fileInfo = new FileInfo(logFilePath);
+        //    if (fileInfo.Length > ConsoleConstants.MaxLogSizeInBytes)
+        //    {
+        //        try
+        //        {
+        //            File.Delete(logFilePath);
+        //        }catch(Exception e)
+        //        {
+        //            Debug.LogError($"DeveloperConsole couldn't delete file: {e.Message}\n{e.StackTrace}");
+        //        }
+        //    }
+        //}
     }
 
     public void ToggleConsoleEnabled(bool isEnabled)
@@ -100,7 +107,6 @@ public class DeveloperConsole : MonoBehaviour
 
     private void HandleLog(string logMessage, string stackTrace, LogType type)
     {
-
         string color = "white";
         switch (type)
         {
@@ -238,18 +244,21 @@ public class DeveloperConsole : MonoBehaviour
         DateTime now = DateTime.Now;
         message = string.Format("[{0:H:mm:ss}] {1}\n", now, message);
 
-        FileInfo fileInfo = new FileInfo(logFilePath);
-
-        if (!fileInfo.Exists)
+        _readWriteLock.EnterWriteLock();
+        try
         {
-            fileInfo.Create();
+            // Append text to the file
+            using (StreamWriter sw = File.AppendText(logFilePath))
+            {
+                sw.WriteLine(message);
+                sw.Close();
+            }
         }
-
-        using(StreamWriter writer = fileInfo.AppendText())
+        finally
         {
-            writer.WriteLine(message);
+            // Release lock
+            _readWriteLock.ExitWriteLock();
         }
-        //File.AppendAllText(logFilePath, message);
     }
 
     private void SetupInputField()
