@@ -108,10 +108,12 @@ public class Level : ScriptableObject
         {
             Debug.LogError($"{e.Message}\n{e.StackTrace}");
         }
+        Debug.Log("Finished Saving level");
     }
 
     public void Load()
     {
+        Debug.Log("loading level");
         string folderPath = Path.Combine(Application.persistentDataPath, levelName);
         string filePath = Path.Combine(folderPath, $"{levelName}.save");
         if (File.Exists(filePath))
@@ -126,6 +128,7 @@ public class Level : ScriptableObject
                 Debug.LogError($"{e.Message}\n{e.StackTrace}");
             }
         }
+        Debug.Log("Finished loading level");
     }
 
     public void Clear()

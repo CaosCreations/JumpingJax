@@ -30,21 +30,17 @@ public class PlayerSoundEffects : MonoBehaviour
 
     void Awake()
     {
-        if (FindObjectsOfType(GetType()).Length > 1)
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
         {
             Destroy(gameObject);
+            return;
         }
 
-        if (PlayerSoundEffects.Instance == null)
-        {
-            PlayerSoundEffects.Instance = this;
-        }
-        else if (PlayerSoundEffects.Instance == this)
-        {
-            Destroy(PlayerSoundEffects.Instance.gameObject);
-            PlayerSoundEffects.Instance = this;
-        }
-        DontDestroyOnLoad(this.gameObject);
         Instance.footstepInverval = 0.5f;
     }
 

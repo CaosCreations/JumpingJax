@@ -5,9 +5,25 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance { get; private set; }
+
     public AudioClipContainer audioClips;
     public AudioSource audiosource;
     private List<AudioClip> availableClips;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     void Start()
     {
@@ -35,10 +51,5 @@ public class AudioManager : MonoBehaviour
         AudioClip clip = availableClips[clipIndex];
         availableClips.RemoveAt(clipIndex);
         return clip;
-    }
-
-    private void Awake()
-    {
-        DontDestroyOnLoad(transform.gameObject);
     }
 }

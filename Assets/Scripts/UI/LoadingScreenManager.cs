@@ -28,21 +28,16 @@ public class LoadingScreenManager : MonoBehaviour
 
     private void Awake()
     {
-        if (FindObjectsOfType(GetType()).Length > 1)
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
         {
             Destroy(gameObject);
+            return;
         }
-
-        if (LoadingScreenManager.Instance == null)
-        {
-            LoadingScreenManager.Instance = this;
-        }
-        else if (LoadingScreenManager.Instance == this)
-        {
-            Destroy(LoadingScreenManager.Instance.gameObject);
-            LoadingScreenManager.Instance = this;
-        }
-        DontDestroyOnLoad(this.gameObject);
 
         loadScreenContainer = transform.GetChild(0).gameObject;
         Hide();
@@ -102,10 +97,13 @@ public class LoadingScreenManager : MonoBehaviour
         {
             levelNameText.text = levelName;
         }
+
+        Debug.Log($"Showing Loading Screen for {levelNameText.text}");
     }
 
     public void Hide()
     {
+        Debug.Log($"Hiding Loading Screen for {levelNameText.text}");
         loadScreenContainer.SetActive(false);
 
         currentLoadingOperation = null;
