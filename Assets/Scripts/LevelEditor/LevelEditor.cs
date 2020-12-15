@@ -21,11 +21,10 @@ public class LevelEditor : MonoBehaviour
     public Button loadButton;
     public Button publishButton;
 
-    public bool sCheckFlag;
-    public bool eCheckFlag;
-    public bool nameFlag;
-    public bool descFlag;
-    public bool imgFlag;
+    public bool sCheckFlag = false;
+    public bool eCheckFlag = false;
+    public bool nameFlag = false;
+    public bool descFlag = false;
 
     private List<Level> playerCreatedLevels;
     private List<LevelEditorButton> levelEditorButtons;
@@ -218,11 +217,12 @@ public class LevelEditor : MonoBehaviour
         publishButton.interactable = false;
         Debug.Log("Process has begun");
 
-        if (!publishCheck()) 
-        { 
+        if (!publishCheck()) //publish check has no errors then we can publish
+        {
             // TODO some sort of UI Validation, showing the user there's an issue
-            // return;
-        } //after the publish check is all good then we publish
+            publishButton.interactable = true;
+            return;
+        } 
 
         if (selectedLevel.level.fileId == 0)
         {
@@ -289,23 +289,30 @@ public class LevelEditor : MonoBehaviour
         {
             Debug.Log("Level must have an end checkpoint");
         }
+
         //if theres no level name
-        if (nameFlag)
+        if (selectedLevel.text.text == "")
         {
+            nameFlag = true;
             Debug.Log("Level must have a name");
         }
-        //if theres no level description
-        if (descFlag)
+        else
         {
-            Debug.Log("Level must have a description");
-        }
-        //if theres no picture (I don't know about this one)
-        if (imgFlag)
-        {
-            Debug.Log("Level must have an image");
+            nameFlag = false;
         }
 
-        if (!sCheckFlag && !eCheckFlag && !nameFlag && !descFlag && !imgFlag) { return true; }
+        //if theres no level description
+        if (selectedLevel.level.description == "")
+        {
+            descFlag = true;
+            Debug.Log("Level must have a description");
+        }
+        else
+        {
+            descFlag = false;
+        }
+
+        if (!sCheckFlag && !eCheckFlag && !nameFlag && !descFlag) { return true; }
         else { return false; }
     }
 }
