@@ -92,9 +92,7 @@ public class PlayerGhostRun : MonoBehaviour
             ghostRunner = Instantiate(ghostRunnerPrefab);
             ghostRunner.name = "ghost runner";
 
-            GameObject ghostCameraObject = new GameObject("GhostCamera");
-            ghostCameraObject.transform.parent = ghostRunner.transform;
-            ghostCamera = ghostCameraObject.AddComponent<Camera>();
+            ghostCamera = ghostRunner.AddComponent<Camera>();
             GetComponent<PlayerMovement>().ghostCamera = ghostCamera;
             ghostCamera.enabled = false;
 
@@ -170,7 +168,7 @@ public class PlayerGhostRun : MonoBehaviour
         {
             ghostRunSaveTimer = 0;
             currentRunPositionData.Add(transform.position);
-            currentRunCameraRotationData.Add(transform.eulerAngles);
+            currentRunCameraRotationData.Add(playerCamera.transform.eulerAngles);
             currentRunKeyData.Add(GetCurrentKeysPressed());
         }
     }
