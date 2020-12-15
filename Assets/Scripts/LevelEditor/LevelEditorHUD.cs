@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
@@ -333,9 +334,16 @@ public class LevelEditorHUD : MonoBehaviour
 
             string jsonData = JsonUtility.ToJson(newLevel, true);
 
-            string filePath = GameManager.GetCurrentLevel().levelEditorScenePath;
+            string filePath = GameManager.GetCurrentLevel().levelEditorLevelDataPath;
             Debug.Log($"Saving level {GameManager.GetCurrentLevel().levelName} to {filePath}");
-            File.WriteAllText(filePath, jsonData);
+            try
+            {
+                File.WriteAllText(filePath, jsonData);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"LevelEditorHud.Save(): Could not save level {e.Message}\n{e.StackTrace}");
+            }
         }
     }
 
@@ -352,30 +360,37 @@ public class LevelEditorHUD : MonoBehaviour
         }
         else
         {
-            if (currentLevel.levelEditorScenePath == string.Empty)
+            if (currentLevel.levelEditorLevelDataPath == string.Empty)
             {
                 Debug.Log($"Trying to load level: {currentLevel.levelName} but it has not been saved");
                 return;
             }
 
 
-            if (!File.Exists(currentLevel.levelEditorScenePath))
+            if (!File.Exists(currentLevel.levelEditorLevelDataPath))
             {
-                Debug.Log($"Trying to load level: {currentLevel.levelName} from {currentLevel.levelEditorScenePath} but the save file has been deleted");
+                Debug.Log($"Trying to load level: {currentLevel.levelName} from {currentLevel.levelEditorLevelDataPath} but the save file has been deleted");
                 return;
             }
-            filePath = currentLevel.levelEditorScenePath;
+            filePath = currentLevel.levelEditorLevelDataPath;
         }
 
-        string jsonData = File.ReadAllText(filePath);
-        LevelEditorLevel levelToLoad = JsonUtility.FromJson<LevelEditorLevel>(jsonData);
-
-        CreateObjects(levelToLoad.levelObjects);
-
-        if (currentLevel.workshopFilePath != string.Empty && currentLevel.workshopFilePath != null)
+        try
         {
-            SetupForWorkshopLevel();
+            string jsonData = File.ReadAllText(filePath);
+            LevelEditorLevel levelToLoad = JsonUtility.FromJson<LevelEditorLevel>(jsonData);
+
+            CreateObjects(levelToLoad.levelObjects);
+
+            if (currentLevel.workshopFilePath != string.Empty && currentLevel.workshopFilePath != null)
+            {
+                SetupForWorkshopLevel();
+            }
+        }catch(Exception e)
+        {
+            Debug.LogError($"LevelEditorHud.LoadSceneData(): Could not load level {e.Message}\n{e.StackTrace}");
         }
+        
     }
 
     private void CreateObjects(List<ObjectData> allObjects)

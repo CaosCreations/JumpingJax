@@ -63,7 +63,7 @@ public class WinMenu : MonoBehaviour
     {
         Level currentLevel = GameManager.GetCurrentLevel();
 
-        if (currentLevel.workshopFilePath != string.Empty || currentLevel.levelEditorScenePath != string.Empty)
+        if (currentLevel.workshopFilePath != string.Empty || currentLevel.levelEditorLevelDataPath != string.Empty)
         {
             Time.timeScale = 1;
             GameManager.LoadScene(PlayerConstants.MainMenuSceneIndex);

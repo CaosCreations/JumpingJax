@@ -32,8 +32,11 @@ public class LevelEditor : MonoBehaviour
 
     public LevelEditorButton selectedLevel;
 
+    private string levelEditorFolderPath;
+
     void Start()
     {
+        levelEditorFolderPath = Path.Combine(Application.persistentDataPath, "levelEditor");
         menuController = GetComponentInParent<MainMenuController>();
         levelEditorInfo = GetComponentInChildren<LevelEditorInfo>();
         levelEditorButtons = new List<LevelEditorButton>();
@@ -54,7 +57,7 @@ public class LevelEditor : MonoBehaviour
     {
         List<Level> toReturn = new List<Level>();
 
-        List<string> filePaths = Directory.EnumerateFiles(Application.persistentDataPath, "*.level").ToList();
+        List<string> filePaths = Directory.EnumerateFiles(levelEditorFolderPath, "*.level").ToList();
         foreach (string filePath in filePaths)
         {
             string fileData = File.ReadAllText(filePath);
@@ -103,9 +106,17 @@ public class LevelEditor : MonoBehaviour
             return;
         }
 
-        File.Delete(selectedLevel.level.levelEditorScriptableObjectPath);
-        Directory.Delete(selectedLevel.level.levelEditorFolder);
-        RefreshEditorProjectWindow();
+        try
+        {
+            File.Delete(selectedLevel.level.levelEditorScriptableObjectPath);
+
+        }catch(Exception e)
+        {
+            Debug.LogError($"LevelEditor.DeleteLevel(): couldn't delete level {e.Message}\n{e.StackTrace}");
+        }
+
+        //Directory.Delete(selectedLevel.level.levelEditorFolder);
+        //RefreshEditorProjectWindow();
         levelEditorButtons.Remove(selectedLevel);
         ScriptableObject.Destroy(selectedLevel.level);
         Destroy(selectedLevel.gameObject);
@@ -131,22 +142,45 @@ public class LevelEditor : MonoBehaviour
         newLevel.gravityMultiplier = 1;
 
         string currentTime = DateTime.Now.ToString("MM-dd-yyyy_hh-mm-ss-FFF");
-        string scriptableObjectPath = Path.Combine(Application.persistentDataPath, currentTime + "scriptableObject.level");
+        string scriptableObjectPath = Path.Combine(levelEditorFolderPath, currentTime + ".level");
         newLevel.levelEditorScriptableObjectPath = scriptableObjectPath;
 
         string folder = Path.Combine(Application.persistentDataPath, currentTime);
-        newLevel.levelEditorFolder = folder;
+        newLevel.levelEditorFolder = levelEditorFolderPath;
 
-        string levelDataPath = Path.Combine(folder, "levelData.json");
-        newLevel.levelEditorScenePath = levelDataPath;
+        string levelDataPath = Path.Combine(folder, currentTime + ".json");
+        newLevel.levelEditorLevelDataPath = levelDataPath;
 
         if (!Directory.Exists(folder))
         {
-            Directory.CreateDirectory(folder);
+            try
+            {
+                Directory.CreateDirectory(folder);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"LevelEditor.NewLevel(): couldn't create directory {e.Message}\n{e.StackTrace}");
+            }
         }
 
-        File.WriteAllText(newLevel.levelEditorScriptableObjectPath, JsonUtility.ToJson(newLevel));
-        File.WriteAllText(newLevel.levelEditorScenePath, JsonUtility.ToJson(""));
+        try
+        {
+            File.WriteAllText(newLevel.levelEditorScriptableObjectPath, JsonUtility.ToJson(newLevel));
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"LevelEditor.NewLevel(): couldn't write LEVEL file {e.Message}\n{e.StackTrace}");
+        }
+
+        try
+        {
+            File.WriteAllText(newLevel.levelEditorLevelDataPath, JsonUtility.ToJson(""));
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"LevelEditor.NewLevel(): couldn't write LEVEL DATA file {e.Message}\n{e.StackTrace}");
+        }
+
 
         GameObject newLevelButton = Instantiate(levelEditorButtonPrefab, levelButtonParent);
         LevelEditorButton levelEditorButton = newLevelButton.GetComponent<LevelEditorButton>();
@@ -175,7 +209,11 @@ public class LevelEditor : MonoBehaviour
         publishButton.interactable = false;
         Debug.Log("Process has begun");
 
-        if (publishCheck()) { } //after the publish check is all good then we publish
+        if (!publishCheck()) 
+        { 
+            // TODO some sort of UI Validation, showing the user there's an issue
+            // return;
+        } //after the publish check is all good then we publish
 
         if (selectedLevel.level.fileId == 0)
         {
@@ -183,7 +221,15 @@ public class LevelEditor : MonoBehaviour
             if (fileId.Value != 0)
             {
                 selectedLevel.level.fileId = fileId;
-                File.WriteAllText(selectedLevel.level.levelEditorScriptableObjectPath, JsonUtility.ToJson(selectedLevel.level));
+                try
+                {
+                    File.WriteAllText(selectedLevel.level.levelEditorScriptableObjectPath, JsonUtility.ToJson(selectedLevel.level));
+
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"LevelEditor.Publish(): couldn't write published LEVEL file {e.Message}\n{e.StackTrace}");
+                }
             }
         }
         else

@@ -44,7 +44,7 @@ public class Level : ScriptableObject
     public string levelEditorScriptableObjectPath;
 
     [SerializeField]
-    public string levelEditorScenePath;
+    public string levelEditorLevelDataPath;
 
     [SerializeField]
     public string previewImagePath;
