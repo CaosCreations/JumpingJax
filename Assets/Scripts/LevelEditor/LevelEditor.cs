@@ -57,6 +57,16 @@ public class LevelEditor : MonoBehaviour
     {
         List<Level> toReturn = new List<Level>();
 
+        if (!Directory.Exists(levelEditorFolderPath))
+        {
+            try
+            {
+                Directory.CreateDirectory(levelEditorFolderPath);
+            }catch(Exception e)
+            {
+                Debug.LogError($"LevelEditor.GetPlayerCreatedLevels(): couldn't create levelEditorFolderPath {e.Message}\n{e.StackTrace}");
+            }
+        }
         List<string> filePaths = Directory.EnumerateFiles(levelEditorFolderPath, "*.level").ToList();
         foreach (string filePath in filePaths)
         {
@@ -145,17 +155,16 @@ public class LevelEditor : MonoBehaviour
         string scriptableObjectPath = Path.Combine(levelEditorFolderPath, currentTime + ".level");
         newLevel.levelEditorScriptableObjectPath = scriptableObjectPath;
 
-        string folder = Path.Combine(Application.persistentDataPath, currentTime);
         newLevel.levelEditorFolder = levelEditorFolderPath;
 
-        string levelDataPath = Path.Combine(folder, currentTime + ".json");
+        string levelDataPath = Path.Combine(levelEditorFolderPath, currentTime + ".json");
         newLevel.levelEditorLevelDataPath = levelDataPath;
 
-        if (!Directory.Exists(folder))
+        if (!Directory.Exists(levelEditorFolderPath))
         {
             try
             {
-                Directory.CreateDirectory(folder);
+                Directory.CreateDirectory(levelEditorFolderPath);
             }
             catch (Exception e)
             {
