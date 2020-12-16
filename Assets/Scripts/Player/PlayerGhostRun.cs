@@ -29,7 +29,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     private const int maxDataCount = 25000; //Makes it so max file save is 5MB, stores 20.8 min of Ghost data saved
 
-    private const float ghostRunSaveInterval = 0.05f;
+    private const float ghostRunSaveInterval = 0.0167f;
 
     private bool usingLeaderboardGhost;
 
@@ -150,13 +150,14 @@ public class PlayerGhostRun : MonoBehaviour
         float lerpValue = ghostRunnerTimer / ghostRunSaveInterval;
         Vector3 position = Vector3.Lerp(ghostRunner.transform.position, pastRunPositionData[currentDataIndex], lerpValue);
         ghostRunner.transform.position = position;
-        Vector3 rotation = Vector3.Lerp(ghostRunner.transform.eulerAngles, pastRunCameraRotationData[currentDataIndex], lerpValue);
         if (ghostCamera.enabled)
         {
-            ghostCamera.transform.eulerAngles = rotation;
+            ghostRunner.transform.eulerAngles = Vector3.zero;
+            ghostCamera.transform.eulerAngles = pastRunCameraRotationData[currentDataIndex];
         }
         else
         {
+            Vector3 rotation = Vector3.Lerp(ghostRunner.transform.eulerAngles, pastRunCameraRotationData[currentDataIndex], lerpValue);
             ghostRunner.transform.eulerAngles = new Vector3(0f, rotation.y, 0f);
         }
 
