@@ -12,6 +12,7 @@ public class PlayerGhostRun : MonoBehaviour
     private Camera playerCamera;
     public Camera ghostCamera;
     public GameObject ghostRunner;
+    public PlayerMovement playerMovement;
 
     private List<Vector3> currentRunPositionData;
     private List<Vector3> currentRunCameraRotationData;
@@ -35,6 +36,7 @@ public class PlayerGhostRun : MonoBehaviour
     void Start()
     {
         currentLevel = GameManager.GetCurrentLevel();
+        playerMovement = GetComponent<PlayerMovement>();
         SetPastRunData();
         SetupGhostObject();
         
@@ -92,8 +94,8 @@ public class PlayerGhostRun : MonoBehaviour
             ghostRunner = Instantiate(ghostRunnerPrefab);
             ghostRunner.name = "ghost runner";
 
-            ghostCamera = ghostRunner.AddComponent<Camera>();
-            GetComponent<PlayerMovement>().ghostCamera = ghostCamera;
+            ghostCamera = ghostRunner.GetComponentInChildren<Camera>();
+            playerMovement.ghostCamera = ghostCamera;
             ghostCamera.enabled = false;
 
             ghostRunner.layer = PlayerConstants.GhostLayer;
@@ -210,7 +212,7 @@ public class PlayerGhostRun : MonoBehaviour
     {
         ghostCamera.enabled = !ghostCamera.enabled;
         playerCamera.enabled = !playerCamera.enabled;
-        gameObject.SetActive(!gameObject.activeSelf);
+        
     }
 
     private bool ShouldGhostBeActive()
