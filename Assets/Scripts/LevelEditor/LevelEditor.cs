@@ -189,7 +189,6 @@ public class LevelEditor : MonoBehaviour
             Debug.LogError($"LevelEditor.NewLevel(): couldn't write LEVEL DATA file {e.Message}\n{e.StackTrace}");
         }
 
-
         GameObject newLevelButton = Instantiate(levelEditorButtonPrefab, levelButtonParent);
         LevelEditorButton levelEditorButton = newLevelButton.GetComponent<LevelEditorButton>();
 
@@ -217,12 +216,12 @@ public class LevelEditor : MonoBehaviour
         publishButton.interactable = false;
         Debug.Log("Process has begun");
 
-        if (!publishCheck()) //publish check has no errors then we can publish
+        if (!publishCheck()) 
         {
             // TODO some sort of UI Validation, showing the user there's an issue
             publishButton.interactable = true;
             return;
-        } 
+        } //publish check has no errors then we can publish
 
         if (selectedLevel.level.fileId == 0)
         {
@@ -279,15 +278,28 @@ public class LevelEditor : MonoBehaviour
 
     private bool publishCheck()
     {
+        string json = File.ReadAllText(selectedLevel.level.levelEditorLevelDataPath);
+ 
         //if theres no start checkpoint
-        if (sCheckFlag)
+        if (!json.Contains(" \"objectType\": 5"))
         {
+            sCheckFlag = true;
             Debug.Log("Level must have a starting checkpoint");
         }
-        //if theres no end checkpoint
-        if (eCheckFlag)
+        else
         {
+            sCheckFlag = false;
+        }
+
+        //if theres no end checkpoint
+        if (!json.Contains(" \"objectType\": 6"))
+        {
+            eCheckFlag = true;
             Debug.Log("Level must have an end checkpoint");
+        }
+        else
+        {
+            eCheckFlag = false;
         }
 
         //if theres no level name
