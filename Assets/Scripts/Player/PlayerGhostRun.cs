@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerGhostRun : MonoBehaviour
 {
     public KeyPressed keyPressed;
+    public static event Action<Transform, PortalType> onGhostPortalPress;
 
     public GameObject ghostRunnerPrefab;
 	
@@ -96,6 +97,7 @@ public class PlayerGhostRun : MonoBehaviour
 
             ghostCamera = ghostRunner.GetComponentInChildren<Camera>();
             playerMovement.ghostCamera = ghostCamera;
+            GetComponent<PortalPlacement>().ghostCamera = ghostCamera;
             ghostCamera.enabled = false;
 
             ghostRunner.layer = PlayerConstants.GhostLayer;
@@ -113,10 +115,24 @@ public class PlayerGhostRun : MonoBehaviour
         {
             return;
         }
-
+        
         if (InputManager.GetKeyDown(PlayerConstants.FirstPersonGhost))
         {
             ToggleGhostCamera();
+        }
+        
+        if (ghostCamera.enabled)
+        {
+            if(pastRunKeyData[currentDataIndex].isMouseLeftPressed)
+            {
+                Debug.Log("GHOST MOUSE LEFT PRESSED");
+                onGhostPortalPress?.Invoke(ghostRunner.transform, PortalType.Blue);
+            }
+            else if (pastRunKeyData[currentDataIndex].isMouseRightPressed)
+            {
+                Debug.Log("GHOST MOUSE RIGHT PRESSED");
+                onGhostPortalPress?.Invoke(ghostRunner.transform, PortalType.Pink);
+            }
         }
 
         RecordCurrentRunData();

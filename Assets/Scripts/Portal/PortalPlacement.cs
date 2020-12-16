@@ -19,6 +19,7 @@ public class PortalPlacement : MonoBehaviour
 
 
     private CameraMove cameraMove;
+    public Camera ghostCamera; 
     private PlayerPortalableController playerPortalable;
 
     private Quaternion flippedYRotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
@@ -37,6 +38,11 @@ public class PortalPlacement : MonoBehaviour
                 portalPair = Instantiate(portalPairPrefab).GetComponent<PortalPair>();
             }
         }
+        PlayerGhostRun.onGhostPortalPress += (ghostTransform, portalType) =>
+        {
+            Debug.Log("GHOST PORTAL FIRING: " + portalType.ToString());
+            FirePortal(portalType, ghostTransform.position, ghostTransform.forward, portalRaycastDistance);
+        };
     }
 
     private bool IsPortalLevel()
