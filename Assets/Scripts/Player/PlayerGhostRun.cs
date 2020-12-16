@@ -114,7 +114,6 @@ public class PlayerGhostRun : MonoBehaviour
 
         if (InputManager.GetKeyDown(PlayerConstants.FirstPersonGhost))
         {
-            Debug.Log("FPG");
             ToggleGhostCamera();
         }
 
@@ -150,7 +149,8 @@ public class PlayerGhostRun : MonoBehaviour
         Vector3 position = Vector3.Lerp(ghostRunner.transform.position, pastRunPositionData[currentDataIndex], lerpValue);
         ghostRunner.transform.position = position;
         Vector3 rotation = Vector3.Lerp(ghostRunner.transform.eulerAngles, pastRunCameraRotationData[currentDataIndex], lerpValue);
-        ghostRunner.transform.eulerAngles = new Vector3(0f, rotation.y, 0f); // only rotate ghost on y axis 
+        //ghostRunner.transform.eulerAngles = ghostCamera.enabled ? new Vector3(rotation.x, rotation.y, rotation.z) : new Vector3(0f, rotation.y, 0f);
+        ghostRunner.transform.eulerAngles = rotation; 
         keyPressed.SetPressed(pastRunKeyData[currentDataIndex]);
 
         ghostRunnerTimer += Time.deltaTime;
@@ -210,6 +210,7 @@ public class PlayerGhostRun : MonoBehaviour
     {
         ghostCamera.enabled = !ghostCamera.enabled;
         playerCamera.enabled = !playerCamera.enabled;
+        gameObject.SetActive(!gameObject.activeSelf);
     }
 
     private bool ShouldGhostBeActive()
