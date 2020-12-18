@@ -11,13 +11,14 @@ public class PlayerGhostRun : MonoBehaviour
     public GameObject ghostRunnerPrefab;
 	
     private Camera playerCamera;
+    private PortalPlacement portalPlacement;
     public Camera ghostCamera;
     public GameObject ghostRunner;
     public PlayerMovement playerMovement;
 
     private List<Vector3> currentRunPositionData;
     private List<Vector3> currentRunCameraRotationData;
-    private List<KeysPressed> currentRunKeyData;
+    public List<KeysPressed> currentRunKeyData;
 
     private Vector3[] pastRunPositionData;
     private Vector3[] pastRunCameraRotationData;
@@ -26,7 +27,7 @@ public class PlayerGhostRun : MonoBehaviour
     private float ghostRunSaveTimer = 0;
     private float ghostRunnerTimer = 0;
     public Level currentLevel;
-    private int currentDataIndex = 0;
+    public int currentDataIndex = 0;
 
     private const int maxDataCount = 25000; //Makes it so max file save is 5MB, stores 20.8 min of Ghost data saved
 
@@ -42,6 +43,7 @@ public class PlayerGhostRun : MonoBehaviour
         SetupGhostObject();
         
         playerCamera = GetComponent<CameraMove>().playerCamera;
+        portalPlacement = GetComponent<PortalPlacement>();
         RestartRun();
 
         MiscOptions.onGhostToggle += ToggleGhost;
@@ -126,12 +128,22 @@ public class PlayerGhostRun : MonoBehaviour
             if(pastRunKeyData[currentDataIndex].isMouseLeftPressed)
             {
                 Debug.Log("GHOST MOUSE LEFT PRESSED");
+
                 onGhostPortalPress?.Invoke(ghostRunner.transform, PortalType.Blue);
+
+                //portalPlacement.FirePortal(PortalType.Blue, ghostRunner.transform.position, ghostRunner.transform.forward, 
+                //    PortalPlacement.portalRaycastDistance);
+
             }
             else if (pastRunKeyData[currentDataIndex].isMouseRightPressed)
             {
                 Debug.Log("GHOST MOUSE RIGHT PRESSED");
+                
                 onGhostPortalPress?.Invoke(ghostRunner.transform, PortalType.Pink);
+
+                //portalPlacement.FirePortal(PortalType.Pink, ghostRunner.transform.position, ghostRunner.transform.forward,
+                //    PortalPlacement.portalRaycastDistance);
+
             }
         }
 
