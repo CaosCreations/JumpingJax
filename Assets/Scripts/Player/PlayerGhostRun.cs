@@ -129,20 +129,22 @@ public class PlayerGhostRun : MonoBehaviour
             {
                 Debug.Log("GHOST MOUSE LEFT PRESSED");
 
-                onGhostPortalPress?.Invoke(ghostRunner.transform, PortalType.Blue);
+                // Firing an event here is unnecessary:
 
-                //portalPlacement.FirePortal(PortalType.Blue, ghostRunner.transform.position, ghostRunner.transform.forward, 
-                //    PortalPlacement.portalRaycastDistance);
+                //onGhostPortalPress?.Invoke(ghostRunner.transform, PortalType.Blue);
+
+                portalPlacement.FirePortal(PortalType.Blue, ghostRunner.transform.position, ghostRunner.transform.forward,
+                    PortalPlacement.portalRaycastDistance);
 
             }
             else if (pastRunKeyData[currentDataIndex].isMouseRightPressed)
             {
                 Debug.Log("GHOST MOUSE RIGHT PRESSED");
-                
-                onGhostPortalPress?.Invoke(ghostRunner.transform, PortalType.Pink);
 
-                //portalPlacement.FirePortal(PortalType.Pink, ghostRunner.transform.position, ghostRunner.transform.forward,
-                //    PortalPlacement.portalRaycastDistance);
+                //onGhostPortalPress?.Invoke(ghostRunner.transform, PortalType.Pink);
+
+                portalPlacement.FirePortal(PortalType.Pink, ghostRunner.transform.position, ghostRunner.transform.forward,
+                    PortalPlacement.portalRaycastDistance);
 
             }
         }
