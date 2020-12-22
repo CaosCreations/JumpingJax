@@ -35,7 +35,7 @@ public class RecursivePortalCamera : MonoBehaviour
     {
         // These HAVE to be in Start(), because the portalPair is instantiated in PortalPlacement:Awake()
         PortalPlacement portalPlacement = GetComponentInParent<PortalPlacement>();
-        if(portalPlacement != null)
+        if(portalPlacement != null && portalPlacement.portalPair != null)
         {
             portalPair = portalPlacement.portalPair;
             portalPair.SetRenderTextures(blueTempRenderTexture, pinkTempRenderTexture);

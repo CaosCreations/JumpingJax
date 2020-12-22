@@ -137,12 +137,12 @@ public class PlayerGhostRun : MonoBehaviour
         
         if (ghostCamera.enabled)
         {
-            if(pastRunKeyData[currentDataIndex].isMouseLeftPressed)
+            if(pastRunKeyData[currentDataIndex].isMouseLeftPressed && ghostPortalPlacement.portalPair != null)
             {
                 ghostPortalPlacement.FirePortal(PortalType.Blue, ghostCamera.transform.position, ghostCamera.transform.forward,
                     PlayerConstants.PortalRaycastDistance, ghostCamera.transform);
             }
-            else if (pastRunKeyData[currentDataIndex].isMouseRightPressed)
+            else if (pastRunKeyData[currentDataIndex].isMouseRightPressed && ghostPortalPlacement.portalPair != null)
             {
                 ghostPortalPlacement.FirePortal(PortalType.Pink, ghostCamera.transform.position, ghostCamera.transform.forward,
                     PlayerConstants.PortalRaycastDistance, ghostCamera.transform);
@@ -176,7 +176,7 @@ public class PlayerGhostRun : MonoBehaviour
         {
             currentDataIndex = 0;
 
-            if (ghostCamera.enabled)
+            if (ghostCamera.enabled && ghostPortalPlacement.portalPair != null)
             {
                 ghostPortalPlacement.portalPair.ResetPortals();
             }
