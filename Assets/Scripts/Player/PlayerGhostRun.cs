@@ -15,6 +15,7 @@ public class PlayerGhostRun : MonoBehaviour
     public Camera ghostCamera;
     public GameObject ghostRunner;
     public PlayerMovement playerMovement;
+    public PlayerProgress playerProgress;
 
     private List<Vector3> currentRunPositionData;
     private List<Vector3> currentRunCameraRotationData;
@@ -37,6 +38,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     void Start()
     {
+        playerProgress = GetComponent<PlayerProgress>();
         currentLevel = GameManager.GetCurrentLevel();
         playerMovement = GetComponent<PlayerMovement>();
         playerCamera = GetComponent<CameraMove>().playerCamera;
@@ -128,13 +130,13 @@ public class PlayerGhostRun : MonoBehaviour
             if(pastRunKeyData[currentDataIndex].isMouseLeftPressed)
             {
                 Debug.Log("Creating Ghost Blue Portal");
-                portalPlacement.FirePortal(PortalType.Blue, ghostRunner.transform.position, ghostRunner.transform.forward,
+                portalPlacement.FirePortal(PortalType.Blue, ghostCamera.transform.position, ghostCamera.transform.forward,
                     PortalPlacement.portalRaycastDistance);
             }
             else if (pastRunKeyData[currentDataIndex].isMouseRightPressed)
             {
                 Debug.Log("Creating Ghost Pink Portal");
-                portalPlacement.FirePortal(PortalType.Pink, ghostRunner.transform.position, ghostRunner.transform.forward,
+                portalPlacement.FirePortal(PortalType.Pink, ghostCamera.transform.position, ghostCamera.transform.forward,
                     PortalPlacement.portalRaycastDistance);
             }
         }
@@ -164,6 +166,7 @@ public class PlayerGhostRun : MonoBehaviour
 
         if (currentDataIndex >= pastRunPositionData.Length - 1)
         {
+            portalPlacement.portalPair.ResetPortals();
             currentDataIndex = 0;
         }
 
@@ -245,6 +248,8 @@ public class PlayerGhostRun : MonoBehaviour
         {
             ghostCamera.fieldOfView = OptionsPreferencesManager.GetCameraFOV();
         }
+
+        playerProgress.ResetPlayer();
     }
 
     private bool ShouldGhostBeActive()

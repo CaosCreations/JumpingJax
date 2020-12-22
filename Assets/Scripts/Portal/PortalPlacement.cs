@@ -15,7 +15,7 @@ public class PortalPlacement : MonoBehaviour
     public LayerMask layerMask;
 
     public GameObject portalPairPrefab;
-    private PortalPair portalPair = null;
+    public PortalPair portalPair = null;
 
 
     private CameraMove cameraMove;
