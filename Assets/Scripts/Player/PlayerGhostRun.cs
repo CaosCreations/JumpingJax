@@ -125,7 +125,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     private void UpdateGhost()
     {
-        if (pastRunPositionData == null)
+        if (pastRunPositionData == null || pastRunPositionData.Length == 0)
         {
             return; 
         }
