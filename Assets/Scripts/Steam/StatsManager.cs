@@ -29,7 +29,7 @@ public class StatsManager : MonoBehaviour
                 if (leaderboardUpdate.HasValue)
                 {
                     Steamworks.Data.LeaderboardUpdate leaderboardUpdateValue = leaderboardUpdate.Value;
-                    Debug.Log($"Leaderboard Update for {level.levelName}: Changed?: {leaderboardUpdateValue.Changed} rankChange: {leaderboardUpdateValue.RankChange} ");
+                    Debug.Log($"Leaderboard Update for {level.levelName}: Changed?: {leaderboardUpdateValue.Changed} rankChange: {leaderboardUpdateValue.RankChange} new Score: {leaderboardUpdateValue.Score}");
                 }
                 else
                 {
