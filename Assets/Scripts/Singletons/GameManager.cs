@@ -229,7 +229,7 @@ public class GameManager : MonoBehaviour
 
             if (ShouldUseSteam())
             {
-                Debug.Log("saving level completion to Steam");
+                Debug.Log($"saving level {GetCurrentLevel().levelName} completion to Steam");
                 await StatsManager.SaveLevelCompletion(levelToUpdate);
                 Debug.Log("finished saving level completion to Steam");
             }

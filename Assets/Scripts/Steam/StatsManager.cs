@@ -26,34 +26,26 @@ public class StatsManager : MonoBehaviour
                 Debug.Log($"Leaderboard found, adding score: {time.ToString(PlayerConstants.levelCompletionTimeFormat)}");
                 Steamworks.Data.LeaderboardUpdate? leaderboardUpdate = await leaderboardValue.SubmitScoreAsync((int)time.TotalMilliseconds); // We can use the return here to show the placement update on the winMenu
 
+                if (leaderboardUpdate.HasValue)
+                {
+                    Steamworks.Data.LeaderboardUpdate leaderboardUpdateValue = leaderboardUpdate.Value;
+                    Debug.Log($"Leaderboard Update for {level.levelName}: Changed?: {leaderboardUpdateValue.Changed} rankChange: {leaderboardUpdateValue.RankChange} new Score: {leaderboardUpdateValue.Score}");
+                }
+                else
+                {
+                    Debug.LogError($"Leaderboard NOT updated for {level.levelName} with score {time.TotalMilliseconds}");
+                }
                 // The ghost run data is erased whenever the score is changed, so we HAVE to add it AFTER submitting a score.
-                await CheckGhostRunCreate(leaderboardValue, level);
+                await CreateNewGhostRun(leaderboardValue, level);
+            }
+            else
+            {
+                Debug.LogError($"Leaderboard NOT found for {level.levelName}");
             }
         }
         else
         {
             Debug.LogError("Not saving level completion, steam client is NOT valid");
-        }
-    }
-
-    private static async Task CheckGhostRunCreate(Steamworks.Data.Leaderboard leaderboard, Level level)
-    {
-        Steamworks.Data.LeaderboardEntry[] topEntries = await leaderboard.GetScoresAsync(10, 1);
-
-        // Only add ghost run if the run is top 10
-        if (topEntries == null)
-        {
-            Debug.Log("Adding first entry to leaderboard");
-            await CreateNewGhostRun(leaderboard, level);
-        }
-        if (topEntries.Length < 10) 
-        {
-            Debug.Log($"Adding new ghost run for entry number {topEntries.Length}");
-            await CreateNewGhostRun(leaderboard, level);
-        }else if(level.levelSaveData.completionTime < topEntries[9].Score)
-        {
-            Debug.Log($"Adding ghost run, replacing top 10 score");
-            await CreateNewGhostRun(leaderboard, level);
         }
     }
 
@@ -106,7 +98,7 @@ public class StatsManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Not getting level leaderboard, steam client is NOT valid");
+            Debug.LogError("Not getting level leaderboard, steam client is NOT valid");
         }
 
         return new Steamworks.Data.LeaderboardEntry[0];
@@ -127,16 +119,25 @@ public class StatsManager : MonoBehaviour
                 var entries = await leaderboardValue.GetScoresForUsersAsync(new Steamworks.SteamId[] { SteamClient.SteamId });
                 if (entries != null)
                 {
+                    Debug.Log($"Found MY leaderboard entry for {levelLeaderboardName}");
                     if (entries.Length > 0)
                     {
-                        return entries[0];   
+                        return entries[0];
                     }
+                    else
+                    {
+                        Debug.LogError($"No entries found found for MY leaderboard entry for {levelLeaderboardName}");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"no leaderboard found for {levelLeaderboardName}");
                 }
             }
         }
         else
         {
-            Debug.Log("Not getting level leaderboard, steam client is NOT valid");
+            Debug.LogError("Not getting level leaderboard, steam client is NOT valid");
         }
 
         return null;
@@ -157,41 +158,5 @@ public class StatsManager : MonoBehaviour
             return 0;
         }
         
-    }
-
-    public static async Task<int> GetMyRank(string levelLeaderboardName)
-    {
-        Steamworks.Data.LeaderboardEntry? myEntry = await GetMyLevelLeaderboard(levelLeaderboardName);
-
-        if (myEntry.HasValue)
-        {
-            return myEntry.Value.GlobalRank;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    public static byte[] LevelToByteArray(Level level)
-    {
-        var binaryFormatter = new BinaryFormatter();
-        using (var ms = new MemoryStream())
-        {
-            binaryFormatter.Serialize(ms, level);
-            return ms.ToArray();
-        }
-    }
-
-    public static Level LevelFromByteArray(byte[] levelData)
-    {
-        using(var memoryStream = new MemoryStream())
-        {
-            var binaryFormatter = new BinaryFormatter();
-            memoryStream.Write(levelData, 0, levelData.Length);
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            var obj = binaryFormatter.Deserialize(memoryStream);
-            return (Level)obj;
-        }
     }
 }

@@ -10,7 +10,7 @@ public class PlayerUI : MonoBehaviour {
     GameObject inGameUI = null;
 
     [SerializeField]
-    WinMenu winMenu = null;
+    GameObject winMenu = null;
 
     void Start () {
         inGameUI.SetActive(true);

@@ -68,7 +68,7 @@ public class PlayerGhostRun : MonoBehaviour
                 Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.replayFileLocation}");
                 if (File.Exists(GameManager.Instance.replayFileLocation))
                 {
-                    Debug.Log("Found leaderboard replay file");
+                    Debug.Log("Found leaderboard replay file, loading replay data");
 
                     try
                     {
@@ -167,7 +167,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     private void UpdateGhost()
     {
-        if (pastRunPositionData == null)
+        if (pastRunPositionData == null || pastRunPositionData.Length == 0)
         {
             return; 
         }
@@ -254,6 +254,6 @@ public class PlayerGhostRun : MonoBehaviour
 
     private bool ShouldGhostBeActive()
     {
-        return pastRunPositionData != null && pastRunPositionData.Length > 0;
+        return pastRunPositionData != null && pastRunPositionData.Length > 0 && OptionsPreferencesManager.GetGhostToggle();
     }
 }
