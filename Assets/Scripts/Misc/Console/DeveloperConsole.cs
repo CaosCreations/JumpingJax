@@ -89,6 +89,7 @@ public class DeveloperConsole : MonoBehaviour
             {
                 try
                 {
+                    Debug.LogWarning("Deleting large log file");
                     File.Delete(logFilePath);
                 }
                 catch (Exception e)
@@ -125,7 +126,8 @@ public class DeveloperConsole : MonoBehaviour
             
         }
 
-        LogMessage("<color=" + color + ">[" + type.ToString() + "]" + logMessage + "</color> ");
+        string colorWrappedMessage = $"<color={color}>[{type}]{logMessage}</color>";
+        LogMessage(colorWrappedMessage, stackTrace, type);
         ClearOldLogs();
         MoveScrollViewToBottom();
     }
@@ -238,7 +240,7 @@ public class DeveloperConsole : MonoBehaviour
         }
     }
 
-    private void LogMessage(string message)
+    private void LogMessage(string message, string stackTrace, LogType type)
     {
         if(consoleText != null)
         {
@@ -247,6 +249,11 @@ public class DeveloperConsole : MonoBehaviour
 
         DateTime now = DateTime.Now;
         message = string.Format("[{0:H:mm:ss}] {1}\n", now, message);
+
+        if(type == LogType.Exception || type == LogType.Error)
+        {
+            message += $"\n{stackTrace}";
+        }
 
         _readWriteLock.EnterWriteLock();
         try
@@ -303,7 +310,7 @@ public class DeveloperConsole : MonoBehaviour
         }
 
         (ConsoleCommand command, string[] args) = GetCommandFromInput(consoleInput.text);
-        LogMessage(ConsoleConstants.commandPrefix + consoleInput.text);
+        Debug.Log($"Processing Command: {ConsoleConstants.commandPrefix} {consoleInput.text}");
         if (command != null)
         {
             command.Process(args);
