@@ -197,6 +197,6 @@ public class PlayerGhostRun : MonoBehaviour
 
     private bool ShouldGhostBeActive()
     {
-        return pastRunPositionData != null && pastRunPositionData.Length > 0;
+        return pastRunPositionData != null && pastRunPositionData.Length > 0 && OptionsPreferencesManager.GetGhostToggle();
     }
 }
