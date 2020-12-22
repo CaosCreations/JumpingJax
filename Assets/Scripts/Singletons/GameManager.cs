@@ -17,7 +17,20 @@ public class GameManager : MonoBehaviour
     public float currentCompletionTime;
     public bool didWinCurrentLevel;
     public bool shouldUseSteam;
-    public string replayFileLocation;
+
+    private string replayFileLocation;
+    public string ReplayFileLocation
+    {
+        get
+        {
+            return replayFileLocation;
+        }
+        set
+        {
+            AsyncTaskReporter.Instance.ghostDownloadRunning = false;
+            replayFileLocation = value;
+        }
+    }
 
     private bool shiftPressed;
     private bool tabPressed;

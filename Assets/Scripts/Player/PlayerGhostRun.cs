@@ -58,7 +58,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     private void SetPastRunData()
     {
-        if (string.IsNullOrEmpty(GameManager.Instance.replayFileLocation))
+        if (string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation))
         {
             Debug.Log("No replay file location set");
             if (currentLevel.levelSaveData.isCompleted)
@@ -72,14 +72,14 @@ public class PlayerGhostRun : MonoBehaviour
         else{
             if (pastRunPositionData == null)
             {
-                Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.replayFileLocation}");
-                if (File.Exists(GameManager.Instance.replayFileLocation))
+                Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.ReplayFileLocation}");
+                if (File.Exists(GameManager.Instance.ReplayFileLocation))
                 {
                     Debug.Log("Found leaderboard replay file, loading replay data");
 
                     try
                     {
-                        string replayLevelData = File.ReadAllText(GameManager.Instance.replayFileLocation);
+                        string replayLevelData = File.ReadAllText(GameManager.Instance.ReplayFileLocation);
                         Level replayLevel = ScriptableObject.CreateInstance<Level>();
                         replayLevel.levelSaveData = new PersistentLevelDataModel();
                         JsonUtility.FromJsonOverwrite(replayLevelData, replayLevel.levelSaveData);
