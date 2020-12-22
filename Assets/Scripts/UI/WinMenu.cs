@@ -61,6 +61,7 @@ public class WinMenu : MonoBehaviour
 
     public void NextLevel()
     {
+        GameManager.Instance.replayFileLocation = string.Empty;
         Level currentLevel = GameManager.GetCurrentLevel();
 
         if (currentLevel.workshopFilePath != string.Empty || currentLevel.levelEditorScenePath != string.Empty)
