@@ -32,8 +32,7 @@ public class WinMenu : MonoBehaviour
             NextLevel();
         }
 
-        if (InputManager.GetKeyDown(PlayerConstants.ResetLevel))
-        { 
+        if (Input.GetKeyDown(PlayerConstants.WinMenu_RetryLevel)){
             Retry();
         }
     }
