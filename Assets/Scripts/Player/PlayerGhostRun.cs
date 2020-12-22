@@ -6,15 +6,19 @@ using UnityEngine;
 public class PlayerGhostRun : MonoBehaviour
 {
     public KeyPressed keyPressed;
+    public static event Action<Transform, PortalType> onGhostPortalPress;
 
     public GameObject ghostRunnerPrefab;
 	
-    private Camera playerCamera;  
+    private Camera playerCamera;
+    private PortalPlacement portalPlacement;
+    public Camera ghostCamera;
     public GameObject ghostRunner;
+    public PlayerMovement playerMovement;
 
     private List<Vector3> currentRunPositionData;
     private List<Vector3> currentRunCameraRotationData;
-    private List<KeysPressed> currentRunKeyData;
+    public List<KeysPressed> currentRunKeyData;
 
     private Vector3[] pastRunPositionData;
     private Vector3[] pastRunCameraRotationData;
@@ -23,21 +27,23 @@ public class PlayerGhostRun : MonoBehaviour
     private float ghostRunSaveTimer = 0;
     private float ghostRunnerTimer = 0;
     public Level currentLevel;
-    private int currentDataIndex = 0;
+    public int currentDataIndex = 0;
 
     private const int maxDataCount = 25000; //Makes it so max file save is 5MB, stores 20.8 min of Ghost data saved
 
-    private const float ghostRunSaveInterval = 0.05f;
+    private const float ghostRunSaveInterval = 0.0167f;
 
     private bool usingLeaderboardGhost;
 
     void Start()
     {
         currentLevel = GameManager.GetCurrentLevel();
+        playerMovement = GetComponent<PlayerMovement>();
         SetPastRunData();
         SetupGhostObject();
         
         playerCamera = GetComponent<CameraMove>().playerCamera;
+        portalPlacement = GetComponent<PortalPlacement>();
         RestartRun();
 
         MiscOptions.onGhostToggle += ToggleGhost;
@@ -91,6 +97,11 @@ public class PlayerGhostRun : MonoBehaviour
             ghostRunner = Instantiate(ghostRunnerPrefab);
             ghostRunner.name = "ghost runner";
 
+            ghostCamera = ghostRunner.GetComponentInChildren<Camera>();
+            playerMovement.ghostCamera = ghostCamera;
+            GetComponent<PortalPlacement>().ghostCamera = ghostCamera;
+            ghostCamera.enabled = false;
+
             ghostRunner.layer = PlayerConstants.GhostLayer;
             Transform[] allChildren = ghostRunner.GetComponentsInChildren<Transform>();
             foreach (Transform child in allChildren)
@@ -105,6 +116,37 @@ public class PlayerGhostRun : MonoBehaviour
         if (Time.timeScale == 0 || GameManager.GetCurrentLevel().workshopFilePath != string.Empty)
         {
             return;
+        }
+        
+        if (InputManager.GetKeyDown(PlayerConstants.FirstPersonGhost))
+        {
+            ToggleGhostCamera();
+        }
+        
+        if (ghostCamera.enabled)
+        {
+            if(pastRunKeyData[currentDataIndex].isMouseLeftPressed)
+            {
+                Debug.Log("GHOST MOUSE LEFT PRESSED");
+
+                // Firing an event here is unnecessary:
+
+                //onGhostPortalPress?.Invoke(ghostRunner.transform, PortalType.Blue);
+
+                portalPlacement.FirePortal(PortalType.Blue, ghostRunner.transform.position, ghostRunner.transform.forward,
+                    PortalPlacement.portalRaycastDistance);
+
+            }
+            else if (pastRunKeyData[currentDataIndex].isMouseRightPressed)
+            {
+                Debug.Log("GHOST MOUSE RIGHT PRESSED");
+
+                //onGhostPortalPress?.Invoke(ghostRunner.transform, PortalType.Pink);
+
+                portalPlacement.FirePortal(PortalType.Pink, ghostRunner.transform.position, ghostRunner.transform.forward,
+                    PortalPlacement.portalRaycastDistance);
+
+            }
         }
 
         RecordCurrentRunData();
@@ -138,8 +180,17 @@ public class PlayerGhostRun : MonoBehaviour
         float lerpValue = ghostRunnerTimer / ghostRunSaveInterval;
         Vector3 position = Vector3.Lerp(ghostRunner.transform.position, pastRunPositionData[currentDataIndex], lerpValue);
         ghostRunner.transform.position = position;
-        Vector3 rotation = Vector3.Lerp(ghostRunner.transform.eulerAngles, pastRunCameraRotationData[currentDataIndex], lerpValue);
-        ghostRunner.transform.eulerAngles = new Vector3(0f, rotation.y, 0f); // only rotate ghost on y axis 
+        if (ghostCamera.enabled)
+        {
+            ghostRunner.transform.eulerAngles = Vector3.zero;
+            ghostCamera.transform.eulerAngles = pastRunCameraRotationData[currentDataIndex];
+        }
+        else
+        {
+            Vector3 rotation = Vector3.Lerp(ghostRunner.transform.eulerAngles, pastRunCameraRotationData[currentDataIndex], lerpValue);
+            ghostRunner.transform.eulerAngles = new Vector3(0f, rotation.y, 0f);
+        }
+
         keyPressed.SetPressed(pastRunKeyData[currentDataIndex]);
 
         ghostRunnerTimer += Time.deltaTime;
@@ -193,6 +244,12 @@ public class PlayerGhostRun : MonoBehaviour
     {
         OptionsPreferencesManager.SetGhostToggle(isOn);
         ghostRunner.SetActive(isOn && ShouldGhostBeActive());
+    }
+
+    private void ToggleGhostCamera()
+    {
+        ghostCamera.enabled = !ghostCamera.enabled;
+        playerCamera.enabled = !playerCamera.enabled;
     }
 
     private bool ShouldGhostBeActive()

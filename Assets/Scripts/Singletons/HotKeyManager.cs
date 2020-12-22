@@ -73,6 +73,7 @@ public class HotKeyManager : MonoBehaviour {
         LoadSavedKey(PlayerConstants.Respawn, PlayerConstants.RespawnDefault);
         LoadSavedKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
         LoadSavedKey(PlayerConstants.Portal2, PlayerConstants.Portal2Default);
+        LoadSavedKey(PlayerConstants.FirstPersonGhost, PlayerConstants.FirstPersonGhostDefault);
         LoadSavedKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault);
         LoadSavedKey(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseDefault);
         LoadSavedKey(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseDefault);
@@ -99,7 +100,7 @@ public class HotKeyManager : MonoBehaviour {
 
         foreach(KeyValuePair<String, KeyCode> entry in keys)
         {
-            Debug.Log("SefDefaults KVP: " + entry.Key + ": " + entry.Value); 
+            Debug.Log("SetDefaults KVP: " + entry.Key + ": " + entry.Value); 
             PlayerPrefs.SetString(entry.Key, entry.Value.ToString());
         }
     }
@@ -118,6 +119,7 @@ public class HotKeyManager : MonoBehaviour {
         AddDefaultKey(PlayerConstants.Respawn, PlayerConstants.RespawnDefault);
         AddDefaultKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
         AddDefaultKey(PlayerConstants.Portal2, PlayerConstants.Portal2Default);
+        AddDefaultKey(PlayerConstants.FirstPersonGhost, PlayerConstants.FirstPersonGhostDefault);
         AddDefaultKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault);
         AddDefaultKey(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseDefault);
         AddDefaultKey(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseDefault);
@@ -153,5 +155,6 @@ public class HotKeyManager : MonoBehaviour {
         tooltips.Add(PlayerConstants.ToggleUI, PlayerConstants.ToggleUITooltip);
         tooltips.Add(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseTooltip);
         tooltips.Add(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseTooltip);
+        tooltips.Add(PlayerConstants.FirstPersonGhost, PlayerConstants.FirstPersonGhostTooltip);
     }
 }

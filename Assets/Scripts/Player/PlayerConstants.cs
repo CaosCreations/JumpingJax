@@ -92,6 +92,10 @@ public static class PlayerConstants
     public static string Portal2Default = "Mouse1";
     public static string Portal2Tooltip = "Places the pink portal.";
 
+    public static string FirstPersonGhost = "First Person Ghost";
+    public static string FirstPersonGhostDefault = "G";
+    public static string FirstPersonGhostTooltip = "First person ghost perspective";
+
     public static string ToggleUI = "ToggleUI";
     public static string ToggleUIDefault = "Z";
     public static string ToggleUITooltip = "Toggles off all UI.";
