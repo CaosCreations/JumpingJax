@@ -62,7 +62,7 @@ public class PlayerGhostRun : MonoBehaviour
                 Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.replayFileLocation}");
                 if (File.Exists(GameManager.Instance.replayFileLocation))
                 {
-                    Debug.Log("Found leaderboard replay file");
+                    Debug.Log("Found leaderboard replay file, loading replay data");
 
                     try
                     {
