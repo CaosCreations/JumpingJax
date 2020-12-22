@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RecursivePortalCamera : MonoBehaviour
+public class GhostPortalCamera : MonoBehaviour
 {
     [Header("Set in Editor")]
     public Camera portalCamera = null;
 
     [Header("Set at RUNTIME")]
-    public PortalPair portalPair;
+    public GhostPortalPair portalPair;
 
     public RenderTexture blueTempRenderTexture;
     public RenderTexture pinkTempRenderTexture;
@@ -28,14 +28,14 @@ public class RecursivePortalCamera : MonoBehaviour
 
         blueTempRenderTexture = new RenderTexture(Screen.width, Screen.height, renderTextureDepth, RenderTextureFormat.ARGB32);
         pinkTempRenderTexture = new RenderTexture(Screen.width, Screen.height, renderTextureDepth, RenderTextureFormat.ARGB32);
-        
+
     }
 
     private void Start()
     {
         // These HAVE to be in Start(), because the portalPair is instantiated in PortalPlacement:Awake()
-        PortalPlacement portalPlacement = GetComponentInParent<PortalPlacement>();
-        if(portalPlacement != null)
+        GhostPortalPlacement portalPlacement = GetComponentInParent<GhostPortalPlacement>();
+        if (portalPlacement != null)
         {
             portalPair = portalPlacement.portalPair;
             portalPair.SetRenderTextures(blueTempRenderTexture, pinkTempRenderTexture);
@@ -83,7 +83,7 @@ public class RecursivePortalCamera : MonoBehaviour
         }
     }
 
-    private void RenderCamera(Portal inPortal, Portal outPortal, int recursionId)
+    private void RenderCamera(GhostPortal inPortal, GhostPortal outPortal, int recursionId)
     {
         Transform inTransform = inPortal.transform;
         Transform outTransform = outPortal.transform;

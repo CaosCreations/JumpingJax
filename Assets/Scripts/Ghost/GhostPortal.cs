@@ -1,34 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
-public class Portal : MonoBehaviour
+public class GhostPortal : MonoBehaviour
 {
     [Header("Set in Editor")]
     public Material defaultPortalMaterial;
+    private PortalType portalType;
     [SerializeField]
     private LayerMask placementMask;
     [SerializeField]
     private LayerMask overhangMask;
     public Renderer outlineRenderer = null;
 
-
     [Header("Set at RUNTIME")]
-    public Material renderTextureMaterial;
 
     [SerializeField]
-    private Portal otherPortal = null;
+    private GhostPortal otherPortal = null;
 
-    private Renderer myRenderer;
-    private Crosshair playerCrosshair;
-    
-    private PortalType portalType;
     private bool isPlaced = false;
 
-    [SerializeField]
-    private List<Collider> wallsPortalIsTouching;
-
-    private List<PortalableObject> objectsToWarp = new List<PortalableObject>();
+    public Material renderTextureMaterial;
+    private Renderer myRenderer;
+    private Crosshair playerCrosshair;
 
     // Used for portal positioning
     private BoxCollider boxCollider;
@@ -67,27 +61,9 @@ public class Portal : MonoBehaviour
         }
 
         UpdatePortalOutline();
-        WarpObjects();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        var objectToWarp = other.GetComponent<PortalableObject>();
-        if (otherPortal.IsPlaced())
-        {
-            objectsToWarp.Add(objectToWarp);
-            objectToWarp.SetIsInPortal(this, otherPortal, wallsPortalIsTouching);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        var portalable = other.GetComponent<PortalableObject>();
-
-        ResetObjectInPortal(portalable);
-    }
-
-    public void Init(PortalType portalType, Portal otherPortal)
+    public void Init(PortalType portalType, GhostPortal otherPortal)
     {
         this.portalType = portalType;
         this.otherPortal = otherPortal;
@@ -111,19 +87,6 @@ public class Portal : MonoBehaviour
         outlineRenderer.gameObject.transform.Rotate(Vector3.forward, 0.1f);
     }
 
-    private void WarpObjects()
-    {
-        for (int i = 0; i < objectsToWarp.Count; ++i)
-        {
-            Vector3 objPos = transform.InverseTransformPoint(objectsToWarp[i].transform.position);
-
-            if (objPos.z > 0.0f)
-            {
-                objectsToWarp[i].Warp();
-            }
-        }
-    }
-
     public void SetTexture(RenderTexture tex)
     {
         renderTextureMaterial.mainTexture = tex;
@@ -134,18 +97,9 @@ public class Portal : MonoBehaviour
         return myRenderer.isVisible;
     }
 
-    public Portal GetOtherPortal()
+    public GhostPortal GetOtherPortal()
     {
         return otherPortal;
-    }
-
-    public void ResetObjectInPortal(PortalableObject portalable)
-    {
-        if (objectsToWarp.Contains(portalable))
-        {
-            objectsToWarp.Remove(portalable);
-            portalable.ExitPortal(wallsPortalIsTouching);
-        }
     }
 
     public void PlacePortal(Vector3 pos, Quaternion rot)
@@ -172,7 +126,6 @@ public class Portal : MonoBehaviour
 
         FixOverhangs();
         FixPortalOverlaps();
-        GetWallColliders();
     }
 
     // Ensure the portal cannot extend past the edge of a surface, or intersect a corner
@@ -200,7 +153,7 @@ public class Portal : MonoBehaviour
 
         for (int i = 0; i < steps; i++)
         {
-            float interpolationFactor = (float) i / (float) steps;
+            float interpolationFactor = (float)i / (float)steps;
             Vector3 stepPosition = Vector3.Lerp(testPoint, Vector3.zero, interpolationFactor);
             Vector3 worldSpaceStepPosition = transform.TransformPoint(stepPosition);
 
@@ -236,7 +189,7 @@ public class Portal : MonoBehaviour
         Vector3 worldSpaceCenter = transform.TransformPoint(boxCollider.center);
         Collider[] overlappingBoxes = Physics.OverlapBox(worldSpaceCenter, boxCollider.bounds.extents);
 
-        foreach(Collider otherCollider in overlappingBoxes)
+        foreach (Collider otherCollider in overlappingBoxes)
         {
             if (otherCollider.gameObject == otherPortal.gameObject)
             {
@@ -276,7 +229,8 @@ public class Portal : MonoBehaviour
         {
             offsetFixX = new Vector3(offsetX, 0, 0);
         }
-        else {
+        else
+        {
             offsetFixX = new Vector3(-offsetX, 0, 0);
         }
 
@@ -291,7 +245,7 @@ public class Portal : MonoBehaviour
 
         if (isInsideX && isInsideY)
         {
-            if(offsetX < offsetY)
+            if (offsetX < offsetY)
             {
                 overlapFix = offsetFixX;
             }
@@ -313,14 +267,6 @@ public class Portal : MonoBehaviour
         transform.Translate(overlapFix, Space.Self);
     }
 
-    private void GetWallColliders()
-    {
-        Vector3 worldSpaceCenter = transform.TransformPoint(boxCollider.center);
-        Collider[] overlappingBoxes = Physics.OverlapBox(worldSpaceCenter, PlayerConstants.PortalColliderExtents, transform.rotation, overhangMask);
-
-        wallsPortalIsTouching = new List<Collider>(overlappingBoxes);
-    }
-
     public void ResetPortal()
     {
         gameObject.SetActive(false);
@@ -328,11 +274,6 @@ public class Portal : MonoBehaviour
         boxCollider.enabled = false;
         transform.position = new Vector3(100, 10000, 100);
         ResetPortalMaterial();
-
-        for(int i = 0; i < objectsToWarp.Count; i++)
-        {
-            ResetObjectInPortal(objectsToWarp[i]);
-        }
     }
 
     public void ResetOtherPortal()
