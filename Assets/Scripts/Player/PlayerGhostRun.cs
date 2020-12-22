@@ -39,11 +39,11 @@ public class PlayerGhostRun : MonoBehaviour
     {
         currentLevel = GameManager.GetCurrentLevel();
         playerMovement = GetComponent<PlayerMovement>();
-        SetPastRunData();
-        SetupGhostObject();
-        
         playerCamera = GetComponent<CameraMove>().playerCamera;
         portalPlacement = GetComponent<PortalPlacement>();
+
+        SetPastRunData();
+        SetupGhostObject();
         RestartRun();
 
         MiscOptions.onGhostToggle += ToggleGhost;
@@ -99,7 +99,7 @@ public class PlayerGhostRun : MonoBehaviour
 
             ghostCamera = ghostRunner.GetComponentInChildren<Camera>();
             playerMovement.ghostCamera = ghostCamera;
-            GetComponent<PortalPlacement>().ghostCamera = ghostCamera;
+            portalPlacement.ghostCamera = ghostCamera;
             ghostCamera.enabled = false;
 
             ghostRunner.layer = PlayerConstants.GhostLayer;
@@ -127,25 +127,15 @@ public class PlayerGhostRun : MonoBehaviour
         {
             if(pastRunKeyData[currentDataIndex].isMouseLeftPressed)
             {
-                Debug.Log("GHOST MOUSE LEFT PRESSED");
-
-                // Firing an event here is unnecessary:
-
-                //onGhostPortalPress?.Invoke(ghostRunner.transform, PortalType.Blue);
-
+                Debug.Log("Creating Ghost Blue Portal");
                 portalPlacement.FirePortal(PortalType.Blue, ghostRunner.transform.position, ghostRunner.transform.forward,
                     PortalPlacement.portalRaycastDistance);
-
             }
             else if (pastRunKeyData[currentDataIndex].isMouseRightPressed)
             {
-                Debug.Log("GHOST MOUSE RIGHT PRESSED");
-
-                //onGhostPortalPress?.Invoke(ghostRunner.transform, PortalType.Pink);
-
+                Debug.Log("Creating Ghost Pink Portal");
                 portalPlacement.FirePortal(PortalType.Pink, ghostRunner.transform.position, ghostRunner.transform.forward,
                     PortalPlacement.portalRaycastDistance);
-
             }
         }
 

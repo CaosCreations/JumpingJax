@@ -56,9 +56,6 @@ public class OptionsPreferencesManager
     public const string unitOfSpeedKey = "UnitOfSpeed";
     public const int defaultUnitOfSpeed = 0;
 
-    public const string firstPersonGhostKey = "FirstPersonGhost";
-    public const int defaultFirstPersonGhost = 0;
-
     public static int GetResolutionWidth()
     {
         return PlayerPrefs.GetInt(resolutionWidthKey, defaultResolutionWidth);
@@ -241,16 +238,5 @@ public class OptionsPreferencesManager
     public static void SetUnitOfSpeed(int index)
     {
         PlayerPrefs.SetInt(unitOfSpeedKey, index);
-    }
-
-    public static bool GetFirstPersonGhost()
-    {
-        int isOn = PlayerPrefs.GetInt(firstPersonGhostKey, defaultFirstPersonGhost);
-        return isOn == 0 ? false : true;
-    }
-
-    public static void SetFirstPersonGhost(bool isOn)
-    {
-        PlayerPrefs.SetInt(firstPersonGhostKey, isOn ? 1 : 0);
     }
 }

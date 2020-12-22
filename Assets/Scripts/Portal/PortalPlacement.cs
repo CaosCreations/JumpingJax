@@ -61,37 +61,19 @@ public class PortalPlacement : MonoBehaviour
 
     private void Update()
     {
-        if (Time.timeScale == 0 || playerPortalable.IsInPortal())
+        if (Time.timeScale == 0 || playerPortalable.IsInPortal() || ghostCamera.enabled)
         {
             return;
         }
 
-        if (!ghostCamera.enabled)
+        if (InputManager.GetKeyDown(PlayerConstants.Portal1))
         {
-            if (InputManager.GetKeyDown(PlayerConstants.Portal1))
-            {
-                FirePortal(PortalType.Blue, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
-            }
-            else if (InputManager.GetKeyDown(PlayerConstants.Portal2))
-            {
-                FirePortal(PortalType.Pink, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
-            }
+            FirePortal(PortalType.Blue, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
         }
-        // Firing ghost portal here looks messy: 
-
-        //else
-        //{
-        //    if (playerGhostRun.currentRunKeyData[playerGhostRun.currentDataIndex].isMouseLeftPressed)
-        //    {
-        //        FirePortal(PortalType.Blue, playerGhostRun.transform.position, playerGhostRun.transform.forward, portalRaycastDistance);
-
-        //    }
-        //    else if (playerGhostRun.currentRunKeyData[playerGhostRun.currentDataIndex].isMouseRightPressed)
-        //    {
-        //        FirePortal(PortalType.Pink, playerGhostRun.transform.position, playerGhostRun.transform.forward, portalRaycastDistance);
-
-        //    }
-        //}
+        else if (InputManager.GetKeyDown(PlayerConstants.Portal2))
+        {
+            FirePortal(PortalType.Pink, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
+        }
     }
 
     public void FirePortal(PortalType portalType, Vector3 pos, Vector3 dir, float distance)
