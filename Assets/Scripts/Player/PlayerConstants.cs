@@ -127,6 +127,7 @@ public static class PlayerConstants
     public static string FullscreenTooltip = "Toggle Fullscreen.";
     public static string FOVTooltip = "Player Camera Field of View.";
     public static string UnitOfSpeedTooltip = "Speedometer Unit";
+    public static string DeleteDataTooltip = "Clears all local save data. Does not impact leaderboards or hotkeys.";
 
     public static List<string> UnitOfSpeedOptions = new List<string>()
     {

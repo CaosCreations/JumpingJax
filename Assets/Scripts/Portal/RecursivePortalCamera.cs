@@ -28,7 +28,6 @@ public class RecursivePortalCamera : MonoBehaviour
 
         blueTempRenderTexture = new RenderTexture(Screen.width, Screen.height, renderTextureDepth, RenderTextureFormat.ARGB32);
         pinkTempRenderTexture = new RenderTexture(Screen.width, Screen.height, renderTextureDepth, RenderTextureFormat.ARGB32);
-        
     }
 
     private void Start()
