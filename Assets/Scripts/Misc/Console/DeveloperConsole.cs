@@ -44,7 +44,7 @@ public class DeveloperConsole : MonoBehaviour
     [SerializeField]
     private bool isEnabledInOptions;
 
-    // Outputs to: C:\Users\<your-user>\AppData\LocalLow\DefaultCompany\UnityDebugConsole\log.txt
+    // Outputs to: C:\Users\YOUR_USER\AppData\LocalLow\Caos Creations\jumpingjax\jjConsoleLog.txt
     private string logFilePath;
 
     private void Awake()
@@ -82,20 +82,21 @@ public class DeveloperConsole : MonoBehaviour
 
 
         // Delete large log files
-        //if (File.Exists(logFilePath))
-        //{
-        //    FileInfo fileInfo = new FileInfo(logFilePath);
-        //    if (fileInfo.Length > ConsoleConstants.MaxLogSizeInBytes)
-        //    {
-        //        try
-        //        {
-        //            File.Delete(logFilePath);
-        //        }catch(Exception e)
-        //        {
-        //            Debug.LogError($"DeveloperConsole couldn't delete file: {e.Message}\n{e.StackTrace}");
-        //        }
-        //    }
-        //}
+        if (File.Exists(logFilePath))
+        {
+            FileInfo fileInfo = new FileInfo(logFilePath);
+            if (fileInfo.Length > ConsoleConstants.MaxLogSizeInBytes)
+            {
+                try
+                {
+                    File.Delete(logFilePath);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"DeveloperConsole couldn't delete file: {e.Message}\n{e.StackTrace}");
+                }
+            }
+        }
     }
 
     public void ToggleConsoleEnabled(bool isEnabled)
