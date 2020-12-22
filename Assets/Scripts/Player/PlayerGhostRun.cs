@@ -240,6 +240,11 @@ public class PlayerGhostRun : MonoBehaviour
     {
         ghostCamera.enabled = !ghostCamera.enabled;
         playerCamera.enabled = !playerCamera.enabled;
+
+        if (ghostCamera.enabled)
+        {
+            ghostCamera.fieldOfView = OptionsPreferencesManager.GetCameraFOV();
+        }
     }
 
     private bool ShouldGhostBeActive()
