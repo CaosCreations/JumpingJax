@@ -119,8 +119,6 @@ public class PlayerProgress : MonoBehaviour
         playerUI.ToggleOffWinScreen();
         currentCheckpoint = firstCheckpoint;
         Respawn();
-        
-        GameManager.RestartLevel();
     }
 
     private void ResetCheckpoints()

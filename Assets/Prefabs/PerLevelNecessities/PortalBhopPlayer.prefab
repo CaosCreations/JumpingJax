@@ -76,6 +76,7 @@ MonoBehaviour:
   newVelocity: {x: 0, y: 0, z: 0}
   grounded: 0
   crouching: 0
+  ghostCamera: {fileID: 0}
 --- !u!114 &441310430289080766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,6 +109,8 @@ MonoBehaviour:
     m_Bits: 3073
   portalPairPrefab: {fileID: 495230963734502551, guid: a7930846375cd3d45b30ff50e766e76f,
     type: 3}
+  portalPair: {fileID: 0}
+  ghostCamera: {fileID: 0}
 --- !u!114 &441310430289080767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,8 +171,15 @@ MonoBehaviour:
   keyPressed: {fileID: 5708893145461028555}
   ghostRunnerPrefab: {fileID: 5089943443910636709, guid: c66fbb5e264c7fa4e8fc1f6a1f483007,
     type: 3}
+  portalCamera: {fileID: 1844322298727899587}
+  ghostRunRecursivePortalCamera: {fileID: 0}
+  ghostCamera: {fileID: 0}
   ghostRunner: {fileID: 0}
+  playerMovement: {fileID: 0}
+  playerProgress: {fileID: 0}
+  currentRunKeyData: []
   currentLevel: {fileID: 0}
+  currentDataIndex: 0
 --- !u!54 &7476176815032746761
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -245,7 +255,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 1000
+  far clip plane: 10000
   field of view: 90
   orthographic: 0
   orthographic size: 5
@@ -286,6 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   portalPair: {fileID: 0}
   portalCamera: {fileID: 1844322298727899587}
+  mainCamera: {fileID: 0}
 --- !u!114 &7934284442373318329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -590,7 +601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inGameUI: {fileID: 4656176310265185053}
-  winMenu: {fileID: 416759157694248466}
+  winMenu: {fileID: 416759157694248476}
 --- !u!1 &1844322298727899597
 GameObject:
   m_ObjectHideFlags: 0
@@ -2368,24 +2379,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 063c58d5ba58efe4f8318cd37e13f54b, type: 3}
+--- !u!1 &416759157694248476 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5480509527155687383, guid: 063c58d5ba58efe4f8318cd37e13f54b,
+    type: 3}
+  m_PrefabInstance: {fileID: 5315952207802370507}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &416759157694248477 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5480509527155687382, guid: 063c58d5ba58efe4f8318cd37e13f54b,
     type: 3}
   m_PrefabInstance: {fileID: 5315952207802370507}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &416759157694248466 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5480509527155687385, guid: 063c58d5ba58efe4f8318cd37e13f54b,
-    type: 3}
-  m_PrefabInstance: {fileID: 5315952207802370507}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bc469fc3c6483945b75e699dbc931c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8656107626436944582
 PrefabInstance:
   m_ObjectHideFlags: 0

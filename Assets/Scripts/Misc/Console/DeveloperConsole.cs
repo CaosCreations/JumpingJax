@@ -44,7 +44,7 @@ public class DeveloperConsole : MonoBehaviour
     [SerializeField]
     private bool isEnabledInOptions;
 
-    // Outputs to: C:\Users\<your-user>\AppData\LocalLow\DefaultCompany\UnityDebugConsole\log.txt
+    // Outputs to: C:\Users\YOUR_USER\AppData\LocalLow\Caos Creations\jumpingjax\jjConsoleLog.txt
     private string logFilePath;
 
     private void Awake()
@@ -82,20 +82,22 @@ public class DeveloperConsole : MonoBehaviour
 
 
         // Delete large log files
-        //if (File.Exists(logFilePath))
-        //{
-        //    FileInfo fileInfo = new FileInfo(logFilePath);
-        //    if (fileInfo.Length > ConsoleConstants.MaxLogSizeInBytes)
-        //    {
-        //        try
-        //        {
-        //            File.Delete(logFilePath);
-        //        }catch(Exception e)
-        //        {
-        //            Debug.LogError($"DeveloperConsole couldn't delete file: {e.Message}\n{e.StackTrace}");
-        //        }
-        //    }
-        //}
+        if (File.Exists(logFilePath))
+        {
+            FileInfo fileInfo = new FileInfo(logFilePath);
+            if (fileInfo.Length > ConsoleConstants.MaxLogSizeInBytes)
+            {
+                try
+                {
+                    Debug.LogWarning("Deleting large log file");
+                    File.Delete(logFilePath);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"DeveloperConsole couldn't delete file: {e.Message}\n{e.StackTrace}");
+                }
+            }
+        }
     }
 
     public void ToggleConsoleEnabled(bool isEnabled)
@@ -124,7 +126,8 @@ public class DeveloperConsole : MonoBehaviour
             
         }
 
-        LogMessage("<color=" + color + ">[" + type.ToString() + "]" + logMessage + "</color> ");
+        string colorWrappedMessage = $"<color={color}>[{type}]{logMessage}</color>";
+        LogMessage(colorWrappedMessage, stackTrace, type);
         ClearOldLogs();
         MoveScrollViewToBottom();
     }
@@ -198,12 +201,15 @@ public class DeveloperConsole : MonoBehaviour
 
     private void ClearOldLogs()
     {
-        // If there is more than x lines in the text, delete the oldest
-        string logs = consoleText.text;
-        int lines = Regex.Matches(logs, "\n").Count;
-        if (lines > ConsoleConstants.MaxConsoleLines)
+        if(consoleText != null)
         {
-            consoleText.text = logs.Remove(0, logs.IndexOf('\n') + 1);
+            // If there is more than x lines in the text, delete the oldest
+            string logs = consoleText.text;
+            int lines = Regex.Matches(logs, "\n").Count;
+            if (lines > ConsoleConstants.MaxConsoleLines)
+            {
+                consoleText.text = logs.Remove(0, logs.IndexOf('\n') + 1);
+            }
         }
     }
 
@@ -234,7 +240,7 @@ public class DeveloperConsole : MonoBehaviour
         }
     }
 
-    private void LogMessage(string message)
+    private void LogMessage(string message, string stackTrace, LogType type)
     {
         if(consoleText != null)
         {
@@ -243,6 +249,11 @@ public class DeveloperConsole : MonoBehaviour
 
         DateTime now = DateTime.Now;
         message = string.Format("[{0:H:mm:ss}] {1}\n", now, message);
+
+        if(type == LogType.Exception || type == LogType.Error)
+        {
+            message += $"\n{stackTrace}";
+        }
 
         _readWriteLock.EnterWriteLock();
         try
@@ -299,7 +310,7 @@ public class DeveloperConsole : MonoBehaviour
         }
 
         (ConsoleCommand command, string[] args) = GetCommandFromInput(consoleInput.text);
-        LogMessage(ConsoleConstants.commandPrefix + consoleInput.text);
+        Debug.Log($"Processing Command: {ConsoleConstants.commandPrefix} {consoleInput.text}");
         if (command != null)
         {
             command.Process(args);

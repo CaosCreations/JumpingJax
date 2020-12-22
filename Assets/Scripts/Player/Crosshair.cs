@@ -15,8 +15,6 @@ public class Crosshair : MonoBehaviour
     private bool isLeftPlaced;
     private bool isRightPlaced;
 
-    public PortalPair portalPair;
-
     private void Start()
     {
         Init();
