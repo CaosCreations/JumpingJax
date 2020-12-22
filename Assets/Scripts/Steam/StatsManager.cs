@@ -33,14 +33,14 @@ public class StatsManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log($"Leaderboard NOT updated for {level.levelName} with score {time.TotalMilliseconds}");
+                    Debug.LogError($"Leaderboard NOT updated for {level.levelName} with score {time.TotalMilliseconds}");
                 }
                 // The ghost run data is erased whenever the score is changed, so we HAVE to add it AFTER submitting a score.
                 await CreateNewGhostRun(leaderboardValue, level);
             }
             else
             {
-                Debug.Log($"Leaderboard NOT found for {level.levelName}");
+                Debug.LogError($"Leaderboard NOT found for {level.levelName}");
             }
         }
         else
@@ -98,7 +98,7 @@ public class StatsManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Not getting level leaderboard, steam client is NOT valid");
+            Debug.LogError("Not getting level leaderboard, steam client is NOT valid");
         }
 
         return new Steamworks.Data.LeaderboardEntry[0];
@@ -126,18 +126,18 @@ public class StatsManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log($"No entries found found for MY leaderboard entry for {levelLeaderboardName}");
+                        Debug.LogError($"No entries found found for MY leaderboard entry for {levelLeaderboardName}");
                     }
                 }
                 else
                 {
-                    Debug.Log($"no leaderboard found for {levelLeaderboardName}");
+                    Debug.LogWarning($"no leaderboard found for {levelLeaderboardName}");
                 }
             }
         }
         else
         {
-            Debug.Log("Not getting level leaderboard, steam client is NOT valid");
+            Debug.LogError("Not getting level leaderboard, steam client is NOT valid");
         }
 
         return null;

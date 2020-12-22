@@ -199,12 +199,15 @@ public class DeveloperConsole : MonoBehaviour
 
     private void ClearOldLogs()
     {
-        // If there is more than x lines in the text, delete the oldest
-        string logs = consoleText.text;
-        int lines = Regex.Matches(logs, "\n").Count;
-        if (lines > ConsoleConstants.MaxConsoleLines)
+        if(consoleText != null)
         {
-            consoleText.text = logs.Remove(0, logs.IndexOf('\n') + 1);
+            // If there is more than x lines in the text, delete the oldest
+            string logs = consoleText.text;
+            int lines = Regex.Matches(logs, "\n").Count;
+            if (lines > ConsoleConstants.MaxConsoleLines)
+            {
+                consoleText.text = logs.Remove(0, logs.IndexOf('\n') + 1);
+            }
         }
     }
 
