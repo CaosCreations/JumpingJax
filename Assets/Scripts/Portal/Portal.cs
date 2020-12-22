@@ -25,7 +25,7 @@ public class Portal : MonoBehaviour
     private List<PortalableObject> objectsToWarp = new List<PortalableObject>();
 
     public Renderer outlineRenderer = null;
-    private Material meshMaterialMain;
+    public Material meshMaterialMain;
     private new Renderer renderer;
     private Crosshair playerCrosshair;
 
@@ -122,8 +122,6 @@ public class Portal : MonoBehaviour
             }
         }
     }
-
-    
 
     public void SetTexture(RenderTexture tex)
     {

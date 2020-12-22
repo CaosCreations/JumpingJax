@@ -38,6 +38,8 @@ public static class PlayerConstants
     public static float portalWidth = 2f;
     public static float portalHeight = 2f;
     public static Vector3 PortalColliderExtents = new Vector3(1f, 1f, 1f);
+    public static float PortalRaycastDistance = 250;
+
 
     // Layer Masks
     public static LayerMask portalPlacementMask = new LayerMask();

@@ -5,17 +5,22 @@ using UnityEngine;
 
 public class PlayerGhostRun : MonoBehaviour
 {
+    [Header("Set in Editor")]
     public KeyPressed keyPressed;
-    public static event Action<Transform, PortalType> onGhostPortalPress;
-
     public GameObject ghostRunnerPrefab;
-	
-    private Camera playerCamera;
-    private PortalPlacement portalPlacement;
+    public Camera portalCamera;
+
+    [Header("Set at RUNTIME")]
+    public RecursivePortalCamera ghostRunRecursivePortalCamera;
+    public RecursivePortalCamera playerRecursivePortalCamera;
     public Camera ghostCamera;
+
     public GameObject ghostRunner;
     public PlayerMovement playerMovement;
     public PlayerProgress playerProgress;
+
+    private Camera playerCamera;
+    private PortalPlacement portalPlacement;
 
     private List<Vector3> currentRunPositionData;
     private List<Vector3> currentRunCameraRotationData;
@@ -43,6 +48,7 @@ public class PlayerGhostRun : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         playerCamera = GetComponent<CameraMove>().playerCamera;
         portalPlacement = GetComponent<PortalPlacement>();
+        playerRecursivePortalCamera = GetComponentInChildren<RecursivePortalCamera>();
 
         SetPastRunData();
         SetupGhostObject();
@@ -100,6 +106,7 @@ public class PlayerGhostRun : MonoBehaviour
             ghostRunner.name = "ghost runner";
 
             ghostCamera = ghostRunner.GetComponentInChildren<Camera>();
+            ghostRunRecursivePortalCamera = ghostRunner.GetComponentInChildren<RecursivePortalCamera>();
             playerMovement.ghostCamera = ghostCamera;
             portalPlacement.ghostCamera = ghostCamera;
             ghostCamera.enabled = false;
@@ -119,7 +126,7 @@ public class PlayerGhostRun : MonoBehaviour
         {
             return;
         }
-        
+
         if (InputManager.GetKeyDown(PlayerConstants.FirstPersonGhost))
         {
             ToggleGhostCamera();
@@ -131,13 +138,13 @@ public class PlayerGhostRun : MonoBehaviour
             {
                 Debug.Log("Creating Ghost Blue Portal");
                 portalPlacement.FirePortal(PortalType.Blue, ghostCamera.transform.position, ghostCamera.transform.forward,
-                    PortalPlacement.portalRaycastDistance);
+                    PlayerConstants.PortalRaycastDistance, ghostCamera.transform);
             }
             else if (pastRunKeyData[currentDataIndex].isMouseRightPressed)
             {
                 Debug.Log("Creating Ghost Pink Portal");
                 portalPlacement.FirePortal(PortalType.Pink, ghostCamera.transform.position, ghostCamera.transform.forward,
-                    PortalPlacement.portalRaycastDistance);
+                    PlayerConstants.PortalRaycastDistance, ghostCamera.transform);
             }
         }
 
@@ -166,8 +173,12 @@ public class PlayerGhostRun : MonoBehaviour
 
         if (currentDataIndex >= pastRunPositionData.Length - 1)
         {
-            portalPlacement.portalPair.ResetPortals();
             currentDataIndex = 0;
+
+            if (ghostCamera.enabled)
+            {
+                portalPlacement.portalPair.ResetPortals();
+            }
         }
 
         float lerpValue = ghostRunnerTimer / ghostRunSaveInterval;
@@ -242,10 +253,14 @@ public class PlayerGhostRun : MonoBehaviour
     private void ToggleGhostCamera()
     {
         ghostCamera.enabled = !ghostCamera.enabled;
+        ghostRunRecursivePortalCamera.enabled = ghostCamera.enabled;
         playerCamera.enabled = !playerCamera.enabled;
 
         if (ghostCamera.enabled)
         {
+            ghostRunRecursivePortalCamera.portalCamera = portalCamera;
+            ghostRunRecursivePortalCamera.myCamera = ghostCamera;
+            ghostRunRecursivePortalCamera.portalPair = portalPlacement.portalPair;
             ghostCamera.fieldOfView = OptionsPreferencesManager.GetCameraFOV();
         }
 
