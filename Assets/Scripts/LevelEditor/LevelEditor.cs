@@ -40,6 +40,7 @@ public class LevelEditor : MonoBehaviour
         levelEditorInfo = GetComponentInChildren<LevelEditorInfo>();
         levelEditorButtons = new List<LevelEditorButton>();
         playerCreatedLevels = GetPlayerCreatedLevels();
+        
         CreateLevelButtons();
         SetupNavButtons();
         
@@ -214,11 +215,11 @@ public class LevelEditor : MonoBehaviour
     private async void Publish()
     {
         publishButton.interactable = false;
-        Debug.Log("Process has begun");
+
+        GameObject.Find("Error Messages").GetComponent<Text>().text = "";
 
         if (!publishCheck()) 
         {
-            // TODO some sort of UI Validation, showing the user there's an issue
             publishButton.interactable = true;
             return;
         } //publish check has no errors then we can publish
@@ -246,7 +247,6 @@ public class LevelEditor : MonoBehaviour
         }
 
         publishButton.interactable = true;
-        Debug.Log("Process has ended");
     }
 
     private void LevelButtonClicked(LevelEditorButton button)
@@ -279,12 +279,13 @@ public class LevelEditor : MonoBehaviour
     private bool publishCheck()
     {
         string json = File.ReadAllText(selectedLevel.level.levelEditorLevelDataPath);
- 
+        GameObject eMessage = GameObject.Find("Error Messages");
+
         //if theres no start checkpoint
         if (!json.Contains(" \"objectType\": 5"))
         {
             sCheckFlag = true;
-            Debug.Log("Level must have a starting checkpoint");
+            eMessage.GetComponent<Text>().text += "Level must have a starting checkpoint" + '\n';
         }
         else
         {
@@ -295,7 +296,7 @@ public class LevelEditor : MonoBehaviour
         if (!json.Contains(" \"objectType\": 6"))
         {
             eCheckFlag = true;
-            Debug.Log("Level must have an end checkpoint");
+            eMessage.GetComponent<Text>().text += "Level must have an end checkpoint" + '\n';
         }
         else
         {
@@ -306,7 +307,7 @@ public class LevelEditor : MonoBehaviour
         if (selectedLevel.text.text == "")
         {
             nameFlag = true;
-            Debug.Log("Level must have a name");
+            eMessage.GetComponent<Text>().text += "Level must have a name" + '\n';
         }
         else
         {
@@ -317,7 +318,7 @@ public class LevelEditor : MonoBehaviour
         if (selectedLevel.level.description == "")
         {
             descFlag = true;
-            Debug.Log("Level must have a description");
+            eMessage.GetComponent<Text>().text += "Level must have a description" + '\n';
         }
         else
         {
