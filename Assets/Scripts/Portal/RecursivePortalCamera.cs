@@ -4,58 +4,52 @@ using UnityEngine;
 
 public class RecursivePortalCamera : MonoBehaviour
 {
-    [SerializeField]
-    private PortalPair portalPair;
+    [Header("Set in Editor")]
+    public Camera portalCamera = null;
 
-    [SerializeField]
-    private Camera portalCamera = null;
+    [Header("Set at RUNTIME")]
+    public PortalPair portalPair;
 
-    private RenderTexture blueTempRenderTexture;
-    private RenderTexture pinkTempRenderTexture;
+    public RenderTexture blueTempRenderTexture;
+    public RenderTexture pinkTempRenderTexture;
 
-    private Camera mainCamera;
+    public Camera myCamera;
 
-    private int portalRecursions = 2;
-    private const int renderTextureDepth = 24;
-
-    private Quaternion flippedYRotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
+    private int portalRecursions;
     private bool isPortalLevel = false;
+
+    private const int renderTextureDepth = 24;
+    private Quaternion flippedYRotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
 
     private void Awake()
     {
         portalRecursions = OptionsPreferencesManager.GetPortalRecursion();
-        mainCamera = Camera.main;
+        myCamera = GetComponent<Camera>();
 
         blueTempRenderTexture = new RenderTexture(Screen.width, Screen.height, renderTextureDepth, RenderTextureFormat.ARGB32);
         pinkTempRenderTexture = new RenderTexture(Screen.width, Screen.height, renderTextureDepth, RenderTextureFormat.ARGB32);
+    }
+
+    private void Start()
+    {
+        // These HAVE to be in Start(), because the portalPair is instantiated in PortalPlacement:Awake()
+        PortalPlacement portalPlacement = GetComponentInParent<PortalPlacement>();
+        if(portalPlacement != null && portalPlacement.portalPair != null)
+        {
+            portalPair = portalPlacement.portalPair;
+            portalPair.SetRenderTextures(blueTempRenderTexture, pinkTempRenderTexture);
+            isPortalLevel = true;
+        }
+        else
+        {
+            isPortalLevel = false;
+        }
     }
 
     public void UpdatePortalRecursion(int recursionLevel)
     {
         portalRecursions = recursionLevel;
     }
-
-    private void Start()
-    {
-        isPortalLevel = PortalsExist();
-        if (isPortalLevel)
-        {
-            portalPair.SetRenderTextures(blueTempRenderTexture, pinkTempRenderTexture);
-        }
-    }
-
-    private bool PortalsExist()
-    {
-        portalPair = FindObjectOfType<PortalPair>();
-
-        if(portalPair == null)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
 
     private void OnPreRender()
     {
@@ -116,7 +110,7 @@ public class RecursivePortalCamera : MonoBehaviour
         Vector4 clipPlaneCameraSpace =
             Matrix4x4.Transpose(Matrix4x4.Inverse(portalCamera.worldToCameraMatrix)) * clipPlane;
 
-        var newMatrix = mainCamera.CalculateObliqueMatrix(clipPlaneCameraSpace);
+        var newMatrix = myCamera.CalculateObliqueMatrix(clipPlaneCameraSpace);
         portalCamera.projectionMatrix = newMatrix;
 
         // Render the camera to its render target.

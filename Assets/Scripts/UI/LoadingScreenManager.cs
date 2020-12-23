@@ -47,14 +47,14 @@ public class LoadingScreenManager : MonoBehaviour
     {
         if (isLoading)
         {
-            if (!currentLoadingOperation.isDone || AsyncTaskReporter.TasksAreRunning())
+            if (!currentLoadingOperation.isDone)
             {
                 timeElapsed += Time.deltaTime;
                 timeSinceSpriteChange += Time.deltaTime;
 
                 AnimateLoadScreen();
 
-                if (timeElapsed >= MIN_TIME_TO_SHOW)
+                if (timeElapsed >= MIN_TIME_TO_SHOW && !AsyncTaskReporter.TasksAreRunning())
                 {
                     // The loading screen has been showing for the minimum time required.
                     // Allow the loading operation to formally finish:

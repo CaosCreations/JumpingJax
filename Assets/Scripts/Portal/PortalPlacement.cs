@@ -10,32 +10,28 @@ public enum PortalType
 [RequireComponent(typeof(CameraMove))]
 public class PortalPlacement : MonoBehaviour
 {
-    private Crosshair crosshair;
-    public bool showDebugGizmos = false;
+    [Header("Set in Editor")]
+    public bool showDebugGizmos = true;
     public LayerMask layerMask;
-
     public GameObject portalPairPrefab;
-    private PortalPair portalPair = null;
 
+    [Header("Set at RUNTIME")]
+    public PortalPair portalPair = null;
+    public Camera ghostCamera;
 
     private CameraMove cameraMove;
     private PlayerPortalableController playerPortalable;
-
     private Quaternion flippedYRotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
-    private const float portalRaycastDistance = 250;
+    private bool isPortalLevel;
     
     private void Awake()
     {
-        crosshair = GetComponent<Crosshair>();
         cameraMove = GetComponent<CameraMove>();
         playerPortalable = GetComponent<PlayerPortalableController>();
-        portalPair = FindObjectOfType<PortalPair>();
-        if(portalPair == null)
+        isPortalLevel = IsPortalLevel();
+        if(isPortalLevel)
         {
-            if (IsPortalLevel())
-            {
-                portalPair = Instantiate(portalPairPrefab).GetComponent<PortalPair>();
-            }
+            portalPair = Instantiate(portalPairPrefab).GetComponent<PortalPair>();
         }
     }
 
@@ -51,22 +47,22 @@ public class PortalPlacement : MonoBehaviour
 
     private void Update()
     {
-        if (Time.timeScale == 0 || playerPortalable.IsInPortal())
+        if (Time.timeScale == 0 || playerPortalable.IsInPortal() || ghostCamera.enabled || !isPortalLevel)
         {
             return;
         }
 
         if (InputManager.GetKeyDown(PlayerConstants.Portal1))
         {
-            FirePortal(PortalType.Blue, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
+            FirePortal(PortalType.Blue, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, PlayerConstants.PortalRaycastDistance, cameraMove.transform);
         }
         else if (InputManager.GetKeyDown(PlayerConstants.Portal2))
         {
-            FirePortal(PortalType.Pink, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, portalRaycastDistance);
+            FirePortal(PortalType.Pink, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, PlayerConstants.PortalRaycastDistance, cameraMove.transform);
         }
     }
 
-    private void FirePortal(PortalType portalType, Vector3 pos, Vector3 dir, float distance)
+    public void FirePortal(PortalType portalType, Vector3 pos, Vector3 dir, float distance, Transform camera)
     {
         Physics.Raycast(pos, dir, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Collide);
 
@@ -101,13 +97,13 @@ public class PortalPlacement : MonoBehaviour
                 // Subtract from the distance so the ray doesn't go on forever
                 distance -= Vector3.Distance(pos, hit.point);
 
-                FirePortal(portalType, pos, dir, distance);
+                FirePortal(portalType, pos, dir, distance, camera);
 
                 return;
             }
             else if (hit.collider.gameObject.layer == PlayerConstants.PortalMaterialLayer)
             {
-                var cameraRotation = cameraMove.TargetRotation;
+                var cameraRotation = camera.rotation;
                 var portalRight = cameraRotation * Vector3.right;
 
                 if(Mathf.Abs(portalRight.x) >= 0)

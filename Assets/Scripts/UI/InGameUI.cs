@@ -38,6 +38,15 @@ public class InGameUI : MonoBehaviour
 
         SetStartingValues();
         MiscOptions.onMiscToggle += ToggleIndividual;
+
+        HotKeyManager.Instance.onHotKeySet += (oldKeyCode, newKeyCode) =>
+        {
+            tutorialText.text = tutorialText.text.InsertSpecificHotKey(oldKeyCode, newKeyCode);
+        };
+        HotKeyOptions.onSetDefaults += () =>
+        {
+            tutorialText.text = tutorialText.text = tutorialTexts[tutorialTextIndex - 1];
+        };
     }
 
     void Update()
@@ -73,7 +82,7 @@ public class InGameUI : MonoBehaviour
         if (tutorialTextIndex < tutorialTexts.Length)
         {
             tutorialPane.SetActive(true);
-            tutorialText.text = tutorialTexts[tutorialTextIndex].Replace("<br>", "\n");
+            tutorialText.text = tutorialTexts[tutorialTextIndex].InsertCustomHotKeys().InsertNewLines();
             Invoke("UpdateParentLayoutGroup", 0.1f);
             tutorialTextIndex++;
         }

@@ -38,6 +38,8 @@ public static class PlayerConstants
     public static float portalWidth = 2f;
     public static float portalHeight = 2f;
     public static Vector3 PortalColliderExtents = new Vector3(1f, 1f, 1f);
+    public static float PortalRaycastDistance = 250;
+
 
     // Layer Masks
     public static LayerMask portalPlacementMask = new LayerMask();
@@ -92,6 +94,10 @@ public static class PlayerConstants
     public static string Portal2Default = "Mouse1";
     public static string Portal2Tooltip = "Places the pink portal.";
 
+    public static string FirstPersonGhost = "First Person Ghost";
+    public static string FirstPersonGhostDefault = "G";
+    public static string FirstPersonGhostTooltip = "First person ghost perspective";
+
     public static string ToggleUI = "ToggleUI";
     public static string ToggleUIDefault = "Z";
     public static string ToggleUITooltip = "Toggles off all UI.";
@@ -121,6 +127,7 @@ public static class PlayerConstants
     public static string FullscreenTooltip = "Toggle Fullscreen.";
     public static string FOVTooltip = "Player Camera Field of View.";
     public static string UnitOfSpeedTooltip = "Speedometer Unit";
+    public static string DeleteDataTooltip = "Clears all local save data. Does not impact leaderboards or hotkeys.";
 
     public static List<string> UnitOfSpeedOptions = new List<string>()
     {
@@ -128,6 +135,8 @@ public static class PlayerConstants
         "Kilometres per hour",
         "Miles per hour"
     };
+
+    public static string HotKeyPattern = "(?<=\\[)[^\\]]*(?=\\])";
 
 
     // Non-changeable hotkeys
@@ -154,6 +163,7 @@ public static class PlayerConstants
     public static int PortalLayer = 11;
     public static int GizmoLayer = 15;
     public static int GhostLayer = 16;
+    public static int GhostPortalLayer = 17;
     public static string PortalWallTag = "PortalWall";
 
     // UI Constants

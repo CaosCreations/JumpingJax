@@ -4,30 +4,31 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class Portal : MonoBehaviour
 {
+    [Header("Set in Editor")]
     public Material defaultPortalMaterial;
+    [SerializeField]
+    private LayerMask placementMask;
+    [SerializeField]
+    private LayerMask overhangMask;
+    public Renderer outlineRenderer = null;
 
-    private PortalType portalType;
+
+    [Header("Set at RUNTIME")]
+    public Material renderTextureMaterial;
 
     [SerializeField]
     private Portal otherPortal = null;
 
-    [SerializeField]
-    private LayerMask placementMask;
-
-    [SerializeField]
-    private LayerMask overhangMask;
-
+    private Renderer myRenderer;
+    private Crosshair playerCrosshair;
+    
+    private PortalType portalType;
     private bool isPlaced = false;
 
     [SerializeField]
     private List<Collider> wallsPortalIsTouching;
 
     private List<PortalableObject> objectsToWarp = new List<PortalableObject>();
-
-    public Renderer outlineRenderer = null;
-    private Material meshMaterialMain;
-    private new Renderer renderer;
-    private Crosshair playerCrosshair;
 
     // Used for portal positioning
     private BoxCollider boxCollider;
@@ -52,8 +53,8 @@ public class Portal : MonoBehaviour
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
-        renderer = GetComponent<Renderer>();
-        meshMaterialMain = renderer.material;
+        myRenderer = GetComponent<Renderer>();
+        renderTextureMaterial = myRenderer.material;
         playerCrosshair = FindObjectOfType<Crosshair>();
         ResetPortal();
     }
@@ -123,16 +124,14 @@ public class Portal : MonoBehaviour
         }
     }
 
-    
-
     public void SetTexture(RenderTexture tex)
     {
-        meshMaterialMain.mainTexture = tex;
+        renderTextureMaterial.mainTexture = tex;
     }
 
     public bool IsRendererVisible()
     {
-        return renderer.isVisible;
+        return myRenderer.isVisible;
     }
 
     public Portal GetOtherPortal()
@@ -159,8 +158,8 @@ public class Portal : MonoBehaviour
         }
         else
         {
-            renderer.material = meshMaterialMain;
-            otherPortal.renderer.material = otherPortal.meshMaterialMain;
+            myRenderer.material = renderTextureMaterial;
+            otherPortal.myRenderer.material = otherPortal.renderTextureMaterial;
 
             boxCollider.enabled = true;
             otherPortal.boxCollider.enabled = true;
@@ -348,6 +347,6 @@ public class Portal : MonoBehaviour
 
     public void ResetPortalMaterial()
     {
-        renderer.material = defaultPortalMaterial;
+        myRenderer.material = defaultPortalMaterial;
     }
 }

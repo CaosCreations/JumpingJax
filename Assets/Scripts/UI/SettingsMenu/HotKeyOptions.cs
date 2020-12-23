@@ -16,6 +16,8 @@ public class HotKeyOptions : MonoBehaviour
     CameraMove playerAiming;
     SliderItem currentSliderItem;
 
+    public static event Action onSetDefaults;
+
     void Start()
     {
         PlayerMovement playerCharacter = GetComponentInParent<PlayerMovement>();
@@ -124,6 +126,7 @@ public class HotKeyOptions : MonoBehaviour
     {
         Debug.Log("set hotkey defaults");
         HotKeyManager.Instance.SetDefaults();
+        onSetDefaults?.Invoke();
         currentSliderItem.SetSliderValue(OptionsPreferencesManager.defaultSensitivity);
         ReloadUI();
     }
