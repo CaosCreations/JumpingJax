@@ -3,6 +3,7 @@ Jumping Jax is an open source 3d platformer made in Unity, inspired by the Sourc
 
 In Jumping Jax, you will exploit interesting movement mechanics to explore a sci-fi city and chase your teleporting cyborg corgi, or cyborgi if you will.
 
+We are in Early Access on Steam, [check us out here](https://store.steampowered.com/app/1315100/Jumping_Jax/)! 
 ## Roadmap
 To keep up to date on our plans for the future, check out the [Project Board](https://github.com/CaosCreations/JumpingJax/projects/1)
 
