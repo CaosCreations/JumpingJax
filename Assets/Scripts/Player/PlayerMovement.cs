@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (ghostCamera.enabled)// || GameManager.Instance.isLoadingScene)
+        if (ghostCamera.enabled || GameManager.Instance.isLoadingScene)
         {
             return;
         }
