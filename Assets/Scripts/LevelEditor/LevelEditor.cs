@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
 
 public class LevelEditor : MonoBehaviour
 {
@@ -22,8 +21,8 @@ public class LevelEditor : MonoBehaviour
     public Button loadButton;
     public Button publishButton;
 
-    public bool sCheckFlag = false;
-    public bool eCheckFlag = false;
+    public bool startCheckpointFlag = false;
+    public bool finalCheckpointFlag = false;
     public bool nameFlag = false;
     public bool descFlag = false;
     public Text errorText;
@@ -127,8 +126,6 @@ public class LevelEditor : MonoBehaviour
             Debug.LogError($"LevelEditor.DeleteLevel(): couldn't delete level {e.Message}\n{e.StackTrace}");
         }
 
-        //Directory.Delete(selectedLevel.level.levelEditorFolder);
-        //RefreshEditorProjectWindow();
         levelEditorButtons.Remove(selectedLevel);
         ScriptableObject.Destroy(selectedLevel.level);
         Destroy(selectedLevel.gameObject);
@@ -218,8 +215,6 @@ public class LevelEditor : MonoBehaviour
     {
         publishButton.interactable = false;
 
-        //GameObject.Find("Error Messages").GetComponent<Text>().text = "";
-
         if (!publishCheck()) 
         {
             publishButton.interactable = true;
@@ -286,23 +281,23 @@ public class LevelEditor : MonoBehaviour
         //if theres no start checkpoint
         if (!json.Contains(" \"objectType\": 5"))
         {
-            sCheckFlag = true;
+            startCheckpointFlag = true;
             errorText.text += "Level must have a starting checkpoint" + '\n';
         }
         else
         {
-            sCheckFlag = false;
+            startCheckpointFlag = false;
         }
 
         //if theres no end checkpoint
         if (!json.Contains(" \"objectType\": 6"))
         {
-            eCheckFlag = true;
+            finalCheckpointFlag = true;
             errorText.text += "Level must have an end checkpoint" + '\n';
         }
         else
         {
-            eCheckFlag = false;
+            finalCheckpointFlag = false;
         }
 
         //if theres no level name
@@ -327,7 +322,7 @@ public class LevelEditor : MonoBehaviour
             descFlag = false;
         }
 
-        if (!sCheckFlag && !eCheckFlag && !nameFlag && !descFlag) {
+        if (!startCheckpointFlag && !finalCheckpointFlag && !nameFlag && !descFlag) {
             return true; 
         }
         else {
