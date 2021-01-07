@@ -151,12 +151,12 @@ public class LevelEditor : MonoBehaviour
         newLevel.gravityMultiplier = 1;
 
         string currentTime = DateTime.Now.ToString("MM-dd-yyyy_hh-mm-ss-FFF");
-        string scriptableObjectPath = Path.Combine(levelEditorFolderPath, currentTime + ".level");
+        string scriptableObjectPath = Path.Combine(levelEditorFolderPath, currentTime, currentTime + ".level");
         newLevel.levelEditorScriptableObjectPath = scriptableObjectPath;
 
         newLevel.levelEditorFolder = levelEditorFolderPath;
 
-        string levelDataPath = Path.Combine(levelEditorFolderPath, currentTime + ".json");
+        string levelDataPath = Path.Combine(levelEditorFolderPath, currentTime, currentTime + ".json");
         newLevel.levelEditorLevelDataPath = levelDataPath;
 
         if (!Directory.Exists(levelEditorFolderPath))
@@ -164,6 +164,18 @@ public class LevelEditor : MonoBehaviour
             try
             {
                 Directory.CreateDirectory(levelEditorFolderPath);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"LevelEditor.NewLevel(): couldn't create directory {e.Message}\n{e.StackTrace}");
+            }
+        }
+
+        if (!Directory.Exists(Path.Combine(levelEditorFolderPath, currentTime)))
+        {
+            try
+            {
+                Directory.CreateDirectory(Path.Combine(levelEditorFolderPath, currentTime));
             }
             catch (Exception e)
             {
