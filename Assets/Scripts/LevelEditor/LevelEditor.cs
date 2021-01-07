@@ -68,14 +68,20 @@ public class LevelEditor : MonoBehaviour
                 Debug.LogError($"LevelEditor.GetPlayerCreatedLevels(): couldn't create levelEditorFolderPath {e.Message}\n{e.StackTrace}");
             }
         }
+        List<string> levelFolders = Directory.EnumerateDirectories(levelEditorFolderPath).ToList();
         List<string> filePaths = Directory.EnumerateFiles(levelEditorFolderPath, "*.level").ToList();
-        foreach (string filePath in filePaths)
+        foreach (string levelfolder in levelFolders)
         {
-            string fileData = File.ReadAllText(filePath);
-            Level newLevel = ScriptableObject.CreateInstance<Level>();
-            JsonUtility.FromJsonOverwrite(fileData, newLevel);
-            toReturn.Add(newLevel);
+            filePaths = Directory.EnumerateFiles(levelfolder, "*.level").ToList();
+            foreach (string filePath in filePaths)
+            {
+                string fileData = File.ReadAllText(filePath);
+                Level newLevel = ScriptableObject.CreateInstance<Level>();
+                JsonUtility.FromJsonOverwrite(fileData, newLevel);
+                toReturn.Add(newLevel);
+            }
         }
+        
         return toReturn;
     }
 
@@ -119,7 +125,7 @@ public class LevelEditor : MonoBehaviour
 
         try
         {
-            File.Delete(selectedLevel.level.levelEditorScriptableObjectPath);
+            Directory.Delete(selectedLevel.level.levelEditorLevelDataFolder, true);
 
         }catch(Exception e)
         {
@@ -151,12 +157,13 @@ public class LevelEditor : MonoBehaviour
         newLevel.gravityMultiplier = 1;
 
         string currentTime = DateTime.Now.ToString("MM-dd-yyyy_hh-mm-ss-FFF");
-        string scriptableObjectPath = Path.Combine(levelEditorFolderPath, currentTime, currentTime + ".level");
+        newLevel.levelEditorLevelDataFolder = Path.Combine(levelEditorFolderPath, currentTime);
+        string scriptableObjectPath = Path.Combine(newLevel.levelEditorLevelDataFolder, currentTime + ".level");
         newLevel.levelEditorScriptableObjectPath = scriptableObjectPath;
 
         newLevel.levelEditorFolder = levelEditorFolderPath;
 
-        string levelDataPath = Path.Combine(levelEditorFolderPath, currentTime, currentTime + ".json");
+        string levelDataPath = Path.Combine(newLevel.levelEditorLevelDataFolder, currentTime + ".json");
         newLevel.levelEditorLevelDataPath = levelDataPath;
 
         if (!Directory.Exists(levelEditorFolderPath))
@@ -171,7 +178,7 @@ public class LevelEditor : MonoBehaviour
             }
         }
 
-        if (!Directory.Exists(Path.Combine(levelEditorFolderPath, currentTime)))
+        if (!Directory.Exists(newLevel.levelEditorLevelDataFolder))
         {
             try
             {

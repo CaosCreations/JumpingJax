@@ -41,6 +41,9 @@ public class Level : ScriptableObject
     public string levelEditorFolder;
 
     [SerializeField]
+    public string levelEditorLevelDataFolder;
+
+    [SerializeField]
     public string levelEditorScriptableObjectPath;
 
     [SerializeField]
