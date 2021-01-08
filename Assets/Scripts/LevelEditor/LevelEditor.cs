@@ -345,7 +345,6 @@ public class LevelEditor : MonoBehaviour
             return true; 
         }
         else {
-            Instantiate<Text>(errorText);
             return false; 
         }
     }
