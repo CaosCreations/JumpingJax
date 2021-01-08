@@ -26,11 +26,6 @@ public class LevelEditor : MonoBehaviour
     public MainMenuController menuController;
     public LevelEditorInfo levelEditorInfo;
 
-    public bool startCheckpointFlag = false;
-    public bool finalCheckpointFlag = false;
-    public bool nameFlag = false;
-    public bool descFlag = false;
-
     private List<Level> playerCreatedLevels;
     private List<LevelEditorButton> levelEditorButtons;
 
@@ -300,6 +295,11 @@ public class LevelEditor : MonoBehaviour
 
     private bool CanPublish()
     {
+        bool startCheckpointFlag;
+        bool finalCheckpointFlag;
+        bool nameFlag;
+        bool descFlag;
+
         string json = File.ReadAllText(selectedLevel.level.levelEditorLevelDataPath);
         errorText.text = "";
 
