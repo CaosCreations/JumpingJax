@@ -295,10 +295,7 @@ public class LevelEditor : MonoBehaviour
 
     private bool CanPublish()
     {
-        bool startCheckpointFlag;
-        bool finalCheckpointFlag;
-        bool nameFlag;
-        bool descFlag;
+        bool isValid = true;
 
         string json = File.ReadAllText(selectedLevel.level.levelEditorLevelDataPath);
         errorText.text = "";
@@ -306,52 +303,31 @@ public class LevelEditor : MonoBehaviour
         //if theres no start checkpoint
         if (!json.Contains(" \"objectType\": 5"))
         {
-            startCheckpointFlag = true;
             errorText.text += "Level must have a starting checkpoint" + '\n';
-        }
-        else
-        {
-            startCheckpointFlag = false;
+            isValid = false;
         }
 
         //if theres no end checkpoint
         if (!json.Contains(" \"objectType\": 6"))
         {
-            finalCheckpointFlag = true;
             errorText.text += "Level must have an end checkpoint" + '\n';
-        }
-        else
-        {
-            finalCheckpointFlag = false;
+            isValid = false;
         }
 
         //if theres no level name
-        if (selectedLevel.text.text == "")
+        if (string.IsNullOrEmpty(selectedLevel.text.text))
         {
-            nameFlag = true;
             errorText.text += "Level must have a name" + '\n';
-        }
-        else
-        {
-            nameFlag = false;
+            isValid = false;
         }
 
         //if theres no level description
-        if (selectedLevel.level.description == "")
+        if (string.IsNullOrEmpty(selectedLevel.level.description))
         {
-            descFlag = true;
             errorText.text += "Level must have a description" + '\n';
-        }
-        else
-        {
-            descFlag = false;
+            isValid = false;
         }
 
-        if (!startCheckpointFlag && !finalCheckpointFlag && !nameFlag && !descFlag) {
-            return true; 
-        }
-        else {
-            return false; 
-        }
+        return isValid;
     }
 }
