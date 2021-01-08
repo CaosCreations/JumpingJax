@@ -143,8 +143,8 @@ public class LevelEditor : MonoBehaviour
     private void NewLevel()
     {
         Level newLevel = ScriptableObject.CreateInstance<Level>();
-        newLevel.levelName = "new level";
-        newLevel.description = "new level description";
+        newLevel.levelName = "";
+        newLevel.description = "";
         newLevel.levelBuildIndex = PlayerConstants.LevelEditorSceneIndex;
         newLevel.gravityMultiplier = 1;
 
