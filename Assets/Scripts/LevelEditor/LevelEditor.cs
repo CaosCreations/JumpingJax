@@ -9,23 +9,27 @@ using UnityEngine.UI;
 
 public class LevelEditor : MonoBehaviour
 {
+    [Header("Set in Editor")]
     public GameObject levelEditorButtonPrefab;
     public Transform levelButtonParent;
 
+    public SecondaryButton backButton;
+    public SecondaryButton deleteButton;
+    public SecondaryButton newButton;
+    public PrimaryButton loadButton;
+    public PrimaryButton publishButton;
+
+    public Text errorText;
+
+
+    [Header("Set at Runtime")]
     public MainMenuController menuController;
     public LevelEditorInfo levelEditorInfo;
-
-    public Button backButton;
-    public Button deleteButton;
-    public Button newButton;
-    public Button loadButton;
-    public Button publishButton;
 
     public bool startCheckpointFlag = false;
     public bool finalCheckpointFlag = false;
     public bool nameFlag = false;
     public bool descFlag = false;
-    public Text errorText;
 
     private List<Level> playerCreatedLevels;
     private List<LevelEditorButton> levelEditorButtons;
@@ -102,20 +106,11 @@ public class LevelEditor : MonoBehaviour
 
     private void SetupNavButtons()
     {
-        backButton.onClick.RemoveAllListeners();
-        backButton.onClick.AddListener(() => menuController.Init());
-
-        deleteButton.onClick.RemoveAllListeners();
-        deleteButton.onClick.AddListener(() => DeleteLevel());
-
-        newButton.onClick.RemoveAllListeners();
-        newButton.onClick.AddListener(() => NewLevel());
-
-        loadButton.onClick.RemoveAllListeners();
-        loadButton.onClick.AddListener(() => LoadLevel());
-
-        publishButton.onClick.RemoveAllListeners();
-        publishButton.onClick.AddListener(() => Publish());
+        backButton.Init(() => menuController.Init());
+        deleteButton.Init(() => DeleteLevel());
+        newButton.Init(() => NewLevel());
+        loadButton.Init(() => LoadLevel());
+        publishButton.Init(() => Publish());
     }
 
     private void DeleteLevel()
@@ -234,11 +229,11 @@ public class LevelEditor : MonoBehaviour
 
     private async void Publish()
     {
-        publishButton.interactable = false;
+        publishButton.SetDisabled();
 
-        if (!publishCheck()) 
+        if (!CanPublish()) 
         {
-            publishButton.interactable = true;
+            publishButton.ClearDisabled();
             return;
         } //publish check has no errors then we can publish
 
@@ -264,13 +259,22 @@ public class LevelEditor : MonoBehaviour
             await WorkshopManager.UpdateItem(selectedLevel.level);
         }
 
-        publishButton.interactable = true;
+        publishButton.ClearDisabled();
     }
 
     private void LevelButtonClicked(LevelEditorButton button)
     {
         levelEditorInfo.Init(button.level);
         selectedLevel = button;
+        errorText.text = string.Empty;
+        if (!CanPublish())
+        {
+            publishButton.SetDisabled();
+        }
+        else
+        {
+            publishButton.ClearDisabled();
+        }
     }
 
     // When the currently selected level has its name updated
@@ -294,7 +298,7 @@ public class LevelEditor : MonoBehaviour
         #endif
     }
 
-    private bool publishCheck()
+    private bool CanPublish()
     {
         string json = File.ReadAllText(selectedLevel.level.levelEditorLevelDataPath);
         errorText.text = "";
