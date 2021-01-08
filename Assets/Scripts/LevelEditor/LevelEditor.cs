@@ -68,8 +68,10 @@ public class LevelEditor : MonoBehaviour
                 Debug.LogError($"LevelEditor.GetPlayerCreatedLevels(): couldn't create levelEditorFolderPath {e.Message}\n{e.StackTrace}");
             }
         }
+
         List<string> levelFolders = Directory.EnumerateDirectories(levelEditorFolderPath).ToList();
-        List<string> filePaths = Directory.EnumerateFiles(levelEditorFolderPath, "*.level").ToList();
+        List<string> filePaths;
+
         foreach (string levelfolder in levelFolders)
         {
             filePaths = Directory.EnumerateFiles(levelfolder, "*.level").ToList();
@@ -126,14 +128,14 @@ public class LevelEditor : MonoBehaviour
         try
         {
             Directory.Delete(selectedLevel.level.levelEditorLevelDataFolder, true);
-
-        }catch(Exception e)
+        }
+        catch(Exception e)
         {
             Debug.LogError($"LevelEditor.DeleteLevel(): couldn't delete level {e.Message}\n{e.StackTrace}");
         }
 
         levelEditorButtons.Remove(selectedLevel);
-        ScriptableObject.Destroy(selectedLevel.level);
+        Destroy(selectedLevel.level);
         Destroy(selectedLevel.gameObject);
 
         if(levelEditorButtons.Count > 0)
