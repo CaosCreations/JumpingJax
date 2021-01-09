@@ -296,35 +296,24 @@ public class LevelEditor : MonoBehaviour
     private bool CanPublish()
     {
         bool isValid = true;
-        bool firstCheckpointExist = false;
-        bool finalCheckpointExist = false;
 
         string levelData = File.ReadAllText(selectedLevel.level.levelEditorLevelDataPath);
         LevelEditorLevel level = new LevelEditorLevel();
         JsonUtility.FromJsonOverwrite(levelData, level);
 
         errorText.text = "";
-        foreach (ObjectData levelObject in level.levelObjects)
-        {
-            if (levelObject.objectType == ObjectType.FirstCheckpoint)
-            {
-                firstCheckpointExist = true;
-            }
-            if (levelObject.objectType == ObjectType.FinalCheckpoint)
-            {
-                finalCheckpointExist = true;
-            }
-        }
 
+        ObjectData levelChecker = level.levelObjects.FirstOrDefault(levelObject => levelObject.objectType == ObjectType.FirstCheckpoint);
         //if theres no start checkpoint
-        if (!firstCheckpointExist)
+        if (!(levelChecker.objectType == ObjectType.FirstCheckpoint))
         {
             errorText.text += "Level must have a starting checkpoint" + '\n';
             isValid = false;
         }
 
+        levelChecker = level.levelObjects.FirstOrDefault(levelObject => levelObject.objectType == ObjectType.FinalCheckpoint);
         //if theres no end checkpoint
-        if (!finalCheckpointExist)
+        if (!(levelChecker.objectType == ObjectType.FinalCheckpoint))
         {
             errorText.text += "Level must have an end checkpoint" + '\n';
             isValid = false;
