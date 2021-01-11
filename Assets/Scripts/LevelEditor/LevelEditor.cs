@@ -302,18 +302,15 @@ public class LevelEditor : MonoBehaviour
         JsonUtility.FromJsonOverwrite(levelData, level);
 
         errorText.text = "";
-
-        ObjectData levelChecker = level.levelObjects.FirstOrDefault(levelObject => levelObject.objectType == ObjectType.FirstCheckpoint);
         //if theres no start checkpoint
-        if (!(levelChecker.objectType == ObjectType.FirstCheckpoint))
+        if (level.levelObjects.FirstOrDefault(levelObject => levelObject.objectType == ObjectType.FirstCheckpoint).objectType == ObjectType.FloatingPlatform)
         {
             errorText.text += "Level must have a starting checkpoint" + '\n';
             isValid = false;
         }
 
-        levelChecker = level.levelObjects.FirstOrDefault(levelObject => levelObject.objectType == ObjectType.FinalCheckpoint);
         //if theres no end checkpoint
-        if (!(levelChecker.objectType == ObjectType.FinalCheckpoint))
+        if (level.levelObjects.FirstOrDefault(levelObject => levelObject.objectType == ObjectType.FinalCheckpoint).objectType == ObjectType.FloatingPlatform)
         {
             errorText.text += "Level must have an end checkpoint" + '\n';
             isValid = false;
