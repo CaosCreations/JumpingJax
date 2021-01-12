@@ -77,7 +77,7 @@ MeshRenderer:
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -172,7 +172,7 @@ MeshRenderer:
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -267,7 +267,7 @@ MeshRenderer:
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -362,7 +362,7 @@ MeshRenderer:
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -457,7 +457,7 @@ MeshRenderer:
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -552,7 +552,7 @@ MeshRenderer:
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -766,7 +766,7 @@ MeshRenderer:
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -861,7 +861,7 @@ MeshRenderer:
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -909,7 +909,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.6278987
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -919,7 +919,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.2350231
+      value: 1.15
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -959,7 +959,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -971,7 +971,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (15)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &8940438972218186898 stripped
 Transform:
@@ -1009,7 +1010,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.38
+      value: 1.178
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1019,7 +1020,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.45
+      value: 2.35
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1059,7 +1060,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1071,7 +1072,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (10)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &7194937322472173402 stripped
 Transform:
@@ -1109,7 +1111,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.38
+      value: 1.178
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1119,7 +1121,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.450001
+      value: 2.35
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1159,7 +1161,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1171,7 +1173,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (12)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &6331878627907008246 stripped
 Transform:
@@ -1209,7 +1212,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.6278987
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1219,7 +1222,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.2350231
+      value: 1.15
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1259,7 +1262,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1271,7 +1274,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (11)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &6446815706558160280 stripped
 Transform:
@@ -1309,7 +1313,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.869
+      value: -1.7
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1319,7 +1323,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.387
+      value: -2.35
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1359,7 +1363,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1371,7 +1375,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (5)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &6522621214333860634 stripped
 Transform:
@@ -1409,7 +1414,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.869
+      value: -1.7
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1419,7 +1424,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.387
+      value: -2.35
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1459,7 +1464,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1471,7 +1476,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (4)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &4849643366697523561 stripped
 Transform:
@@ -1509,7 +1515,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.869
+      value: -1.7
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1519,7 +1525,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.387
+      value: -2.35
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1559,7 +1565,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1571,7 +1577,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (16)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &5562709531286236187 stripped
 Transform:
@@ -1609,7 +1616,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.1110003
+      value: -2.95
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1659,7 +1666,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1671,7 +1678,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (7)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &5497077645439160046 stripped
 Transform:
@@ -1709,7 +1717,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.869
+      value: -1.7
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1719,7 +1727,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.387
+      value: -2.35
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1759,7 +1767,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1771,7 +1779,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (18)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &3684991771666922660 stripped
 Transform:
@@ -1809,7 +1818,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.6278987
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1819,7 +1828,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.2350231
+      value: 1.15
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1859,7 +1868,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1871,7 +1880,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (9)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &4031016168673078955 stripped
 Transform:
@@ -1909,7 +1919,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.1110003
+      value: -2.95
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1959,7 +1969,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -1971,7 +1981,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (17)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &3914940473675868297 stripped
 Transform:
@@ -2009,7 +2020,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.38
+      value: 1.178
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -2019,7 +2030,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.45
+      value: 2.35
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -2059,7 +2070,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -2071,7 +2082,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (14)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &4601185458699941649 stripped
 Transform:
@@ -2109,7 +2121,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.1110003
+      value: -2.95
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -2159,7 +2171,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -2171,7 +2183,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (6)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &2785291328794707136 stripped
 Transform:
@@ -2209,7 +2222,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.6278987
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -2219,7 +2232,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.2350231
+      value: 1.15
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -2259,7 +2272,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -2271,7 +2284,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (13)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &2990934108625492344 stripped
 Transform:
@@ -2309,7 +2323,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.1110003
+      value: -2.95
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -2359,7 +2373,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -2371,7 +2385,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (19)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &3186953915274834828 stripped
 Transform:
@@ -2409,7 +2424,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.38
+      value: 1.178
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -2419,7 +2434,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.450001
+      value: 2.351
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726153, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -2459,7 +2474,7 @@ PrefabInstance:
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
       propertyPath: m_ScaleInLightmap
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8188058276309726155, guid: 064b03fc5f7427d45b563a0a5fb6aef3,
         type: 3}
@@ -2471,7 +2486,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (8)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8188058276309726164, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064b03fc5f7427d45b563a0a5fb6aef3, type: 3}
 --- !u!4 &1602359390576536850 stripped
 Transform:
