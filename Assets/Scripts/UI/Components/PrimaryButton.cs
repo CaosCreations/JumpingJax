@@ -19,13 +19,13 @@ public class PrimaryButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public Color disabledTextColor;
     public Color activeTextColor;
 
-    private bool isActive;
+    private bool shouldIgnorePointer;
 
     private void Awake()
     {
         button = GetComponent<Button>();
         text = GetComponentInChildren<Text>();
-        isActive = false;
+        shouldIgnorePointer = false;
     }
 
     public void Init(Action func)
@@ -41,23 +41,45 @@ public class PrimaryButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         button.onClick.AddListener(() => func());
     }
 
+    #region tab
+    // Use for acting as a tab
     public void SetActive()
     {
         button.image.sprite = buttonActiveSprite;
         text.color = activeTextColor;
-        isActive = true;
+        shouldIgnorePointer = true;
     }
 
     public void ClearActive()
     {
         button.image.sprite = buttonDefaultSprite;
         text.color = defaultTextColor;
-        isActive = false;
+        shouldIgnorePointer = false;
     }
+    #endregion 
+
+    #region disable
+    // Use for acting as a disable-able button
+    public void SetDisabled()
+    {
+        button.image.sprite = buttonDisabledSprite;
+        button.interactable = false;
+        text.color = disabledTextColor;
+        shouldIgnorePointer = true;
+    }
+    
+    public void ClearDisabled()
+    {
+        button.image.sprite = buttonDefaultSprite;
+        button.interactable = true;
+        text.color = activeTextColor;
+        shouldIgnorePointer = false;
+    }
+    #endregion
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!isActive)
+        if (!shouldIgnorePointer)
         {
             button.image.sprite = buttonActiveSprite;
             text.color = activeTextColor;
@@ -66,7 +88,7 @@ public class PrimaryButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (!isActive)
+        if (!shouldIgnorePointer)
         {
             button.image.sprite = buttonDefaultSprite;
             text.color = defaultTextColor;
@@ -75,7 +97,7 @@ public class PrimaryButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isActive)
+        if (!shouldIgnorePointer)
         {
             button.image.sprite = buttonHoverSprite;
             text.color = defaultTextColor;
@@ -84,7 +106,7 @@ public class PrimaryButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!isActive)
+        if (!shouldIgnorePointer)
         {
             button.image.sprite = buttonDefaultSprite;
             text.color = defaultTextColor;
