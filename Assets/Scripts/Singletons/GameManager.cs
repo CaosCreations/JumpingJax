@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public float currentCompletionTime;
     public bool didWinCurrentLevel;
     public bool shouldUseSteam;
+    public bool isLoadingScene;
 
     private string replayFileLocation;
     public string ReplayFileLocation
@@ -116,6 +117,9 @@ public class GameManager : MonoBehaviour
 
     public static void LoadScene(int buildIndex)
     {
+        Debug.Log($"GameManager.LoadScene(): loading scene with index {buildIndex}");
+        Instance.isLoadingScene = true;
+
         if (buildIndex == PlayerConstants.CreditsSceneIndex)
         {
             Instance.currentLevel = ScriptableObject.CreateInstance<Level>();
@@ -228,6 +232,8 @@ public class GameManager : MonoBehaviour
         Level levelToUpdate = GetCurrentLevel();
 
         levelToUpdate.levelSaveData.isCompleted = true;
+
+        Debug.Log($"GameManager.FinishedLevel(), completed {levelToUpdate.levelName}");
 
         // TODO: Check if the player is no-clipping
         if (DeveloperConsole.Instance.consoleIsActive)

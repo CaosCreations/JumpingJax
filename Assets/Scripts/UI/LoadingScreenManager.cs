@@ -109,6 +109,11 @@ public class LoadingScreenManager : MonoBehaviour
         currentLoadingOperation = null;
 
         isLoading = false;
+
+        // In Awake(), this script is made first so the Instance doesn't exist on startup
+        if (GameManager.Instance != null) {
+            GameManager.Instance.isLoadingScene = false;
+        }
     }
 
     private void AnimateLoadScreen()
