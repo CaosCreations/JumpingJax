@@ -157,6 +157,7 @@ public static class PlayerConstants
     public static int GizmoLayer = 15;
     public static int GhostLayer = 16;
     public static string PortalWallTag = "PortalWall";
+    public static string PlayerTag = "Player";
 
     // UI Constants
     public static Color activeColor = new Color(.58f, .93f, .76f);
