@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class RayCastUtils
 {
@@ -22,8 +23,14 @@ public class RayCastUtils
         trace.start = collider.transform.position;
         trace.destination = end;
 
+
         if (hits.Length > 0)
         {
+            List<RaycastHit> orderedHits = hits.OrderBy(x => x.distance).ToList();
+            RaycastHit closestHit = orderedHits.First();
+            Vector3 hitOffset = collider.bounds.extents;
+            hitOffset.y = 0;
+            closestHit.point -= hitOffset; //boxcast is farther away than the max distance. also the y value isn't the same as the center
             trace.SetHitData(hits[0], collider, layersToIgnore);
         }
         else
