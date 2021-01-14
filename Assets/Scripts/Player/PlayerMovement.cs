@@ -87,16 +87,19 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             ApplyAirAcceleration(wishDir, wishSpeed);
+            TryPlayerMove();
         }
 
-        CheckGrounded();
+        if(newVelocity.y <= 0)
+        {
+            CheckGrounded();
+        }
         ClampVelocity(PlayerConstants.MaxVelocity);
 
         if (grounded)
         {
             newVelocity.y = 0;
         }
-        //ContinuousCollisionDetection();
     }
 
     private void CheckCrouch()
@@ -215,6 +218,7 @@ public class PlayerMovement : MonoBehaviour
                     hit.normal.y > 0.7f) // don't check for the ground on a sloped surface above 45 degrees
                 {
                     willBeGrounded = true;
+                    break;
                 }
             }
         }
@@ -409,18 +413,19 @@ public class PlayerMovement : MonoBehaviour
         horizontalVelocity.y = 0;
 
         float castDistance = horizontalVelocity.magnitude * Time.fixedDeltaTime;
+
         RaycastHit[] hits = Physics.BoxCastAll(
             center: myCollider.bounds.center,
             halfExtents: myCollider.bounds.extents,
             direction: horizontalVelocity.normalized,
             Quaternion.identity,
             maxDistance: castDistance,
-            layerMask: layersToIgnore);
+            layerMask: layersToIgnore,
+            QueryTriggerInteraction.Ignore);
 
         List<RaycastHit> validHits = hits
             .ToList()
             .OrderBy(hit => hit.distance)
-            .Where(hit => !hit.collider.isTrigger)
             .Where(hit => !Physics.GetIgnoreCollision(hit.collider, myCollider))
             .Where(hit => hit.point != Vector3.zero)
             .Where(hit => hit.normal.y < 1)
@@ -438,12 +443,12 @@ public class PlayerMovement : MonoBehaviour
             transform.position += newVelocity * timeToImpact;
             */
             StepMove(horizontalVelocity * Time.fixedDeltaTime);
-            StayOnGround();
+            //StayOnGround();
         }
         else
         {
             transform.position += newVelocity * Time.fixedDeltaTime;
-            StayOnGround();
+            //StayOnGround();
         }
     }
 
@@ -468,7 +473,7 @@ public class PlayerMovement : MonoBehaviour
         endPosition.y += PlayerConstants.StepOffset + float.Epsilon;
 
         currentTrace = RayCastUtils.TracePlayerBBox(myCollider, endPosition, layersToIgnore);
-        if (currentTrace.didLeaveBoundingBox)
+        if (!currentTrace.allSolid)
         {
             transform.position = currentTrace.hitPoint;
         }
@@ -489,7 +494,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // If the trace ended up in empty space, move to the origin.
-        if (currentTrace.didLeaveBoundingBox)
+        if (!currentTrace.allSolid)
         {
             transform.position = currentTrace.hitPoint;
         }
@@ -517,14 +522,18 @@ public class PlayerMovement : MonoBehaviour
         Vector3 originalVelocity = newVelocity;
         Vector3 primalVelocity = newVelocity;
         Vector3 testVelocity = Vector3.zero;
-        float allFraction = 0;
-        float timeLeftInFrame = Time.fixedDeltaTime;
         Vector3 end;
-        int numPlanes = 0;
         Vector3[] planes = new Vector3[PlayerConstants.MaxClippingPlanes];
         int i, j;
 
-        for(int bumpCount = 0; bumpCount < 4; bumpCount++)
+        int numBumps = 4;               // Bump up to 4 times
+        int numPlanes = 0;              // Assume not sliding along any planes
+
+        float allFraction = 0;
+        float timeLeftInFrame = Time.fixedDeltaTime;
+        
+
+        for(int bumpCount = 0; bumpCount < numBumps; bumpCount++)
         {
             if(newVelocity.magnitude == 0)
                 break;
@@ -537,7 +546,7 @@ public class PlayerMovement : MonoBehaviour
 
             //if the cast doesn't make it outside of the player's bbox (because we start from the center)
             // TODO: make this more accurate. if the ray is at an angle it could have a distance longer than extents.x, but less that extends.magnitude
-            if (!trace.didLeaveBoundingBox)
+            if (trace.allSolid)
             {
                 newVelocity = Vector3.zero;
                 return;
@@ -546,11 +555,22 @@ public class PlayerMovement : MonoBehaviour
             // actually covered some distance, set the player to the end position of the trace and zero the plane counter
             if (trace.fraction > 0)
             {
-                // Source had the following addition
-                // if we are overlapping something
-                // set velocity to 0 and break
-                transform.position += trace.hitPoint;
-                newVelocity = originalVelocity;
+                // There's a precision issue with terrain tracing that can cause a swept box to successfully trace
+                // when the end position is stuck in the triangle.  Re-run the test with an uswept box to catch that
+                // case until the bug is fixed.
+                // If we detect getting stuck, don't allow the movement
+                if (numBumps > 0 && trace.fraction == 1)
+                {
+                    if (Physics.OverlapBox(myCollider.bounds.center, myCollider.bounds.extents, Quaternion.identity, layersToIgnore, QueryTriggerInteraction.Ignore).Length > 0)
+                    {
+                        Debug.Log("Player will become stuck!");
+                        newVelocity = Vector3.zero;
+                        break;
+                    }
+                }
+                
+                transform.position = trace.hitPoint;
+                originalVelocity = newVelocity;
                 numPlanes = 0;
             }
 
@@ -652,7 +672,25 @@ public class PlayerMovement : MonoBehaviour
 
     private void StayOnGround()
     {
+        Trace currentTrace;
+        Vector3 start = transform.position;
+        start.y += 0.05f;
 
+        Vector3 end = transform.position;
+        end.y -= PlayerConstants.StepOffset;
+
+        // See how far up we can go without getting stuck
+        currentTrace = RayCastUtils.TracePlayerBBox(myCollider, start, layersToIgnore);
+        start = currentTrace.hitPoint;
+
+        // Now trace down from a known safe position
+        currentTrace = RayCastUtils.TracePlayerBBox(myCollider, start, end, layersToIgnore);
+        if(currentTrace.fraction > 0                    // must go somewhere
+            && currentTrace.fraction < 1                // must hit something
+            && currentTrace.hit.normal.y >= 0.7f)       // can't hit a steep slope that we can't stand on anyway
+        {
+            transform.position = currentTrace.hitPoint;
+        }
     }
 
     //Slide off of the impacting surface
