@@ -14,6 +14,7 @@ public static class PlayerConstants
     public static float Gravity = 15f;
     public static float JumpPower = 5.6f;
     public static float CrouchingJumpPower = 5f;
+    public static float RapidlyMovingUpVelocity = 5f;
 
     public static float GroundAcceleration = 10f;
     public static float AirAcceleration = 1000f;
@@ -23,6 +24,8 @@ public static class PlayerConstants
     public static float Friction = 6f;
     public static float MinimumSpeedCutoff = 0.5f; // This is the speed after which the player is immediately stopped due to friction
     public static float NormalSurfaceFriction = 1f;
+    public static float StepOffset = 0.3f;
+    public static int MaxClippingPlanes = 5;
 
     public static float AirAccelerationCap = .7f;
 
