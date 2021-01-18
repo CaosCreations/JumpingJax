@@ -20,4 +20,12 @@ public class UntouchableObject : MonoBehaviour
         playerProgress.Respawn();
         PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Death);
     }
+
+    private void OnDrawGizmos()
+    {
+        BoxCollider myCollider = GetComponent<BoxCollider>();
+        Gizmos.color = new Color(181.0f / 255.0f, 45.0f / 255.0f, 50.0f / 255.0f, 1.0f); //this is supposed to be red
+        Gizmos.DrawWireCube(transform.position, transform.localScale);
+
+    }
 }
