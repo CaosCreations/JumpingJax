@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UntouchableObject : MonoBehaviour
 {
+
+    public bool useGizmos;
     private void Start()
     {
         Collider myCollider = GetComponent<Collider>();
@@ -23,9 +25,11 @@ public class UntouchableObject : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        BoxCollider myCollider = GetComponent<BoxCollider>();
-        Gizmos.color = new Color(181.0f / 255.0f, 45.0f / 255.0f, 50.0f / 255.0f, 1.0f); //this is supposed to be red
-        Gizmos.DrawWireCube(transform.position, transform.localScale);
-
+        if (useGizmos)
+        {
+            BoxCollider myCollider = GetComponent<BoxCollider>();
+            Gizmos.color = new Color(181.0f / 255.0f, 45.0f / 255.0f, 50.0f / 255.0f, 1.0f); //this is supposed to be red
+            Gizmos.DrawWireCube(transform.position, transform.localScale);
+        }
     }
 }
