@@ -461,13 +461,12 @@ public class PlayerMovement : MonoBehaviour
         // If we are going to hit a wall, set ourselves just outside of the wall and translate momentum along the wall
         if (validHits.Count() > 0) //&& newVelocity.magnitude > 10)
         {
-            //StepMove(horizontalVelocity * Time.fixedDeltaTime);
-
             float fractionOfDistanceTraveled = validHits.First().distance / newVelocity.magnitude;
             // slide along the wall and prevent a complete loss of momentum
             ClipVelocity(validHits.First().normal);
             // set our position to just outside of the wall
             transform.position += newVelocity * fractionOfDistanceTraveled;
+            StepMove(1 - fractionOfDistanceTraveled);
         }
         else
         {
@@ -512,9 +511,17 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void StepMove(Vector3 destination)
+    private void StepMove(float fractionLeftToMove)
     {
-        Vector3 endPosition = destination;
+        Vector3 positionStepUp = transform.position + new Vector3(0, PlayerConstants.StepOffset, 0);
+        Trace upTrace = RayCastUtils.TraceBBoxFrom(myCollider, transform.position, positionStepUp, layersToIgnore);
+
+        if(upTrace.fraction > 0)
+        {
+
+        }
+
+        Vector3 endPosition = transform.position;
         Vector3 position = transform.position;
         Vector3 velocity = newVelocity;
         Trace currentTrace;
@@ -532,7 +539,7 @@ public class PlayerMovement : MonoBehaviour
         endPosition = transform.position;
         endPosition.y += PlayerConstants.StepOffset + float.Epsilon;
 
-        currentTrace = RayCastUtils.TracePlayerBBox(myCollider, endPosition, layersToIgnore);
+        //currentTrace = RayCastUtils.StayOnGroundTrace(myCollider, endPosition, layersToIgnore);
         //if (!currentTrace.allSolid)
         //{
         //    transform.position = currentTrace.hitPoint;

@@ -45,6 +45,53 @@ public class RayCastUtils
         return trace;
     }
 
+    public static Trace TraceBBoxFrom(BoxCollider collider, Vector3 start, Vector3 end, int layersToIgnore)
+    {
+        float distance = (end - start).magnitude;
+        Vector3 direction = (end - start).normalized;
+
+        RaycastHit[] hits = Physics.BoxCastAll(
+            center: start,
+            halfExtents: collider.bounds.extents,
+            direction: direction,
+            Quaternion.identity,
+            maxDistance: distance,
+            layerMask: layersToIgnore,
+            QueryTriggerInteraction.Ignore);
+
+        Trace trace = new Trace();
+        trace.start = start;
+        trace.destination = end;
+
+        if (hits.Length > 0)
+        {
+            List<RaycastHit> orderedHits = hits.OrderBy(x => x.distance).ToList();
+            RaycastHit closestHit = orderedHits.First();
+            Vector3 newHitPoint = closestHit.point;
+
+            // The hit point is point distance from the center of the collider
+            // so we need to add back in the height to find the actual height we can move
+            newHitPoint.y += collider.bounds.extents.y;
+            // The RaycastHit that's returned isn't guaranteed to have the same x/z as the player
+            // Correct this so that our distance is accurate
+            newHitPoint.x = collider.transform.position.x;
+            newHitPoint.z = collider.transform.position.z;
+
+            closestHit.point = newHitPoint;
+
+
+            trace.SetHitData(closestHit, collider, layersToIgnore);
+        }
+        else
+        {
+            RaycastHit hit = new RaycastHit();
+            hit.point = end;
+            trace.SetHitData(hit, collider, layersToIgnore);
+        }
+
+        return trace;
+    }
+
     public static Trace StayOnGroundTrace(BoxCollider collider, Vector3 start, Vector3 end, int layersToIgnore)
     {
         float distance = (end - start).magnitude;
