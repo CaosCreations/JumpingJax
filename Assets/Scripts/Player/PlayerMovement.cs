@@ -252,12 +252,10 @@ public class PlayerMovement : MonoBehaviour
 
         bool willBeGrounded = false;
 
-        float castDistance = Mathf.Abs(newVelocity.y * Time.fixedDeltaTime);
+        // We need to use Mathf.Min because on the first frame of landing, we will zero out our velocity
+        // So, the next frame, the cast distance will be zero, so every other frame we would be NOT grounded
+        float castDistance = Mathf.Max(Mathf.Abs(newVelocity.y * Time.fixedDeltaTime), PlayerConstants.MinimumGroundCastDistance);
 
-        if(castDistance == 0)
-        {
-            castDistance = 0.01f;
-        }
         RaycastHit[] hits = Physics.BoxCastAll(
             center: myCollider.bounds.center,
             halfExtents: myCollider.bounds.extents,
@@ -287,10 +285,6 @@ public class PlayerMovement : MonoBehaviour
         if (grounded && newVelocity.y < 0)
         {
             newVelocity.y = 0;
-        }
-        else
-        {
-            int x = 0;
         }
 
         wasGrounded = grounded;
@@ -467,29 +461,20 @@ public class PlayerMovement : MonoBehaviour
         // If we are going to hit a wall, set ourselves just outside of the wall and translate momentum along the wall
         if (validHits.Count() > 0) //&& newVelocity.magnitude > 10)
         {
-            //if (grounded)
-            //{
-            //    StepMove(horizontalVelocity * Time.fixedDeltaTime);
-            //}
-            //else
-            //{
-               
-                float fractionOfDistanceTraveled = validHits.First().distance / newVelocity.magnitude;
-                // slide along the wall and prevent a complete loss of momentum
-                ClipVelocity(validHits.First().normal);
-                // set our position to just outside of the wall
-                transform.position += newVelocity * fractionOfDistanceTraveled;
-            //}
+            //StepMove(horizontalVelocity * Time.fixedDeltaTime);
+
+            float fractionOfDistanceTraveled = validHits.First().distance / newVelocity.magnitude;
+            // slide along the wall and prevent a complete loss of momentum
+            ClipVelocity(validHits.First().normal);
+            // set our position to just outside of the wall
+            transform.position += newVelocity * fractionOfDistanceTraveled;
         }
         else
         {
             transform.position += newVelocity * Time.fixedDeltaTime;
         }
 
-        if (grounded)
-        {
-            StayOnGround();
-        }
+        StayOnGround();
     }
 
     private void ExecuteAirMovement()
@@ -510,7 +495,6 @@ public class PlayerMovement : MonoBehaviour
             .OrderBy(hit => hit.distance)
             .Where(hit => !Physics.GetIgnoreCollision(hit.collider, myCollider))
             .Where(hit => hit.point != Vector3.zero)
-           // .Where(hit => hit.normal.y < 1) // TO DO: check this
             .ToList();
 
         // If we are going to hit a wall, set ourselves just outside of the wall and translate momentum along the wall
@@ -518,7 +502,7 @@ public class PlayerMovement : MonoBehaviour
         {
             float fractionOfDistanceTraveled = validHits.First().distance / newVelocity.magnitude;
             // slide along the wall and prevent a complete loss of momentum
-            ClipVelocity(validHits.First().normal);
+            ClipAirVelocity(validHits.First().normal);
             // set our position to just outside of the wall
             transform.position += newVelocity * fractionOfDistanceTraveled;
         }
@@ -606,12 +590,12 @@ public class PlayerMovement : MonoBehaviour
         positionSlightlyAbove = traceUp.hitPoint;
 
         // Now trace down from a known safe position
-        Trace traceDown = RayCastUtils.TraceBBoxFrom(myCollider, positionSlightlyAbove, destinationPosition, layersToIgnore);
+        Trace traceDown = RayCastUtils.StayOnGroundTrace(myCollider, positionSlightlyAbove, destinationPosition, layersToIgnore);
         if(traceDown.fraction > 0                    // must go somewhere
             && traceDown.fraction < 1                // must hit something
             && traceDown.hit.normal.y >= 0.7f)       // can't hit a steep slope that we can't stand on anyway
         {
-            transform.position = traceDown.hitPoint;
+            transform.position = traceDown.hitPoint + new Vector3(0, 0.01f, 0);
         }
     }
 
@@ -626,27 +610,33 @@ public class PlayerMovement : MonoBehaviour
         newVelocity -= change;
     }
 
+    private void ClipAirVelocitya(Vector3 normal)
+    {
+        float backoff = Vector3.Dot(newVelocity, normal);
+        Vector3 change = normal * backoff;
+        newVelocity -= change;
+    }
+
     //Slide off of the impacting surface
-    //private Vector3 ClipVelocity(Vector3 startVelocity, Vector3 normal, Vector3 outVec)
-    //{
-    //    Vector3 toReturn = outVec;
+    private void ClipAirVelocity(Vector3 normal)
+    {
+        Vector3 toReturn = newVelocity;
 
-    //    // Determine how far along plane to slide based on incoming direction.
-    //    float backoff = Vector3.Dot(startVelocity, normal);
+        // Determine how far along plane to slide based on incoming direction.
+        float backoff = Vector3.Dot(newVelocity, normal);
 
-    //    var change = normal * backoff;
-    //    //change.y = 0; // only affect horizontal velocity
-    //    toReturn -= change;
+        var change = normal * backoff;
+        toReturn -= change;
 
-    //    // iterate once to make sure we aren't still moving through the plane
-    //    float adjust = Vector3.Dot(toReturn, normal);
-    //    if(adjust < 0)
-    //    {
-    //        toReturn -= (normal * adjust);
-    //    }
+        // iterate once to make sure we aren't still moving through the plane
+        float adjust = Vector3.Dot(toReturn, normal);
+        if (adjust < 0)
+        {
+            toReturn -= (normal * adjust);
+        }
 
-    //    return toReturn;
-    //}
+        newVelocity = toReturn;
+    }
 
     private void ResolveCollisions()
     {

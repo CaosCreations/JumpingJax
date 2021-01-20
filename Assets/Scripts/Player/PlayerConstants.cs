@@ -26,6 +26,7 @@ public static class PlayerConstants
     public static float NormalSurfaceFriction = 1f;
     public static float StepOffset = 0.3f;
     public static int MaxClippingPlanes = 5;
+    public static float MinimumGroundCastDistance = 0.01f;
 
     public static float AirAccelerationCap = .7f;
 
