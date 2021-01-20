@@ -466,7 +466,7 @@ public class PlayerMovement : MonoBehaviour
             ClipVelocity(validHits.First().normal);
             // set our position to just outside of the wall
             transform.position += newVelocity * fractionOfDistanceTraveled;
-            StepMove(1 - fractionOfDistanceTraveled);
+            StepMove(fractionOfDistanceTraveled);
         }
         else
         {
@@ -511,76 +511,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void StepMove(float fractionLeftToMove)
+    private void StepMove(float fractionOfDistanceTraveled)
     {
-        Vector3 positionStepUp = transform.position + new Vector3(0, PlayerConstants.StepOffset, 0);
-        Trace upTrace = RayCastUtils.TraceBBoxFrom(myCollider, transform.position, positionStepUp, layersToIgnore);
+        float fractionLeftToMove = 1 - fractionOfDistanceTraveled;
+        Vector3 stepUpOffset = new Vector3(0, PlayerConstants.StepOffset, 0);
 
-        if(upTrace.fraction > 0)
+        Vector3 positionStepUp = transform.position + stepUpOffset;
+        Vector3 finalStepPosition = transform.position + (newVelocity  * Time.fixedDeltaTime * fractionLeftToMove) + stepUpOffset;
+
+        Trace stepUpTrace = RayCastUtils.TraceBBoxFrom(myCollider, positionStepUp, finalStepPosition, layersToIgnore);
+
+        if(stepUpTrace.fraction > 0)
         {
-
-        }
-
-        Vector3 endPosition = transform.position;
-        Vector3 position = transform.position;
-        Vector3 velocity = newVelocity;
-        Trace currentTrace;
-
-        //TryPlayerMove();
-
-        Vector3 downPosition = transform.position;
-        Vector3 downVelocity = newVelocity;
-
-        // Reset original values
-        transform.position = position;
-        newVelocity = velocity;
-
-        // Move up a stair height
-        endPosition = transform.position;
-        endPosition.y += PlayerConstants.StepOffset + float.Epsilon;
-
-        //currentTrace = RayCastUtils.StayOnGroundTrace(myCollider, endPosition, layersToIgnore);
-        //if (!currentTrace.allSolid)
-        //{
-        //    transform.position = currentTrace.hitPoint;
-        //}
-
-        // Slide move up
-        //TryPlayerMove();
-
-        // Attempt to move down a stair
-        endPosition = transform.position;
-        endPosition.y -= PlayerConstants.StepOffset + float.Epsilon;
-
-        currentTrace = RayCastUtils.TracePlayerBBox(myCollider, endPosition, layersToIgnore);
-
-        // If we are not on the ground any more then use the original movement attempt.
-        if (currentTrace.hit.normal.y < 0.7f) {
-            transform.position = downPosition;
-            newVelocity = downVelocity;
-        }
-
-        // If the trace ended up in empty space, move to the origin.
-        //if (!currentTrace.allSolid)
-        //{
-        //    transform.position = currentTrace.hitPoint;
-        //}
-
-        Vector3 upPosition = transform.position;
-
-        // decide which one went farther
-        float downDistance = (downPosition.x - position.x) * (downPosition.x - position.x) + (downPosition.z - position.z) * (downPosition.z - position.z);
-        float upDistance = (upPosition.x - position.x) * (upPosition.x - position.x) + (upPosition.z - position.z) * (upPosition.z - position.z);
-
-        if(downDistance > upDistance)
-        {
-            transform.position = downPosition;
-            newVelocity = downVelocity;
-        }
-        else
-        {
-            // copy y value from slide move
-            newVelocity.y = downVelocity.y;
+            transform.position = stepUpTrace.hitPoint;
         }
     }
 

@@ -11,13 +11,13 @@ public class RayCastUtils
         Vector3 direction = (end - collider.transform.position).normalized;
 
         RaycastHit[] hits = Physics.BoxCastAll(
-            center: collider.bounds.center,
-            halfExtents: collider.bounds.extents,
-            direction: direction,
-            orientation: Quaternion.identity,
-            maxDistance: distance,
-            layerMask: layersToIgnore,
-            queryTriggerInteraction: QueryTriggerInteraction.Ignore);
+            center:                     collider.bounds.center,
+            halfExtents:                collider.bounds.extents,
+            direction:                  direction,
+            orientation:                Quaternion.identity,
+            maxDistance:                distance,
+            layerMask:                  layersToIgnore,
+            queryTriggerInteraction:    QueryTriggerInteraction.Ignore);
 
         Trace trace = new Trace();
         trace.start = collider.transform.position;
@@ -51,13 +51,13 @@ public class RayCastUtils
         Vector3 direction = (end - start).normalized;
 
         RaycastHit[] hits = Physics.BoxCastAll(
-            center: start,
-            halfExtents: collider.bounds.extents,
-            direction: direction,
-            Quaternion.identity,
-            maxDistance: distance,
-            layerMask: layersToIgnore,
-            QueryTriggerInteraction.Ignore);
+            center:                     start,
+            halfExtents:                collider.bounds.extents,
+            direction:                  direction,
+            orientation:                Quaternion.identity,
+            maxDistance:                distance,
+            layerMask:                  layersToIgnore,
+            queryTriggerInteraction:    QueryTriggerInteraction.Ignore);
 
         Trace trace = new Trace();
         trace.start = start;
@@ -69,16 +69,11 @@ public class RayCastUtils
             RaycastHit closestHit = orderedHits.First();
             Vector3 newHitPoint = closestHit.point;
 
-            // The hit point is point distance from the center of the collider
-            // so we need to add back in the height to find the actual height we can move
-            newHitPoint.y += collider.bounds.extents.y;
-            // The RaycastHit that's returned isn't guaranteed to have the same x/z as the player
-            // Correct this so that our distance is accurate
-            newHitPoint.x = collider.transform.position.x;
-            newHitPoint.z = collider.transform.position.z;
+            Vector3 hitDiff = start - closestHit.point;
+            Vector3 projected = Vector3.Project(hitDiff, direction);
+            Vector3 verticalProjected = Vector3.Project(hitDiff, Vector3.up);
 
-            closestHit.point = newHitPoint;
-
+            closestHit.point += projected + verticalProjected;
 
             trace.SetHitData(closestHit, collider, layersToIgnore);
         }
@@ -98,13 +93,13 @@ public class RayCastUtils
         Vector3 direction = (end - start).normalized;
 
         RaycastHit[] hits = Physics.BoxCastAll(
-            center: start,
-            halfExtents: collider.bounds.extents,
-            direction: direction,
-            Quaternion.identity,
-            maxDistance: distance,
-            layerMask: layersToIgnore,
-            QueryTriggerInteraction.Ignore);
+            center:                     start,
+            halfExtents:                collider.bounds.extents,
+            direction:                  direction,
+            orientation:                Quaternion.identity,
+            maxDistance:                distance,
+            layerMask:                  layersToIgnore,
+            queryTriggerInteraction:    QueryTriggerInteraction.Ignore);
 
         Trace trace = new Trace();
         trace.start = start;
