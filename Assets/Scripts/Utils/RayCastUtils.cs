@@ -43,7 +43,7 @@ public class RayCastUtils
         return trace;
     }
 
-    public static Trace TracePlayerBBox(BoxCollider collider, Vector3 start, Vector3 end, int layersToIgnore)
+    public static Trace TraceBBoxFrom(BoxCollider collider, Vector3 start, Vector3 end, int layersToIgnore)
     {
         float distance = (end - start).magnitude;
         Vector3 direction = (end - start).normalized;

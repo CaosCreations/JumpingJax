@@ -90,10 +90,13 @@ public class PlayerMovement : MonoBehaviour
             TryPlayerMove();
         }
 
+        // Since the StepMove() function could take the player off the ground, we need to check again at the end of the frame
+        // but only if we are falling, otherwise it shouldn't be necessary
         if(newVelocity.y <= 0)
         {
             CheckGrounded();
         }
+
         ClampVelocity(PlayerConstants.MaxVelocity);
 
         if (grounded)
@@ -110,6 +113,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            // If we are already crouching, check if we need to stay crouching (something is above the player)
             if (crouching)
             {
                 crouching = CheckAbove(0.8f);
@@ -127,8 +131,8 @@ public class PlayerMovement : MonoBehaviour
 
         myCollider.size = new Vector3(myCollider.size.x, height, myCollider.size.z);
 
+        // Move the camera to the correct offset
         DampenCamera();
-        
     }
 
     private void DampenCamera()
@@ -684,7 +688,7 @@ public class PlayerMovement : MonoBehaviour
         start = currentTrace.hitPoint;
 
         // Now trace down from a known safe position
-        currentTrace = RayCastUtils.TracePlayerBBox(myCollider, start, end, layersToIgnore);
+        currentTrace = RayCastUtils.TraceBBoxFrom(myCollider, start, end, layersToIgnore);
         if(currentTrace.fraction > 0                    // must go somewhere
             && currentTrace.fraction < 1                // must hit something
             && currentTrace.hit.normal.y >= 0.7f)       // can't hit a steep slope that we can't stand on anyway
