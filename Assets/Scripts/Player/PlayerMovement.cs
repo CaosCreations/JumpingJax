@@ -463,10 +463,11 @@ public class PlayerMovement : MonoBehaviour
         {
             float fractionOfDistanceTraveled = validHits.First().distance / newVelocity.magnitude;
             // slide along the wall and prevent a complete loss of momentum
-            ClipVelocity(validHits.First().normal);
             // set our position to just outside of the wall
             transform.position += newVelocity * fractionOfDistanceTraveled;
             StepMove(fractionOfDistanceTraveled);
+            //ClipVelocity(validHits.First().normal);
+
         }
         else
         {
