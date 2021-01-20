@@ -61,6 +61,9 @@ public class RayCastUtils
         trace.start = start;
         trace.destination = end;
 
+        RaycastHit myHit;
+        Physics.Raycast(start, direction, out myHit, distance, layersToIgnore, QueryTriggerInteraction.Ignore);
+
         if (hits.Length > 0)
         {
             trace.SetHitData(hits[0], collider, layersToIgnore);
@@ -86,7 +89,6 @@ public class Trace
     public Vector3 hitPoint;
     public float fraction;
     public float distanceTraveled;
-    public bool allSolid;
 
     public void SetHitData(RaycastHit hit, BoxCollider myCollider, int layersToIgnore)
     {
@@ -96,16 +98,5 @@ public class Trace
         Vector3 hitDifference = hitPoint - start;
         fraction = hitDifference.magnitude / endDifference.magnitude;
         distanceTraveled = hitDifference.magnitude;
-
-        // TODO: make this more accurate. if the ray is at an angle it could have a distance longer than extents.x, but less that extends.magnitude
-        var overlaps = Physics.OverlapBox(myCollider.bounds.center, myCollider.bounds.extents, Quaternion.identity, layersToIgnore, QueryTriggerInteraction.Ignore);
-        if(overlaps.Length > 0)
-        {
-            allSolid = true;
-        }
-        else
-        {
-            allSolid = false;
-        }
     }
 }

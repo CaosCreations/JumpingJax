@@ -36,7 +36,6 @@ public static class PlayerConstants
     public static Vector3 CrouchingCameraOffset = new Vector3(0, -0.65f, 0);
 
     public static float TimeToCrouch = 0.5f;
-    public static float groundCheckOffset = 0.05f;
 
     public static float portalWidth = 2f;
     public static float portalHeight = 2f;
