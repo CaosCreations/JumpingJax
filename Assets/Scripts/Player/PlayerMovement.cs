@@ -64,9 +64,10 @@ public class PlayerMovement : MonoBehaviour
         CheckCeiling();
         CheckJump();
 
-        var inputVector = GetWorldSpaceInputVector();
-        var wishDir = inputVector.normalized;
-        var wishSpeed = inputVector.magnitude;
+        Vector3 inputVector = GetWorldSpaceInputVector();
+        Vector3 wishDir = inputVector.normalized;
+        float wishSpeed = inputVector.magnitude;
+        
 
         if (grounded)
         {
@@ -317,7 +318,7 @@ public class PlayerMovement : MonoBehaviour
         {
             inputVelocity *= moveSpeed / inputVelocity.magnitude;
         }
-
+        //inputVelocity = new Vector3(0, 0, 6);
         //Get the velocity vector in world space coordinates, by rotating around the camera's y-axis
         return Quaternion.AngleAxis(cameraMove.playerCamera.transform.rotation.eulerAngles.y, Vector3.up) * inputVelocity;
     }
@@ -424,27 +425,20 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // This function keeps the player from exceeding a maximum velocity
-    private void ClampVelocity(float range)
+    private void ClampVelocity(float maxLength)
     {
-        newVelocity = Vector3.ClampMagnitude(newVelocity, PlayerConstants.MaxVelocity);
+        newVelocity = Vector3.ClampMagnitude(newVelocity, maxLength);
     }
-
-    // This function is what keeps the player from walking through walls
-    // We calculate how far we are inside of an object from moving this frame
-    // and move the player just barely outside of the colliding object
 
     private void ExecuteGroundMovement()
     {
         // - boxcast forwards based on speed, find the point in time where i hit it, and stop me there
-        Vector3 horizontalVelocity = newVelocity;
-        horizontalVelocity.y = 0;
-
-        float castDistance = horizontalVelocity.magnitude * Time.fixedDeltaTime;
+        float castDistance = newVelocity.magnitude * Time.fixedDeltaTime;
 
         RaycastHit[] hits = Physics.BoxCastAll(
             center:                     myCollider.bounds.center,
             halfExtents:                myCollider.bounds.extents,
-            direction:                  horizontalVelocity.normalized,
+            direction:                  newVelocity.normalized,
             orientation:                Quaternion.identity,
             maxDistance:                castDistance,
             layerMask:                  layersToIgnore,
@@ -459,14 +453,43 @@ public class PlayerMovement : MonoBehaviour
             .ToList();
 
         // If we are going to hit a wall, set ourselves just outside of the wall and translate momentum along the wall
-        if (validHits.Count() > 0) //&& newVelocity.magnitude > 10)
+        if (validHits.Count() > 0)
         {
-            float fractionOfDistanceTraveled = validHits.First().distance / newVelocity.magnitude;
+            ClipVelocity(validHits.First().normal);
+
+            RaycastHit closestHit = validHits.First();
+            Vector3 hitDiff = closestHit.point - transform.position;
+            Vector3 projected = Vector3.Project(hitDiff, newVelocity);
+            Vector3 startProjected = projected;
+            if (projected.x > 0)
+            {
+                projected.x -= myCollider.bounds.extents.x;
+            }
+            else if(projected.x < 0)
+            {
+                projected.x += myCollider.bounds.extents.x;
+            }
+
+            if (projected.z > 0)
+            {
+                projected.z -= myCollider.bounds.extents.z;
+            }
+            else if (projected.z < 0)
+            {
+                projected.z += myCollider.bounds.extents.z;
+            }
+
+            //closestHit.point += projected;
+
+            
+
+            //float fractionOfDistanceTraveled = closestHit.distance / newVelocity.magnitude;
             // slide along the wall and prevent a complete loss of momentum
             // set our position to just outside of the wall
-            transform.position += newVelocity * fractionOfDistanceTraveled;
-            StepMove(fractionOfDistanceTraveled);
-            //ClipVelocity(validHits.First().normal);
+            Vector3 startPos = transform.position;
+            Vector3 newPos = startPos + projected;
+            transform.position = newPos;
+            //StepMove(fractionOfDistanceTraveled);
 
         }
         else
@@ -474,7 +497,7 @@ public class PlayerMovement : MonoBehaviour
             transform.position += newVelocity * Time.fixedDeltaTime;
         }
 
-        StayOnGround();
+        //StayOnGround();
     }
 
     private void ExecuteAirMovement()
@@ -504,7 +527,7 @@ public class PlayerMovement : MonoBehaviour
             // slide along the wall and prevent a complete loss of momentum
             ClipAirVelocity(validHits.First().normal);
             // set our position to just outside of the wall
-            transform.position += newVelocity * fractionOfDistanceTraveled;
+            transform.position += newVelocity * Time.fixedDeltaTime * fractionOfDistanceTraveled;
         }
         else
         {
@@ -554,11 +577,29 @@ public class PlayerMovement : MonoBehaviour
     private void ClipVelocity(Vector3 normal)
     {
         // Determine how far along plane to slide based on incoming direction.
+        //float backoff = Vector3.Dot(newVelocity, normal);
+
+        //Vector3 change = normal * backoff;
+        //change.y = 0; // only affect horizontal velocity
+        //newVelocity -= change;
+
+        Vector3 toReturn = newVelocity;
+
+        // Determine how far along plane to slide based on incoming direction.
         float backoff = Vector3.Dot(newVelocity, normal);
 
-        Vector3 change = normal * backoff;
-        change.y = 0; // only affect horizontal velocity
-        newVelocity -= change;
+        var change = normal * backoff;
+        toReturn -= change;
+
+        // iterate once to make sure we aren't still moving through the plane
+        float adjust = Vector3.Dot(toReturn, normal);
+        if (adjust < 0)
+        {
+            toReturn -= (normal * adjust);
+        }
+
+        toReturn.y = 0;
+        newVelocity = toReturn;
     }
 
     private void ClipAirVelocitya(Vector3 normal)
