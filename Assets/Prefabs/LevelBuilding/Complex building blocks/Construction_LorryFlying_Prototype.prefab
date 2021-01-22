@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3759649376199440723}
   - component: {fileID: 5124908458259999401}
   - component: {fileID: 5993617049325033892}
-  - component: {fileID: 6175576695974762612}
+  - component: {fileID: 5976034291609403287}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (9)
   m_TagString: Untagged
@@ -82,8 +82,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6175576695974762612
-BoxCollider:
+--- !u!64 &5976034291609403287
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,9 +92,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!64 &5428230873968247467
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -120,7 +121,7 @@ GameObject:
   - component: {fileID: 7646431880761379365}
   - component: {fileID: 4287181202221658130}
   - component: {fileID: 4617889786164310094}
-  - component: {fileID: 9116302483664782573}
+  - component: {fileID: 1899755159596550954}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (10)
   m_TagString: Untagged
@@ -191,8 +192,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &9116302483664782573
-BoxCollider:
+--- !u!64 &1899755159596550954
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -201,9 +202,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1126165572292269438
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,7 +217,7 @@ GameObject:
   - component: {fileID: 8793727352681866307}
   - component: {fileID: 3177594456844521226}
   - component: {fileID: 2201117326246002725}
-  - component: {fileID: 3967368397617326845}
+  - component: {fileID: 7752765978319205459}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (4)
   m_TagString: Untagged
@@ -286,8 +288,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3967368397617326845
-BoxCollider:
+--- !u!64 &7752765978319205459
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -296,9 +298,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1190191522884607197
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +313,7 @@ GameObject:
   - component: {fileID: 7606263804579002357}
   - component: {fileID: 6352046992324095992}
   - component: {fileID: 2343450101323397257}
-  - component: {fileID: 1618042351608017643}
+  - component: {fileID: 3031547998585827797}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (12)
   m_TagString: Untagged
@@ -381,8 +384,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1618042351608017643
-BoxCollider:
+--- !u!64 &3031547998585827797
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -391,23 +394,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!64 &7356700771541600576
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1252397175077650406}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 2534964839176971238, guid: b64e25213d2a8774d86a2474b8b20fb8, type: 3}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1816753746406910868
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,7 +1545,7 @@ GameObject:
   - component: {fileID: 3214382276622702423}
   - component: {fileID: 1174358628173803904}
   - component: {fileID: 3846821988548510499}
-  - component: {fileID: 7809852891671850286}
+  - component: {fileID: 465375971656554892}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (2)
   m_TagString: Untagged
@@ -1626,8 +1616,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7809852891671850286
-BoxCollider:
+--- !u!64 &465375971656554892
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1636,23 +1626,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!64 &1471042896365248550
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2398714777963853498}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 2534964839176971238, guid: b64e25213d2a8774d86a2474b8b20fb8, type: 3}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &2422008463465527734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1664,7 +1641,7 @@ GameObject:
   - component: {fileID: 7087753312852165134}
   - component: {fileID: 2369041891927596335}
   - component: {fileID: 1050792387211800437}
-  - component: {fileID: 8686752159692965195}
+  - component: {fileID: 9212385679958730771}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (5)
   m_TagString: Untagged
@@ -1735,8 +1712,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8686752159692965195
-BoxCollider:
+--- !u!64 &9212385679958730771
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1745,9 +1722,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!64 &1859563315027332350
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1773,7 +1751,7 @@ GameObject:
   - component: {fileID: 4602717845416831747}
   - component: {fileID: 2443425739316133943}
   - component: {fileID: 2646211977551347618}
-  - component: {fileID: 2093484404609043159}
+  - component: {fileID: 6007321847589272305}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (13)
   m_TagString: Untagged
@@ -1844,8 +1822,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2093484404609043159
-BoxCollider:
+--- !u!64 &6007321847589272305
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1854,9 +1832,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &2702205083564681226
 GameObject:
   m_ObjectHideFlags: 0
@@ -1892,20 +1871,6 @@ Transform:
   m_Father: {fileID: 7209969964127804167}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &4588026365708149681
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2768397204486468683}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2534964839176971238, guid: b64e25213d2a8774d86a2474b8b20fb8, type: 3}
 --- !u!1 &3371787332914452423
 GameObject:
   m_ObjectHideFlags: 0
@@ -1966,7 +1931,7 @@ GameObject:
   - component: {fileID: 6800146071900051797}
   - component: {fileID: 5639145592908329231}
   - component: {fileID: 2860701059784745383}
-  - component: {fileID: 5889546239576016616}
+  - component: {fileID: 4416344606564098223}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (10)
   m_TagString: Untagged
@@ -2037,8 +2002,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5889546239576016616
-BoxCollider:
+--- !u!64 &4416344606564098223
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2047,9 +2012,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &3663621863322524102
 GameObject:
   m_ObjectHideFlags: 0
@@ -2061,7 +2027,7 @@ GameObject:
   - component: {fileID: 5617705182750648439}
   - component: {fileID: 182157878163861919}
   - component: {fileID: 8736172699707009800}
-  - component: {fileID: 360817245292628585}
+  - component: {fileID: 8562900405765091938}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (10)
   m_TagString: Untagged
@@ -2132,8 +2098,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &360817245292628585
-BoxCollider:
+--- !u!64 &8562900405765091938
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2142,9 +2108,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &4144436915410986269
 GameObject:
   m_ObjectHideFlags: 0
@@ -2156,7 +2123,7 @@ GameObject:
   - component: {fileID: 7715683923982962830}
   - component: {fileID: 7380431451511599120}
   - component: {fileID: 4319350705431640900}
-  - component: {fileID: 7746499069441491468}
+  - component: {fileID: 6492830057623196795}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (12)
   m_TagString: Untagged
@@ -2227,8 +2194,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7746499069441491468
-BoxCollider:
+--- !u!64 &6492830057623196795
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2237,9 +2204,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &4371673128686014625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2251,7 +2219,7 @@ GameObject:
   - component: {fileID: 1743688482790607962}
   - component: {fileID: 2381698378120873174}
   - component: {fileID: 5774685450980443600}
-  - component: {fileID: 4141544440292702516}
+  - component: {fileID: 5840959754847478030}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (3)
   m_TagString: Untagged
@@ -2322,8 +2290,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4141544440292702516
-BoxCollider:
+--- !u!64 &5840959754847478030
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2332,9 +2300,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &4411664965159775036
 GameObject:
   m_ObjectHideFlags: 0
@@ -3447,7 +3416,7 @@ GameObject:
   - component: {fileID: 7442873194216407432}
   - component: {fileID: 7293500749872258280}
   - component: {fileID: 2413292181991571026}
-  - component: {fileID: 6230908386575547665}
+  - component: {fileID: 4113594510139168614}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (11)
   m_TagString: Untagged
@@ -3518,8 +3487,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6230908386575547665
-BoxCollider:
+--- !u!64 &4113594510139168614
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3528,9 +3497,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &4503181712737133245
 GameObject:
   m_ObjectHideFlags: 0
@@ -3542,7 +3512,7 @@ GameObject:
   - component: {fileID: 8462334799277156567}
   - component: {fileID: 7781321677293746078}
   - component: {fileID: 7863708675690094019}
-  - component: {fileID: 8803877147907665986}
+  - component: {fileID: 1200381484024928886}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (1)
   m_TagString: Untagged
@@ -3613,8 +3583,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8803877147907665986
-BoxCollider:
+--- !u!64 &1200381484024928886
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3623,9 +3593,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!64 &7523128319009015617
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3743,7 +3714,7 @@ GameObject:
   - component: {fileID: 3755687912060223379}
   - component: {fileID: 3383467809108369698}
   - component: {fileID: 364896377606330116}
-  - component: {fileID: 8792288472563520283}
+  - component: {fileID: 6272400417855235440}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (7)
   m_TagString: Untagged
@@ -3814,8 +3785,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8792288472563520283
-BoxCollider:
+--- !u!64 &6272400417855235440
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3824,9 +3795,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &5081255256137720856
 GameObject:
   m_ObjectHideFlags: 0
@@ -3838,7 +3810,7 @@ GameObject:
   - component: {fileID: 193406906580579339}
   - component: {fileID: 7800571197647820696}
   - component: {fileID: 3048998958938564299}
-  - component: {fileID: 8765173892511806028}
+  - component: {fileID: 6008485215653787163}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (8)
   m_TagString: Untagged
@@ -3909,8 +3881,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8765173892511806028
-BoxCollider:
+--- !u!64 &6008485215653787163
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3919,9 +3891,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &5239220659692789925
 GameObject:
   m_ObjectHideFlags: 0
@@ -3933,7 +3906,7 @@ GameObject:
   - component: {fileID: 4804542086771928597}
   - component: {fileID: 7329981910043587308}
   - component: {fileID: 4460155732939271533}
-  - component: {fileID: 3985590153885160887}
+  - component: {fileID: 2472289308243083184}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (6)
   m_TagString: Untagged
@@ -4004,8 +3977,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3985590153885160887
-BoxCollider:
+--- !u!64 &2472289308243083184
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4014,9 +3987,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &5424631360172057602
 GameObject:
   m_ObjectHideFlags: 0
@@ -4028,7 +4002,7 @@ GameObject:
   - component: {fileID: 9092228929537579220}
   - component: {fileID: 7140447784705675513}
   - component: {fileID: 4470815204208963856}
-  - component: {fileID: 8879504220849233165}
+  - component: {fileID: 9143840255113807727}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (12)
   m_TagString: Untagged
@@ -4099,8 +4073,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8879504220849233165
-BoxCollider:
+--- !u!64 &9143840255113807727
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4109,9 +4083,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &5748249811242554670
 GameObject:
   m_ObjectHideFlags: 0
@@ -4215,7 +4190,7 @@ GameObject:
   - component: {fileID: 8032657486784409362}
   - component: {fileID: 2411303118399079788}
   - component: {fileID: 4321344459827119542}
-  - component: {fileID: 2062871002436235170}
+  - component: {fileID: 6604398013574125978}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (10)
   m_TagString: Untagged
@@ -4286,8 +4261,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2062871002436235170
-BoxCollider:
+--- !u!64 &6604398013574125978
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4296,9 +4271,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &6260321844632006607
 GameObject:
   m_ObjectHideFlags: 0
@@ -4310,7 +4286,7 @@ GameObject:
   - component: {fileID: 8301389728529563057}
   - component: {fileID: 7504694207423269762}
   - component: {fileID: 7867360196891622219}
-  - component: {fileID: 2848344085128364019}
+  - component: {fileID: 4138888197093143690}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (13)
   m_TagString: Untagged
@@ -4381,8 +4357,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2848344085128364019
-BoxCollider:
+--- !u!64 &4138888197093143690
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4391,9 +4367,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &6301784775377510868
 GameObject:
   m_ObjectHideFlags: 0
@@ -4405,7 +4382,7 @@ GameObject:
   - component: {fileID: 7818971323621699425}
   - component: {fileID: 689470304805250225}
   - component: {fileID: 2406472611798410685}
-  - component: {fileID: 2381508756944950372}
+  - component: {fileID: 1321300529369594507}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (9)
   m_TagString: Untagged
@@ -4476,8 +4453,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2381508756944950372
-BoxCollider:
+--- !u!64 &1321300529369594507
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4486,9 +4463,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &6758577344204163330
 GameObject:
   m_ObjectHideFlags: 0
@@ -4535,7 +4513,7 @@ GameObject:
   - component: {fileID: 6497465105586949068}
   - component: {fileID: 1202643750627988615}
   - component: {fileID: 917165265715644739}
-  - component: {fileID: 3664553381608837970}
+  - component: {fileID: 8288601854945524399}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (9)
   m_TagString: Untagged
@@ -4606,8 +4584,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3664553381608837970
-BoxCollider:
+--- !u!64 &8288601854945524399
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4616,9 +4594,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &7209969964127804171
 GameObject:
   m_ObjectHideFlags: 0
@@ -4693,20 +4672,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2534964839176971238, guid: b64e25213d2a8774d86a2474b8b20fb8, type: 3}
---- !u!64 &6420346791458669132
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7410683497997995765}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2534964839176971238, guid: b64e25213d2a8774d86a2474b8b20fb8, type: 3}
 --- !u!1 &7447283831033294567
 GameObject:
   m_ObjectHideFlags: 0
@@ -4718,7 +4683,7 @@ GameObject:
   - component: {fileID: 5818342744210275418}
   - component: {fileID: 1547903875675508417}
   - component: {fileID: 1670992635177753954}
-  - component: {fileID: 375654493499433316}
+  - component: {fileID: 2866094421543835553}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (11)
   m_TagString: Untagged
@@ -4789,8 +4754,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &375654493499433316
-BoxCollider:
+--- !u!64 &2866094421543835553
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4799,9 +4764,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &7487621363566213550
 GameObject:
   m_ObjectHideFlags: 0
@@ -5011,7 +4977,7 @@ GameObject:
   - component: {fileID: 6378129416798887246}
   - component: {fileID: 5447070953920769183}
   - component: {fileID: 9176820695424667973}
-  - component: {fileID: 4814228344491434174}
+  - component: {fileID: 4931927211481357557}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (9)
   m_TagString: Untagged
@@ -5082,8 +5048,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4814228344491434174
-BoxCollider:
+--- !u!64 &4931927211481357557
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5092,9 +5058,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!64 &6344555466728661743
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5120,7 +5087,7 @@ GameObject:
   - component: {fileID: 9132726100102658966}
   - component: {fileID: 3380776988925653159}
   - component: {fileID: 8117324251456000239}
-  - component: {fileID: 5753264984660040208}
+  - component: {fileID: 6774122606527013343}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (11)
   m_TagString: Untagged
@@ -5191,8 +5158,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5753264984660040208
-BoxCollider:
+--- !u!64 &6774122606527013343
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5201,9 +5168,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8327314002156102244
 GameObject:
   m_ObjectHideFlags: 0
@@ -5215,7 +5183,7 @@ GameObject:
   - component: {fileID: 3352127922685485821}
   - component: {fileID: 3372880662469657384}
   - component: {fileID: 1981565945144305634}
-  - component: {fileID: 3047237955183390756}
+  - component: {fileID: 1333723401681084039}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (13)
   m_TagString: Untagged
@@ -5286,8 +5254,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3047237955183390756
-BoxCollider:
+--- !u!64 &1333723401681084039
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5296,9 +5264,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8444263698912409197
 GameObject:
   m_ObjectHideFlags: 0
@@ -5310,7 +5279,7 @@ GameObject:
   - component: {fileID: 3307466804383140812}
   - component: {fileID: 1732412154891406303}
   - component: {fileID: 503006193608153935}
-  - component: {fileID: 2273329846936214702}
+  - component: {fileID: 1581708437973467662}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (13)
   m_TagString: Untagged
@@ -5381,8 +5350,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2273329846936214702
-BoxCollider:
+--- !u!64 &1581708437973467662
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5391,9 +5360,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8586050223968047338
 GameObject:
   m_ObjectHideFlags: 0
@@ -5405,7 +5375,7 @@ GameObject:
   - component: {fileID: 1732485132520578595}
   - component: {fileID: 5755485450084175508}
   - component: {fileID: 2470523155197764628}
-  - component: {fileID: 5881829138294560318}
+  - component: {fileID: 8948593930250883089}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (11)
   m_TagString: Untagged
@@ -5476,8 +5446,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5881829138294560318
-BoxCollider:
+--- !u!64 &8948593930250883089
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5486,9 +5456,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &9044628019402043279
 GameObject:
   m_ObjectHideFlags: 0
@@ -5500,7 +5471,7 @@ GameObject:
   - component: {fileID: 5618943772944936396}
   - component: {fileID: 1572331893498049060}
   - component: {fileID: 5976042417885664694}
-  - component: {fileID: 3257920147295556684}
+  - component: {fileID: 7052603159755885021}
   m_Layer: 0
   m_Name: Construction_LorryFlying_Prototype (12)
   m_TagString: Untagged
@@ -5571,8 +5542,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3257920147295556684
-BoxCollider:
+--- !u!64 &7052603159755885021
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5581,9 +5552,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &114989182197315006
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5859,15 +5831,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4, type: 3}
---- !u!4 &6853081754863865762 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6562445392279387861, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
-    type: 3}
-  m_PrefabInstance: {fileID: 290892136497885559}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7584150090186096049 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7874865591295724742, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
+    type: 3}
+  m_PrefabInstance: {fileID: 290892136497885559}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6853081754863865762 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6562445392279387861, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
     type: 3}
   m_PrefabInstance: {fileID: 290892136497885559}
   m_PrefabAsset: {fileID: 0}
@@ -6057,12 +6029,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 833497882880754227}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7410683497997995765 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7874865591295724742, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
-    type: 3}
-  m_PrefabInstance: {fileID: 833497882880754227}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5414019578872821901
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6147,12 +6113,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4, type: 3}
---- !u!1 &2768397204486468683 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7874865591295724742, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
-    type: 3}
-  m_PrefabInstance: {fileID: 5414019578872821901}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1166444741396481624 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6562445392279387861, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
@@ -6243,12 +6203,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4, type: 3}
---- !u!1 &2398714777963853498 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7874865591295724742, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
-    type: 3}
-  m_PrefabInstance: {fileID: 5476613447345191548}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1662580025080480937 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6562445392279387861, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
@@ -6344,15 +6298,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 07ad20becdd7bd64db3bc814c516b11e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4, type: 3}
---- !u!1 &2576987317499722268 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7874865591295724742, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
-    type: 3}
-  m_PrefabInstance: {fileID: 5659451088292624090}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1556017410578253839 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6562445392279387861, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
+    type: 3}
+  m_PrefabInstance: {fileID: 5659451088292624090}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2576987317499722268 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7874865591295724742, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
     type: 3}
   m_PrefabInstance: {fileID: 5659451088292624090}
   m_PrefabAsset: {fileID: 0}
@@ -6440,15 +6394,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4, type: 3}
---- !u!1 &4529237207858391054 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7874865591295724742, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
-    type: 3}
-  m_PrefabInstance: {fileID: 6021930309816247496}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &612574103042742813 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6562445392279387861, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6021930309816247496}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4529237207858391054 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7874865591295724742, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
     type: 3}
   m_PrefabInstance: {fileID: 6021930309816247496}
   m_PrefabAsset: {fileID: 0}
@@ -6536,15 +6490,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4, type: 3}
---- !u!1 &3488109856470419835 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7874865591295724742, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
-    type: 3}
-  m_PrefabInstance: {fileID: 6710756963834496445}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &446727966255463272 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6562445392279387861, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6710756963834496445}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3488109856470419835 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7874865591295724742, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
     type: 3}
   m_PrefabInstance: {fileID: 6710756963834496445}
   m_PrefabAsset: {fileID: 0}
@@ -6728,12 +6682,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4, type: 3}
---- !u!1 &1252397175077650406 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7874865591295724742, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,
-    type: 3}
-  m_PrefabInstance: {fileID: 8946484292130992928}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2826625869452299765 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6562445392279387861, guid: 0ea65f9ed6ed0ec4cb798ba468601ef4,

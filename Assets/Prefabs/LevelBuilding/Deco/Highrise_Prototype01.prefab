@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4103940672603603658}
   - component: {fileID: 1529899063111172085}
   - component: {fileID: 1089338015665315484}
-  - component: {fileID: 1703422209918684783}
+  - component: {fileID: 6724990618001712824}
   m_Layer: 0
   m_Name: Highrise_Prototype01 (2)
   m_TagString: Untagged
@@ -82,8 +82,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1703422209918684783
-BoxCollider:
+--- !u!64 &6724990618001712824
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,9 +92,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1182227460561688857
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,7 +107,7 @@ GameObject:
   - component: {fileID: 1940054146778168301}
   - component: {fileID: 7487256899539549326}
   - component: {fileID: 7392439236892316797}
-  - component: {fileID: 1570847655246944869}
+  - component: {fileID: 7321871005741975294}
   m_Layer: 0
   m_Name: Highrise_Prototype01 (9)
   m_TagString: Untagged
@@ -177,8 +178,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1570847655246944869
-BoxCollider:
+--- !u!64 &7321871005741975294
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -187,9 +188,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1317308446282603783
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +203,7 @@ GameObject:
   - component: {fileID: 517837636137235836}
   - component: {fileID: 8321451673892877496}
   - component: {fileID: 2879786544728223053}
-  - component: {fileID: 7299554358011908390}
+  - component: {fileID: 2379068133523088837}
   m_Layer: 0
   m_Name: Highrise_Prototype01 (8)
   m_TagString: Untagged
@@ -272,8 +274,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7299554358011908390
-BoxCollider:
+--- !u!64 &2379068133523088837
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -282,9 +284,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1899485324920128592
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,7 +299,7 @@ GameObject:
   - component: {fileID: 1427862826737485567}
   - component: {fileID: 546756619919274137}
   - component: {fileID: 3020106656373519228}
-  - component: {fileID: 3503450756771774}
+  - component: {fileID: 6021866089061687811}
   m_Layer: 0
   m_Name: Highrise_Prototype01 (6)
   m_TagString: Untagged
@@ -367,8 +370,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3503450756771774
-BoxCollider:
+--- !u!64 &6021866089061687811
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -377,9 +380,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &2204131458794222952
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +395,7 @@ GameObject:
   - component: {fileID: 1486005432100855603}
   - component: {fileID: 1278481545527568731}
   - component: {fileID: 5454334389322152952}
-  - component: {fileID: 8124751435817443280}
+  - component: {fileID: 7370737870068489904}
   m_Layer: 0
   m_Name: Highrise_Prototype01 (7)
   m_TagString: Untagged
@@ -462,8 +466,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8124751435817443280
-BoxCollider:
+--- !u!64 &7370737870068489904
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -472,9 +476,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &5844170197347319032
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,7 +491,7 @@ GameObject:
   - component: {fileID: 7947775588700403185}
   - component: {fileID: 7733373030217038882}
   - component: {fileID: 3616753602890189879}
-  - component: {fileID: 3811923673283546096}
+  - component: {fileID: 2478550233072074972}
   m_Layer: 0
   m_Name: Highrise_Prototype01 (4)
   m_TagString: Untagged
@@ -557,8 +562,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3811923673283546096
-BoxCollider:
+--- !u!64 &2478550233072074972
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -567,9 +572,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &7193295773320643792
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,7 +587,7 @@ GameObject:
   - component: {fileID: 364543435070245725}
   - component: {fileID: 6845075282997655224}
   - component: {fileID: 207687404776846202}
-  - component: {fileID: 604251492723234885}
+  - component: {fileID: 5173198292598231156}
   m_Layer: 0
   m_Name: Highrise_Prototype01
   m_TagString: Untagged
@@ -652,8 +658,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &604251492723234885
-BoxCollider:
+--- !u!64 &5173198292598231156
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -662,9 +668,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &7330949578568778568
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,7 +683,7 @@ GameObject:
   - component: {fileID: 4889801678214696968}
   - component: {fileID: 1673531345300454472}
   - component: {fileID: 7991633704414849415}
-  - component: {fileID: 7301103579342533851}
+  - component: {fileID: 4232392434856387575}
   m_Layer: 0
   m_Name: Highrise_Prototype01 (1)
   m_TagString: Untagged
@@ -747,8 +754,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7301103579342533851
-BoxCollider:
+--- !u!64 &4232392434856387575
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -757,9 +764,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8684138311654062913
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,7 +884,7 @@ GameObject:
   - component: {fileID: 7821352763042809033}
   - component: {fileID: 3352427202473592444}
   - component: {fileID: 7981231715637305192}
-  - component: {fileID: 2237077031302278222}
+  - component: {fileID: 9143793469226886726}
   m_Layer: 0
   m_Name: Highrise_Prototype01 (3)
   m_TagString: Untagged
@@ -947,8 +955,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2237077031302278222
-BoxCollider:
+--- !u!64 &9143793469226886726
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -957,9 +965,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &9071322052205698822
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,7 +980,7 @@ GameObject:
   - component: {fileID: 4682715317632941006}
   - component: {fileID: 1202500548683974047}
   - component: {fileID: 2061831669558531180}
-  - component: {fileID: 3103349554455269050}
+  - component: {fileID: 5527373161325711196}
   m_Layer: 0
   m_Name: Highrise_Prototype01 (5)
   m_TagString: Untagged
@@ -1042,8 +1051,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3103349554455269050
-BoxCollider:
+--- !u!64 &5527373161325711196
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1052,6 +1061,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
