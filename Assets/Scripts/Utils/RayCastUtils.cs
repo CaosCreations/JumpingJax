@@ -59,15 +59,21 @@ public class RayCastUtils
             layerMask:                  layersToIgnore,
             queryTriggerInteraction:    QueryTriggerInteraction.Ignore);
 
+        List<RaycastHit> validHits = hits
+            .ToList()
+            .OrderBy(hit => hit.distance)
+            .Where(hit => !Physics.GetIgnoreCollision(hit.collider, collider))
+            .Where(hit => hit.point != Vector3.zero)
+            .Where(hit => hit.normal.y > 0.7f)
+            .ToList();
+
         Trace trace = new Trace();
         trace.start = start;
         trace.destination = end;
 
-        if (hits.Length > 0)
+        if (validHits.Count > 0)
         {
-            List<RaycastHit> orderedHits = hits.OrderBy(x => x.distance).ToList();
-            RaycastHit closestHit = orderedHits.First();
-            Vector3 newHitPoint = closestHit.point;
+            RaycastHit closestHit = validHits.First();
 
             Vector3 hitDiff = start - closestHit.point;
             Vector3 projected = Vector3.Project(hitDiff, direction);
