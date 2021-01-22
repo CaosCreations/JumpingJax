@@ -471,13 +471,37 @@ public class PlayerMovement : MonoBehaviour
             Vector3 hitDiff = closestHit.point - transform.position;
             Vector3 projected = Vector3.Project(hitDiff, newVelocity);
             Vector3 startProjected = projected;
+
+            Vector3 extentNoY = myCollider.bounds.extents;
+            extentNoY.y = 0;
+            Vector3 projectedExtents = Vector3.Project(extentNoY, newVelocity);
+
+            if (projected.x > myCollider.bounds.extents.x)
+            {
+                projected.x -= myCollider.bounds.extents.x;
+            }
+            else if (projected.x < -myCollider.bounds.extents.x)
+            {
+                projected.x += myCollider.bounds.extents.x;
+            }
+
+            if (projected.z > myCollider.bounds.extents.z)
+            {
+                projected.z -= myCollider.bounds.extents.z;
+            }
+            else if (projected.z < -myCollider.bounds.extents.z)
+            {
+                projected.z += myCollider.bounds.extents.z;
+            }
+
+
             if (projected.x > 0.001f)
             {
-                projected.x -= myCollider.bounds.extents.x + 0.001f;
+                projected.x -= 0.001f;
             }
             else if(projected.x < -0.001f)
             {
-                projected.x += myCollider.bounds.extents.x + 0.001f;
+                projected.x += 0.001f;
             }
 
             if (projected.z > 0.001f)
@@ -489,15 +513,25 @@ public class PlayerMovement : MonoBehaviour
                 projected.z += 0.001f;
             }
 
+            if(Mathf.Abs(projected.x) < 0.001)
+            {
+                projected.x = 0;
+            }
+
+            if (Mathf.Abs(projected.z) < 0.001)
+            {
+                projected.z = 0;
+            }
+
             //closestHit.point += projected;
 
             //float fractionOfDistanceTraveled = closestHit.distance / newVelocity.magnitude;
-            // slide along the wall and prevent a complete loss of momentum
             // set our position to just outside of the wall
             Vector3 startPos = transform.position;
             Vector3 newPos = startPos + projected;
             transform.position = newPos;
             //StepMove(fractionOfDistanceTraveled);
+            // slide along the wall and prevent a complete loss of momentum
             //ClipVelocity(validHits.First().normal);
         }
         else
