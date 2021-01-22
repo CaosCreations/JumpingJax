@@ -320,7 +320,19 @@ public class PlayerMovement : MonoBehaviour
         }
         //inputVelocity = new Vector3(0, 0, 6);
         //Get the velocity vector in world space coordinates, by rotating around the camera's y-axis
-        return Quaternion.AngleAxis(cameraMove.playerCamera.transform.rotation.eulerAngles.y, Vector3.up) * inputVelocity;
+        Vector3 worldSpaceInputVector = Quaternion.AngleAxis(cameraMove.playerCamera.transform.rotation.eulerAngles.y, Vector3.up) * inputVelocity;
+
+        if(Mathf.Abs(worldSpaceInputVector.x) < 0.001)
+        {
+            worldSpaceInputVector.x = 0;
+        }
+
+        if (Mathf.Abs(worldSpaceInputVector.z) < 0.001)
+        {
+            worldSpaceInputVector.z = 0;
+        }
+
+        return worldSpaceInputVector;
     }
 
     private Vector3 GetInputVelocity(float moveSpeed)
@@ -434,7 +446,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // - boxcast forwards based on speed, find the point in time where i hit it, and stop me there
         float castDistance = newVelocity.magnitude * Time.fixedDeltaTime;
-
+      
         RaycastHit[] hits = Physics.BoxCastAll(
             center:                     myCollider.bounds.center,
             halfExtents:                myCollider.bounds.extents,
@@ -455,33 +467,29 @@ public class PlayerMovement : MonoBehaviour
         // If we are going to hit a wall, set ourselves just outside of the wall and translate momentum along the wall
         if (validHits.Count() > 0)
         {
-            ClipVelocity(validHits.First().normal);
-
             RaycastHit closestHit = validHits.First();
             Vector3 hitDiff = closestHit.point - transform.position;
             Vector3 projected = Vector3.Project(hitDiff, newVelocity);
             Vector3 startProjected = projected;
-            if (projected.x > 0)
+            if (projected.x > 0.001f)
             {
-                projected.x -= myCollider.bounds.extents.x;
+                projected.x -= myCollider.bounds.extents.x + 0.001f;
             }
-            else if(projected.x < 0)
+            else if(projected.x < -0.001f)
             {
-                projected.x += myCollider.bounds.extents.x;
+                projected.x += myCollider.bounds.extents.x + 0.001f;
             }
 
-            if (projected.z > 0)
+            if (projected.z > 0.001f)
             {
-                projected.z -= myCollider.bounds.extents.z;
+                projected.z -= 0.001f;
             }
-            else if (projected.z < 0)
+            else if (projected.z < -0.001f)
             {
-                projected.z += myCollider.bounds.extents.z;
+                projected.z += 0.001f;
             }
 
             //closestHit.point += projected;
-
-            
 
             //float fractionOfDistanceTraveled = closestHit.distance / newVelocity.magnitude;
             // slide along the wall and prevent a complete loss of momentum
@@ -490,7 +498,7 @@ public class PlayerMovement : MonoBehaviour
             Vector3 newPos = startPos + projected;
             transform.position = newPos;
             //StepMove(fractionOfDistanceTraveled);
-
+            //ClipVelocity(validHits.First().normal);
         }
         else
         {
@@ -530,7 +538,7 @@ public class PlayerMovement : MonoBehaviour
             transform.position += newVelocity * Time.fixedDeltaTime * fractionOfDistanceTraveled;
         }
         else
-        {
+        { 
             transform.position += newVelocity * Time.fixedDeltaTime;
         }
     }
