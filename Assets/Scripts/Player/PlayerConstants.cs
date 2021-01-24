@@ -16,7 +16,7 @@ public static class PlayerConstants
     public static float CrouchingJumpPower = 5f;
     public static float RapidlyMovingUpVelocity = 5f;
 
-    public static float GroundAcceleration = 10f;
+    public static float GroundAcceleration = 15f;
     public static float AirAcceleration = 1000f;
     public static float Overbounce = 1.001f;
 

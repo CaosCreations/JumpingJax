@@ -90,6 +90,8 @@ public class PlayerProgress : MonoBehaviour
         {
             return;
         }
+
+        playerMovement.controller.enabled = false;
         Vector3 respawnPosition = currentCheckpoint.transform.position + PlayerConstants.PlayerSpawnOffset;
         transform.position = respawnPosition;
 
@@ -98,6 +100,7 @@ public class PlayerProgress : MonoBehaviour
         cameraMove.ResetTargetRotation(Quaternion.Euler(respawnRotation));
 
         playerMovement.newVelocity = Vector3.zero;
+        playerMovement.controller.enabled = true;
 
         // If the player is restarting at the beginning, reset level
         if (currentCheckpoint.isFirstCheckpoint)

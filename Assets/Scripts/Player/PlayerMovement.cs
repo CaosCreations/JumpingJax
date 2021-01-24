@@ -2,8 +2,6 @@
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))] // Collider is necessary for custom collision detection
-[RequireComponent(typeof(Rigidbody))] // Rigidbody is necessary to ignore certain colliders for portals
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Set In Editor")]
@@ -23,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private bool crouching;
 
-    private BoxCollider myCollider;
+    public CharacterController controller;
     private CameraMove cameraMove;
     public Camera ghostCamera;
     private Level currentLevel;
@@ -38,12 +36,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        myCollider = GetComponent<BoxCollider>();
+        controller = GetComponent<CharacterController>();
         cameraMove = GetComponent<CameraMove>();
         currentLevel = GameManager.GetCurrentLevel();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (ghostCamera.enabled || GameManager.Instance.isLoadingScene)
         {
@@ -56,12 +54,22 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        grounded = controller.isGrounded;
+
         CheckCrouch();
+
+        if (grounded)
+        {
+            newVelocity.y = 0;
+        }
+
+        //if (controller.collisionFlags == CollisionFlags.CollidedAbove)
+        //{
+        //    newVelocity.y = 0;
+        //}
 
         ApplyGravity();
 
-        CheckGrounded();
-        CheckCeiling();
         CheckJump();
 
         Vector3 inputVector = GetWorldSpaceInputVector();
@@ -79,43 +87,16 @@ public class PlayerMovement : MonoBehaviour
             ApplyGroundAcceleration(wishDir, wishSpeed, PlayerConstants.NormalSurfaceFriction);
             ClampVelocity(PlayerConstants.MoveSpeed);
             CheckFootstepSound();
-            ExecuteGroundMovement();
         }
         else
         {
             ApplyAirAcceleration(wishDir, wishSpeed);
-            ExecuteAirMovement();
         }
 
-        FrameEndCleanup();
+        controller.Move(newVelocity * Time.deltaTime);
     }
 
-    private void FrameEndCleanup()
-    {
-        // Since the StepMove() function could take the player off the ground, we need to check again at the end of the frame
-        // but only if we are falling, otherwise it shouldn't be necessary
-        if (newVelocity.y <= 0)
-        {
-            CheckGrounded();
-        }
-
-        ClampVelocity(PlayerConstants.MaxVelocity);
-
-        if (grounded)
-        {
-            newVelocity.y = 0;
-        }
-    }
-
-    private void CheckFootstepSound()
-    {
-
-        if (newVelocity.magnitude > 0)
-        {
-            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Footstep);
-        }
-    }
-
+    #region Crouch
     private void CheckCrouch()
     {
         if (InputManager.GetKey(PlayerConstants.Crouch))
@@ -127,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
             // If we are already crouching, check if we need to stay crouching (something is above the player)
             if (crouching)
             {
-                crouching = !CanUncrouch();
+                crouching = controller.collisionFlags == CollisionFlags.Above;
             }
             else
             {
@@ -147,8 +128,8 @@ public class PlayerMovement : MonoBehaviour
         // Update player collider
         float endHeight = crouching ? PlayerConstants.CrouchingPlayerHeight : PlayerConstants.StandingPlayerHeight;
         float velocity = 0;
-        float startingHeight = myCollider.size.y;
-        float height = Mathf.SmoothDamp(myCollider.size.y, endHeight, ref velocity, Time.deltaTime);
+        float startingHeight = controller.height;
+        float height = Mathf.SmoothDamp(controller.height, endHeight, ref velocity, Time.deltaTime);
 
         if(height > startingHeight && grounded)
         {
@@ -156,7 +137,8 @@ public class PlayerMovement : MonoBehaviour
             newPosition.y += height - startingHeight;
             transform.position = newPosition;
         }
-        myCollider.size = new Vector3(myCollider.size.x, height, myCollider.size.z);
+
+        controller.height = height;
     }
 
     private void DampenCamera()
@@ -171,133 +153,19 @@ public class PlayerMovement : MonoBehaviour
             cameraMove.playerCamera.transform.localPosition = newOffset;
         }
     }
+    #endregion
 
     private void ApplyGravity()
     {
         if (!grounded && newVelocity.y > -PlayerConstants.MaxFallSpeed)
         {
-            newVelocity.y -= currentLevel.gravityMultiplier * PlayerConstants.Gravity * Time.fixedDeltaTime;
+            newVelocity.y -= currentLevel.gravityMultiplier * PlayerConstants.Gravity * Time.deltaTime;
         }
 
         CheckGravitySound();
     }
 
-    private void CheckGravitySound()
-    {
-        if (newVelocity.y <= -PlayerConstants.MaxFallSpeed)
-        {
-            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Falling);
-        }
-    }
-
-    private bool CanUncrouch()
-    {
-        float crouchingHeightChange = (PlayerConstants.StandingPlayerHeight - PlayerConstants.CrouchingPlayerHeight) / 2;
-        float uncrouchCastDistance = crouchingHeightChange + float.Epsilon;
-
-        RaycastHit[] hits = Physics.BoxCastAll(
-            center: myCollider.bounds.center,
-            halfExtents: myCollider.bounds.extents,
-            direction: Vector3.up,
-            orientation: Quaternion.identity,
-            maxDistance: uncrouchCastDistance,
-            layerMask: layersToIgnore,
-            queryTriggerInteraction: QueryTriggerInteraction.Ignore);
-
-        List<RaycastHit> validHits = hits
-            .ToList()
-            .Where(hit => !Physics.GetIgnoreCollision(hit.collider, myCollider))
-            .Where(hit => hit.point != Vector3.zero)
-            .ToList();
-
-        return validHits.Count == 0;
-    }
-
-    private void CheckCeiling()
-    {
-        if(newVelocity.y <= 0)
-        {
-            return;
-        }
-
-        float castDistance = Mathf.Abs(newVelocity.y * Time.fixedDeltaTime);
-        RaycastHit[] hits = Physics.BoxCastAll(
-            center: myCollider.bounds.center,
-            halfExtents: myCollider.bounds.extents,
-            direction: Vector3.up,
-            orientation: Quaternion.identity,
-            maxDistance: castDistance,
-            layerMask: layersToIgnore,
-            queryTriggerInteraction: QueryTriggerInteraction.Ignore);
-
-        List<RaycastHit> validHits = hits
-            .ToList()
-            .Where(hit => !Physics.GetIgnoreCollision(hit.collider, myCollider))
-            .Where(hit => hit.point != Vector3.zero)
-            .ToList();
-
-        if(validHits.Count > 0)
-        {
-            newVelocity.y = 0;
-        }
-    }
-
-    private void CheckGrounded()
-    {
-        if (newVelocity.y > 5)
-        {
-            grounded = false;
-            wasGrounded = false;
-            return;
-        }
-
-        bool willBeGrounded = false;
-
-        // We need to use Mathf.Min because on the first frame of landing, we will zero out our velocity
-        // So, the next frame, the cast distance will be zero, so every other frame we would be NOT grounded
-        float castDistance = Mathf.Max(Mathf.Abs(newVelocity.y * Time.fixedDeltaTime), PlayerConstants.MinimumGroundCastDistance);
-
-        RaycastHit[] hits = Physics.BoxCastAll(
-            center: myCollider.bounds.center,
-            halfExtents: myCollider.bounds.extents,
-            direction: Vector3.down,
-            orientation: Quaternion.identity,
-            maxDistance: castDistance,
-            layerMask: layersToIgnore,
-            queryTriggerInteraction: QueryTriggerInteraction.Ignore);
-
-        List<RaycastHit> validHits = hits
-            .ToList()
-            .OrderBy(hit => hit.distance)
-            .Where(hit => !Physics.GetIgnoreCollision(hit.collider, myCollider))
-            .Where(hit => hit.point != Vector3.zero)
-            .Where(hit => hit.normal.y > 0.7f)
-            .ToList();
-
-        if(validHits.Count > 0)
-        {
-            willBeGrounded = true;
-        }
-
-        grounded = willBeGrounded;
-
-        CheckLandingSound();
-
-        if (grounded && newVelocity.y < 0)
-        {
-            newVelocity.y = 0;
-        }
-
-        wasGrounded = grounded;
-    }
-
-    private void CheckLandingSound()
-    {
-        if (!wasGrounded && grounded)
-        {
-            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Land);
-        }
-    }
+    
 
     private void CheckJump()
     {
@@ -309,6 +177,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    #region Input
     private Vector3 GetWorldSpaceInputVector()
     {
         float moveSpeed = crouching ? PlayerConstants.CrouchingMoveSpeed : PlayerConstants.MoveSpeed;
@@ -369,6 +238,7 @@ public class PlayerMovement : MonoBehaviour
 
         return inputDirection.z < 0;
     }
+    #endregion
 
     //wishDir: the direction the player wishes to go in the newest frame
     //wishSpeed: the speed the player wishes to go this frame
@@ -377,7 +247,7 @@ public class PlayerMovement : MonoBehaviour
         var currentSpeed = Vector3.Dot(newVelocity, wishDir); //Vector projection of the current velocity onto the new direction
         var speedToAdd = wishSpeed - currentSpeed;
 
-        var acceleration = PlayerConstants.GroundAcceleration * Time.fixedDeltaTime; //acceleration to apply in the newest direction
+        var acceleration = PlayerConstants.GroundAcceleration * Time.deltaTime; //acceleration to apply in the newest direction
 
         if (speedToAdd <= 0)
         {
@@ -403,7 +273,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        var accelspeed = Mathf.Min(speedToAdd, PlayerConstants.AirAcceleration * wishSpeed * Time.fixedDeltaTime);
+        var accelspeed = Mathf.Min(speedToAdd, PlayerConstants.AirAcceleration * wishSpeed * Time.deltaTime);
         var velocityTransformation = accelspeed * wishDir;
 
         newVelocity += velocityTransformation;
@@ -427,7 +297,7 @@ public class PlayerMovement : MonoBehaviour
         var control = (speed < PlayerConstants.StopSpeed) ? PlayerConstants.StopSpeed : speed;
 
         // Add the amount to the loss amount.
-        var lossInSpeed = control * PlayerConstants.Friction * Time.fixedDeltaTime;
+        var lossInSpeed = control * PlayerConstants.Friction * Time.deltaTime;
         var newSpeed = Mathf.Max(speed - lossInSpeed, 0);
 
         if (newSpeed != speed)
@@ -442,95 +312,7 @@ public class PlayerMovement : MonoBehaviour
         newVelocity = Vector3.ClampMagnitude(newVelocity, maxLength);
     }
 
-    private void ExecuteGroundMovement()
-    {
-        // - boxcast forwards based on speed, find the point in time where i hit it, and stop me there
-        float castDistance = newVelocity.magnitude * Time.fixedDeltaTime;
-      
-        RaycastHit[] hits = Physics.BoxCastAll(
-            center:                     myCollider.bounds.center,
-            halfExtents:                myCollider.bounds.extents,
-            direction:                  newVelocity.normalized,
-            orientation:                Quaternion.identity,
-            maxDistance:                castDistance,
-            layerMask:                  layersToIgnore,
-            queryTriggerInteraction:    QueryTriggerInteraction.Ignore);
-
-        List<RaycastHit> validHits = hits
-            .ToList()
-            .OrderBy(hit => hit.distance)
-            .Where(hit => !Physics.GetIgnoreCollision(hit.collider, myCollider))
-            .Where(hit => hit.point != Vector3.zero)
-            .Where(hit => hit.normal.y < 1) // TO DO: check this
-            .ToList();
-
-        // If we are going to hit a wall, set ourselves just outside of the wall and translate momentum along the wall
-        if (validHits.Count() > 0)
-        {
-            float fractionOfDistanceTraveled = validHits.First().distance / newVelocity.magnitude;
-            // set our position to just outside of the wall
-            transform.position += newVelocity * Time.fixedDeltaTime * fractionOfDistanceTraveled; ;
-            StepMove(fractionOfDistanceTraveled);
-        }
-        else
-        {
-            transform.position += newVelocity * Time.fixedDeltaTime;
-        }
-
-        //StayOnGround();
-    }
-
-    private void ExecuteAirMovement()
-    {
-        float castDistance = newVelocity.magnitude * Time.fixedDeltaTime;
-
-        RaycastHit[] hits = Physics.BoxCastAll(
-            center: myCollider.bounds.center,
-            halfExtents: myCollider.bounds.extents,
-            direction: newVelocity.normalized,
-            orientation: Quaternion.identity,
-            maxDistance: castDistance,
-            layerMask: layersToIgnore,
-            queryTriggerInteraction: QueryTriggerInteraction.Ignore);
-
-        List<RaycastHit> validHits = hits
-            .ToList()
-            .OrderBy(hit => hit.distance)
-            .Where(hit => !Physics.GetIgnoreCollision(hit.collider, myCollider))
-            .Where(hit => hit.point != Vector3.zero)
-            .ToList();
-
-        // If we are going to hit a wall, set ourselves just outside of the wall and translate momentum along the wall
-        if (validHits.Count() > 0)
-        {
-            float fractionOfDistanceTraveled = validHits.First().distance / newVelocity.magnitude;
-            // slide along the wall and prevent a complete loss of momentum
-            ClipAirVelocity(validHits.First().normal);
-            // set our position to just outside of the wall
-            transform.position += newVelocity * Time.fixedDeltaTime * fractionOfDistanceTraveled;
-        }
-        else
-        { 
-            transform.position += newVelocity * Time.fixedDeltaTime;
-        }
-    }
-
-    private void StepMove(float fractionOfDistanceTraveled)
-    {
-        float fractionLeftToMove = 1 - fractionOfDistanceTraveled;
-        Vector3 stepUpOffset = new Vector3(0, PlayerConstants.StepOffset, 0);
-
-        Vector3 positionStepUp = transform.position + stepUpOffset;
-        Vector3 finalStepPosition = transform.position + (newVelocity  * Time.fixedDeltaTime * fractionLeftToMove) + stepUpOffset;
-
-        Trace stepUpTrace = RayCastUtils.TraceBBoxFrom(myCollider, positionStepUp, finalStepPosition, layersToIgnore);
-
-        if(stepUpTrace.fraction > 0)
-        {
-            transform.position = stepUpTrace.hitPoint;
-        }
-    }
-
+    /*
     private void StayOnGround()
     {
         Vector3 positionSlightlyAbove = transform.position;
@@ -551,98 +333,7 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position = traceDown.hitPoint + new Vector3(0, 0.01f, 0);
         }
-    }
-
-    //Slide off of the impacting surface
-    private void ClipVelocity(Vector3 normal)
-    {
-        // Determine how far along plane to slide based on incoming direction.
-        //float backoff = Vector3.Dot(newVelocity, normal);
-
-        //Vector3 change = normal * backoff;
-        //change.y = 0; // only affect horizontal velocity
-        //newVelocity -= change;
-
-        Vector3 toReturn = newVelocity;
-
-        // Determine how far along plane to slide based on incoming direction.
-        float backoff = Vector3.Dot(newVelocity, normal);
-
-        var change = normal * backoff;
-        toReturn -= change;
-
-        // iterate once to make sure we aren't still moving through the plane
-        float adjust = Vector3.Dot(toReturn, normal);
-        if (adjust < 0)
-        {
-            toReturn -= (normal * adjust);
-        }
-
-        toReturn.y = 0;
-        newVelocity = toReturn;
-    }
-
-    private void ClipAirVelocitya(Vector3 normal)
-    {
-        float backoff = Vector3.Dot(newVelocity, normal);
-        Vector3 change = normal * backoff;
-        newVelocity -= change;
-    }
-
-    //Slide off of the impacting surface
-    private void ClipAirVelocity(Vector3 normal)
-    {
-        Vector3 toReturn = newVelocity;
-
-        // Determine how far along plane to slide based on incoming direction.
-        float backoff = Vector3.Dot(newVelocity, normal);
-
-        var change = normal * backoff;
-        toReturn -= change;
-
-        // iterate once to make sure we aren't still moving through the plane
-        float adjust = Vector3.Dot(toReturn, normal);
-        if (adjust < 0)
-        {
-            toReturn -= (normal * adjust);
-        }
-
-        newVelocity = toReturn;
-    }
-
-    private void ResolveCollisions()
-    {
-        var overlaps = Physics.OverlapBox(myCollider.bounds.center, myCollider.bounds.extents, Quaternion.identity);
-
-        foreach (var other in overlaps)
-        {
-            // If the collider is my own, check the next one
-            if (other == myCollider || other.isTrigger)
-            {
-                continue;
-            }
-
-            if (Physics.ComputePenetration(myCollider, transform.position, transform.rotation,
-                other, other.transform.position, other.transform.rotation,
-                out Vector3 dir, out float dist))
-            {
-                if (Vector3.Dot(dir, newVelocity.normalized) > 0 ||
-                    Physics.GetIgnoreCollision(myCollider, other))
-                {
-                    continue;
-                }
-
-                Vector3 depenetrationVector = dir * dist; // The vector needed to get outside of the collision
-
-                if (showDebugGizmos)
-                {
-                    Debug.Log($"Object Depenetration Vector: {depenetrationVector.ToString("F8")} \n Collided with: {other.gameObject.name}");
-                }
-
-                transform.position += depenetrationVector;
-            }
-        }
-    }
+    }*/
 
     public void NoClip()
     {
@@ -676,4 +367,31 @@ public class PlayerMovement : MonoBehaviour
             transform.position += -cameraMove.playerCamera.transform.up * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
         }
     }
+
+    #region SoundChecks
+    private void CheckGravitySound()
+    {
+        if (newVelocity.y <= -PlayerConstants.MaxFallSpeed)
+        {
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Falling);
+        }
+    }
+
+    private void CheckLandingSound()
+    {
+        if (!wasGrounded && grounded)
+        {
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Land);
+        }
+    }
+
+    private void CheckFootstepSound()
+    {
+
+        if (newVelocity.magnitude > 0)
+        {
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Footstep);
+        }
+    }
+    #endregion
 }
