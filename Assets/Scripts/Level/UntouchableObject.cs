@@ -6,16 +6,22 @@ public class UntouchableObject : MonoBehaviour
 {
 
     public bool useGizmos;
+    private GameObject currentGameObject;
+
     private void Start()
     {
         Collider myCollider = GetComponent<Collider>();
         myCollider.isTrigger = true;
+        currentGameObject = this.gameObject;
     }
 
+    //lb: I added some useful debugging features for level design
     private void OnTriggerEnter(Collider other)
     {
         PlayerProgress playerProgress = other.GetComponent<PlayerProgress>();
         if(playerProgress == null) {
+            Debug.Log("The player HIT GameObject " + currentGameObject.name + "that has UntouchableScript.cs on it at " + currentGameObject.transform.position);
+            
             return;
         }
 

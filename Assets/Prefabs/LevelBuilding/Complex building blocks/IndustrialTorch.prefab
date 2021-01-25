@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 5338385979174081975}
   - component: {fileID: 9192992036134628624}
   - component: {fileID: 338740926062672735}
-  - component: {fileID: 5193943967919027150}
+  - component: {fileID: 7241966120500264091}
   m_Layer: 0
   m_Name: IndustrialTorch (1)
   m_TagString: Untagged
@@ -163,8 +163,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5193943967919027150
-MeshCollider:
+--- !u!65 &7241966120500264091
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -173,10 +173,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2534964839176971238, guid: b64e25213d2a8774d86a2474b8b20fb8, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 2.0000005, y: 2.0000005, z: 2}
+  m_Center: {x: 0.00000011920929, y: 1.0000002, z: 0}
 --- !u!1 &4972668935675422530
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +187,7 @@ GameObject:
   - component: {fileID: 1048774982869754390}
   - component: {fileID: 1824083099130159669}
   - component: {fileID: 7918660059504763110}
-  - component: {fileID: 5954967476291421248}
+  - component: {fileID: 9042143301970794560}
   m_Layer: 0
   m_Name: IndustrialTorch
   m_TagString: Untagged
@@ -259,8 +258,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5954967476291421248
-MeshCollider:
+--- !u!65 &9042143301970794560
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -269,10 +268,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2534964839176971238, guid: b64e25213d2a8774d86a2474b8b20fb8, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 2.0000005, y: 2.0000005, z: 1.9999999}
+  m_Center: {x: -0.00000011920929, y: 1.0000002, z: 0}
 --- !u!1 &7874865591295724742
 GameObject:
   m_ObjectHideFlags: 0
