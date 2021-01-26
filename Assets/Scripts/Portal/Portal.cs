@@ -28,7 +28,7 @@ public class Portal : MonoBehaviour
     [SerializeField]
     private List<Collider> wallsPortalIsTouching;
 
-    private List<PortalableObject> objectsToWarp = new List<PortalableObject>();
+    private PlayerPortalableController objectToWarp;
 
     // Used for portal positioning
     private BoxCollider boxCollider;
@@ -67,24 +67,36 @@ public class Portal : MonoBehaviour
         }
 
         UpdatePortalOutline();
-        WarpObjects();
+        if(objectToWarp != null)
+        {
+            WarpObjects();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        var objectToWarp = other.GetComponent<PortalableObject>();
-        if (otherPortal.IsPlaced())
+        ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
+        PlayerPortalableController playerPortalable = other.GetComponent<PlayerPortalableController>();
+        if(playerPortalable != null)
         {
-            objectsToWarp.Add(objectToWarp);
-            objectToWarp.SetIsInPortal(this, otherPortal, wallsPortalIsTouching);
+            if (otherPortal.IsPlaced())
+            {
+                objectToWarp = playerPortalable;
+                objectToWarp.SetIsInPortal(this, otherPortal, wallsPortalIsTouching);
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        var portalable = other.GetComponent<PortalableObject>();
-
-        ResetObjectInPortal(portalable);
+        // Since we disable the Character Controller when being teleported,
+        // OnTriggerExit won't be called properly. This script handled manually invoking the function
+        ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
+        PlayerPortalableController portalable = other.GetComponent<PlayerPortalableController>();
+        if (portalable != null)
+        {
+            ResetObjectInPortal(portalable);
+        }
     }
 
     public void Init(PortalType portalType, Portal otherPortal)
@@ -93,61 +105,18 @@ public class Portal : MonoBehaviour
         this.otherPortal = otherPortal;
     }
 
-    private void UpdatePortalOutline()
-    {
-        if (cutOffValue >= maxAlphaCutOff)
-        {
-            isIncrementing = false;
-        }
-
-        if (cutOffValue <= minAlphaCutOff)
-        {
-            isIncrementing = true;
-        }
-
-
-        cutOffValue += isIncrementing ? cutOffInterval : -cutOffInterval;
-        outlineRenderer.material.SetFloat("_Cutoff", cutOffValue);
-        outlineRenderer.gameObject.transform.Rotate(Vector3.forward, 0.1f);
-    }
-
     private void WarpObjects()
     {
-        for (int i = 0; i < objectsToWarp.Count; ++i)
-        {
-            Vector3 objPos = transform.InverseTransformPoint(objectsToWarp[i].transform.position);
+        Vector3 objectPosition = transform.InverseTransformPoint(objectToWarp.transform.position);
 
-            if (objPos.z > 0.0f)
-            {
-                objectsToWarp[i].Warp();
-            }
+        if (objectPosition.z > 0.0f)
+        {
+            objectToWarp.Warp();
         }
     }
+    
 
-    public void SetTexture(RenderTexture tex)
-    {
-        renderTextureMaterial.mainTexture = tex;
-    }
-
-    public bool IsRendererVisible()
-    {
-        return myRenderer.isVisible;
-    }
-
-    public Portal GetOtherPortal()
-    {
-        return otherPortal;
-    }
-
-    public void ResetObjectInPortal(PortalableObject portalable)
-    {
-        if (objectsToWarp.Contains(portalable))
-        {
-            objectsToWarp.Remove(portalable);
-            portalable.ExitPortal(wallsPortalIsTouching);
-        }
-    }
-
+    #region PortalPlacement
     public void PlacePortal(Vector3 pos, Quaternion rot)
     {
         isPlaced = true;
@@ -213,21 +182,7 @@ public class Portal : MonoBehaviour
         return overhangOffset;
     }
 
-    private bool GetIsOverhanging()
-    {
-        for (int i = 0; i < 4; ++i)
-        {
-            Vector3 overhangTestPosition = transform.TransformPoint(overHangTestPoints[i]);
-
-            // If the point isn't touching anything, it overhangs
-            if (!Physics.CheckSphere(overhangTestPosition, bigSphereCastSize, overhangMask))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
+    
 
     // If the new portal overlaps an already placed one
     // try to fix the overlap, or delete it
@@ -254,6 +209,22 @@ public class Portal : MonoBehaviour
             playerCrosshair.CrossCheck(portalType == PortalType.Blue);
             PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Portal);
         }
+    }
+
+    private bool GetIsOverhanging()
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+            Vector3 overhangTestPosition = transform.TransformPoint(overHangTestPoints[i]);
+
+            // If the point isn't touching anything, it overhangs
+            if (!Physics.CheckSphere(overhangTestPosition, bigSphereCastSize, overhangMask))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void GetClosestOverlapFix()
@@ -320,19 +291,47 @@ public class Portal : MonoBehaviour
 
         wallsPortalIsTouching = new List<Collider>(overlappingBoxes);
     }
+    #endregion
 
     public void ResetPortal()
     {
-        gameObject.SetActive(false);
         isPlaced = false;
         boxCollider.enabled = false;
-        transform.position = new Vector3(100, 10000, 100);
+        gameObject.SetActive(false);
         ResetPortalMaterial();
+        ResetObjectInPortal(objectToWarp);
+    }
 
-        for(int i = 0; i < objectsToWarp.Count; i++)
+    public void ResetObjectInPortal(PlayerPortalableController portalable)
+    {
+        if(portalable == null)
         {
-            ResetObjectInPortal(objectsToWarp[i]);
+            return;
         }
+
+        if (objectToWarp == portalable)
+        {
+            objectToWarp = null;
+            portalable.ExitPortal(wallsPortalIsTouching);
+        }
+    }
+
+    private void UpdatePortalOutline()
+    {
+        if (cutOffValue >= maxAlphaCutOff)
+        {
+            isIncrementing = false;
+        }
+
+        if (cutOffValue <= minAlphaCutOff)
+        {
+            isIncrementing = true;
+        }
+
+
+        cutOffValue += isIncrementing ? cutOffInterval : -cutOffInterval;
+        outlineRenderer.material.SetFloat("_Cutoff", cutOffValue);
+        outlineRenderer.gameObject.transform.Rotate(Vector3.forward, 0.1f);
     }
 
     public void ResetOtherPortal()
@@ -348,5 +347,20 @@ public class Portal : MonoBehaviour
     public void ResetPortalMaterial()
     {
         myRenderer.material = defaultPortalMaterial;
+    }
+
+    public void SetTexture(RenderTexture tex)
+    {
+        renderTextureMaterial.mainTexture = tex;
+    }
+
+    public bool IsRendererVisible()
+    {
+        return myRenderer.isVisible;
+    }
+
+    public Portal GetOtherPortal()
+    {
+        return otherPortal;
     }
 }

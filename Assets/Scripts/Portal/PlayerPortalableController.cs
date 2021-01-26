@@ -2,23 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPortalableController : PortalableObject
+public class PlayerPortalableController : MonoBehaviour
 {
+    private GameObject cloneObject;
+
+    private bool isInPortal = false;
+
+    private Portal inPortal;
+    private Portal outPortal;
+
+    private static readonly Quaternion halfTurn = Quaternion.Euler(0.0f, 180.0f, 0.0f);
+    private static Vector3 cloneSpawnPosition = new Vector3(-1000.0f, 1000.0f, -1000.0f); // Somewhere far off the map until needed
+
     private CameraMove cameraMove;
     private PlayerMovement playerMovement;
+    private Collider playerCollider;
 
     private const float playerMinPortalSpeed = 2;
     private const float playerPortalSpeedMultiplier = 2;
 
-    protected override void Awake()
+    protected void Awake()
     {
         CreateClone();
         playerMovement = GetComponent<PlayerMovement>();
-
         cameraMove = GetComponent<CameraMove>();
     }
 
-    protected override void LateUpdate()
+    protected void LateUpdate()
     {
         if (inPortal == null || outPortal == null)
         {
@@ -48,6 +58,21 @@ public class PlayerPortalableController : PortalableObject
         }
     }
 
+    public void SetIsInPortal(Portal inPortal, Portal outPortal, List<Collider> wallColliders)
+    {
+        this.inPortal = inPortal;
+        this.outPortal = outPortal;
+
+        foreach (Collider wallCollider in wallColliders)
+        {
+            Physics.IgnoreCollision(playerCollider, wallCollider);
+        }
+
+        cloneObject.SetActive(true);
+
+        isInPortal = true;
+    }
+
     private void CreateClone()
     {
         cloneObject = new GameObject();
@@ -60,15 +85,10 @@ public class PlayerPortalableController : PortalableObject
         cloneObject.transform.localScale = transform.localScale;
         cloneObject.layer = PlayerConstants.PlayerLayer;
 
-        collider = GetComponent<Collider>();
+        playerCollider = GetComponent<Collider>();
     }
 
-    public override void Warp()
-    {
-        WarpPlayer();
-    }
-
-    public virtual void WarpPlayer()
+    public void Warp()
     {
         var inTransform = inPortal.transform;
         var outTransform = outPortal.transform;
@@ -90,7 +110,7 @@ public class PlayerPortalableController : PortalableObject
         relativeVel = halfTurn * relativeVel;
         playerMovement.newVelocity = outTransform.TransformDirection(relativeVel);
 
-        if(playerMovement.newVelocity.magnitude < playerMinPortalSpeed)
+        if (playerMovement.newVelocity.magnitude < playerMinPortalSpeed)
         {
             playerMovement.newVelocity *= playerPortalSpeedMultiplier;
         }
@@ -101,8 +121,23 @@ public class PlayerPortalableController : PortalableObject
         outPortal = tmp;
     }
 
+    public virtual void ExitPortal(List<Collider> wallColliders)
+    {
+        foreach (Collider wallCollider in wallColliders)
+        {
+            Physics.IgnoreCollision(playerCollider, wallCollider, false);
+        }
+
+        isInPortal = false;
+
+        if (!isInPortal)
+        {
+            cloneObject.SetActive(false);
+        }
+    }
+
     public bool IsInPortal()
     {
-        return inPortalCount > 0;
+        return isInPortal;
     }
 }

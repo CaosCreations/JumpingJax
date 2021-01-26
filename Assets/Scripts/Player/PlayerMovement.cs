@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private bool crouching;
 
     public CharacterController controller;
+    private PlayerPortalableController playerPortalableController;
     private CameraMove cameraMove;
     public Camera ghostCamera;
     private Level currentLevel;
@@ -37,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+        playerPortalableController = GetComponent<PlayerPortalableController>();
         cameraMove = GetComponent<CameraMove>();
         currentLevel = GameManager.GetCurrentLevel();
     }
@@ -54,8 +56,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        grounded = controller.isGrounded;
-
+        SetGrounded();
         CheckCrouch();
 
         if (grounded)
@@ -63,10 +64,10 @@ public class PlayerMovement : MonoBehaviour
             newVelocity.y = 0;
         }
 
-        //if (controller.collisionFlags == CollisionFlags.CollidedAbove)
-        //{
-        //    newVelocity.y = 0;
-        //}
+        if (controller.collisionFlags == CollisionFlags.CollidedAbove && newVelocity.y > 0)
+        {
+            newVelocity.y = 0;
+        }
 
         ApplyGravity();
 
@@ -93,7 +94,18 @@ public class PlayerMovement : MonoBehaviour
             ApplyAirAcceleration(wishDir, wishSpeed);
         }
 
+        Physics.SyncTransforms();
         controller.Move(newVelocity * Time.deltaTime);
+    }
+
+    private void SetGrounded()
+    {
+        grounded = controller.isGrounded;
+
+        if(newVelocity.y < -1 && playerPortalableController.IsInPortal())
+        {
+            grounded = false;
+        }
     }
 
     #region Crouch
