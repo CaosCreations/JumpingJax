@@ -99,7 +99,7 @@ public class PlayerProgress : MonoBehaviour
         respawnRotation.y = currentCheckpoint.transform.rotation.eulerAngles.y;
         cameraMove.ResetTargetRotation(Quaternion.Euler(respawnRotation));
 
-        playerMovement.newVelocity = Vector3.zero;
+        playerMovement.velocityToApply = Vector3.zero;
         playerMovement.controller.enabled = true;
 
         // If the player is restarting at the beginning, reset level

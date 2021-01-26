@@ -11,7 +11,8 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("Red line is current velocity, blue is the new direction")]
     public bool showDebugGizmos = false;
     //The velocity applied at the end of every physics frame
-    public Vector3 newVelocity;
+    public Vector3 velocityToApply;
+    public Vector3 currentInput;
 
     [SerializeField]
     private bool grounded;
@@ -31,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        newVelocity = Vector3.zero;
+        velocityToApply = Vector3.zero;
         noClip = false;
     }
 
@@ -61,22 +62,25 @@ public class PlayerMovement : MonoBehaviour
 
         if (grounded)
         {
-            newVelocity.y = 0;
+            velocityToApply.y = 0;
         }
 
-        if (controller.collisionFlags == CollisionFlags.CollidedAbove && newVelocity.y > 0)
+        if (controller.collisionFlags == CollisionFlags.CollidedAbove && velocityToApply.y > 0)
         {
-            newVelocity.y = 0;
+            velocityToApply.y = 0;
         }
 
         ApplyGravity();
 
         CheckJump();
 
-        Vector3 inputVector = GetWorldSpaceInputVector();
-        Vector3 wishDir = inputVector.normalized;
-        float wishSpeed = inputVector.magnitude;
-        
+        currentInput = GetWorldSpaceInputVector();
+    }
+
+    private void FixedUpdate()
+    {
+        Vector3 wishDir = currentInput.normalized;
+        float wishSpeed = currentInput.magnitude;
 
         if (grounded)
         {
@@ -94,15 +98,15 @@ public class PlayerMovement : MonoBehaviour
             ApplyAirAcceleration(wishDir, wishSpeed);
         }
 
-        Physics.SyncTransforms();
-        controller.Move(newVelocity * Time.deltaTime);
+        controller.Move(velocityToApply * Time.deltaTime);
     }
 
     private void SetGrounded()
     {
         grounded = controller.isGrounded;
 
-        if(newVelocity.y < -1 && playerPortalableController.IsInPortal())
+        // If we are falling into a portal, make sure we don't clip with the ground
+        if(velocityToApply.y < -1 && playerPortalableController.IsInPortal())
         {
             grounded = false;
         }
@@ -169,9 +173,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyGravity()
     {
-        if (!grounded && newVelocity.y > -PlayerConstants.MaxFallSpeed)
+        if (!grounded && velocityToApply.y > -PlayerConstants.MaxFallSpeed)
         {
-            newVelocity.y -= currentLevel.gravityMultiplier * PlayerConstants.Gravity * Time.deltaTime;
+            velocityToApply.y -= currentLevel.gravityMultiplier * PlayerConstants.Gravity * Time.deltaTime;
         }
 
         CheckGravitySound();
@@ -183,8 +187,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (grounded && InputManager.GetKey(PlayerConstants.Jump))
         {
-            newVelocity.y = 0;
-            newVelocity.y += crouching ? PlayerConstants.CrouchingJumpPower : PlayerConstants.JumpPower;
+            velocityToApply.y = 0;
+            velocityToApply.y += crouching ? PlayerConstants.CrouchingJumpPower : PlayerConstants.JumpPower;
             grounded = false;
         }
     }
@@ -256,7 +260,7 @@ public class PlayerMovement : MonoBehaviour
     //wishSpeed: the speed the player wishes to go this frame
     private void ApplyGroundAcceleration(Vector3 wishDir, float wishSpeed, float surfaceFriction)
     {
-        var currentSpeed = Vector3.Dot(newVelocity, wishDir); //Vector projection of the current velocity onto the new direction
+        var currentSpeed = Vector3.Dot(velocityToApply, wishDir); //Vector projection of the current velocity onto the new direction
         var speedToAdd = wishSpeed - currentSpeed;
 
         var acceleration = PlayerConstants.GroundAcceleration * Time.deltaTime; //acceleration to apply in the newest direction
@@ -267,7 +271,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         var accelspeed = Mathf.Min(acceleration * wishSpeed * surfaceFriction, speedToAdd);
-        newVelocity += accelspeed * wishDir; //add acceleration in the new direction
+        velocityToApply += accelspeed * wishDir; //add acceleration in the new direction
     }
 
     //wishDir: the direction the player  wishes to goin the newest frame
@@ -275,7 +279,7 @@ public class PlayerMovement : MonoBehaviour
     private void ApplyAirAcceleration(Vector3 wishDir, float wishSpeed)
     {
         var wishSpd = Mathf.Min(wishSpeed, PlayerConstants.AirAccelerationCap);
-        Vector3 xzVelocity = newVelocity;
+        Vector3 xzVelocity = velocityToApply;
         xzVelocity.y = 0;
         var currentSpeed = Vector3.Dot(xzVelocity, wishDir);
         var speedToAdd = wishSpd - currentSpeed;
@@ -288,19 +292,19 @@ public class PlayerMovement : MonoBehaviour
         var accelspeed = Mathf.Min(speedToAdd, PlayerConstants.AirAcceleration * wishSpeed * Time.deltaTime);
         var velocityTransformation = accelspeed * wishDir;
 
-        newVelocity += velocityTransformation;
+        velocityToApply += velocityTransformation;
     }
 
     private void ApplyFriction()
     {
-        var speed = newVelocity.magnitude;
+        var speed = velocityToApply.magnitude;
 
         // Don't apply friction if the player isn't moving
         // Clear speed if it's too low to prevent accidental movement
         // Also makes the player's friction feel more snappy
         if (speed < PlayerConstants.MinimumSpeedCutoff)
         {
-            newVelocity = Vector3.zero;
+            velocityToApply = Vector3.zero;
             return;
         }
 
@@ -314,14 +318,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (newSpeed != speed)
         {
-            newVelocity *= newSpeed / speed; //Scale velocity based on friction
+            velocityToApply *= newSpeed / speed; //Scale velocity based on friction
         }
     }
 
     // This function keeps the player from exceeding a maximum velocity
     private void ClampVelocity(float maxLength)
     {
-        newVelocity = Vector3.ClampMagnitude(newVelocity, maxLength);
+        velocityToApply = Vector3.ClampMagnitude(velocityToApply, maxLength);
     }
 
     /*
@@ -383,7 +387,7 @@ public class PlayerMovement : MonoBehaviour
     #region SoundChecks
     private void CheckGravitySound()
     {
-        if (newVelocity.y <= -PlayerConstants.MaxFallSpeed)
+        if (velocityToApply.y <= -PlayerConstants.MaxFallSpeed)
         {
             PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Falling);
         }
@@ -400,7 +404,7 @@ public class PlayerMovement : MonoBehaviour
     private void CheckFootstepSound()
     {
 
-        if (newVelocity.magnitude > 0)
+        if (velocityToApply.magnitude > 0)
         {
             PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Footstep);
         }

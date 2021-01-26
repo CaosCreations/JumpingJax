@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerPortalableController : MonoBehaviour
 {
-    private GameObject cloneObject;
+    public bool isInPortal = false;
 
-    private bool isInPortal = false;
+    private GameObject cloneObject;
 
     private Portal inPortal;
     private Portal outPortal;
@@ -94,10 +94,10 @@ public class PlayerPortalableController : MonoBehaviour
         var outTransform = outPortal.transform;
 
         // Update position of object.
-        Vector3 relativePos = inTransform.InverseTransformPoint(transform.position);
-        relativePos = halfTurn * relativePos;
+        Vector3 localPosition = inTransform.InverseTransformPoint(transform.position);
+        localPosition = halfTurn * localPosition;
         playerMovement.controller.enabled = false;
-        transform.position = outTransform.TransformPoint(relativePos);
+        transform.position = outTransform.TransformPoint(localPosition);
         playerMovement.controller.enabled = true;
 
         // Update rotation of object.
@@ -106,13 +106,13 @@ public class PlayerPortalableController : MonoBehaviour
         cameraMove.SetTargetRotation(outTransform.rotation * relativeRot);
 
         // Update velocity of rigidbody.
-        Vector3 relativeVel = inTransform.InverseTransformDirection(playerMovement.newVelocity);
+        Vector3 relativeVel = inTransform.InverseTransformDirection(playerMovement.velocityToApply);
         relativeVel = halfTurn * relativeVel;
-        playerMovement.newVelocity = outTransform.TransformDirection(relativeVel);
+        playerMovement.velocityToApply = outTransform.TransformDirection(relativeVel);
 
-        if (playerMovement.newVelocity.magnitude < playerMinPortalSpeed)
+        if (playerMovement.velocityToApply.magnitude < playerMinPortalSpeed)
         {
-            playerMovement.newVelocity *= playerPortalSpeedMultiplier;
+            playerMovement.velocityToApply *= playerPortalSpeedMultiplier;
         }
 
         // Swap portal references.

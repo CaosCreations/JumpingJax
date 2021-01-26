@@ -90,7 +90,7 @@ public class Portal : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         // Since we disable the Character Controller when being teleported,
-        // OnTriggerExit won't be called properly. This script handled manually invoking the function
+        // OnTriggerExit won't be called properly. This script handles manually invoking the function
         ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
         PlayerPortalableController portalable = other.GetComponent<PlayerPortalableController>();
         if (portalable != null)
@@ -181,8 +181,6 @@ public class Portal : MonoBehaviour
 
         return overhangOffset;
     }
-
-    
 
     // If the new portal overlaps an already placed one
     // try to fix the overlap, or delete it
@@ -286,6 +284,13 @@ public class Portal : MonoBehaviour
 
     private void GetWallColliders()
     {
+        if(objectToWarp != null)
+        {
+            objectToWarp.ExitPortal(wallsPortalIsTouching);
+        }
+
+        wallsPortalIsTouching = new List<Collider>();
+
         Vector3 worldSpaceCenter = transform.TransformPoint(boxCollider.center);
         Collider[] overlappingBoxes = Physics.OverlapBox(worldSpaceCenter, PlayerConstants.PortalColliderExtents, transform.rotation, overhangMask);
 

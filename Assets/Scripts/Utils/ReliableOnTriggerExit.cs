@@ -53,16 +53,16 @@ public class ReliableOnTriggerExit : MonoBehaviour
         }
     }
 
-    public static void NotifyTriggerExit(Collider c, GameObject caller)
+    public static void NotifyTriggerExit(Collider collider, GameObject caller)
     {
-        if (c == null)
+        if (collider == null)
             return;
 
         ReliableOnTriggerExit thisComponent = null;
-        ReliableOnTriggerExit[] triggerExitInstances = c.gameObject.GetComponents<ReliableOnTriggerExit>();
+        ReliableOnTriggerExit[] triggerExitInstances = collider.gameObject.GetComponents<ReliableOnTriggerExit>();
         foreach (ReliableOnTriggerExit triggerExitInstance in triggerExitInstances)
         {
-            if (triggerExitInstance.thisCollider == c)
+            if (triggerExitInstance.thisCollider == collider)
             {
                 thisComponent = triggerExitInstance;
                 break;
@@ -82,6 +82,7 @@ public class ReliableOnTriggerExit : MonoBehaviour
         if (gameObject.activeInHierarchy == false)
             CallCallbacks();
     }
+
     private void Update()
     {
         if (thisCollider == null)
@@ -96,17 +97,18 @@ public class ReliableOnTriggerExit : MonoBehaviour
             CallCallbacks();
         }
     }
+
     void CallCallbacks()
     {
         ignoreNotifyTriggerExit = true;
-        foreach (var v in waitingForOnTriggerExit)
+        foreach (KeyValuePair<GameObject, _OnTriggerExit> pair in waitingForOnTriggerExit)
         {
-            if (v.Key == null)
+            if (pair.Key == null)
             {
                 continue;
             }
 
-            v.Value.Invoke(thisCollider);
+            pair.Value.Invoke(thisCollider);
         }
         ignoreNotifyTriggerExit = false;
         waitingForOnTriggerExit.Clear();
