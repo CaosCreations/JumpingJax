@@ -97,6 +97,8 @@ public class PlayerMovement : MonoBehaviour
         {
             ApplyAirAcceleration(wishDir, wishSpeed);
         }
+
+        ClampVelocity(PlayerConstants.MaxVelocity);
         controller.Move(velocityToApply * Time.deltaTime);
 
     }

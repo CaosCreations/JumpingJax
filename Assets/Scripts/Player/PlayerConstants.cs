@@ -14,19 +14,14 @@ public static class PlayerConstants
     public static float Gravity = 15f;
     public static float JumpPower = 5.6f;
     public static float CrouchingJumpPower = 5f;
-    public static float RapidlyMovingUpVelocity = 5f;
 
     public static float GroundAcceleration = 15f;
     public static float AirAcceleration = 1000f;
-    public static float Overbounce = 1.001f;
 
     public static float StopSpeed = 6f;
     public static float Friction = 6f;
     public static float MinimumSpeedCutoff = 0.5f; // This is the speed after which the player is immediately stopped due to friction
     public static float NormalSurfaceFriction = 1f;
-    public static float StepOffset = 0.3f;
-    public static int MaxClippingPlanes = 5;
-    public static float MinimumGroundCastDistance = 0.01f;
 
     public static float AirAccelerationCap = .7f;
 
@@ -36,7 +31,6 @@ public static class PlayerConstants
     public static float CrouchingPlayerHeight = 0.8f;
     public static Vector3 CrouchingCameraOffset = new Vector3(0, -0.65f, 0);
 
-    public static float TimeToCrouch = 0.5f;
 
     public static float portalWidth = 2f;
     public static float portalHeight = 2f;
