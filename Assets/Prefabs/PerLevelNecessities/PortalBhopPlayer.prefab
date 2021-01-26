@@ -59,9 +59,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3895
   showDebugGizmos: 0
-  newVelocity: {x: 0, y: 0, z: 0}
+  velocityToApply: {x: 0, y: 0, z: 0}
+  currentInput: {x: 0, y: 0, z: 0}
   grounded: 0
   crouching: 0
+  controller: {fileID: 0}
   ghostCamera: {fileID: 0}
 --- !u!114 &441310430289080766
 MonoBehaviour:
@@ -109,6 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b317f1df112f1546963a20da5568e21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInPortal: 0
 --- !u!114 &5928966415464904444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,7 +656,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 261943
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

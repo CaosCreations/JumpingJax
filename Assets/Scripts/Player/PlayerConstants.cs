@@ -167,6 +167,7 @@ public static class PlayerConstants
     public static int GizmoLayer = 15;
     public static int GhostLayer = 16;
     public static int GhostPortalLayer = 17;
+    public static int CloneLayer = 18;
     public static string PortalWallTag = "PortalWall";
 
     // UI Constants

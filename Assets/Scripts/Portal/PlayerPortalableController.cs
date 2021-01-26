@@ -83,7 +83,7 @@ public class PlayerPortalableController : MonoBehaviour
         meshFilter.mesh = GetComponentInChildren<MeshFilter>().mesh;
         meshRenderer.materials = GetComponentInChildren<MeshRenderer>().materials;
         cloneObject.transform.localScale = transform.localScale;
-        cloneObject.layer = PlayerConstants.PlayerLayer;
+        cloneObject.layer = PlayerConstants.CloneLayer;
 
         playerCollider = GetComponent<Collider>();
     }

@@ -97,8 +97,8 @@ public class PlayerMovement : MonoBehaviour
         {
             ApplyAirAcceleration(wishDir, wishSpeed);
         }
-
         controller.Move(velocityToApply * Time.deltaTime);
+
     }
 
     private void SetGrounded()
