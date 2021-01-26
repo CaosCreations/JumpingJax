@@ -45,7 +45,7 @@ public class InGameUI : MonoBehaviour
         };
         HotKeyOptions.onSetDefaults += () =>
         {
-            tutorialText.text = tutorialText.text = tutorialTexts[tutorialTextIndex - 1];
+            tutorialText.text = tutorialTexts[tutorialTextIndex - 1];
         };
     }
 
@@ -91,6 +91,15 @@ public class InGameUI : MonoBehaviour
             tutorialPane.SetActive(false);
         }
     }
+
+    public void SetupTutorialTexts(string[] texts)
+    {
+        tutorialTexts = texts;
+        tutorialTextIndex = 0;
+        LoadNextTutorial();
+    }
+
+
 
     void UpdateParentLayoutGroup()
     {

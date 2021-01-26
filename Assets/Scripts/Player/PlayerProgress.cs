@@ -10,6 +10,7 @@ public class PlayerProgress : MonoBehaviour
     [Header("Debugging properties")]
     [SerializeField]
     public Checkpoint currentCheckpoint;
+    public int Deaths { get; private set; }
 
     private PlayerMovement playerMovement;
     private CameraMove cameraMove;
@@ -25,7 +26,7 @@ public class PlayerProgress : MonoBehaviour
         playerGhostRun = GetComponent<PlayerGhostRun>();
         crosshair = GetComponent<Crosshair>();
         portalPair = GameObject.FindObjectOfType<PortalPair>();
-
+        Deaths = 0;
         GetFirstCheckpoint();
     }
 
@@ -90,8 +91,6 @@ public class PlayerProgress : MonoBehaviour
         {
             return;
         }
-
-        playerMovement.controller.enabled = false;
         Vector3 respawnPosition = currentCheckpoint.transform.position + PlayerConstants.PlayerSpawnOffset;
         transform.position = respawnPosition;
 
@@ -99,8 +98,8 @@ public class PlayerProgress : MonoBehaviour
         respawnRotation.y = currentCheckpoint.transform.rotation.eulerAngles.y;
         cameraMove.ResetTargetRotation(Quaternion.Euler(respawnRotation));
 
-        playerMovement.velocityToApply = Vector3.zero;
-        playerMovement.controller.enabled = true;
+        playerMovement.newVelocity = Vector3.zero;
+        ++Deaths;
 
         // If the player is restarting at the beginning, reset level
         if (currentCheckpoint.isFirstCheckpoint)
@@ -113,7 +112,6 @@ public class PlayerProgress : MonoBehaviour
             GameManager.RestartLevel();
             playerGhostRun.RestartRun();
             ResetCollectibles();
-            ResetCheckpoints();
         }
     }
 
@@ -121,6 +119,8 @@ public class PlayerProgress : MonoBehaviour
     {
         playerUI.ToggleOffWinScreen();
         currentCheckpoint = firstCheckpoint;
+        ResetCheckpoints();
+        ResetTutorials();
         Respawn();
     }
 
@@ -134,6 +134,7 @@ public class PlayerProgress : MonoBehaviour
             collider.enabled = false;
             collider.enabled = true;
         }
+        Deaths = 0;
     }
 
     private void ResetCollectibles()
@@ -143,5 +144,11 @@ public class PlayerProgress : MonoBehaviour
         {
             handler.ResetActive();
         }
+    }
+
+    private void ResetTutorials()
+    {
+        TutorialTriggerGroup group = GameObject.FindObjectOfType<TutorialTriggerGroup>();
+        group.ResetTriggers();
     }
 }
