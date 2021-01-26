@@ -49,10 +49,12 @@ public class Portal : MonoBehaviour
     private float cutOffValue = 0.02f;
     private const float cutOffInterval = 0.001f;
     private bool isIncrementing = true;
+    private Vector3 portalBoundsExtents; //We need to set this while the collider is active, as it is Vector3.zero when inactive
 
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
+        portalBoundsExtents = boxCollider.bounds.extents;
         myRenderer = GetComponent<Renderer>();
         renderTextureMaterial = myRenderer.material;
         playerCrosshair = FindObjectOfType<Crosshair>();
@@ -288,8 +290,10 @@ public class Portal : MonoBehaviour
 
         wallsPortalIsTouching = new List<Collider>();
 
+        // Need to manually calcualte this. We can't use boxCollider.bounds.center, as it doesn't update when the boxCollider isn't enabled
         Vector3 worldSpaceCenter = transform.TransformPoint(boxCollider.center);
-        Collider[] overlappingBoxes = Physics.OverlapBox(worldSpaceCenter, PlayerConstants.PortalColliderExtents, transform.rotation, overhangMask);
+
+        Collider[] overlappingBoxes = Physics.OverlapBox(worldSpaceCenter, portalBoundsExtents, transform.rotation, overhangMask);
 
         wallsPortalIsTouching = new List<Collider>(overlappingBoxes);
     }

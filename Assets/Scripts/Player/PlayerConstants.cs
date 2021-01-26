@@ -32,9 +32,8 @@ public static class PlayerConstants
     public static Vector3 CrouchingCameraOffset = new Vector3(0, -0.65f, 0);
 
 
-    public static float portalWidth = 2f;
-    public static float portalHeight = 2f;
-    public static Vector3 PortalColliderExtents = new Vector3(1f, 1f, 1f);
+    public static float portalWidth = 3f;
+    public static float portalHeight = 3f;
     public static float PortalRaycastDistance = 250;
 
 
