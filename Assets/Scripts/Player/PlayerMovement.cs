@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
             // If we are already crouching, check if we need to stay crouching (something is above the player)
             if (crouching)
             {
-                crouching = controller.collisionFlags == CollisionFlags.Above;
+                crouching = !CanUncrouch();
             }
             else
             {
@@ -137,6 +137,17 @@ public class PlayerMovement : MonoBehaviour
 
         // Move the camera to the correct offset
         DampenCamera();
+    }
+
+    private bool CanUncrouch()
+    {
+        // Get the vertical distance covered when uncrouching
+        float castDistance = (PlayerConstants.StandingPlayerHeight - PlayerConstants.CrouchingPlayerHeight) / 2;
+        if (Physics.Raycast(transform.position, Vector3.up * castDistance, layersToIgnore))
+        {
+            return false;
+        }
+        return true;
     }
 
     private void DampenCollider()
