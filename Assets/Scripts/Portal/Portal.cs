@@ -75,7 +75,6 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
         PlayerPortalableController playerPortalable = other.GetComponent<PlayerPortalableController>();
         if(playerPortalable != null)
         {
@@ -89,9 +88,6 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        // Since we disable the Character Controller when being teleported,
-        // OnTriggerExit won't be called properly. This script handles manually invoking the function
-        ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
         PlayerPortalableController portalable = other.GetComponent<PlayerPortalableController>();
         if (portalable != null)
         {
@@ -112,6 +108,7 @@ public class Portal : MonoBehaviour
         if (objectPosition.z > 0.0f)
         {
             objectToWarp.Warp();
+            ResetObjectInPortal(objectToWarp);
         }
     }
     
