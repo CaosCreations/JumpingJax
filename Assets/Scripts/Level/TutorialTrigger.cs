@@ -70,9 +70,9 @@ public class TutorialTrigger : MonoBehaviour
         {
             BoxCollider myCollider = GetComponent<BoxCollider>();
             Gizmos.color = new Color(0.317f, .0317f, 0.4f, 0.5f); //ruddy purple, semi-transparent
-            Gizmos.DrawCube(transform.position, myCollider.size);
+            Gizmos.DrawCube(transform.position, Vector3.Scale(transform.localScale, myCollider.size));
             Gizmos.color = new Color(0.317f, .0317f, 0.4f, 1); //ruddy purple
-            Gizmos.DrawWireCube(transform.position, myCollider.size);
+            Gizmos.DrawWireCube(transform.position, Vector3.Scale(transform.localScale, myCollider.size));
         }
     }
 }
