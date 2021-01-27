@@ -145,8 +145,10 @@ public class PlayerMovement : MonoBehaviour
     private bool CanUncrouch()
     {
         // Get the vertical distance covered when uncrouching
-        float castDistance = (PlayerConstants.StandingPlayerHeight - PlayerConstants.CrouchingPlayerHeight) / 2;
-        if (Physics.Raycast(transform.position, Vector3.up * castDistance, layersToIgnore))
+        float castDistance = (PlayerConstants.StandingPlayerHeight - PlayerConstants.CrouchingPlayerHeight) + 0.01f;
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position + new Vector3(0, PlayerConstants.CrouchingPlayerHeight / 2, 0), Vector3.up);
+        if (Physics.Raycast(ray, out hit, castDistance, layersToIgnore))
         {
             return false;
         }
