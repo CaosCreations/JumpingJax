@@ -20,7 +20,6 @@ public class UntouchableObject : MonoBehaviour
     {
         PlayerProgress playerProgress = other.GetComponent<PlayerProgress>();
         if(playerProgress == null) {
-            Debug.Log("The player HIT GameObject " + currentGameObject.name + "that has UntouchableScript.cs on it at " + currentGameObject.transform.position);
             return;
         }
 
