@@ -66,6 +66,12 @@ public class PlayerMovement : MonoBehaviour
         CheckJump();
 
         currentInput = GetWorldSpaceInputVector();
+        controller.Move(velocityToApply * Time.deltaTime);
+
+    }
+
+    private void FixedUpdate()
+    {
         Vector3 wishDir = currentInput.normalized;
         float wishSpeed = currentInput.magnitude;
 
@@ -86,7 +92,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         ClampVelocity(PlayerConstants.MaxVelocity);
-        controller.Move(velocityToApply * Time.deltaTime);
     }
 
     private void SetGrounded()
