@@ -91,6 +91,7 @@ public class PlayerProgress : MonoBehaviour
         {
             return;
         }
+        playerMovement.controller.enabled = false;
         Vector3 respawnPosition = currentCheckpoint.transform.position + PlayerConstants.PlayerSpawnOffset;
         transform.position = respawnPosition;
 
@@ -98,7 +99,8 @@ public class PlayerProgress : MonoBehaviour
         respawnRotation.y = currentCheckpoint.transform.rotation.eulerAngles.y;
         cameraMove.ResetTargetRotation(Quaternion.Euler(respawnRotation));
 
-        playerMovement.newVelocity = Vector3.zero;
+        playerMovement.velocityToApply = Vector3.zero;
+        playerMovement.controller.enabled = true;
         ++Deaths;
 
         // If the player is restarting at the beginning, reset level

@@ -272,7 +272,6 @@ public class GhostPortal : MonoBehaviour
         gameObject.SetActive(false);
         isPlaced = false;
         boxCollider.enabled = false;
-        transform.position = new Vector3(100, 10000, 100);
         ResetPortalMaterial();
     }
 

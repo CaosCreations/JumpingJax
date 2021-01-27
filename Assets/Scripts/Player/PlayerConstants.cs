@@ -15,16 +15,14 @@ public static class PlayerConstants
     public static float JumpPower = 5.6f;
     public static float CrouchingJumpPower = 5f;
 
-    public static float GroundAcceleration = 10f;
+    public static float GroundAcceleration = 15f;
     public static float AirAcceleration = 1000f;
-    public static float Overbounce = 1.001f;
+    public static float AirAccelerationCap = .7f;
 
     public static float StopSpeed = 6f;
     public static float Friction = 6f;
     public static float MinimumSpeedCutoff = 0.5f; // This is the speed after which the player is immediately stopped due to friction
     public static float NormalSurfaceFriction = 1f;
-
-    public static float AirAccelerationCap = .7f;
 
     public static float StandingPlayerHeight = 1.6f;
     public static Vector3 StandingCameraOffset = new Vector3(0, -0.25f, 0);
@@ -32,12 +30,9 @@ public static class PlayerConstants
     public static float CrouchingPlayerHeight = 0.8f;
     public static Vector3 CrouchingCameraOffset = new Vector3(0, -0.65f, 0);
 
-    public static float TimeToCrouch = 0.5f;
-    public static float groundCheckOffset = 0.05f;
 
-    public static float portalWidth = 2f;
-    public static float portalHeight = 2f;
-    public static Vector3 PortalColliderExtents = new Vector3(1f, 1f, 1f);
+    public static float portalWidth = 3f;
+    public static float portalHeight = 3f;
     public static float PortalRaycastDistance = 250;
 
 
@@ -156,7 +151,7 @@ public static class PlayerConstants
     public static int LevelEditorSceneIndex = 27;
     public static int CreditsSceneIndex = 28;
 
-    public static Vector3 PlayerSpawnOffset = new Vector3(0, 0.81f, 0);
+    public static Vector3 PlayerSpawnOffset = new Vector3(0, 1.1f, 0);
     public static string levelCompletionTimeFormat = "mm':'ss'.'fff";
     public static int PlayerLayer = 12;
     public static int PortalMaterialLayer = 10;
@@ -164,6 +159,7 @@ public static class PlayerConstants
     public static int GizmoLayer = 15;
     public static int GhostLayer = 16;
     public static int GhostPortalLayer = 17;
+    public static int CloneLayer = 18;
     public static string PortalWallTag = "PortalWall";
     public static string PlayerTag = "Player";
 
