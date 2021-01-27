@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public enum ToggleableUIElements
@@ -24,11 +25,16 @@ public class MiscOptions : MonoBehaviour
     public SpeedSlider speedSlider;
     private DropdownItem unitOfSpeedDropdown;
 
+    // Button-related
+    public GameObject deleteDataButtonPrefab;
+    public OptionsButton deleteDataButtonInstance;
+
     void Awake()
     {
         toggleItems = new List<ToggleItem>();
         PopulateToggles();
         SetupUnitOfSpeedDropdown();
+        SetupDeleteDataButton();
     }
 
     private void PopulateToggles()
@@ -113,6 +119,18 @@ public class MiscOptions : MonoBehaviour
             default:
                 return string.Empty;
         }
+    }
+
+    private void SetupDeleteDataButton()
+    {
+        GameObject newObject = Instantiate(deleteDataButtonPrefab, scrollViewContent);
+        deleteDataButtonInstance = newObject.GetComponent<OptionsButton>();
+        deleteDataButtonInstance.Init("Delete save data", "Delete", DeleteSaveData, PlayerConstants.DeleteDataTooltip);
+    }
+
+    public void DeleteSaveData()
+    {
+        Directory.Delete(Application.persistentDataPath, true);
     }
 
     public void SetDefaults()

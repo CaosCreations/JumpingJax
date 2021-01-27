@@ -47,14 +47,14 @@ public class LoadingScreenManager : MonoBehaviour
     {
         if (isLoading)
         {
-            if (!currentLoadingOperation.isDone || AsyncTaskReporter.TasksAreRunning())
+            if (!currentLoadingOperation.isDone)
             {
                 timeElapsed += Time.deltaTime;
                 timeSinceSpriteChange += Time.deltaTime;
 
                 AnimateLoadScreen();
 
-                if (timeElapsed >= MIN_TIME_TO_SHOW)
+                if (timeElapsed >= MIN_TIME_TO_SHOW && !AsyncTaskReporter.TasksAreRunning())
                 {
                     // The loading screen has been showing for the minimum time required.
                     // Allow the loading operation to formally finish:
@@ -109,6 +109,11 @@ public class LoadingScreenManager : MonoBehaviour
         currentLoadingOperation = null;
 
         isLoading = false;
+
+        // In Awake(), this script is made first so the Instance doesn't exist on startup
+        if (GameManager.Instance != null) {
+            GameManager.Instance.isLoadingScene = false;
+        }
     }
 
     private void AnimateLoadScreen()

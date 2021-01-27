@@ -20,8 +20,8 @@ public class BoostPad : MonoBehaviour
         PlayerMovement player = other.GetComponent<PlayerMovement>();
         if(player != null)
         {
-            player.newVelocity.y = 0;
-            player.newVelocity += velocityChange;
+            player.velocityToApply.y = 0;
+            player.velocityToApply += velocityChange;
         }
     }
 }

@@ -37,11 +37,12 @@ public class WinMenu : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private async void OnEnable()
     {
         levelText.text = "You found Jax on: " + GameManager.GetCurrentLevel().levelName;
         completionTimeText.text = TimeUtils.GetTimeString(GameManager.Instance.currentCompletionTime);
-        bestTimeText.text = TimeUtils.GetTimeString(GameManager.GetCurrentLevel().levelSaveData.completionTime);
+        float bestTime = await StatsManager.GetLevelCompletionTime(GameManager.GetCurrentLevel().levelName);
+        bestTimeText.text = TimeUtils.GetTimeString(bestTime);
     }
 
     private void SetupButtons()
@@ -53,25 +54,26 @@ public class WinMenu : MonoBehaviour
 
     public void Retry()
     {
-        gameObject.SetActive(false);
         Time.timeScale = 1;
         Cursor.visible = false;
         playerProgress.ResetPlayer();
+        gameObject.SetActive(false);
     }
 
     public void NextLevel()
     {
+        GameManager.Instance.ReplayFileLocation = string.Empty;
         Level currentLevel = GameManager.GetCurrentLevel();
 
-        if (currentLevel.workshopFilePath != string.Empty || currentLevel.levelEditorScenePath != string.Empty)
+        Debug.Log($"Win Menu: Going to next level, just finished: {currentLevel.levelName}");
+
+        if (currentLevel.workshopFilePath != string.Empty || currentLevel.levelEditorLevelDataPath != string.Empty)
         {
             Time.timeScale = 1;
             GameManager.LoadScene(PlayerConstants.MainMenuSceneIndex);
-            
         }
         else
         {
-            gameObject.SetActive(false);
             Time.timeScale = 1;
 
             // Load credits scene
@@ -86,14 +88,15 @@ public class WinMenu : MonoBehaviour
                 GameManager.NextLevel();
                 GameManager.LoadScene(currentLevel.levelBuildIndex + 1);
             }
+            gameObject.SetActive(false);
         }
     }
 
     public void GoToMainMenu()
     {
-        gameObject.SetActive(false);
         Time.timeScale = 1;
         Cursor.visible = true;
         GameManager.LoadScene(PlayerConstants.MainMenuSceneIndex);
+        gameObject.SetActive(false);
     }
 }

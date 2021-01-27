@@ -21,7 +21,7 @@ public class WorkshopManager : MonoBehaviour
                 .WithTitle(levelToPublish.levelName)
                 .WithDescription(levelToPublish.description)
                 .WithPreviewFile(levelToPublish.previewImagePath)
-                .WithContent(levelToPublish.levelEditorScenePath)
+                .WithContent(levelToPublish.levelEditorFolder)
                 .WithPublicVisibility()
                 .SubmitAsync();
 
@@ -60,7 +60,7 @@ public class WorkshopManager : MonoBehaviour
                 .WithTitle(levelToPublish.levelName)
                 .WithDescription(levelToPublish.description)
                 .WithPreviewFile(levelToPublish.previewImagePath)
-                .WithContent(levelToPublish.levelEditorScenePath)
+                .WithContent(levelToPublish.levelEditorFolder)
                 .WithPublicVisibility()
                 .SubmitAsync();
 
@@ -151,12 +151,10 @@ public class WorkshopManager : MonoBehaviour
 
     public static async Task<string> DownloadGhostRun(Steamworks.Data.PublishedFileId id)
     {
-        AsyncTaskReporter.Instance.ghostDownloadRunning = true;
         var result = await SteamUGC.QueryFileAsync(id);
         if (!result.HasValue)
         {
             Debug.LogError($"ghost run doesn't exist: {id}");
-            AsyncTaskReporter.Instance.ghostDownloadRunning = false;
             return string.Empty;
         }
         Steamworks.Ugc.Item file = result.Value;
@@ -170,7 +168,6 @@ public class WorkshopManager : MonoBehaviour
                 // If I manually clear ghost run data, I have to check that it still exists, otherwise re-download it
                 if (Directory.Exists(file.Directory))
                 {
-                    AsyncTaskReporter.Instance.ghostDownloadRunning = false;
                     return directoryInfo.GetFiles().FirstOrDefault().FullName;
                 }
             }
@@ -185,7 +182,6 @@ public class WorkshopManager : MonoBehaviour
         if (!await file.DownloadAsync())
         {
             Debug.Log($"Download ghost run file with id: {id.Value} doesn't exist");
-            AsyncTaskReporter.Instance.ghostDownloadRunning = false;
             return string.Empty;
         }
 
@@ -208,7 +204,6 @@ public class WorkshopManager : MonoBehaviour
         Debug.Log($"Installed ghost run to {file.Directory}");
 
         var dir = new DirectoryInfo(file.Directory);
-        AsyncTaskReporter.Instance.ghostDownloadRunning = false;
         return dir.GetFiles().FirstOrDefault().FullName;
     }
 }

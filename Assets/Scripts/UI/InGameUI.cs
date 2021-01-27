@@ -57,7 +57,7 @@ public class InGameUI : MonoBehaviour
             completionTimeText.text = time.ToString("hh':'mm':'ss");
         }
 
-        Vector2 directionalSpeed = new Vector2(playerMovement.newVelocity.x, playerMovement.newVelocity.z);
+        Vector2 directionalSpeed = new Vector2(playerMovement.velocityToApply.x, playerMovement.velocityToApply.z);
         speed.SetSpeed(directionalSpeed.magnitude);
 
         if (Input.GetKeyDown(PlayerConstants.NextTutorial))

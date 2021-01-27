@@ -41,10 +41,13 @@ public class Level : ScriptableObject
     public string levelEditorFolder;
 
     [SerializeField]
+    public string levelEditorLevelDataFolder;
+
+    [SerializeField]
     public string levelEditorScriptableObjectPath;
 
     [SerializeField]
-    public string levelEditorScenePath;
+    public string levelEditorLevelDataPath;
 
     [SerializeField]
     public string previewImagePath;
@@ -108,12 +111,12 @@ public class Level : ScriptableObject
         {
             Debug.LogError($"{e.Message}\n{e.StackTrace}");
         }
-        Debug.Log("Finished Saving level");
+        Debug.Log($"Finished Saving level {levelName}");
     }
 
     public void Load()
     {
-        Debug.Log("loading level");
+        Debug.Log($"loading level {levelName}");
         string folderPath = Path.Combine(Application.persistentDataPath, levelName);
         string filePath = Path.Combine(folderPath, $"{levelName}.save");
         if (File.Exists(filePath))
@@ -128,7 +131,7 @@ public class Level : ScriptableObject
                 Debug.LogError($"{e.Message}\n{e.StackTrace}");
             }
         }
-        Debug.Log("Finished loading level");
+        Debug.Log($"Finished loading level {levelName}");
     }
 
     public void Clear()
