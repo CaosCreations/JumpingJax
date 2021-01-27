@@ -99,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
         grounded = controller.isGrounded;
 
         // If we are falling into a portal, make sure we don't clip with the ground
-        if(velocityToApply.y < -1 && playerPortalableController.IsInPortal())
+        if((velocityToApply.y < -1 || velocityToApply.y > 1) && playerPortalableController.IsInPortal())
         {
             grounded = false;
         }

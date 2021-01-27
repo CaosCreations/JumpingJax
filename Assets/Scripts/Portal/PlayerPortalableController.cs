@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerPortalableController : MonoBehaviour
 {
@@ -138,6 +139,17 @@ public class PlayerPortalableController : MonoBehaviour
 
     public bool IsInPortal()
     {
-        return isInPortal;
+        if (isInPortal)
+        {
+            return isInPortal;
+        }
+        else
+        {
+            Collider[] overlappingColliders = Physics.OverlapBox(playerMovement.controller.bounds.center, playerMovement.controller.bounds.extents, Quaternion.identity);
+            return overlappingColliders
+                .ToList()
+                .Where(col => col.tag == PlayerConstants.PortalTag)
+                .Count() > 0;
+        }
     }
 }

@@ -162,6 +162,7 @@ public static class PlayerConstants
     public static int CloneLayer = 18;
     public static string PortalWallTag = "PortalWall";
     public static string PlayerTag = "Player";
+    public static string PortalTag = "Portal";
 
     // UI Constants
     public static Color activeColor = new Color(.58f, .93f, .76f);
