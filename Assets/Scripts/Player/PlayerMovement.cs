@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
         currentLevel = GameManager.GetCurrentLevel();
     }
 
+    // All input checking going in Update, so no Input queries are missed
     private void Update()
     {
         if (ghostCamera.enabled || GameManager.Instance.isLoadingScene)
@@ -60,25 +61,11 @@ public class PlayerMovement : MonoBehaviour
         SetGrounded();
         CheckCrouch();
 
-        if (grounded)
-        {
-            velocityToApply.y = 0;
-        }
-
-        if (controller.collisionFlags == CollisionFlags.CollidedAbove && velocityToApply.y > 0)
-        {
-            velocityToApply.y = 0;
-        }
-
         ApplyGravity();
 
         CheckJump();
 
         currentInput = GetWorldSpaceInputVector();
-    }
-
-    private void FixedUpdate()
-    {
         Vector3 wishDir = currentInput.normalized;
         float wishSpeed = currentInput.magnitude;
 
@@ -100,7 +87,6 @@ public class PlayerMovement : MonoBehaviour
 
         ClampVelocity(PlayerConstants.MaxVelocity);
         controller.Move(velocityToApply * Time.deltaTime);
-
     }
 
     private void SetGrounded()
@@ -111,6 +97,16 @@ public class PlayerMovement : MonoBehaviour
         if(velocityToApply.y < -1 && playerPortalableController.IsInPortal())
         {
             grounded = false;
+        }
+
+        if (grounded)
+        {
+            velocityToApply.y = 0;
+        }
+
+        if (controller.collisionFlags == CollisionFlags.CollidedAbove && velocityToApply.y > 0)
+        {
+            velocityToApply.y = 0;
         }
     }
 
@@ -172,6 +168,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void DampenCamera()
     {
+        // Only adjust the camera while we are on the ground otherwise the air movement feels glitchy while crouch jumping
         if (grounded)
         {
             Vector3 endOffset = crouching ? PlayerConstants.CrouchingCameraOffset : PlayerConstants.StandingCameraOffset;
@@ -194,8 +191,6 @@ public class PlayerMovement : MonoBehaviour
         CheckGravitySound();
     }
 
-    
-
     private void CheckJump()
     {
         if (grounded && InputManager.GetKey(PlayerConstants.Jump))
@@ -216,21 +211,9 @@ public class PlayerMovement : MonoBehaviour
         {
             inputVelocity *= moveSpeed / inputVelocity.magnitude;
         }
-        //inputVelocity = new Vector3(0, 0, 6);
+
         //Get the velocity vector in world space coordinates, by rotating around the camera's y-axis
-        Vector3 worldSpaceInputVector = Quaternion.AngleAxis(cameraMove.playerCamera.transform.rotation.eulerAngles.y, Vector3.up) * inputVelocity;
-
-        if(Mathf.Abs(worldSpaceInputVector.x) < 0.001)
-        {
-            worldSpaceInputVector.x = 0;
-        }
-
-        if (Mathf.Abs(worldSpaceInputVector.z) < 0.001)
-        {
-            worldSpaceInputVector.z = 0;
-        }
-
-        return worldSpaceInputVector;
+        return Quaternion.AngleAxis(cameraMove.playerCamera.transform.rotation.eulerAngles.y, Vector3.up) * inputVelocity;
     }
 
     private Vector3 GetInputVelocity(float moveSpeed)
