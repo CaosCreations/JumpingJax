@@ -33,7 +33,7 @@ public class UntouchableObject : MonoBehaviour
         {
             BoxCollider myCollider = GetComponent<BoxCollider>();
             Gizmos.color = new Color(181.0f / 255.0f, 45.0f / 255.0f, 50.0f / 255.0f, 1.0f); //this is supposed to be red
-            Gizmos.DrawWireCube(transform.position, transform.localScale);
+            Gizmos.DrawWireCube(transform.position, Vector3.Scale(transform.localScale, myCollider.size));
         }
     }
 }
