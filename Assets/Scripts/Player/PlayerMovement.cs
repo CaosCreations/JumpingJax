@@ -104,11 +104,6 @@ public class PlayerMovement : MonoBehaviour
             grounded = false;
         }
 
-        if (grounded)
-        {
-            velocityToApply.y = 0;
-        }
-
         if (controller.collisionFlags == CollisionFlags.CollidedAbove && velocityToApply.y > 0)
         {
             velocityToApply.y = 0;
