@@ -322,32 +322,10 @@ public class PlayerMovement : MonoBehaviour
         velocityToApply = Vector3.ClampMagnitude(velocityToApply, maxLength);
     }
 
-    /*
-    private void StayOnGround()
-    {
-        Vector3 positionSlightlyAbove = transform.position;
-        positionSlightlyAbove.y += 0.05f;
-
-        Vector3 destinationPosition = transform.position;
-        destinationPosition.y -= PlayerConstants.StepOffset;
-
-        // Test upwards to make sure we can start from a safe location
-        Trace traceUp = RayCastUtils.TracePlayerBBox(myCollider, positionSlightlyAbove, layersToIgnore);
-        positionSlightlyAbove = traceUp.hitPoint;
-
-        // Now trace down from a known safe position
-        Trace traceDown = RayCastUtils.StayOnGroundTrace(myCollider, positionSlightlyAbove, destinationPosition, layersToIgnore);
-        if(traceDown.fraction > 0                    // must go somewhere
-            && traceDown.fraction < 1                // must hit something
-            && traceDown.hit.normal.y >= 0.7f)       // can't hit a steep slope that we can't stand on anyway
-        {
-            transform.position = traceDown.hitPoint + new Vector3(0, 0.01f, 0);
-        }
-    }*/
-
     public void NoClip()
     {
         noClip = !noClip;
+        controller.enabled = !noClip;
     }
 
     private void NoClipMove()
@@ -397,7 +375,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckFootstepSound()
     {
-
         if (velocityToApply.magnitude > 0)
         {
             PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Footstep);
