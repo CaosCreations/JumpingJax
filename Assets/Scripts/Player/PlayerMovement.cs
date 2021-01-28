@@ -221,22 +221,22 @@ public class PlayerMovement : MonoBehaviour
 
         if (InputManager.GetKey(PlayerConstants.Left))
         {
-            horizontalSpeed = -moveSpeed;
+            horizontalSpeed -= moveSpeed;
         }
 
         if (InputManager.GetKey(PlayerConstants.Right))
         {
-            horizontalSpeed = moveSpeed;
+            horizontalSpeed += moveSpeed;
         }
 
         if (InputManager.GetKey(PlayerConstants.Back))
         {
-            verticalSpeed = -moveSpeed;
+            verticalSpeed -= moveSpeed;
         }
 
         if (InputManager.GetKey(PlayerConstants.Forward))
         {
-            verticalSpeed = moveSpeed;
+            verticalSpeed += moveSpeed;
         }
 
         return new Vector3(horizontalSpeed, 0, verticalSpeed);
