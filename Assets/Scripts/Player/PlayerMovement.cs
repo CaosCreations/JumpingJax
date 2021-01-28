@@ -170,16 +170,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void DampenCamera()
     {
-        // Only adjust the camera while we are on the ground otherwise the air movement feels glitchy while crouch jumping
-        if (grounded)
-        {
-            Vector3 endOffset = crouching ? PlayerConstants.CrouchingCameraOffset : PlayerConstants.StandingCameraOffset;
-            Vector3 currentOffset = cameraMove.playerCamera.transform.localPosition;
-            float v = 0;
-            float yOffset = Mathf.SmoothDamp(currentOffset.y, endOffset.y, ref v, Time.deltaTime);
-            Vector3 newOffset = new Vector3(0, yOffset, 0);
-            cameraMove.playerCamera.transform.localPosition = newOffset;
-        }
+        Vector3 endOffset = crouching ? PlayerConstants.CrouchingCameraOffset : PlayerConstants.StandingCameraOffset;
+        Vector3 currentOffset = cameraMove.playerCamera.transform.localPosition;
+        float v = 0;
+        float yOffset = Mathf.SmoothDamp(currentOffset.y, endOffset.y, ref v, Time.deltaTime);
+        Vector3 newOffset = new Vector3(0, yOffset, 0);
+        cameraMove.playerCamera.transform.localPosition = newOffset;
     }
     #endregion
 
