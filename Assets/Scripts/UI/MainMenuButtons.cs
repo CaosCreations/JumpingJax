@@ -12,6 +12,8 @@ public class MainMenuButtons : MonoBehaviour
     public MainMenuController mainMenuController;
     public Transform buttonContainer;
 
+    public Button discordButton;
+
     void Start()
     {
         mainMenuController = GetComponentInParent<MainMenuController>();
@@ -35,6 +37,7 @@ public class MainMenuButtons : MonoBehaviour
         CreateSecondaryButton("Level Editor", mainMenuController.LevelEditor);
         CreateSecondaryButton("Options", mainMenuController.Options);
         CreateSecondaryButton("Quit", mainMenuController.Quit);
+        CreateDiscordButton();
     }
 
     void CreatePrimaryButton(string text, Action func)
@@ -49,6 +52,17 @@ public class MainMenuButtons : MonoBehaviour
         GameObject buttonObject = Instantiate(secondaryButtonPrefab, buttonContainer);
         SecondaryButton secondaryButton = buttonObject.GetComponent<SecondaryButton>();
         secondaryButton.Init(text, func);
+    }
+
+    void CreateDiscordButton()
+    {
+        discordButton.onClick.RemoveAllListeners();
+        discordButton.onClick.AddListener(OpenDiscordLink);
+    }
+
+    private void OpenDiscordLink()
+    {
+        Application.OpenURL(PlayerConstants.DiscordURL);
     }
 
     bool ShouldAddContinueButton()
