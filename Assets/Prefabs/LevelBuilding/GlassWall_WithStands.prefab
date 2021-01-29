@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7401182819028245587}
   - component: {fileID: 7401182819028245584}
   - component: {fileID: 7401182819028245585}
-  - component: {fileID: 6576028117794070067}
+  - component: {fileID: 8983085594008284113}
   m_Layer: 13
   m_Name: GlassWall_WithStands
   m_TagString: Untagged
@@ -104,8 +104,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6576028117794070067
-MeshCollider:
+--- !u!65 &8983085594008284113
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -114,10 +114,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 1049928748687988745, guid: 20ec4d70efa755d4dbd155ac5567b41a, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.0864275, y: 10.000002, z: 10.000001}
+  m_Center: {x: 0.0000003874302, y: 5, z: 0}
 --- !u!1001 &625084060204974270
 PrefabInstance:
   m_ObjectHideFlags: 0
