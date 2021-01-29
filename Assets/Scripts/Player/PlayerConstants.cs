@@ -168,5 +168,7 @@ public static class PlayerConstants
     public static Color activeColor = new Color(.58f, .93f, .76f);
     public static Color inactiveColor = new Color(0.5f, 0.5f, 0.5f);
     public static Color hoverColor = new Color(1, 1, 1);
+	
+	public static string DiscordURL = "https://discord.gg/nSkNTMn";
 
 }
