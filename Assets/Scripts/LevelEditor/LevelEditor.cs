@@ -147,6 +147,7 @@ public class LevelEditor : MonoBehaviour
         newLevel.description = "";
         newLevel.levelBuildIndex = PlayerConstants.LevelEditorSceneIndex;
         newLevel.gravityMultiplier = 1;
+        newLevel.levelEditorLevelCompleted = false;
 
         string currentTime = DateTime.Now.ToString("MM-dd-yyyy_hh-mm-ss-FFF");
         newLevel.levelEditorLevelDataFolder = Path.Combine(levelEditorFolderPath, currentTime);
@@ -216,7 +217,7 @@ public class LevelEditor : MonoBehaviour
 
     private void LoadLevel()
     {
-        if(selectedLevel != null)
+        if (selectedLevel != null)
         {
             GameManager.LoadScene(selectedLevel.level);
         }
@@ -327,6 +328,12 @@ public class LevelEditor : MonoBehaviour
         if (string.IsNullOrEmpty(selectedLevel.level.description))
         {
             errorText.text += "Level must have a description" + '\n';
+            isValid = false;
+        }
+
+        if (!selectedLevel.level.levelEditorLevelCompleted)
+        {
+            errorText.text += "Level must be completed" + '\n';
             isValid = false;
         }
 

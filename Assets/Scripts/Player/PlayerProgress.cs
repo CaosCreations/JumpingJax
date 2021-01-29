@@ -76,6 +76,9 @@ public class PlayerProgress : MonoBehaviour
 
         if (currentCheckpoint.isFinalCheckpoint)
         {
+            Level currentLevel = GameManager.GetCurrentLevel();
+            currentLevel.levelEditorLevelCompleted = true;
+
             playerGhostRun.SaveCurrentRunData();
             GameManager.FinishedLevel();
             playerUI.ShowWinScreen();

@@ -53,6 +53,9 @@ public class Level : ScriptableObject
     public string previewImagePath;
 
     [SerializeField]
+    public bool levelEditorLevelCompleted;
+
+    [SerializeField]
     public ulong fileId;
 
     [Header("Set in Game")]
