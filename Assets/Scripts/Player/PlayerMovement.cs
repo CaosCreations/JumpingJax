@@ -104,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
             grounded = false;
         }
 
-        if (controller.collisionFlags == CollisionFlags.CollidedAbove && velocityToApply.y > 0)
+        if (controller.collisionFlags == CollisionFlags.CollidedAbove && velocityToApply.y > 0 && !playerPortalableController.IsInPortal())
         {
             velocityToApply.y = 0;
         }
