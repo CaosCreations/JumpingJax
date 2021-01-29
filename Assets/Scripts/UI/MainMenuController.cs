@@ -14,14 +14,11 @@ public class MainMenuController : MonoBehaviour
     public PauseMenu pauseMenu;
     public GameObject alphaPanel;
     public Button alphaContinueButton;
-    public Button discordLinkButton;
 
     private void Start()
     {
         alphaContinueButton.onClick.RemoveAllListeners();
         alphaContinueButton.onClick.AddListener(AlphaMenuContinue);
-        discordLinkButton.onClick.RemoveAllListeners();
-        discordLinkButton.onClick.AddListener(OpenDiscordLink);
         Init();
     }
 
@@ -93,11 +90,6 @@ public class MainMenuController : MonoBehaviour
     {
         OptionsPreferencesManager.SetAlphaToggle(false);
         Init();
-    }
-
-    private void OpenDiscordLink()
-    {
-        Application.OpenURL(PlayerConstants.DiscordURL);
     }
 
     public void Quit()
