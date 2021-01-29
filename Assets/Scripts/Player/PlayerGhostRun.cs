@@ -248,7 +248,7 @@ public class PlayerGhostRun : MonoBehaviour
     private void ToggleGhost(bool isOn)
     {
         OptionsPreferencesManager.SetGhostToggle(isOn);
-        ghostRunner.SetActive(isOn && ShouldGhostBeActive());
+        ghostRunner.SetActive(ShouldGhostBeActive());
     }
 
     private void ToggleGhostCamera()

@@ -20,7 +20,7 @@ public static class PlayerConstants
     public static float AirAccelerationCap = .7f;
 
     public static float StopSpeed = 6f;
-    public static float Friction = 6f;
+    public static float Friction = 10f;
     public static float MinimumSpeedCutoff = 0.5f; // This is the speed after which the player is immediately stopped due to friction
     public static float NormalSurfaceFriction = 1f;
 
