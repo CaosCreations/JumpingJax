@@ -193,6 +193,21 @@ public class PlayerMovement : MonoBehaviour
     {
         if (grounded && InputManager.GetKey(PlayerConstants.Jump))
         {
+            RaycastHit hit;
+            Vector3 startPos = transform.position - new Vector3(0, controller.height / 2, 0);
+            if (Physics.Raycast(startPos, Vector3.down, out hit, 0.301f, layersToIgnore, QueryTriggerInteraction.Ignore) && hit.normal.y > 0.7f)
+            {
+                Vector3 clippedVelocity = ClipVelocity(hit.normal);
+                clippedVelocity.y = 0;
+
+                Vector3 temp = velocityToApply;
+                temp.y = 0;
+                if (Vector3.Dot(clippedVelocity, temp) > 0 && clippedVelocity.magnitude >= temp.magnitude)
+                {
+                    velocityToApply = clippedVelocity;
+                }
+            }
+
             velocityToApply.y = 0;
             velocityToApply.y += crouching ? PlayerConstants.CrouchingJumpPower : PlayerConstants.JumpPower;
             grounded = false;
@@ -298,7 +313,10 @@ public class PlayerMovement : MonoBehaviour
         // Also makes the player's friction feel more snappy
         if (speed < PlayerConstants.MinimumSpeedCutoff)
         {
-            velocityToApply = Vector3.zero;
+            Vector3 noVelocity = velocityToApply; // don't reset y velocity
+            noVelocity.x = 0;
+            noVelocity.z = 0;
+            velocityToApply = noVelocity;
             return;
         }
 
@@ -312,7 +330,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (newSpeed != speed)
         {
-            velocityToApply *= newSpeed / speed; //Scale velocity based on friction
+            velocityToApply.x *= newSpeed / speed; //Scale velocity based on friction
+            velocityToApply.z *= newSpeed / speed; //Scale velocity based on friction
         }
     }
 
@@ -320,6 +339,26 @@ public class PlayerMovement : MonoBehaviour
     private void ClampVelocity(float maxLength)
     {
         velocityToApply = Vector3.ClampMagnitude(velocityToApply, maxLength);
+    }
+
+    private Vector3 ClipVelocity(Vector3 normal)
+    {
+        Vector3 toReturn = velocityToApply;
+
+        // Determine how far along plane to slide based on incoming direction.
+        float backoff = Vector3.Dot(velocityToApply, normal);
+
+        var change = normal * backoff;
+        toReturn -= change;
+
+        // iterate once to make sure we aren't still moving through the plane
+        float adjust = Vector3.Dot(toReturn, normal);
+        if (adjust < 0)
+        {
+            toReturn -= (normal * adjust);
+        }
+
+        return toReturn;
     }
 
     public void NoClip()
