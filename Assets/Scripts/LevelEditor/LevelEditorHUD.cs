@@ -223,21 +223,7 @@ public class LevelEditorHUD : MonoBehaviour
         }
         else
         {
-            (Vector3 position, Vector3 rotation) firstCheckpointVectors = GetFirstCheckpointVectors();
-
-            playerInstance.transform.position = firstCheckpointVectors.position != null ?
-                firstCheckpointVectors.position : playerCamera.playerCamera.transform.position;
-            playerInstance.transform.position += PlayerConstants.PlayerSpawnOffset;
-
-            if (firstCheckpointVectors.rotation != null)
-            {
-                transform.parent.eulerAngles = firstCheckpointVectors.rotation;
-            }
-            else
-            {
-                transform.parent.rotation = playerCamera.playerCamera.transform.rotation;
-            }
-
+            SetPlayTesterStartingPosition();
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
         }
@@ -245,16 +231,25 @@ public class LevelEditorHUD : MonoBehaviour
 
     }
 
-    private (Vector3, Vector3) GetFirstCheckpointVectors()
+    private void SetPlayTesterStartingPosition()
     {
-        ObjectData firstCheckpointData = FindObjectsOfType<LevelEditorObject>()
-            .FirstOrDefault(x => x.objectType == ObjectType.FirstCheckpoint)
-            .GetObjectData();
+        LevelEditorObject firstCheckpoint = LevelEditorUtils
+            .GetObjectsByType(ObjectType.FirstCheckpoint)
+            .FirstOrDefault();
 
-        (Vector3 position, Vector3 rotation) firstCheckpointVectors;
-        firstCheckpointVectors.position = firstCheckpointData.position;
-        firstCheckpointVectors.rotation = firstCheckpointData.rotation;
-        return firstCheckpointVectors;
+        if (firstCheckpoint != null)
+        {
+            ObjectData firstCheckpointData = firstCheckpoint.GetObjectData();
+            playerInstance.transform.position = 
+                firstCheckpointData.position + PlayerConstants.PlayerSpawnOffset;
+
+            playerCamera.SetTargetRotation(Quaternion.Euler(firstCheckpointData.rotation));
+        }
+        else
+        {
+            playerInstance.transform.position = playerCamera.playerCamera.transform.position;
+            playerCamera.SetTargetRotation(transform.parent.rotation);
+        }
     }
 
     private void AddMovementCommand()
