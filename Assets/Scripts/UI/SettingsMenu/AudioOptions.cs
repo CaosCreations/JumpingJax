@@ -44,7 +44,7 @@ public class AudioOptions : MonoBehaviour
 
         float volumeInDecibels = ConvertToDecibel(value);
         audioMixer.SetFloat(soundEffectVolumeParam, volumeInDecibels);
-        OptionsPreferencesManager.SetMusicVolume(volumeInDecibels);
+        OptionsPreferencesManager.SetSoundEffectVolume(volumeInDecibels);
     }
 
     public void InitializeVolume()
