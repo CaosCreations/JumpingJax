@@ -148,8 +148,12 @@ public class PlayerGhostRun : MonoBehaviour
                     PlayerConstants.PortalRaycastDistance, ghostCamera.transform);
             }
         }
+        else
+        {
+            // No need to record current run data while spectating, you get reset while watching anyways
+            RecordCurrentRunData();
+        }
 
-        RecordCurrentRunData();
         UpdateGhost();
     }
 
