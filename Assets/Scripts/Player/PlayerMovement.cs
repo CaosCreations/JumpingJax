@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
             }
             ApplyFriction();
             ApplyGroundAcceleration(wishDir, wishSpeed, PlayerConstants.NormalSurfaceFriction);
-            ClampVelocity(PlayerConstants.MoveSpeed);
+            //ClampVelocity(PlayerConstants.MoveSpeed);
             CheckFootstepSound();
         }
         else
