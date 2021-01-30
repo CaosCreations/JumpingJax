@@ -84,12 +84,12 @@ public class OptionsPreferencesManager
 
     public static float GetSoundEffectVolume()
     {
-        return PlayerPrefs.GetFloat(musicVolumeKey, defaultMusicVolume);
+        return PlayerPrefs.GetFloat(soundEffectVolumeKey, defaultMusicVolume);
     }
 
     public static void SetSoundEffectVolume(float volume)
     {
-        PlayerPrefs.SetFloat(musicVolumeKey, volume);
+        PlayerPrefs.SetFloat(soundEffectVolumeKey, volume);
     }
 
     public static int GetQuality()
