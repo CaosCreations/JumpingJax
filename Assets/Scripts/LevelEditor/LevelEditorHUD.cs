@@ -223,13 +223,38 @@ public class LevelEditorHUD : MonoBehaviour
         }
         else
         {
-            playerInstance.transform.position = transform.parent.position;
-            playerCamera.SetTargetRotation(transform.parent.rotation);
+            (Vector3 position, Vector3 rotation) firstCheckpointVectors = GetFirstCheckpointVectors();
+
+            playerInstance.transform.position = firstCheckpointVectors.position != null ?
+                firstCheckpointVectors.position : playerCamera.playerCamera.transform.position;
+            playerInstance.transform.position += PlayerConstants.PlayerSpawnOffset;
+
+            if (firstCheckpointVectors.rotation != null)
+            {
+                transform.parent.eulerAngles = firstCheckpointVectors.rotation;
+            }
+            else
+            {
+                transform.parent.rotation = playerCamera.playerCamera.transform.rotation;
+            }
+
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
         }
         playerInstance.SetActive(isInPlayMode);
 
+    }
+
+    private (Vector3, Vector3) GetFirstCheckpointVectors()
+    {
+        ObjectData firstCheckpointData = FindObjectsOfType<LevelEditorObject>()
+            .FirstOrDefault(x => x.objectType == ObjectType.FirstCheckpoint)
+            .GetObjectData();
+
+        (Vector3 position, Vector3 rotation) firstCheckpointVectors;
+        firstCheckpointVectors.position = firstCheckpointData.position;
+        firstCheckpointVectors.rotation = firstCheckpointData.rotation;
+        return firstCheckpointVectors;
     }
 
     private void AddMovementCommand()
