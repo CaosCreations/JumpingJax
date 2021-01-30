@@ -116,7 +116,6 @@ public class Level : ScriptableObject
 
     public void Load()
     {
-        Debug.Log($"loading level {levelName}");
         string folderPath = Path.Combine(Application.persistentDataPath, levelName);
         string filePath = Path.Combine(folderPath, $"{levelName}.save");
         if (File.Exists(filePath))
@@ -131,7 +130,6 @@ public class Level : ScriptableObject
                 Debug.LogError($"{e.Message}\n{e.StackTrace}");
             }
         }
-        Debug.Log($"Finished loading level {levelName}");
     }
 
     public void Clear()
