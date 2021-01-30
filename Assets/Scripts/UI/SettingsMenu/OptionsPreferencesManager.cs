@@ -2,17 +2,25 @@
 
 public class OptionsPreferencesManager
 {
-    public const string resolutionWidthKey = "ResolutionWidth";
-    public const int defaultResolutionWidth = 1920;
+    #region Controls
+    public const string sensitivityKey = "Sensitivity";
+    public const float defaultSensitivity = 0.2f;
+    #endregion
 
-    public const string resolutionHeightKey = "ResolutionHeight";
-    public const int defaultResolutionHeight = 1080;
-
+    #region Audio
     public const string musicVolumeKey = "Volume";
     public const int defaultMusicVolume = -20;
 
     public const string soundEffectVolumeKey = "SoundEffects";
     public const int defaultSoundEffectVolume = -80;
+    #endregion
+
+    #region Video
+    public const string resolutionWidthKey = "ResolutionWidth";
+    public const int defaultResolutionWidth = 1920;
+
+    public const string resolutionHeightKey = "ResolutionHeight";
+    public const int defaultResolutionHeight = 1080;
 
     public const string qualityKey = "Quality";
     public const int defaultQuality = 0;
@@ -20,15 +28,14 @@ public class OptionsPreferencesManager
     public const string fullScreenKey = "IsFullScreen";
     public const int defaultIsFullScreen = 0;
 
-    public const string sensitivityKey = "Sensitivity";
-    public const float defaultSensitivity = 0.2f;
-
-    public const string portalRecursionKey = "PortalRecursion";
-    public const int defaultPortalRecursion = 2;
-
     public const string cameraFOVKey = "CameraFOV";
     public const int defaultCameraFOV = 90;
 
+    public const string vsyncKey = "vsync";
+    public const int defaultVsync = 0;
+    #endregion
+
+    #region Misc
     public const string crosshairToggleKey = "CrosshairToggle";
     public const int defaultCrosshairToggle = 1;
 
@@ -50,11 +57,15 @@ public class OptionsPreferencesManager
     public const string consoleToggleKey = "ConsoleToggle";
     public const int defaultConsoleToggle = 0;
 
+    public const string unitOfSpeedKey = "UnitOfSpeed";
+    public const int defaultUnitOfSpeed = 0;
+
     public const string alphaMenuKey = "AlphaMenu";
     public const int defaultAlphaToggle = 1;
 
-    public const string unitOfSpeedKey = "UnitOfSpeed";
-    public const int defaultUnitOfSpeed = 0;
+    public const string portalRecursionKey = "PortalRecursion";
+    public const int defaultPortalRecursion = 2;
+    #endregion
 
     public static int GetResolutionWidth()
     {
@@ -238,5 +249,15 @@ public class OptionsPreferencesManager
     public static void SetUnitOfSpeed(int index)
     {
         PlayerPrefs.SetInt(unitOfSpeedKey, index);
+    }
+
+    public static int GetVsync()
+    {
+        return PlayerPrefs.GetInt(vsyncKey, defaultVsync);
+    }
+
+    public static void SetVsync(int vsyncCount)
+    {
+        PlayerPrefs.SetInt(vsyncKey, vsyncCount);
     }
 }
