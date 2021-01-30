@@ -102,7 +102,9 @@ public class VideoOptions : MonoBehaviour
             GameObject newDropdown = Instantiate(dropdownItemPrefab, scrollViewContent);
             fullScreenDropdown = newDropdown.GetComponent<DropdownItem>();
         }
-        fullScreenDropdown.Init("Fullscreen", 0, new List<string> {"FullScreen", "Windowed"}, SetFullScreen, PlayerConstants.FullscreenTooltip);
+
+        int startValue = OptionsPreferencesManager.GetFullScreen() ? 1 : 0;
+        fullScreenDropdown.Init("Fullscreen", startValue, new List<string> {"FullScreen", "Windowed"}, SetFullScreen, PlayerConstants.FullscreenTooltip);
     }
 
     void SetResolution(int resolutionIndex)
