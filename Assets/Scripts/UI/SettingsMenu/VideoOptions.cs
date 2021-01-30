@@ -104,7 +104,7 @@ public class VideoOptions : MonoBehaviour
 
         int startValue = OptionsPreferencesManager.GetVsync();
         bool isToggled = startValue == 1 ? true : false;
-        vsyncToggle.Init("Vsync", isToggled, SetVsync,"syncs FPS to monitor refresh rate");
+        vsyncToggle.Init("Vsync", isToggled, SetVsync, "syncs FPS to monitor refresh rate");
     }
     #endregion
 

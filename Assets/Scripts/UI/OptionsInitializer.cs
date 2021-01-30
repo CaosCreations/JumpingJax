@@ -23,6 +23,7 @@ public class OptionsInitializer : MonoBehaviour
         Screen.SetResolution(savedHeight, savedWidth, fullScreen);
 
         QualitySettings.SetQualityLevel(OptionsPreferencesManager.GetQuality());
+        QualitySettings.vSyncCount = OptionsPreferencesManager.GetVsync();
     }
 
     #region Audio
