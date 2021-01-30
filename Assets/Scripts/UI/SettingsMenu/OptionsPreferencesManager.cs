@@ -63,7 +63,7 @@ public class OptionsPreferencesManager
 
     public static int GetResolutionHeight()
     {
-        return PlayerPrefs.GetInt(resolutionWidthKey, defaultResolutionHeight);
+        return PlayerPrefs.GetInt(resolutionHeightKey, defaultResolutionHeight);
     }
 
     public static void SetResolution(int width, int height)

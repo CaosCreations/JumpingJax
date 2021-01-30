@@ -103,7 +103,7 @@ public class VideoOptions : MonoBehaviour
             fullScreenDropdown = newDropdown.GetComponent<DropdownItem>();
         }
 
-        int startValue = OptionsPreferencesManager.GetFullScreen() ? 1 : 0;
+        int startValue = OptionsPreferencesManager.GetFullScreen() ? 0 : 1;
         fullScreenDropdown.Init("Fullscreen", startValue, new List<string> {"FullScreen", "Windowed"}, SetFullScreen, PlayerConstants.FullscreenTooltip);
     }
 

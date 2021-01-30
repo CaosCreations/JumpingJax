@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class AudioInitializer : MonoBehaviour
+public class OptionsInitializer : MonoBehaviour
 {
     public AudioMixer audioMixer;
     private const string musicVolumeParam = "MusicVolume";
@@ -12,13 +12,20 @@ public class AudioInitializer : MonoBehaviour
     void Start()
     {
         InitializeVolume();
+        InitializeVideoOptions();
     }
 
-    public void SetDefaults()
+    void InitializeVideoOptions()
     {
+        int savedHeight = OptionsPreferencesManager.GetResolutionHeight();
+        int savedWidth = OptionsPreferencesManager.GetResolutionWidth();
+        bool fullScreen = OptionsPreferencesManager.GetFullScreen();
+        Screen.SetResolution(savedHeight, savedWidth, fullScreen);
 
+        QualitySettings.SetQualityLevel(OptionsPreferencesManager.GetQuality());
     }
 
+    #region Audio
     public void SetMusicVolume(float volume)
     {
         float volumeInDecibels = ConvertToDecibel(volume);
@@ -51,4 +58,5 @@ public class AudioInitializer : MonoBehaviour
     {
         return Mathf.Pow(10, value / 20);
     }
+    #endregion
 }
