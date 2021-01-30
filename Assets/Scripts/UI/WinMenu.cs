@@ -40,7 +40,7 @@ public class WinMenu : MonoBehaviour
     private async void OnEnable()
     {
         levelText.text = "You found Jax on: " + GameManager.GetCurrentLevel().levelName;
-        if(GameManager.Instance != null && GameManager.Instance.currentCompletionTime != null)
+        if(GameManager.Instance != null)
         {
             completionTimeText.text = TimeUtils.GetTimeString(GameManager.Instance.currentCompletionTime);
         }
