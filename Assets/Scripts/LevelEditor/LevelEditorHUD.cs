@@ -223,7 +223,7 @@ public class LevelEditorHUD : MonoBehaviour
         }
         else
         {
-            SetPlayTesterStartingPosition();
+            SetPlayTestStartingPosition();
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
         }
@@ -231,15 +231,15 @@ public class LevelEditorHUD : MonoBehaviour
 
     }
 
-    private void SetPlayTesterStartingPosition()
+    private void SetPlayTestStartingPosition()
     {
-        Transform checkpointTransform = LevelEditorUtils.GetFirstCheckpoint().transform;
-        if (checkpointTransform != null)
+        Transform startingTransform = LevelEditorUtils.GetFirstCheckpoint().transform;
+        if (startingTransform != null)
         {
             playerInstance.transform.position = 
-                checkpointTransform.position + PlayerConstants.PlayerSpawnOffset;
+                startingTransform.position + PlayerConstants.PlayerSpawnOffset;
 
-            playerCamera.SetTargetRotation(checkpointTransform.rotation);
+            playerCamera.SetTargetRotation(startingTransform.rotation);
         }
         else
         {
