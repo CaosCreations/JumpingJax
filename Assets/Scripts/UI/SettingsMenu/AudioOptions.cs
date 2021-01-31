@@ -63,7 +63,6 @@ public class AudioOptions : MonoBehaviour
 
     public void InitializeVolume()
     {
-
         if (masterVolumeSlider == null)
         {
             GameObject newSlider = Instantiate(sliderPrefab, scrollViewContent);
