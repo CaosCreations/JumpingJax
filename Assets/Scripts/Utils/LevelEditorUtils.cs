@@ -9,4 +9,9 @@ public class LevelEditorUtils : MonoBehaviour
             .Where(x => x.objectType == type)
             .ToArray();
     }
+
+    public static Checkpoint GetFirstCheckpoint()
+    {
+        return FindObjectsOfType<Checkpoint>().FirstOrDefault(x => x.isFirstCheckpoint);
+    }
 }
