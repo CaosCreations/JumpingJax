@@ -373,8 +373,11 @@ public class LevelEditorHUD : MonoBehaviour
             DirectoryInfo fileInfo = new DirectoryInfo(currentLevel.workshopFilePath);
             try
             {
-                string scenePath = fileInfo.EnumerateFiles().First().FullName;
-                filePath = scenePath;
+                List<DirectoryInfo> levelDataFolders = fileInfo.EnumerateDirectories().ToList();
+                DirectoryInfo levelDataFolder = levelDataFolders.First();
+                List<FileInfo> levelDataFiles = levelDataFolder.EnumerateFiles("*.json").ToList();
+                FileInfo levelDataFile = levelDataFiles.First();
+                filePath = levelDataFile.FullName;
             }
             catch(Exception e)
             {
