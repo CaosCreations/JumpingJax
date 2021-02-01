@@ -36,6 +36,7 @@ public class TutorialTriggerGroup : MonoBehaviour
         if (playerProgress == null || gameUI == null)
         {
             Debug.LogError("Unable to find playerProgress or gameUI");
+            return;
         }
 
         foreach (TutorialTrigger trigger in triggers)
