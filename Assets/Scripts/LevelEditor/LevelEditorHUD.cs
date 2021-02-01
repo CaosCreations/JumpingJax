@@ -233,10 +233,11 @@ public class LevelEditorHUD : MonoBehaviour
 
     private void SetPlayTestStartingPosition()
     {
-        Transform startingTransform = LevelEditorUtils.GetFirstCheckpoint().transform;
-        if (startingTransform != null)
+        Checkpoint firstCheckpoint = LevelEditorUtils.GetFirstCheckpoint();
+        if(firstCheckpoint != null)
         {
-            playerInstance.transform.position = 
+            Transform startingTransform = LevelEditorUtils.GetFirstCheckpoint().transform;
+            playerInstance.transform.position =
                 startingTransform.position + PlayerConstants.PlayerSpawnOffset;
 
             playerCamera.SetTargetRotation(startingTransform.rotation);
