@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3917360717085452658}
   - component: {fileID: 4144343780285382205}
   m_Layer: 10
-  m_Name: PortalWall 1
+  m_Name: PortalWall
   m_TagString: PortalWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,12 +51,13 @@ MeshRenderer:
   m_GameObject: {fileID: 3917360717085452659}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -81,6 +82,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &3917360717085452658
 BoxCollider:
   m_ObjectHideFlags: 0
