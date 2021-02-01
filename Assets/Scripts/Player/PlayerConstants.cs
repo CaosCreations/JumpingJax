@@ -106,6 +106,7 @@ public static class PlayerConstants
     public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
 
     public static string SensitivityTooltip = "Mouse Sensitivity.";
+    public static string MasterVolumeTooltip = "Master Volume.";
     public static string MusicVolumeTooltip = "Music Volume.";
     public static string SoundEffectVolumeTooltip = "Sound Effect Volume.";
 

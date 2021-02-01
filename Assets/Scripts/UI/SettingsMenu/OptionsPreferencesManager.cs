@@ -8,6 +8,9 @@ public class OptionsPreferencesManager
     #endregion
 
     #region Audio
+    public const string masterVolumeKey = "MasterVolume";
+    public const int defaultMasterVolume = -10;
+
     public const string musicVolumeKey = "Volume";
     public const int defaultMusicVolume = -20;
 
@@ -93,9 +96,19 @@ public class OptionsPreferencesManager
         PlayerPrefs.SetFloat(musicVolumeKey, volume);
     }
 
+    public static float GetMasterVolume()
+    {
+        return PlayerPrefs.GetFloat(masterVolumeKey, defaultMasterVolume);
+    }
+
+    public static void SetMasterVolume(float volume)
+    {
+        PlayerPrefs.SetFloat(masterVolumeKey, volume);
+    }
+
     public static float GetSoundEffectVolume()
     {
-        return PlayerPrefs.GetFloat(soundEffectVolumeKey, defaultMusicVolume);
+        return PlayerPrefs.GetFloat(soundEffectVolumeKey, defaultSoundEffectVolume);
     }
 
     public static void SetSoundEffectVolume(float volume)
