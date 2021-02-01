@@ -371,21 +371,28 @@ public class LevelEditorHUD : MonoBehaviour
         if (currentLevel.workshopFilePath != string.Empty && currentLevel.workshopFilePath != null)
         {
             DirectoryInfo fileInfo = new DirectoryInfo(currentLevel.workshopFilePath);
-            string scenePath = fileInfo.EnumerateFiles().First().FullName;
-            filePath = scenePath;
+            try
+            {
+                string scenePath = fileInfo.EnumerateFiles().First().FullName;
+                filePath = scenePath;
+            }
+            catch(Exception e)
+            {
+                Debug.LogError($"Could not find any file for workshop folder {fileInfo}. Files may not have been downloaded.\nException\n{e.Message}");
+            }
         }
         else
         {
             if (currentLevel.levelEditorLevelDataPath == string.Empty)
             {
-                Debug.Log($"Trying to load level: {currentLevel.levelName} but it has not been saved");
+                Debug.LogError($"Trying to load level: {currentLevel.levelName} but it has not been saved");
                 return;
             }
 
 
             if (!File.Exists(currentLevel.levelEditorLevelDataPath))
             {
-                Debug.Log($"Trying to load level: {currentLevel.levelName} from {currentLevel.levelEditorLevelDataPath} but the save file has been deleted");
+                Debug.LogError($"Trying to load level: {currentLevel.levelName} from {currentLevel.levelEditorLevelDataPath} but the save file has been deleted");
                 return;
             }
             filePath = currentLevel.levelEditorLevelDataPath;
