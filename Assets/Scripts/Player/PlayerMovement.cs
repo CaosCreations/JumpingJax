@@ -70,6 +70,15 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        // If we hit a wall, make us lose speed so we can't continuously jump into a wall and gain speed
+        if(controller.collisionFlags == CollisionFlags.Sides && hit.normal.y < 0.7f)
+        {
+            velocityToApply = ClipVelocity(hit.normal);
+        }
+    }
+
     private void FixedUpdate()
     {
         Vector3 wishDir = currentInput.normalized;
@@ -83,8 +92,6 @@ public class PlayerMovement : MonoBehaviour
             }
             ApplyFriction();
             ApplyGroundAcceleration(wishDir, wishSpeed, PlayerConstants.NormalSurfaceFriction);
-            ClampVelocity(PlayerConstants.MoveSpeed);
-            CheckFootstepSound();
         }
         else
         {

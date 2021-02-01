@@ -235,12 +235,6 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"GameManager.FinishedLevel(), completed {levelToUpdate.levelName}");
 
-        // TODO: Check if the player is no-clipping
-        if (DeveloperConsole.Instance.consoleIsActive)
-        {
-            return;
-        }
-
         if (completionTime < levelToUpdate.levelSaveData.completionTime || levelToUpdate.levelSaveData.completionTime == 0)
         {
             levelToUpdate.levelSaveData.completionTime = completionTime;

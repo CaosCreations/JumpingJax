@@ -170,7 +170,10 @@ public class LevelPreview : MonoBehaviour
         }
         else
         {
-            rankText.text = "N/A";
+            if(rankText != null)
+            {
+                rankText.text = "N/A";
+            }
         }
     }
 
