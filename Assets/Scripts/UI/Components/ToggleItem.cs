@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ToggleItem : MonoBehaviour
@@ -28,5 +29,15 @@ public class ToggleItem : MonoBehaviour
         toggleNameText.text = text;
         toggle.isOn = isToggled;
         tooltip.SetTooltipText(tooltipText);
+    }
+
+    public void Init(string text, bool isToggled, UnityAction<bool> action, string tooltipText)
+    {
+        toggleNameText.text = text;
+        toggle.isOn = isToggled;
+        tooltip.SetTooltipText(tooltipText);
+
+        toggle.onValueChanged.RemoveAllListeners();
+        toggle.onValueChanged.AddListener(action);
     }
 }

@@ -223,13 +223,29 @@ public class LevelEditorHUD : MonoBehaviour
         }
         else
         {
-            playerInstance.transform.position = transform.parent.position;
-            playerCamera.SetTargetRotation(transform.parent.rotation);
+            SetPlayTestStartingPosition();
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
         }
         playerInstance.SetActive(isInPlayMode);
 
+    }
+
+    private void SetPlayTestStartingPosition()
+    {
+        Transform startingTransform = LevelEditorUtils.GetFirstCheckpoint().transform;
+        if (startingTransform != null)
+        {
+            playerInstance.transform.position = 
+                startingTransform.position + PlayerConstants.PlayerSpawnOffset;
+
+            playerCamera.SetTargetRotation(startingTransform.rotation);
+        }
+        else
+        {
+            playerInstance.transform.position = playerCamera.playerCamera.transform.position;
+            playerCamera.SetTargetRotation(transform.parent.rotation);
+        }
     }
 
     private void AddMovementCommand()

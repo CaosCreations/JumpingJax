@@ -51,7 +51,14 @@ public class MainMenuController : MonoBehaviour
                 latestLevelIndex = level.levelBuildIndex;
             }
         }
-        GameManager.LoadScene(latestLevelIndex + 1);
+        if (latestLevelIndex < GameManager.Instance.levelDataContainer.levels.Length - 1)
+        {
+            GameManager.LoadScene(latestLevelIndex + 1);
+        }
+        else
+        {
+            GameManager.LoadScene(latestLevelIndex);
+        }
     }
 
     public void LevelSelection()
