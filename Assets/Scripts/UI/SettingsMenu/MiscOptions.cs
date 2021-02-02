@@ -135,12 +135,12 @@ public class MiscOptions : MonoBehaviour
 
     public void DeleteCompletionSaveData()
     {
-        Directory.Delete(Application.persistentDataPath, true);
+        FilePathUtil.DeleteLevelData();
     }
 
     public void DeleteLevelEditorSaveData()
     {
-        Directory.Delete(Application.persistentDataPath, true);
+        FilePathUtil.DeleteLevelEditorData();
     }
 
     public void SetDefaults()
