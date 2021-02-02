@@ -28,13 +28,14 @@ public class MiscOptions : MonoBehaviour
     // Button-related
     public GameObject deleteDataButtonPrefab;
     public OptionsButton deleteDataButtonInstance;
+    public OptionsButton deleteLevelEditorButtonInstance;
 
     void Awake()
     {
         toggleItems = new List<ToggleItem>();
         PopulateToggles();
         SetupUnitOfSpeedDropdown();
-        SetupDeleteDataButton();
+        SetupDeleteButtons();
     }
 
     private void PopulateToggles()
@@ -121,14 +122,23 @@ public class MiscOptions : MonoBehaviour
         }
     }
 
-    private void SetupDeleteDataButton()
+    private void SetupDeleteButtons()
     {
-        GameObject newObject = Instantiate(deleteDataButtonPrefab, scrollViewContent);
-        deleteDataButtonInstance = newObject.GetComponent<OptionsButton>();
-        deleteDataButtonInstance.Init("Delete save data", "Delete", DeleteSaveData, PlayerConstants.DeleteDataTooltip);
+        GameObject saveDataObject = Instantiate(deleteDataButtonPrefab, scrollViewContent);
+        deleteDataButtonInstance = saveDataObject.GetComponent<OptionsButton>();
+        deleteDataButtonInstance.Init("Delete save data", "Delete", DeleteCompletionSaveData, PlayerConstants.DeleteLevelDataTooltip);
+
+        GameObject editorDataObject = Instantiate(deleteDataButtonPrefab, scrollViewContent);
+        deleteLevelEditorButtonInstance = editorDataObject.GetComponent<OptionsButton>();
+        deleteLevelEditorButtonInstance.Init("Delete level editor data", "Delete", DeleteLevelEditorSaveData, PlayerConstants.DeleteLevelEditorDataTooltip);
     }
 
-    public void DeleteSaveData()
+    public void DeleteCompletionSaveData()
+    {
+        Directory.Delete(Application.persistentDataPath, true);
+    }
+
+    public void DeleteLevelEditorSaveData()
     {
         Directory.Delete(Application.persistentDataPath, true);
     }
