@@ -31,9 +31,12 @@ public class UntouchableObject : MonoBehaviour
     {
         if (useGizmos)
         {
+            Vector3 gizmoShiftVector = new Vector3(0, 0, 0); //positional shift of the gizmo relative to the collider and transform.localPosition
+
+            Gizmos.matrix = Matrix4x4.TRS(transform.localPosition, transform.localRotation, transform.localScale);
             BoxCollider myCollider = GetComponent<BoxCollider>();
             Gizmos.color = new Color(181.0f / 255.0f, 45.0f / 255.0f, 50.0f / 255.0f, 1.0f); //this is supposed to be red
-            Gizmos.DrawWireCube(transform.position, Vector3.Scale(transform.localScale, myCollider.size));
+            Gizmos.DrawWireCube(gizmoShiftVector, myCollider.size);
         }
     }
 }
