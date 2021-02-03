@@ -75,7 +75,7 @@ public class Inspector : MonoBehaviour
         {
             return;
         }
-
+        
         levelEditorGizmo.UpdateGizmos();
 
         if (levelEditorHUD.isUsingGizmo)
@@ -85,6 +85,7 @@ public class Inspector : MonoBehaviour
         }
 
         HandleKeyboardArrowInput();
+        HandleKeyboardQWEInput();
 
         CheckInspectorCommands();
     }
@@ -280,6 +281,22 @@ public class Inspector : MonoBehaviour
             }
         }
         UpdateInputs();
+    }
+
+    private void HandleKeyboardQWEInput()
+    {
+        if (Input.GetKeyDown(PlayerConstants.LevelEditor_SelectPosition))
+        {
+            SetManipulationType(ManipulationType.Position);
+        }
+        else if (Input.GetKey(PlayerConstants.LevelEditor_SelectRotation))
+        {
+            SetManipulationType(ManipulationType.Rotation);
+        }
+        else if (Input.GetKey(PlayerConstants.LevelEditor_SelectScale))
+        {
+            SetManipulationType(ManipulationType.Scale);
+        }
     }
 
     private void SnapChanged(string newSnapValue)

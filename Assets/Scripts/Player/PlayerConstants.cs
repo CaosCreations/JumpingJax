@@ -146,6 +146,10 @@ public static class PlayerConstants
     public static KeyCode WinMenu_RetryLevel = KeyCode.R;
     public static KeyCode WinMenu_MainMenu = KeyCode.Q;
 
+    public static KeyCode LevelEditor_SelectPosition = KeyCode.Alpha1;
+    public static KeyCode LevelEditor_SelectRotation = KeyCode.Alpha2;
+    public static KeyCode LevelEditor_SelectScale = KeyCode.Alpha3;
+
 
     // Game Constants
     public static int MainMenuSceneIndex = 0;
