@@ -105,6 +105,20 @@ public static class PlayerConstants
     public static string LevelEditorSpeedDecreaseDefault = "KeypadMinus";
     public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
 
+    public static string LevelEditorSelectPosition = "Level Editor Select Position";
+    public static string LevelEditorSelectPositionDefault = "Alpha1";
+    public static string LevelEditorSelectPositionTooltip = "Selects the position manipulation type in the inspector";
+    
+    public static string LevelEditorSelectRotation = "Level Editor Select Rotation";
+    public static string LevelEditorSelectRotationDefault = "Alpha2";
+    public static string LevelEditorSelectRotationTooltip = "Selects the rotation manipulation type in the inspector";
+
+    public static string LevelEditorSelectScale = "Level Editor Select Scale";
+    public static string LevelEditorSelectScaleDefault = "Alpha3";
+    public static string LevelEditorSelectScaleTooltip = "Selects the scale manipulation type in the inspector";
+
+
+    // Tooltips
     public static string SensitivityTooltip = "Mouse Sensitivity.";
     public static string MasterVolumeTooltip = "Master Volume.";
     public static string MusicVolumeTooltip = "Music Volume.";
@@ -145,10 +159,6 @@ public static class PlayerConstants
     public static KeyCode WinMenu_NextLevel = KeyCode.E;
     public static KeyCode WinMenu_RetryLevel = KeyCode.R;
     public static KeyCode WinMenu_MainMenu = KeyCode.Q;
-
-    public static KeyCode LevelEditor_SelectPosition = KeyCode.Alpha1;
-    public static KeyCode LevelEditor_SelectRotation = KeyCode.Alpha2;
-    public static KeyCode LevelEditor_SelectScale = KeyCode.Alpha3;
 
 
     // Game Constants

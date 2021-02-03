@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Xml.Schema;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public enum ManipulationType
@@ -84,8 +80,8 @@ public class Inspector : MonoBehaviour
             UpdateInputs();
         }
 
-        HandleKeyboardArrowInput();
-        HandleKeyboardQWEInput();
+        HandleKeyboardManipulationInput();
+        HandleKeyboardManipulationTypeSelectInput();
 
         CheckInspectorCommands();
     }
@@ -234,7 +230,7 @@ public class Inspector : MonoBehaviour
         objectToInspect.localScale = newScale;
     }
 
-    private void HandleKeyboardArrowInput()
+    private void HandleKeyboardManipulationInput()
     {
         Vector3 vectorBeingManipulated = Vector3.zero;  
         switch (manipulationType)
@@ -283,17 +279,17 @@ public class Inspector : MonoBehaviour
         UpdateInputs();
     }
 
-    private void HandleKeyboardQWEInput()
+    private void HandleKeyboardManipulationTypeSelectInput()
     {
-        if (Input.GetKeyDown(PlayerConstants.LevelEditor_SelectPosition))
+        if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSelectPosition))
         {
             SetManipulationType(ManipulationType.Position);
         }
-        else if (Input.GetKey(PlayerConstants.LevelEditor_SelectRotation))
+        else if (InputManager.GetKey(PlayerConstants.LevelEditorSelectRotation))
         {
             SetManipulationType(ManipulationType.Rotation);
         }
-        else if (Input.GetKey(PlayerConstants.LevelEditor_SelectScale))
+        else if (InputManager.GetKey(PlayerConstants.LevelEditorSelectScale))
         {
             SetManipulationType(ManipulationType.Scale);
         }
