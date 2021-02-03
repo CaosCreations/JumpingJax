@@ -80,8 +80,8 @@ public class Inspector : MonoBehaviour
             UpdateInputs();
         }
 
-        HandleKeyboardManipulationInput();
-        HandleKeyboardManipulationTypeSelectInput();
+        HandleManipulationKeyboardInput();
+        HandleManipulationTypeSelectKeyboardInput();
 
         CheckInspectorCommands();
     }
@@ -230,7 +230,7 @@ public class Inspector : MonoBehaviour
         objectToInspect.localScale = newScale;
     }
 
-    private void HandleKeyboardManipulationInput()
+    private void HandleManipulationKeyboardInput()
     {
         Vector3 vectorBeingManipulated = Vector3.zero;  
         switch (manipulationType)
@@ -279,7 +279,7 @@ public class Inspector : MonoBehaviour
         UpdateInputs();
     }
 
-    private void HandleKeyboardManipulationTypeSelectInput()
+    private void HandleManipulationTypeSelectKeyboardInput()
     {
         if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSelectPosition))
         {
