@@ -77,6 +77,9 @@ public class HotKeyManager : MonoBehaviour {
         LoadSavedKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault);
         LoadSavedKey(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseDefault);
         LoadSavedKey(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseDefault);
+        LoadSavedKey(PlayerConstants.LevelEditorXAxisSelect, PlayerConstants.LevelEditorXAxisSelectDefault);
+        LoadSavedKey(PlayerConstants.LevelEditorYAxisSelect, PlayerConstants.LevelEditorYAxisSelectDefault);
+        LoadSavedKey(PlayerConstants.LevelEditorZAxisSelect, PlayerConstants.LevelEditorZAxisSelectDefault);
     }
 
     public void LoadSavedKey(string keyName, string defaultValue)
@@ -123,6 +126,9 @@ public class HotKeyManager : MonoBehaviour {
         AddDefaultKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault);
         AddDefaultKey(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseDefault);
         AddDefaultKey(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseDefault);
+        AddDefaultKey(PlayerConstants.LevelEditorXAxisSelect, PlayerConstants.LevelEditorXAxisSelectDefault);
+        AddDefaultKey(PlayerConstants.LevelEditorYAxisSelect, PlayerConstants.LevelEditorYAxisSelectDefault);
+        AddDefaultKey(PlayerConstants.LevelEditorZAxisSelect, PlayerConstants.LevelEditorZAxisSelectDefault);
     }
 
     public void AddDefaultKey(string keyName, string defaultValue)
@@ -156,5 +162,8 @@ public class HotKeyManager : MonoBehaviour {
         tooltips.Add(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseTooltip);
         tooltips.Add(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseTooltip);
         tooltips.Add(PlayerConstants.FirstPersonGhost, PlayerConstants.FirstPersonGhostTooltip);
+        tooltips.Add(PlayerConstants.LevelEditorXAxisSelect, PlayerConstants.LevelEditorXAxisSelectTooltip);
+        tooltips.Add(PlayerConstants.LevelEditorYAxisSelect, PlayerConstants.LevelEditorYAxisSelectTooltip);
+        tooltips.Add(PlayerConstants.LevelEditorZAxisSelect, PlayerConstants.LevelEditorZAxisSelectTooltip);
     }
 }
