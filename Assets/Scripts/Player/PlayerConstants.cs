@@ -104,17 +104,17 @@ public static class PlayerConstants
     public static string LevelEditorSpeedDecrease = "Level Editor Speed Decrease";
     public static string LevelEditorSpeedDecreaseDefault = "KeypadMinus";
     public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
-
+    
     public static string LevelEditorSelectPosition = "Level Editor Select Position";
-    public static string LevelEditorSelectPositionDefault = "Alpha1";
+    public static string LevelEditorSelectPositionDefault = "X";
     public static string LevelEditorSelectPositionTooltip = "Selects the position manipulation type in the inspector";
     
     public static string LevelEditorSelectRotation = "Level Editor Select Rotation";
-    public static string LevelEditorSelectRotationDefault = "Alpha2";
+    public static string LevelEditorSelectRotationDefault = "C";
     public static string LevelEditorSelectRotationTooltip = "Selects the rotation manipulation type in the inspector";
 
     public static string LevelEditorSelectScale = "Level Editor Select Scale";
-    public static string LevelEditorSelectScaleDefault = "Alpha3";
+    public static string LevelEditorSelectScaleDefault = "V";
     public static string LevelEditorSelectScaleTooltip = "Selects the scale manipulation type in the inspector";
 
 
