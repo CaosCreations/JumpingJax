@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Xml.Schema;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public enum ManipulationType
@@ -25,6 +21,8 @@ public class Inspector : MonoBehaviour
     public InputField yInput;
     public InputField zInput;
     public InputField snapInput;
+    private InputField[] inputFields;
+    private int inputFieldIndex;
 
     [Header("Set at Runtime")]
     public Transform objectToInspect;
@@ -66,6 +64,8 @@ public class Inspector : MonoBehaviour
         snapInput.onValueChanged.AddListener((value) => SnapChanged(value));
         snapInput.text = "0";
 
+        inputFields = new InputField[] { xInput, yInput, zInput };
+
         Clear();
     }
 
@@ -85,7 +85,7 @@ public class Inspector : MonoBehaviour
         }
 
         HandleKeyboardArrowInput();
-
+        HandleAxisCycleKeyboardInput();
         CheckInspectorCommands();
     }
 
@@ -103,6 +103,7 @@ public class Inspector : MonoBehaviour
         levelEditorGizmo.ClearGizmo();
         objectToInspect = null;
         container.SetActive(false);
+        inputFieldIndex = 0;
     }
 
     private void CheckInspectorCommands()
@@ -168,6 +169,15 @@ public class Inspector : MonoBehaviour
                 yInput.text = objectToInspect.localScale.y.ToString("F2");
                 zInput.text = objectToInspect.localScale.z.ToString("F2");
                 break;
+        }
+    }
+
+    private void HandleAxisCycleKeyboardInput()
+    {
+        if (InputManager.GetKeyDown(PlayerConstants.LevelEditorAxisCycle))
+        {
+            inputFields[inputFieldIndex].Select();
+            inputFieldIndex = inputFieldIndex < inputFields.Length - 1 ? inputFieldIndex + 1 : 0;
         }
     }
 
