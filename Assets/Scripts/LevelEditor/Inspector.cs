@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 public enum ManipulationType
@@ -64,7 +65,7 @@ public class Inspector : MonoBehaviour
         snapInput.onValueChanged.AddListener((value) => SnapChanged(value));
         snapInput.text = "0";
 
-        inputFields = new InputField[] { xInput, yInput, zInput };
+        inputFields = new InputField[] { xInput, yInput, zInput, snapInput };
 
         Clear();
     }
