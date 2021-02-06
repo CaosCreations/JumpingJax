@@ -105,18 +105,6 @@ public static class PlayerConstants
     public static string LevelEditorSpeedDecreaseDefault = "KeypadMinus";
     public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
 
-    public static string LevelEditorXAxisSelect = "Level Editor X Axis Select";
-    public static string LevelEditorXAxisSelectDefault = "Z";
-    public static string LevelEditorXAxisSelectTooltip = "Selects the x axis on the currently inspected object's transform";
-
-    public static string LevelEditorYAxisSelect = "Level Editor Y Axis Select";
-    public static string LevelEditorYAxisSelectDefault = "X";
-    public static string LevelEditorYAxisSelectTooltip = "Selects the y axis on the currently inspected object's transform";
-
-    public static string LevelEditorZAxisSelect = "Level Editor Z Axis Select";
-    public static string LevelEditorZAxisSelectDefault = "C";
-    public static string LevelEditorZAxisSelectTooltip = "Selects the z axis on the currently inspected object's transform";
-
     public static string SensitivityTooltip = "Mouse Sensitivity.";
     public static string MasterVolumeTooltip = "Master Volume.";
     public static string MusicVolumeTooltip = "Music Volume.";
