@@ -106,7 +106,7 @@ public static class PlayerConstants
     public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
 
     public static string LevelEditorAxisCycle = "Level Editor Axis Cycle";
-    public static string LevelEditorAxisCycleDefault = "LeftShift";
+    public static string LevelEditorAxisCycleDefault = "Tab";
     public static string LevelEditorAxisCycleTooltip = "Cycles through the transform axis input fields in the inspector";
 
     public static string SensitivityTooltip = "Mouse Sensitivity.";
@@ -145,6 +145,8 @@ public static class PlayerConstants
     public static KeyCode PauseMenu = KeyCode.Escape;
     public static KeyCode DebugMenu = KeyCode.BackQuote;
     public static KeyCode NextTutorial = KeyCode.Tab;
+
+    public static KeyCode LevelEditor_PlayTest = KeyCode.Return;
 
     public static KeyCode WinMenu_NextLevel = KeyCode.E;
     public static KeyCode WinMenu_RetryLevel = KeyCode.R;

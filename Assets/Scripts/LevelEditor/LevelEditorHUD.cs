@@ -162,7 +162,7 @@ public class LevelEditorHUD : MonoBehaviour
 
     private void CheckPlayMode()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(PlayerConstants.LevelEditor_PlayTest))
         {
             PlayTest();
         }
