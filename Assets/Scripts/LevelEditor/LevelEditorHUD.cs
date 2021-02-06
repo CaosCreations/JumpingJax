@@ -162,7 +162,8 @@ public class LevelEditorHUD : MonoBehaviour
 
     private void CheckPlayMode()
     {
-        if (Input.GetKeyDown(PlayerConstants.LevelEditor_PlayTest))
+        // Don't begin a play test if the user is currently entering values in the inspector
+        if (!inspector.container.activeSelf && Input.GetKeyDown(PlayerConstants.LevelEditor_PlayTest))
         {
             PlayTest();
         }
