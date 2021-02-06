@@ -105,6 +105,10 @@ public static class PlayerConstants
     public static string LevelEditorSpeedDecreaseDefault = "KeypadMinus";
     public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
 
+    public static string LevelEditorAxisCycle = "Level Editor Axis Cycle";
+    public static string LevelEditorAxisCycleDefault = "LeftShift";
+    public static string LevelEditorAxisCycleTooltip = "Cycles through the transform axis input fields in the inspector";
+
     public static string SensitivityTooltip = "Mouse Sensitivity.";
     public static string MasterVolumeTooltip = "Master Volume.";
     public static string MusicVolumeTooltip = "Music Volume.";
