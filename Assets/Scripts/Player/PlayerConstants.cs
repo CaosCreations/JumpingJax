@@ -105,9 +105,21 @@ public static class PlayerConstants
     public static string LevelEditorSpeedDecreaseDefault = "KeypadMinus";
     public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
 
-    public static string LevelEditorAxisCycle = "Level Editor Axis Cycle";
-    public static string LevelEditorAxisCycleDefault = "Tab";
-    public static string LevelEditorAxisCycleTooltip = "Cycles through the transform axis input fields in the inspector";
+    public static string LevelEditorSelectXAxis = "Level Editor Select X Axis [Modified]";
+    public static string LevelEditorSelectXAxisDefault = "A";
+    public static string LevelEditorSelectXAxisTooltip = "Selects the x axis of the currently inspected object's transform in the level editor";
+
+    public static string LevelEditorSelectYAxis = "Level Editor Select Y Axis [Modified]";
+    public static string LevelEditorSelectYAxisDefault = "S";
+    public static string LevelEditorSelectYAxisTooltip = "Selects the y axis of the currently inspected object's transform in the level editor";
+
+    public static string LevelEditorSelectZAxis = "Level Editor Select Z Axis [Modified]";
+    public static string LevelEditorSelectZAxisDefault = "D";
+    public static string LevelEditorSelectZAxisTooltip = "Selects the z axis of the currently inspected object's transform in the level editor";
+
+    public static string LevelEditorSelectSnap = "Level Editor Select Snap [Modified]";
+    public static string LevelEditorSelectSnapDefault = "F";
+    public static string LevelEditorSelectSnapTooltip = "Selects the snap field of the currently inspected object's transform in the level editor";
 
     public static string LevelEditorPlayTest = "Level Editor Play Test [Modified]";
     public static string LevelEditorPlayTestDefault = "R";
