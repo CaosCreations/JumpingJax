@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 public enum ManipulationType
@@ -21,6 +22,7 @@ public class Inspector : MonoBehaviour
     public InputField yInput;
     public InputField zInput;
     public InputField snapInput;
+    private InputField[] inputFields;
 
     [Header("Set at Runtime")]
     public Transform objectToInspect;
@@ -61,6 +63,8 @@ public class Inspector : MonoBehaviour
         snapInput.onValueChanged.RemoveAllListeners();
         snapInput.onValueChanged.AddListener((value) => SnapChanged(value));
         snapInput.text = "0";
+
+        inputFields = new InputField[] { xInput, yInput, zInput, snapInput };
 
         Clear();
     }
@@ -282,6 +286,9 @@ public class Inspector : MonoBehaviour
     {
         if (InputManager.GetKey(PlayerConstants.ModifierKey))
         {
+            // Prevent a navigation keypress from altering the value of the input field itself
+            inputFields.Select(x => x.readOnly = true);
+
             if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSelectXAxis))
             {
                 xInput.Select();
@@ -299,6 +306,20 @@ public class Inspector : MonoBehaviour
                 snapInput.Select();
             }
         }
+        else
+        {
+            inputFields.Select(x => x.readOnly = false);
+        }
+    }
+
+    private InputField GetCurrentlySelectedInputField()
+    {
+        return inputFields?.FirstOrDefault(x => x.isFocused);
+    }
+
+    private void SetInputFieldReadOnly()
+    {
+
     }
 
     private void SnapChanged(string newSnapValue)
