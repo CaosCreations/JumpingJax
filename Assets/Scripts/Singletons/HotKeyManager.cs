@@ -78,6 +78,8 @@ public class HotKeyManager : MonoBehaviour {
         LoadSavedKey(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseDefault);
         LoadSavedKey(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseDefault);
         LoadSavedKey(PlayerConstants.LevelEditorAxisCycle, PlayerConstants.LevelEditorAxisCycleDefault);
+        LoadSavedKey(PlayerConstants.LevelEditorPlayTest, PlayerConstants.LevelEditorPlayTestDefault);
+        LoadSavedKey(PlayerConstants.ModifierKey, PlayerConstants.ModifierKeyDefault);
     }
 
     public void LoadSavedKey(string keyName, string defaultValue)
@@ -125,6 +127,8 @@ public class HotKeyManager : MonoBehaviour {
         AddDefaultKey(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseDefault);
         AddDefaultKey(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseDefault);
         AddDefaultKey(PlayerConstants.LevelEditorAxisCycle, PlayerConstants.LevelEditorAxisCycleDefault);
+        AddDefaultKey(PlayerConstants.LevelEditorPlayTest, PlayerConstants.LevelEditorPlayTestDefault);
+        AddDefaultKey(PlayerConstants.ModifierKey, PlayerConstants.ModifierKeyDefault);
     }
 
     public void AddDefaultKey(string keyName, string defaultValue)
@@ -159,5 +163,7 @@ public class HotKeyManager : MonoBehaviour {
         tooltips.Add(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseTooltip);
         tooltips.Add(PlayerConstants.FirstPersonGhost, PlayerConstants.FirstPersonGhostTooltip);
         tooltips.Add(PlayerConstants.LevelEditorAxisCycle, PlayerConstants.LevelEditorAxisCycleTooltip);
+        tooltips.Add(PlayerConstants.LevelEditorPlayTest, PlayerConstants.LevelEditorPlayTestTooltip);
+        tooltips.Add(PlayerConstants.ModifierKey, PlayerConstants.ModifierKeyTooltip);
     }
 }

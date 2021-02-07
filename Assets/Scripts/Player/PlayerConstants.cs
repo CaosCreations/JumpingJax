@@ -109,6 +109,14 @@ public static class PlayerConstants
     public static string LevelEditorAxisCycleDefault = "Tab";
     public static string LevelEditorAxisCycleTooltip = "Cycles through the transform axis input fields in the inspector";
 
+    public static string LevelEditorPlayTest = "[Modifier]+Level Editor Play Test";
+    public static string LevelEditorPlayTestDefault = "R";
+    public static string LevelEditorPlayTestTooltip = "Switches the play test mode in the level editor";
+
+    public static string ModifierKey = "Modifier Key";
+    public static string ModifierKeyDefault = "LeftShift";
+    public static string ModifierKeyTooltip = "When pressed at the same time, modifies the action of other keys";
+
     public static string SensitivityTooltip = "Mouse Sensitivity.";
     public static string MasterVolumeTooltip = "Master Volume.";
     public static string MusicVolumeTooltip = "Music Volume.";
