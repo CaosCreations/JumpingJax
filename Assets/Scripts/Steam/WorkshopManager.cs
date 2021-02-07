@@ -91,6 +91,7 @@ public class WorkshopManager : MonoBehaviour
                 Debug.Log($"Found Item: {entry.Title}");
                 if (!entry.IsInstalled)
                 {
+                    Debug.Log($"Item not installed, downloading {entry.Title}");
                     await DownloadUGCFile(entry.Id);
                 }
                 else if(entry.IsInstalled && entry.NeedsUpdate)
