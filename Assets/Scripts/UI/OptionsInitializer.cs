@@ -21,7 +21,7 @@ public class OptionsInitializer : MonoBehaviour
         int savedHeight = OptionsPreferencesManager.GetResolutionHeight();
         int savedWidth = OptionsPreferencesManager.GetResolutionWidth();
         bool fullScreen = OptionsPreferencesManager.GetFullScreen();
-        Screen.SetResolution(savedHeight, savedWidth, fullScreen);
+        Screen.SetResolution(savedWidth, savedHeight, fullScreen);
 
         QualitySettings.SetQualityLevel(OptionsPreferencesManager.GetQuality());
         QualitySettings.vSyncCount = OptionsPreferencesManager.GetVsync();
