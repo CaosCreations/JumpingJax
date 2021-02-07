@@ -154,7 +154,7 @@ public class LevelEditorHUD : MonoBehaviour
 
     private void FocusCamera()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (!InputManager.GetKey(PlayerConstants.ModifierKey) && Input.GetKeyDown(KeyCode.F))
         {
             levelEditorCamera.transform.position = currentSelectedObject.transform.position - (levelEditorCamera.transform.forward * 10);
         }

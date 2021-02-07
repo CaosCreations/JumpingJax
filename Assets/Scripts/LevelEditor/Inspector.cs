@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public enum ManipulationType
@@ -22,8 +21,6 @@ public class Inspector : MonoBehaviour
     public InputField yInput;
     public InputField zInput;
     public InputField snapInput;
-    private InputField[] inputFields;
-    private int inputFieldIndex;
 
     [Header("Set at Runtime")]
     public Transform objectToInspect;
@@ -65,8 +62,6 @@ public class Inspector : MonoBehaviour
         snapInput.onValueChanged.AddListener((value) => SnapChanged(value));
         snapInput.text = "0";
 
-        inputFields = new InputField[] { xInput, yInput, zInput, snapInput };
-
         Clear();
     }
 
@@ -86,7 +81,7 @@ public class Inspector : MonoBehaviour
         }
 
         HandleKeyboardArrowInput();
-        HandleAxisCycleKeyboardInput();
+        HandleSelectAxisKeyboardInput();
         CheckInspectorCommands();
     }
 
@@ -104,7 +99,6 @@ public class Inspector : MonoBehaviour
         levelEditorGizmo.ClearGizmo();
         objectToInspect = null;
         container.SetActive(false);
-        inputFieldIndex = 0;
     }
 
     private void CheckInspectorCommands()
@@ -170,15 +164,6 @@ public class Inspector : MonoBehaviour
                 yInput.text = objectToInspect.localScale.y.ToString("F2");
                 zInput.text = objectToInspect.localScale.z.ToString("F2");
                 break;
-        }
-    }
-
-    private void HandleAxisCycleKeyboardInput()
-    {
-        if (InputManager.GetKeyDown(PlayerConstants.LevelEditorAxisCycle))
-        {
-            inputFields[inputFieldIndex].Select();
-            inputFieldIndex = inputFieldIndex < inputFields.Length - 1 ? inputFieldIndex + 1 : 0;
         }
     }
 
@@ -291,6 +276,29 @@ public class Inspector : MonoBehaviour
             }
         }
         UpdateInputs();
+    }
+
+    private void HandleSelectAxisKeyboardInput()
+    {
+        if (InputManager.GetKey(PlayerConstants.ModifierKey))
+        {
+            if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSelectXAxis))
+            {
+                xInput.Select();
+            }
+            else if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSelectYAxis))
+            {
+                yInput.Select();
+            }
+            else if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSelectZAxis))
+            {
+                zInput.Select();
+            }
+            else if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSelectSnap))
+            {
+                snapInput.Select();
+            }
+        }
     }
 
     private void SnapChanged(string newSnapValue)
