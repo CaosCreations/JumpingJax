@@ -148,8 +148,12 @@ public class PlayerGhostRun : MonoBehaviour
                     PlayerConstants.PortalRaycastDistance, ghostCamera.transform);
             }
         }
+        else
+        {
+            // No need to record current run data while spectating, you get reset while watching anyways
+            RecordCurrentRunData();
+        }
 
-        RecordCurrentRunData();
         UpdateGhost();
     }
 
@@ -248,7 +252,7 @@ public class PlayerGhostRun : MonoBehaviour
     private void ToggleGhost(bool isOn)
     {
         OptionsPreferencesManager.SetGhostToggle(isOn);
-        ghostRunner.SetActive(isOn && ShouldGhostBeActive());
+        ghostRunner.SetActive(ShouldGhostBeActive());
     }
 
     private void ToggleGhostCamera()

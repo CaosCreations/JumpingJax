@@ -70,6 +70,15 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        // If we hit a wall, make us lose speed so we can't continuously jump into a wall and gain speed
+        if(controller.collisionFlags == CollisionFlags.Sides && hit.normal.y < 0.7f)
+        {
+            velocityToApply = ClipVelocity(hit.normal);
+        }
+    }
+
     private void FixedUpdate()
     {
         Vector3 wishDir = currentInput.normalized;
@@ -83,8 +92,6 @@ public class PlayerMovement : MonoBehaviour
             }
             ApplyFriction();
             ApplyGroundAcceleration(wishDir, wishSpeed, PlayerConstants.NormalSurfaceFriction);
-            ClampVelocity(PlayerConstants.MoveSpeed);
-            CheckFootstepSound();
         }
         else
         {
@@ -104,12 +111,7 @@ public class PlayerMovement : MonoBehaviour
             grounded = false;
         }
 
-        if (grounded)
-        {
-            velocityToApply.y = 0;
-        }
-
-        if (controller.collisionFlags == CollisionFlags.CollidedAbove && velocityToApply.y > 0)
+        if (controller.collisionFlags == CollisionFlags.CollidedAbove && velocityToApply.y > 0 && !playerPortalableController.IsInPortal())
         {
             velocityToApply.y = 0;
         }
@@ -175,16 +177,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void DampenCamera()
     {
-        // Only adjust the camera while we are on the ground otherwise the air movement feels glitchy while crouch jumping
-        if (grounded)
-        {
-            Vector3 endOffset = crouching ? PlayerConstants.CrouchingCameraOffset : PlayerConstants.StandingCameraOffset;
-            Vector3 currentOffset = cameraMove.playerCamera.transform.localPosition;
-            float v = 0;
-            float yOffset = Mathf.SmoothDamp(currentOffset.y, endOffset.y, ref v, Time.deltaTime);
-            Vector3 newOffset = new Vector3(0, yOffset, 0);
-            cameraMove.playerCamera.transform.localPosition = newOffset;
-        }
+        Vector3 endOffset = crouching ? PlayerConstants.CrouchingCameraOffset : PlayerConstants.StandingCameraOffset;
+        Vector3 currentOffset = cameraMove.playerCamera.transform.localPosition;
+        float v = 0;
+        float yOffset = Mathf.SmoothDamp(currentOffset.y, endOffset.y, ref v, Time.deltaTime);
+        Vector3 newOffset = new Vector3(0, yOffset, 0);
+        cameraMove.playerCamera.transform.localPosition = newOffset;
     }
     #endregion
 
@@ -202,6 +200,21 @@ public class PlayerMovement : MonoBehaviour
     {
         if (grounded && InputManager.GetKey(PlayerConstants.Jump))
         {
+            RaycastHit hit;
+            Vector3 startPos = transform.position - new Vector3(0, controller.height / 2, 0);
+            if (Physics.Raycast(startPos, Vector3.down, out hit, 0.301f, layersToIgnore, QueryTriggerInteraction.Ignore) && hit.normal.y > 0.7f)
+            {
+                Vector3 clippedVelocity = ClipVelocity(hit.normal);
+                clippedVelocity.y = 0;
+
+                Vector3 temp = velocityToApply;
+                temp.y = 0;
+                if (Vector3.Dot(clippedVelocity, temp) > 0 && clippedVelocity.magnitude >= temp.magnitude)
+                {
+                    velocityToApply = clippedVelocity;
+                }
+            }
+
             velocityToApply.y = 0;
             velocityToApply.y += crouching ? PlayerConstants.CrouchingJumpPower : PlayerConstants.JumpPower;
             grounded = false;
@@ -230,22 +243,22 @@ public class PlayerMovement : MonoBehaviour
 
         if (InputManager.GetKey(PlayerConstants.Left))
         {
-            horizontalSpeed = -moveSpeed;
+            horizontalSpeed -= moveSpeed;
         }
 
         if (InputManager.GetKey(PlayerConstants.Right))
         {
-            horizontalSpeed = moveSpeed;
+            horizontalSpeed += moveSpeed;
         }
 
         if (InputManager.GetKey(PlayerConstants.Back))
         {
-            verticalSpeed = -moveSpeed;
+            verticalSpeed -= moveSpeed;
         }
 
         if (InputManager.GetKey(PlayerConstants.Forward))
         {
-            verticalSpeed = moveSpeed;
+            verticalSpeed += moveSpeed;
         }
 
         return new Vector3(horizontalSpeed, 0, verticalSpeed);
@@ -307,7 +320,10 @@ public class PlayerMovement : MonoBehaviour
         // Also makes the player's friction feel more snappy
         if (speed < PlayerConstants.MinimumSpeedCutoff)
         {
-            velocityToApply = Vector3.zero;
+            Vector3 noVelocity = velocityToApply; // don't reset y velocity
+            noVelocity.x = 0;
+            noVelocity.z = 0;
+            velocityToApply = noVelocity;
             return;
         }
 
@@ -321,7 +337,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (newSpeed != speed)
         {
-            velocityToApply *= newSpeed / speed; //Scale velocity based on friction
+            velocityToApply.x *= newSpeed / speed; //Scale velocity based on friction
+            velocityToApply.z *= newSpeed / speed; //Scale velocity based on friction
         }
     }
 
@@ -331,32 +348,30 @@ public class PlayerMovement : MonoBehaviour
         velocityToApply = Vector3.ClampMagnitude(velocityToApply, maxLength);
     }
 
-    /*
-    private void StayOnGround()
+    private Vector3 ClipVelocity(Vector3 normal)
     {
-        Vector3 positionSlightlyAbove = transform.position;
-        positionSlightlyAbove.y += 0.05f;
+        Vector3 toReturn = velocityToApply;
 
-        Vector3 destinationPosition = transform.position;
-        destinationPosition.y -= PlayerConstants.StepOffset;
+        // Determine how far along plane to slide based on incoming direction.
+        float backoff = Vector3.Dot(velocityToApply, normal);
 
-        // Test upwards to make sure we can start from a safe location
-        Trace traceUp = RayCastUtils.TracePlayerBBox(myCollider, positionSlightlyAbove, layersToIgnore);
-        positionSlightlyAbove = traceUp.hitPoint;
+        var change = normal * backoff;
+        toReturn -= change;
 
-        // Now trace down from a known safe position
-        Trace traceDown = RayCastUtils.StayOnGroundTrace(myCollider, positionSlightlyAbove, destinationPosition, layersToIgnore);
-        if(traceDown.fraction > 0                    // must go somewhere
-            && traceDown.fraction < 1                // must hit something
-            && traceDown.hit.normal.y >= 0.7f)       // can't hit a steep slope that we can't stand on anyway
+        // iterate once to make sure we aren't still moving through the plane
+        float adjust = Vector3.Dot(toReturn, normal);
+        if (adjust < 0)
         {
-            transform.position = traceDown.hitPoint + new Vector3(0, 0.01f, 0);
+            toReturn -= (normal * adjust);
         }
-    }*/
+
+        return toReturn;
+    }
 
     public void NoClip()
     {
         noClip = !noClip;
+        controller.enabled = !noClip;
     }
 
     private void NoClipMove()
@@ -406,7 +421,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckFootstepSound()
     {
-
         if (velocityToApply.magnitude > 0)
         {
             PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Footstep);

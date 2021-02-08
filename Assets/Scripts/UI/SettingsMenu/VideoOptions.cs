@@ -8,12 +8,15 @@ public class VideoOptions : MonoBehaviour
 {
     public GameObject dropdownItemPrefab;
     public GameObject sliderItemPrefab;
+    public GameObject togglePrefab;
 
     private DropdownItem resolutionDropdown;
     private DropdownItem fullScreenDropdown;
     private DropdownItem graphicsQualityDropdown;
 
     private SliderItem cameraFOV;
+
+    private ToggleItem vsyncToggle;
 
     private Transform scrollViewContent;
 
@@ -28,6 +31,7 @@ public class VideoOptions : MonoBehaviour
         SetupGraphicsDropdown();
         SetupFullscreenDropdown();
         SetupCameraFOV();
+        SetupVsyncToggle();
     }
 
     public void SetDefaults()
@@ -36,8 +40,10 @@ public class VideoOptions : MonoBehaviour
         SetDefaultGraphics();
         SetDefaultFullscreen();
         SetDefaultCameraFOV();
+        SetDefaultVsync();
     }
 
+    #region Setup
     void SetupResolutionDropdown()
     {
         resolutions = GetBestResolutions();
@@ -50,6 +56,101 @@ public class VideoOptions : MonoBehaviour
         resolutionDropdown.Init("Resolution", GetStartingResolution(), GetResolutionCapabilities(), SetResolution, PlayerConstants.ResolutionTooltip);
     }
 
+    void SetupGraphicsDropdown()
+    {
+        if (graphicsQualityDropdown == null)
+        {
+            GameObject newDropdown = Instantiate(dropdownItemPrefab, scrollViewContent);
+            graphicsQualityDropdown = newDropdown.GetComponent<DropdownItem>();
+        }
+        graphicsQualityDropdown.Init("Quality", QualitySettings.GetQualityLevel(), QualitySettings.names.ToList(), SetQuality, PlayerConstants.GraphicsTooltip);
+    }
+
+    void SetupFullscreenDropdown()
+    {
+        if (fullScreenDropdown == null)
+        {
+            GameObject newDropdown = Instantiate(dropdownItemPrefab, scrollViewContent);
+            fullScreenDropdown = newDropdown.GetComponent<DropdownItem>();
+        }
+
+        int startValue = OptionsPreferencesManager.GetFullScreen() ? 0 : 1;
+        fullScreenDropdown.Init("Fullscreen", startValue, new List<string> {"FullScreen", "Windowed"}, SetFullScreen, PlayerConstants.FullscreenTooltip);
+    }
+
+    public void SetupCameraFOV()
+    {
+        if (cameraFOV == null)
+        {
+            GameObject newDropdown = Instantiate(sliderItemPrefab, scrollViewContent);
+            cameraFOV = newDropdown.GetComponent<SliderItem>();
+        }
+        cameraFOV.Init("Field Of View", OptionsPreferencesManager.GetCameraFOV(), SetCameraFOV, 60, 130, true, PlayerConstants.FOVTooltip);
+
+        CameraMove cameraMove = GetComponentInParent<CameraMove>();
+        if (cameraMove != null)
+        {
+            playerCamera = cameraMove.GetComponentInChildren<Camera>();
+        }
+    }
+
+    void SetupVsyncToggle()
+    {
+        if(vsyncToggle == null)
+        {
+            GameObject newToggle = Instantiate(togglePrefab, scrollViewContent);
+            vsyncToggle = newToggle.GetComponent<ToggleItem>();
+        }
+
+        int startValue = OptionsPreferencesManager.GetVsync();
+        bool isToggled = startValue == 1 ? true : false;
+        vsyncToggle.Init("Vsync", isToggled, SetVsync, "syncs FPS to monitor refresh rate");
+    }
+    #endregion
+
+    #region Events
+    void SetResolution(int resolutionIndex)
+    {
+        Resolution resolution = resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, OptionsPreferencesManager.GetFullScreen());
+        OptionsPreferencesManager.SetResolution(resolution.width, resolution.height);
+    }
+
+    public void SetFullScreen(int isFullScreenSelection)
+    {
+        bool isFullScreen = isFullScreenSelection == 1 ? false : true;
+        Screen.fullScreen = isFullScreen ? true : false;
+        OptionsPreferencesManager.SetFullScreen(isFullScreen);
+    }
+
+    public void SetQuality(int qualityIndex)
+    {
+        QualitySettings.SetQualityLevel(qualityIndex);
+        OptionsPreferencesManager.SetQuality(qualityIndex);
+    }
+
+    public void SetCameraFOV(float value)
+    {
+        int newValue = Mathf.FloorToInt(value);
+        cameraFOV.input.text = newValue.ToString();
+        OptionsPreferencesManager.SetCameraFOV(newValue);
+
+        if (playerCamera != null)
+        {
+            playerCamera.fieldOfView = newValue;
+        }
+    }
+
+    public void SetVsync(bool value)
+    {
+        int storedValud = value ? 1 : 0;
+        QualitySettings.vSyncCount = storedValud;
+        OptionsPreferencesManager.SetVsync(storedValud);
+    }
+    #endregion
+
+
+    #region Utils
     private List<string> GetResolutionCapabilities()
     {
         List<string> options = new List<string>();
@@ -85,74 +186,6 @@ public class VideoOptions : MonoBehaviour
         return resolutionIndex;
     }
 
-    void SetupGraphicsDropdown()
-    {
-        if (graphicsQualityDropdown == null)
-        {
-            GameObject newDropdown = Instantiate(dropdownItemPrefab, scrollViewContent);
-            graphicsQualityDropdown = newDropdown.GetComponent<DropdownItem>();
-        }
-        graphicsQualityDropdown.Init("Quality", QualitySettings.GetQualityLevel(), QualitySettings.names.ToList(), SetQuality, PlayerConstants.GraphicsTooltip);
-    }
-
-    void SetupFullscreenDropdown()
-    {
-        if (fullScreenDropdown == null)
-        {
-            GameObject newDropdown = Instantiate(dropdownItemPrefab, scrollViewContent);
-            fullScreenDropdown = newDropdown.GetComponent<DropdownItem>();
-        }
-        fullScreenDropdown.Init("Fullscreen", 0, new List<string> {"FullScreen", "Windowed"}, SetFullScreen, PlayerConstants.FullscreenTooltip);
-    }
-
-    void SetResolution(int resolutionIndex)
-    {
-        Resolution resolution = resolutions[resolutionIndex];
-        Screen.SetResolution(resolution.width, resolution.height, OptionsPreferencesManager.GetFullScreen());
-        OptionsPreferencesManager.SetResolution(resolution.width, resolution.height);
-    }
-
-    public void SetFullScreen(int isFullScreenSelection)
-    {
-        bool isFullScreen = isFullScreenSelection == 1 ? false : true;
-        Screen.fullScreen = isFullScreen ? true : false;
-        OptionsPreferencesManager.SetFullScreen(isFullScreen);
-    }
-
-    public void SetQuality(int qualityIndex)
-    {
-        QualitySettings.SetQualityLevel(qualityIndex);
-        OptionsPreferencesManager.SetQuality(qualityIndex);
-    }
-
-    public void SetupCameraFOV()
-    {
-        if (cameraFOV == null)
-        {
-            GameObject newDropdown = Instantiate(sliderItemPrefab, scrollViewContent);
-            cameraFOV = newDropdown.GetComponent<SliderItem>();
-        }
-        cameraFOV.Init("Field Of View", OptionsPreferencesManager.GetCameraFOV(), SetCameraFOV, 60, 130, true, PlayerConstants.FOVTooltip);
-
-        CameraMove cameraMove = GetComponentInParent<CameraMove>();
-        if (cameraMove != null)
-        {
-            playerCamera = cameraMove.GetComponentInChildren<Camera>();
-        }
-    }
-
-    public void SetCameraFOV(float value)
-    {
-        int newValue = Mathf.FloorToInt(value);
-        cameraFOV.input.text = newValue.ToString();
-        OptionsPreferencesManager.SetCameraFOV(newValue);
-
-        if (playerCamera != null)
-        {
-            playerCamera.fieldOfView = newValue;
-        }
-    }
-
     // Get only the resolutions for the highest framerate
     private Resolution[] GetBestResolutions()
     {
@@ -178,7 +211,9 @@ public class VideoOptions : MonoBehaviour
 
         return bestResolutions.ToArray();
     }
+    #endregion
 
+    #region Defaults
     private void SetDefaultResolution()
     {
         // Set resolution to the highest supported
@@ -198,7 +233,13 @@ public class VideoOptions : MonoBehaviour
 
     private void SetDefaultCameraFOV()
     {
-        Debug.Log(OptionsPreferencesManager.defaultCameraFOV);
         cameraFOV.slider.value = OptionsPreferencesManager.defaultCameraFOV;
     }
+
+    private void SetDefaultVsync()
+    {
+        // Default to vsync off
+        QualitySettings.vSyncCount = 0;
+    }
+    #endregion
 }

@@ -9,9 +9,11 @@ public class AudioOptions : MonoBehaviour
     public AudioMixer audioMixer;
     public GameObject sliderPrefab;
     public Transform scrollViewContent;
+    private SliderItem masterVolumeSlider;
     private SliderItem musicVolumeSlider;
     private SliderItem soundEffectVolumeSlider;
 
+    private const string masterVolumeParam = "MasterVolume";
     private const string musicVolumeParam = "MusicVolume";
     private const string soundEffectVolumeParam = "SoundEffectVolume";
 
@@ -22,11 +24,23 @@ public class AudioOptions : MonoBehaviour
 
     public void SetDefaults()
     {
+        OptionsPreferencesManager.SetMasterVolume(OptionsPreferencesManager.defaultMasterVolume);
+        masterVolumeSlider.slider.value = ConvertFromDecibel(OptionsPreferencesManager.defaultMasterVolume);
+
         OptionsPreferencesManager.SetMusicVolume(OptionsPreferencesManager.defaultMusicVolume);
         musicVolumeSlider.slider.value = ConvertFromDecibel(OptionsPreferencesManager.defaultMusicVolume);
 
         OptionsPreferencesManager.SetSoundEffectVolume(OptionsPreferencesManager.defaultSoundEffectVolume);
         musicVolumeSlider.slider.value = ConvertFromDecibel(OptionsPreferencesManager.defaultSoundEffectVolume);
+    }
+
+    public void SetMasterVolume(float value)
+    {
+        masterVolumeSlider.input.text = (int)(value * 100) + "%";
+
+        float volumeInDecibels = ConvertToDecibel(value);
+        audioMixer.SetFloat(masterVolumeParam, volumeInDecibels);
+        OptionsPreferencesManager.SetMasterVolume(volumeInDecibels);
     }
 
     public void SetMusicVolume(float value)
@@ -44,12 +58,20 @@ public class AudioOptions : MonoBehaviour
 
         float volumeInDecibels = ConvertToDecibel(value);
         audioMixer.SetFloat(soundEffectVolumeParam, volumeInDecibels);
-        OptionsPreferencesManager.SetMusicVolume(volumeInDecibels);
+        OptionsPreferencesManager.SetSoundEffectVolume(volumeInDecibels);
     }
 
     public void InitializeVolume()
     {
-        if(musicVolumeSlider == null)
+        if (masterVolumeSlider == null)
+        {
+            GameObject newSlider = Instantiate(sliderPrefab, scrollViewContent);
+            masterVolumeSlider = newSlider.GetComponent<SliderItem>();
+        }
+        masterVolumeSlider.Init("Master Volume", ConvertFromDecibel(OptionsPreferencesManager.GetMasterVolume()), SetMasterVolume, 0.0001f, 1, false, PlayerConstants.MasterVolumeTooltip);
+        masterVolumeSlider.input.text = (int)(ConvertFromDecibel(OptionsPreferencesManager.GetMasterVolume()) * 100) + "%";
+
+        if (musicVolumeSlider == null)
         {
             GameObject newSlider = Instantiate(sliderPrefab, scrollViewContent);
             musicVolumeSlider = newSlider.GetComponent<SliderItem>();

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class TutorialTriggerGroup : MonoBehaviour
@@ -8,14 +8,17 @@ public class TutorialTriggerGroup : MonoBehaviour
     public InGameUI gameUI;
     public PlayerProgress playerProgress;
 
-    // Use this for initialization
-    void Start()
+    private void OnEnable()
     {
-        // Referenced here because OnLevelLoaded isn't called if we directly run a level
-        UpdateTriggers();
+        SceneManager.sceneLoaded += OnNewLevelLoaded;
     }
 
-    private void OnLevelWasLoaded(int level)
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnNewLevelLoaded;
+    }
+
+    private void OnNewLevelLoaded(Scene scene, LoadSceneMode mode)
     {
         UpdateTriggers();
     }
@@ -30,6 +33,11 @@ public class TutorialTriggerGroup : MonoBehaviour
         }
         playerProgress = GameObject.FindWithTag(PlayerConstants.PlayerTag).GetComponent<PlayerProgress>();
         gameUI = playerProgress.GetComponentInChildren<InGameUI>(true);
+        if (playerProgress == null || gameUI == null)
+        {
+            Debug.LogError("Unable to find playerProgress or gameUI");
+            return;
+        }
 
         foreach (TutorialTrigger trigger in triggers)
         {

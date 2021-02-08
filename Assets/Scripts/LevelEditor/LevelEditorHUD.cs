@@ -215,7 +215,6 @@ public class LevelEditorHUD : MonoBehaviour
         requiredViewToggleButton.gameObject.SetActive(!isInPlayMode);
         prefabViewToggleButton.gameObject.SetActive(!isInPlayMode);
 
-        Checkpoint start = FindFirstCheckpoint();
 
         if (!isInPlayMode)
         {
@@ -224,15 +223,7 @@ public class LevelEditorHUD : MonoBehaviour
         }
         else
         {
-            if (start != null)
-            {
-                playerInstance.transform.position = start.transform.position;
-            }
-            else
-            {
-                playerInstance.transform.position = transform.parent.position;
-            }
-            playerCamera.SetTargetRotation(transform.parent.rotation);
+            SetPlayTestStartingPosition();
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
         }
@@ -240,18 +231,22 @@ public class LevelEditorHUD : MonoBehaviour
 
     }
 
-    private Checkpoint FindFirstCheckpoint()
+    private void SetPlayTestStartingPosition()
     {
-        Checkpoint[] checkpoints = FindObjectsOfType<Checkpoint>();
-        foreach (Checkpoint checkpoint in checkpoints)
+        Checkpoint firstCheckpoint = LevelEditorUtils.GetFirstCheckpoint();
+        if(firstCheckpoint != null)
         {
-            if (checkpoint.isFirstCheckpoint)
-            {
-                return checkpoint;
-            }
-        }
+            Transform startingTransform = LevelEditorUtils.GetFirstCheckpoint().transform;
+            playerInstance.transform.position =
+                startingTransform.position + PlayerConstants.PlayerSpawnOffset;
 
-        return null;
+            playerCamera.SetTargetRotation(startingTransform.rotation);
+        }
+        else
+        {
+            playerInstance.transform.position = playerCamera.playerCamera.transform.position;
+            playerCamera.SetTargetRotation(transform.parent.rotation);
+        }
     }
 
     private void AddMovementCommand()
@@ -377,21 +372,31 @@ public class LevelEditorHUD : MonoBehaviour
         if (currentLevel.workshopFilePath != string.Empty && currentLevel.workshopFilePath != null)
         {
             DirectoryInfo fileInfo = new DirectoryInfo(currentLevel.workshopFilePath);
-            string scenePath = fileInfo.EnumerateFiles().First().FullName;
-            filePath = scenePath;
+            try
+            {
+                List<DirectoryInfo> levelDataFolders = fileInfo.EnumerateDirectories().ToList();
+                DirectoryInfo levelDataFolder = levelDataFolders.First();
+                List<FileInfo> levelDataFiles = levelDataFolder.EnumerateFiles("*.json").ToList();
+                FileInfo levelDataFile = levelDataFiles.First();
+                filePath = levelDataFile.FullName;
+            }
+            catch(Exception e)
+            {
+                Debug.LogError($"Could not find any file for workshop folder {fileInfo}. Files may not have been downloaded.\nException\n{e.Message}");
+            }
         }
         else
         {
             if (currentLevel.levelEditorLevelDataPath == string.Empty)
             {
-                Debug.Log($"Trying to load level: {currentLevel.levelName} but it has not been saved");
+                Debug.LogError($"Trying to load level: {currentLevel.levelName} but it has not been saved");
                 return;
             }
 
 
             if (!File.Exists(currentLevel.levelEditorLevelDataPath))
             {
-                Debug.Log($"Trying to load level: {currentLevel.levelName} from {currentLevel.levelEditorLevelDataPath} but the save file has been deleted");
+                Debug.LogError($"Trying to load level: {currentLevel.levelName} from {currentLevel.levelEditorLevelDataPath} but the save file has been deleted");
                 return;
             }
             filePath = currentLevel.levelEditorLevelDataPath;

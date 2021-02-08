@@ -2,17 +2,28 @@
 
 public class OptionsPreferencesManager
 {
-    public const string resolutionWidthKey = "ResolutionWidth";
-    public const int defaultResolutionWidth = 1920;
+    #region Controls
+    public const string sensitivityKey = "Sensitivity";
+    public const float defaultSensitivity = 0.2f;
+    #endregion
 
-    public const string resolutionHeightKey = "ResolutionHeight";
-    public const int defaultResolutionHeight = 1080;
+    #region Audio
+    public const string masterVolumeKey = "MasterVolume";
+    public const int defaultMasterVolume = -10;
 
     public const string musicVolumeKey = "Volume";
     public const int defaultMusicVolume = -20;
 
     public const string soundEffectVolumeKey = "SoundEffects";
     public const int defaultSoundEffectVolume = -80;
+    #endregion
+
+    #region Video
+    public const string resolutionWidthKey = "ResolutionWidth";
+    public const int defaultResolutionWidth = 1920;
+
+    public const string resolutionHeightKey = "ResolutionHeight";
+    public const int defaultResolutionHeight = 1080;
 
     public const string qualityKey = "Quality";
     public const int defaultQuality = 0;
@@ -20,15 +31,14 @@ public class OptionsPreferencesManager
     public const string fullScreenKey = "IsFullScreen";
     public const int defaultIsFullScreen = 0;
 
-    public const string sensitivityKey = "Sensitivity";
-    public const float defaultSensitivity = 0.2f;
-
-    public const string portalRecursionKey = "PortalRecursion";
-    public const int defaultPortalRecursion = 2;
-
     public const string cameraFOVKey = "CameraFOV";
     public const int defaultCameraFOV = 90;
 
+    public const string vsyncKey = "vsync";
+    public const int defaultVsync = 0;
+    #endregion
+
+    #region Misc
     public const string crosshairToggleKey = "CrosshairToggle";
     public const int defaultCrosshairToggle = 1;
 
@@ -50,11 +60,15 @@ public class OptionsPreferencesManager
     public const string consoleToggleKey = "ConsoleToggle";
     public const int defaultConsoleToggle = 0;
 
+    public const string unitOfSpeedKey = "UnitOfSpeed";
+    public const int defaultUnitOfSpeed = 0;
+
     public const string alphaMenuKey = "AlphaMenu";
     public const int defaultAlphaToggle = 1;
 
-    public const string unitOfSpeedKey = "UnitOfSpeed";
-    public const int defaultUnitOfSpeed = 0;
+    public const string portalRecursionKey = "PortalRecursion";
+    public const int defaultPortalRecursion = 2;
+    #endregion
 
     public static int GetResolutionWidth()
     {
@@ -63,7 +77,7 @@ public class OptionsPreferencesManager
 
     public static int GetResolutionHeight()
     {
-        return PlayerPrefs.GetInt(resolutionWidthKey, defaultResolutionHeight);
+        return PlayerPrefs.GetInt(resolutionHeightKey, defaultResolutionHeight);
     }
 
     public static void SetResolution(int width, int height)
@@ -82,14 +96,24 @@ public class OptionsPreferencesManager
         PlayerPrefs.SetFloat(musicVolumeKey, volume);
     }
 
+    public static float GetMasterVolume()
+    {
+        return PlayerPrefs.GetFloat(masterVolumeKey, defaultMasterVolume);
+    }
+
+    public static void SetMasterVolume(float volume)
+    {
+        PlayerPrefs.SetFloat(masterVolumeKey, volume);
+    }
+
     public static float GetSoundEffectVolume()
     {
-        return PlayerPrefs.GetFloat(musicVolumeKey, defaultMusicVolume);
+        return PlayerPrefs.GetFloat(soundEffectVolumeKey, defaultSoundEffectVolume);
     }
 
     public static void SetSoundEffectVolume(float volume)
     {
-        PlayerPrefs.SetFloat(musicVolumeKey, volume);
+        PlayerPrefs.SetFloat(soundEffectVolumeKey, volume);
     }
 
     public static int GetQuality()
@@ -238,5 +262,15 @@ public class OptionsPreferencesManager
     public static void SetUnitOfSpeed(int index)
     {
         PlayerPrefs.SetInt(unitOfSpeedKey, index);
+    }
+
+    public static int GetVsync()
+    {
+        return PlayerPrefs.GetInt(vsyncKey, defaultVsync);
+    }
+
+    public static void SetVsync(int vsyncCount)
+    {
+        PlayerPrefs.SetInt(vsyncKey, vsyncCount);
     }
 }

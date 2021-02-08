@@ -9,11 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 441310430289080761}
+  - component: {fileID: 5651635071970000053}
   - component: {fileID: 4259481642829858136}
   - component: {fileID: 441310430289080766}
   - component: {fileID: 441310430289080764}
-  - component: {fileID: 441310430289080767}
   - component: {fileID: 5928966415464904444}
+  - component: {fileID: 441310430289080767}
   - component: {fileID: 7117302217034966907}
   - component: {fileID: 1154471184624954510}
   - component: {fileID: 689847830865440706}
@@ -43,6 +44,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5651635071970000053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441310430289080760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddd538dd784fc024fa3f50cfadeaff78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDebugging: 0
+  normalStartPosition: {x: 0, y: 0, z: 0}
+  debugStartPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &4259481642829858136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,19 +115,6 @@ MonoBehaviour:
     type: 3}
   portalPair: {fileID: 0}
   ghostCamera: {fileID: 0}
---- !u!114 &441310430289080767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 441310430289080760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b317f1df112f1546963a20da5568e21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isInPortal: 0
 --- !u!114 &5928966415464904444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +129,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerUI: {fileID: 1844322298415541209}
   currentCheckpoint: {fileID: 0}
+--- !u!114 &441310430289080767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441310430289080760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b317f1df112f1546963a20da5568e21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInPortal: 0
 --- !u!114 &7117302217034966907
 MonoBehaviour:
   m_ObjectHideFlags: 0

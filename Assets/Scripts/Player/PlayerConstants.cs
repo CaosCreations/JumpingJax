@@ -20,7 +20,7 @@ public static class PlayerConstants
     public static float AirAccelerationCap = .7f;
 
     public static float StopSpeed = 6f;
-    public static float Friction = 6f;
+    public static float Friction = 10f;
     public static float MinimumSpeedCutoff = 0.5f; // This is the speed after which the player is immediately stopped due to friction
     public static float NormalSurfaceFriction = 1f;
 
@@ -106,6 +106,7 @@ public static class PlayerConstants
     public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
 
     public static string SensitivityTooltip = "Mouse Sensitivity.";
+    public static string MasterVolumeTooltip = "Master Volume.";
     public static string MusicVolumeTooltip = "Music Volume.";
     public static string SoundEffectVolumeTooltip = "Sound Effect Volume.";
 
@@ -168,5 +169,7 @@ public static class PlayerConstants
     public static Color activeColor = new Color(.58f, .93f, .76f);
     public static Color inactiveColor = new Color(0.5f, 0.5f, 0.5f);
     public static Color hoverColor = new Color(1, 1, 1);
+	
+	public static string DiscordURL = "https://discord.gg/nSkNTMn";
 
 }
