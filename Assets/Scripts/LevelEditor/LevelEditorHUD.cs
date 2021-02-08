@@ -215,6 +215,7 @@ public class LevelEditorHUD : MonoBehaviour
         requiredViewToggleButton.gameObject.SetActive(!isInPlayMode);
         prefabViewToggleButton.gameObject.SetActive(!isInPlayMode);
 
+        Checkpoint start = FindFirstCheckpoint();
 
         if (!isInPlayMode)
         {
@@ -223,13 +224,34 @@ public class LevelEditorHUD : MonoBehaviour
         }
         else
         {
-            playerInstance.transform.position = transform.parent.position;
+            if (start != null)
+            {
+                playerInstance.transform.position = start.transform.position;
+            }
+            else
+            {
+                playerInstance.transform.position = transform.parent.position;
+            }
             playerCamera.SetTargetRotation(transform.parent.rotation);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
         }
         playerInstance.SetActive(isInPlayMode);
 
+    }
+
+    private Checkpoint FindFirstCheckpoint()
+    {
+        Checkpoint[] checkpoints = FindObjectsOfType<Checkpoint>();
+        foreach (Checkpoint checkpoint in checkpoints)
+        {
+            if (checkpoint.isFirstCheckpoint)
+            {
+                return checkpoint;
+            }
+        }
+
+        return null;
     }
 
     private void AddMovementCommand()
