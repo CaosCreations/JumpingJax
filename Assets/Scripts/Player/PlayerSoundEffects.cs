@@ -21,8 +21,11 @@ public class PlayerSoundEffects : MonoBehaviour
     public AudioSource terminalVelocityAudioSource;
     public AudioSource winAudioSource;
 
-    public float footstepTimer;
-    public float footstepInverval;
+    float footstepTimer;
+    float footstepInverval = 0.6f;
+
+    float landingTimer;
+    float landingInterval = 0.5f;
 
     public AudioClip footstep1;
     public AudioClip footstep2;
@@ -47,6 +50,7 @@ public class PlayerSoundEffects : MonoBehaviour
     private void Update()
     {
         Instance.footstepTimer += Time.deltaTime;
+        Instance.landingTimer += Time.deltaTime;
     }
 
     public static void PlaySoundEffect(SoundEffectType type)
@@ -72,7 +76,11 @@ public class PlayerSoundEffects : MonoBehaviour
                 Instance.portalAudioSource.Play();
                 break;
             case SoundEffectType.Land:
-                Instance.landAudioSource.Play();
+                if(Instance.landingTimer > Instance.landingInterval)
+                {
+                    Instance.landingTimer = 0;
+                    Instance.landAudioSource.Play();
+                }
                 break;
             case SoundEffectType.Jump:
                 Instance.jumpAudioSource.Play();
