@@ -28,6 +28,8 @@ public class InGameUI : MonoBehaviour
     public GameObject container;
     public PlayerMovement playerMovement;
 
+    public bool IsGhost;
+
     private void Start()
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
@@ -154,6 +156,39 @@ public class InGameUI : MonoBehaviour
         speed.gameObject.SetActive(OptionsPreferencesManager.GetSpeedToggle());
         timeContainer.gameObject.SetActive(OptionsPreferencesManager.GetTimeToggle());
         keyPressed.SetActive(OptionsPreferencesManager.GetKeyPressedToggle());
-        tutorialPane.SetActive(OptionsPreferencesManager.GetTutorialToggle() && tutorialTexts.Length > 0);
+        if (IsGhost)
+        {
+            tutorialPane.SetActive(false);
+        }
+        else
+        {
+            tutorialPane.SetActive(OptionsPreferencesManager.GetTutorialToggle() && tutorialTexts.Length > 0);
+        }
+    }
+
+    public void SetColors()
+    {
+        Color UIcolor;
+        if (IsGhost)
+        {
+            UIcolor = new Color(204 / 255f, 85 / 255f, 0); // burnt orange color
+        } else
+        {
+            UIcolor = new Color(1, 1, 1);
+        }
+        crosshair.GetComponent<Image>().color = UIcolor;
+        speed.GetComponentInChildren<Image>().color = UIcolor;
+        speed.GetComponentInChildren<Text>().color = UIcolor;
+        timeContainer.GetComponentInChildren<Text>().color = UIcolor;
+        timeContainer.GetComponentInChildren<Image>().color = UIcolor;
+        foreach (Image KeyPressImage in keyPressed.GetComponents<Image>())
+        {
+            KeyPressImage.color = UIcolor;
+        }
+        foreach (Text TutorialText in tutorialPane.GetComponents<Text>())
+        {
+            TutorialText.color = UIcolor;
+        }
+        SetStartingValues();
     }
 }

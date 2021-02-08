@@ -17,6 +17,7 @@ public class PlayerGhostRun : MonoBehaviour
     public GameObject ghostRunner;
     public PlayerMovement playerMovement;
     public PlayerProgress playerProgress;
+    public InGameUI inGameUI;
 
     private Camera playerCamera;
     private GhostPortalPlacement ghostPortalPlacement;
@@ -48,6 +49,7 @@ public class PlayerGhostRun : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         playerCamera = GetComponent<CameraMove>().playerCamera;
         portalPlacement = GetComponent<PortalPlacement>();
+        inGameUI = GetComponentInChildren<InGameUI>();
 
         SetPastRunData();
         SetupGhostObject();
@@ -264,8 +266,13 @@ public class PlayerGhostRun : MonoBehaviour
         if (ghostCamera.enabled)
         {
             ghostCamera.fieldOfView = OptionsPreferencesManager.GetCameraFOV();
+            inGameUI.IsGhost = true;
+        } else
+        {
+            inGameUI.IsGhost = false;
         }
 
+        inGameUI.SetColors();
         playerProgress.ResetPlayer();
     }
 
