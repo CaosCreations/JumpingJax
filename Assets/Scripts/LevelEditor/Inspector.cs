@@ -287,7 +287,7 @@ public class Inspector : MonoBehaviour
         if (InputManager.GetKey(PlayerConstants.ModifierKey))
         {
             // Prevent a navigation keypress from altering the value of the input field itself
-            inputFields.Select(x => x.readOnly = true);
+            SetInputFieldsReadOnly(true);
 
             if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSelectXAxis))
             {
@@ -308,18 +308,13 @@ public class Inspector : MonoBehaviour
         }
         else
         {
-            inputFields.Select(x => x.readOnly = false);
+            SetInputFieldsReadOnly(false);
         }
     }
 
-    private InputField GetCurrentlySelectedInputField()
+    private void SetInputFieldsReadOnly(bool readOnly)
     {
-        return inputFields?.FirstOrDefault(x => x.isFocused);
-    }
-
-    private void SetInputFieldReadOnly()
-    {
-
+        inputFields.All(x => { x.readOnly = readOnly; return readOnly; });
     }
 
     private void SnapChanged(string newSnapValue)
