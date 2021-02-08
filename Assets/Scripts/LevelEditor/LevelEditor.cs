@@ -147,7 +147,6 @@ public class LevelEditor : MonoBehaviour
         newLevel.description = "";
         newLevel.levelBuildIndex = PlayerConstants.LevelEditorSceneIndex;
         newLevel.gravityMultiplier = 1;
-        newLevel.levelEditorLevelCompleted = false;
 
         string currentTime = DateTime.Now.ToString("MM-dd-yyyy_hh-mm-ss-FFF");
         newLevel.levelEditorLevelDataFolder = Path.Combine(levelEditorFolderPath, currentTime);
@@ -302,6 +301,9 @@ public class LevelEditor : MonoBehaviour
         LevelEditorLevel level = new LevelEditorLevel();
         JsonUtility.FromJsonOverwrite(levelData, level);
 
+        Debug.Log(selectedLevel.level.levelSaveData.isCompleted);
+        Debug.Log(selectedLevel.level.levelName);
+
         errorText.text = "";
         //if theres no start checkpoint
         if (level.levelObjects.FirstOrDefault(levelObject => levelObject.objectType == ObjectType.FirstCheckpoint).objectType == ObjectType.FloatingPlatform)
@@ -331,7 +333,8 @@ public class LevelEditor : MonoBehaviour
             isValid = false;
         }
 
-        if (!selectedLevel.level.levelEditorLevelCompleted)
+        //if player hasn't beaten their own level
+        if (!selectedLevel.level.levelSaveData.isCompleted)
         {
             errorText.text += "Level must be completed" + '\n';
             isValid = false;

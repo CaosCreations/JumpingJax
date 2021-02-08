@@ -76,14 +76,11 @@ public class PlayerProgress : MonoBehaviour
 
         if (currentCheckpoint.isFinalCheckpoint)
         {
-            Level currentLevel = GameManager.GetCurrentLevel();
             playerGhostRun.SaveCurrentRunData();
             GameManager.FinishedLevel();
             playerUI.ShowWinScreen();
             Time.timeScale = 0;
             PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Win);
-
-            Debug.Log(currentLevel.levelSaveData.isCompleted);
         }
     }
 
