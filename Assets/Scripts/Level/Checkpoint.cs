@@ -3,7 +3,6 @@
 public class Checkpoint : MonoBehaviour
 {
     public bool drawGizmo;
-    public bool completed;
     public bool isFirstCheckpoint;
     public bool isFinalCheckpoint;
 
@@ -18,20 +17,17 @@ public class Checkpoint : MonoBehaviour
 
     private void Start()
     {
-        completed = false;
         myRenderer = GetComponent<Renderer>();
     }
 
     public void SetCompleted()
     {
-        completed = true;
         myRenderer.sharedMaterial = completedMaterial;
         //myLight.color = completedColor;
     }
 
     public void SetUncompleted()
     {
-        completed = false;
         myRenderer.sharedMaterial = startMaterial;
         //myLight.color = startColor;
     }

@@ -301,9 +301,6 @@ public class LevelEditor : MonoBehaviour
         LevelEditorLevel level = new LevelEditorLevel();
         JsonUtility.FromJsonOverwrite(levelData, level);
 
-        Debug.Log(selectedLevel.level.levelSaveData.isCompleted);
-        Debug.Log(selectedLevel.level.levelName);
-
         errorText.text = "";
         //if theres no start checkpoint
         if (level.levelObjects.FirstOrDefault(levelObject => levelObject.objectType == ObjectType.FirstCheckpoint).objectType == ObjectType.FloatingPlatform)
