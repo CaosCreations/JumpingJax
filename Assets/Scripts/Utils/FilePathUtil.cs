@@ -10,6 +10,15 @@ public class FilePathUtil : MonoBehaviour
     public static string levelEditorFolder = "LevelEditor";
 
     #region LevelData
+    public static string GetLevelDataFolder(string levelName)
+    {
+        string levelDataParentFolder = Path.Combine(Application.persistentDataPath, levelDataFolder);
+        EnsureDirectoryExists(levelDataParentFolder);
+        string levelSpecificFolder = Path.Combine(levelDataParentFolder, levelName);
+        EnsureDirectoryExists(levelSpecificFolder);
+        return levelSpecificFolder;
+    }
+
     public static string GetLevelDataFilePath(string levelName)
     {
         string levelDataParentFolder = Path.Combine(Application.persistentDataPath, levelDataFolder);
