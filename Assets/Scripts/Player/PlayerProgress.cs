@@ -76,21 +76,15 @@ public class PlayerProgress : MonoBehaviour
 
         if (currentCheckpoint.isFinalCheckpoint)
         {
-            CheckIfAllCheckpointsCompleted(); 
+            Level currentLevel = GameManager.GetCurrentLevel();
             playerGhostRun.SaveCurrentRunData();
             GameManager.FinishedLevel();
             playerUI.ShowWinScreen();
             Time.timeScale = 0;
             PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Win);
-        }
-    }
 
-    public void CheckIfAllCheckpointsCompleted()
-    {
-        Level currentLevel = GameManager.GetCurrentLevel();
-        
-        currentLevel.levelEditorLevelCompleted = true;
-        currentLevel.Save(); //level editor press tab and just start at first checkpoint gets rid of checkpoint checks
+            Debug.Log(currentLevel.levelSaveData.isCompleted);
+        }
     }
 
     public void Respawn()
