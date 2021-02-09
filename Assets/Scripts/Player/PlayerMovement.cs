@@ -17,8 +17,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private bool grounded;
 
-    private bool wasGrounded;
-
     [SerializeField]
     private bool crouching;
 
@@ -68,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
         currentInput = GetWorldSpaceInputVector();
         controller.Move(velocityToApply * Time.deltaTime);
 
+        CheckFootstepSound();
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -103,6 +102,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetGrounded()
     {
+        CheckLandingSound();
+
         grounded = controller.isGrounded;
 
         // If we are falling into a portal, make sure we don't clip with the ground
@@ -413,7 +414,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckLandingSound()
     {
-        if (!wasGrounded && grounded)
+        if (!grounded && controller.isGrounded)
         {
             PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Land);
         }
@@ -421,7 +422,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckFootstepSound()
     {
-        if (velocityToApply.magnitude > 0)
+        Vector3 horizontalVelocty = velocityToApply;
+        horizontalVelocty.y = 0;
+        if (grounded && horizontalVelocty.magnitude > 1)
         {
             PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Footstep);
         }

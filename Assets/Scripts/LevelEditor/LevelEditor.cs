@@ -35,7 +35,7 @@ public class LevelEditor : MonoBehaviour
 
     void Start()
     {
-        levelEditorFolderPath = Path.Combine(Application.persistentDataPath, "levelEditor");
+        levelEditorFolderPath = FilePathUtil.GetLevelEditorDataFolder();
         menuController = GetComponentInParent<MainMenuController>();
         levelEditorInfo = GetComponentInChildren<LevelEditorInfo>();
         levelEditorButtons = new List<LevelEditorButton>();
@@ -60,17 +60,6 @@ public class LevelEditor : MonoBehaviour
     private List<Level> GetPlayerCreatedLevels()
     {
         List<Level> toReturn = new List<Level>();
-
-        if (!Directory.Exists(levelEditorFolderPath))
-        {
-            try
-            {
-                Directory.CreateDirectory(levelEditorFolderPath);
-            }catch(Exception e)
-            {
-                Debug.LogError($"LevelEditor.GetPlayerCreatedLevels(): couldn't create levelEditorFolderPath {e.Message}\n{e.StackTrace}");
-            }
-        }
 
         List<string> levelFolders = Directory.EnumerateDirectories(levelEditorFolderPath).ToList();
         List<string> filePaths;

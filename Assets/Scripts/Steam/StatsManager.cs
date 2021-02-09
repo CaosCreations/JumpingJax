@@ -56,7 +56,7 @@ public class StatsManager : MonoBehaviour
         // Create ghost run ugc item
         var newFileResult = await Steamworks.Ugc.Editor.NewGameManagedFile
             .WithTitle(fileTitle)
-            .WithContent(Path.Combine(Application.persistentDataPath, level.levelName))
+            .WithContent(FilePathUtil.GetLevelDataFolder(level.levelName))
             .WithDescription("no description")
             .WithTag("ghostRuns")
             .WithPublicVisibility()

@@ -93,17 +93,4 @@ public class SteamUtil
 
         return dh.texture;
     }
-
-    public static string GetGhostRunFilePath(Level level)
-    {
-        string folderPath = Path.Combine(Application.persistentDataPath, "GhostRunData");
-        if (!Directory.Exists(folderPath))
-        {
-            Directory.CreateDirectory(folderPath);
-        }
-
-        string filePath = Path.Combine(folderPath, $"{level.levelName}_{SteamClient.SteamId}");
-
-        return filePath;
-    }
 }

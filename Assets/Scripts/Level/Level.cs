@@ -86,22 +86,7 @@ public class Level : ScriptableObject
 
     public void Save()
     {
-        Debug.Log($"Saving level {levelName}");
-        string folderPath = Path.Combine(Application.persistentDataPath, levelName);
-
-        if (!Directory.Exists(folderPath))
-        {
-            try
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"{e.Message}\n{e.StackTrace}");
-            }
-        }
-
-        string filePath = Path.Combine(folderPath, $"{levelName}.save");
+        string filePath = FilePathUtil.GetLevelDataFilePath(levelName);
         string fileContents = JsonUtility.ToJson(levelSaveData);
         try
         {
@@ -116,31 +101,13 @@ public class Level : ScriptableObject
 
     public void Load()
     {
-        string folderPath = Path.Combine(Application.persistentDataPath, levelName);
-        string filePath = Path.Combine(folderPath, $"{levelName}.save");
+        string filePath = FilePathUtil.GetLevelDataFilePath(levelName);
         if (File.Exists(filePath))
         {
             try
             {
                 string fileContents = File.ReadAllText(filePath);
                 levelSaveData = JsonUtility.FromJson<PersistentLevelDataModel>(fileContents);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"{e.Message}\n{e.StackTrace}");
-            }
-        }
-    }
-
-    public void Clear()
-    {
-        string folderPath = Path.Combine(Application.persistentDataPath, levelName);
-        string filePath = Path.Combine(folderPath, $"/{levelName}.save");
-        if (File.Exists(filePath))
-        {
-            try
-            {
-                File.Delete(filePath);
             }
             catch (Exception e)
             {
