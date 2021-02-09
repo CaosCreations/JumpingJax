@@ -53,8 +53,6 @@ public class LevelEditor : MonoBehaviour
             levelEditorInfo.Init(null);
             publishButton.SetDisabled();
         }
-
-        LevelEditorInfo.onLevelNameUpdated += UpdateLevelNames;
     }
 
     private List<Level> GetPlayerCreatedLevels()
@@ -151,29 +149,8 @@ public class LevelEditor : MonoBehaviour
         string levelDataPath = Path.Combine(newLevel.levelEditorLevelDataFolder, currentTime + ".json");
         newLevel.levelEditorLevelDataPath = levelDataPath;
 
-        if (!Directory.Exists(levelEditorFolderPath))
-        {
-            try
-            {
-                Directory.CreateDirectory(levelEditorFolderPath);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"LevelEditor.NewLevel(): couldn't create directory {e.Message}\n{e.StackTrace}");
-            }
-        }
-
-        if (!Directory.Exists(newLevel.levelEditorLevelDataFolder))
-        {
-            try
-            {
-                Directory.CreateDirectory(Path.Combine(levelEditorFolderPath, currentTime));
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"LevelEditor.NewLevel(): couldn't create directory {e.Message}\n{e.StackTrace}");
-            }
-        }
+        FilePathUtil.EnsureDirectoryExists(levelEditorFolderPath);
+        FilePathUtil.EnsureDirectoryExists(newLevel.levelEditorLevelDataFolder);
 
         try
         {
@@ -197,7 +174,6 @@ public class LevelEditor : MonoBehaviour
         LevelEditorButton levelEditorButton = newLevelButton.GetComponent<LevelEditorButton>();
 
         levelEditorButton.Init(newLevel);
-
         levelEditorButton.button.onClick.RemoveAllListeners();
         levelEditorButton.button.onClick.AddListener(() => LevelButtonClicked(levelEditorButton));
 
@@ -253,7 +229,6 @@ public class LevelEditor : MonoBehaviour
     {
         levelEditorInfo.Init(button.level);
         selectedLevel = button;
-        errorText.text = string.Empty;
         if (!CanPublish())
         {
             publishButton.SetDisabled();
@@ -266,7 +241,7 @@ public class LevelEditor : MonoBehaviour
 
     // When the currently selected level has its name updated
     // we need to rename the button
-    private void UpdateLevelNames(string name)
+    public void UpdateLevelNames(string name)
     {
         // If the player hits "load" before clicking off of the level, the update happens during scene transition
         // so this no longer exists
@@ -287,13 +262,13 @@ public class LevelEditor : MonoBehaviour
 
     private bool CanPublish()
     {
+        errorText.text = string.Empty;
         bool isValid = true;
 
         string levelData = File.ReadAllText(selectedLevel.level.levelEditorLevelDataPath);
         LevelEditorLevel level = new LevelEditorLevel();
         JsonUtility.FromJsonOverwrite(levelData, level);
 
-        errorText.text = "";
         //if theres no start checkpoint. FloatingPlatform is the default type
         if (level.levelObjects.FirstOrDefault(levelObject => levelObject.objectType == ObjectType.FirstCheckpoint).objectType == ObjectType.FloatingPlatform)
         {
@@ -322,12 +297,15 @@ public class LevelEditor : MonoBehaviour
             isValid = false;
         }
 
+        // TODO, find a way to ensure the level is capable of being completed
+        // We can't do it using levelSaveData as it's in a different folder and can be deleted, causing nullrefs
+
         //if player hasn't beaten their own level
-        if (!selectedLevel.level.levelSaveData.isCompleted)
-        {
-            errorText.text += "Level must be completed" + '\n';
-            isValid = false;
-        }
+        //if (!selectedLevel.level.levelSaveData.isCompleted)
+        //{
+        //    errorText.text += "Level must be completed" + '\n';
+        //    isValid = false;
+        //}
 
         return isValid;
     }

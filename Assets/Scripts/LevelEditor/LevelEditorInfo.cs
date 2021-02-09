@@ -15,20 +15,26 @@ public class LevelEditorInfo : MonoBehaviour
 
     public Level level;
 
-    public static event Action<string> onLevelNameUpdated;
+    public LevelEditor levelEditor;
+
+    private void Start()
+    {
+        levelEditor = GetComponentInParent<LevelEditor>();
+    }
 
     public void Init(Level level)
     {
-        if(level == null)
+        nameInput.onValueChanged.RemoveAllListeners();
+        descriptionInput.onValueChanged.RemoveAllListeners();
+
+        if (level == null)
         {
             this.level = null;
 
             nameInput.text = string.Empty;
-            nameInput.onEndEdit.RemoveAllListeners();
             nameInput.interactable = false;
 
             descriptionInput.text = string.Empty;
-            descriptionInput.onEndEdit.RemoveAllListeners();
             descriptionInput.interactable = false;
 
             previewImage.sprite = noImageSprite;
@@ -38,14 +44,12 @@ public class LevelEditorInfo : MonoBehaviour
         this.level = level;
 
         nameInput.text = level.levelName;
-        nameInput.onValueChanged.RemoveAllListeners();
         nameInput.onValueChanged.AddListener((value) => UpdateLevelName(value));
         // Update button label
-        nameInput.onValueChanged.AddListener((value) => onLevelNameUpdated?.Invoke(value));
+        nameInput.onValueChanged.AddListener((value) => levelEditor.UpdateLevelNames(value));
         nameInput.interactable = true;
 
         descriptionInput.text = level.description;
-        descriptionInput.onValueChanged.RemoveAllListeners();
         descriptionInput.onValueChanged.AddListener((value) => UpdateLevelDescription(value));
         descriptionInput.interactable = true;
 
