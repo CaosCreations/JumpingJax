@@ -171,6 +171,7 @@ public class HotKeyManager : MonoBehaviour {
         tooltips.Add(PlayerConstants.LevelEditorSelectXAxis, PlayerConstants.LevelEditorSelectXAxisTooltip);
         tooltips.Add(PlayerConstants.LevelEditorSelectYAxis, PlayerConstants.LevelEditorSelectYAxisTooltip);
         tooltips.Add(PlayerConstants.LevelEditorSelectZAxis, PlayerConstants.LevelEditorSelectZAxisTooltip);
+        tooltips.Add(PlayerConstants.LevelEditorSelectSnap, PlayerConstants.LevelEditorSelectSnapTooltip);
         tooltips.Add(PlayerConstants.LevelEditorPlayTest, PlayerConstants.LevelEditorPlayTestTooltip);
         tooltips.Add(PlayerConstants.ModifierKey, PlayerConstants.ModifierKeyTooltip);
     }
