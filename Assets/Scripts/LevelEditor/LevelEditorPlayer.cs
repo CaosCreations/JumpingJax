@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LevelEditorPlayer : MonoBehaviour
 {
     public float moveSpeed = 10f;
 
-    private const float maxMoveSpeed = 250f;
+    private const float maxMoveSpeed = 500f;
     private const float minMoveSpeed = 5f;
     private const float moveSpeedDelta = 5f;
 
@@ -46,29 +44,32 @@ public class LevelEditorPlayer : MonoBehaviour
 
     private void UpdatePosition()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (!InputManager.GetKey(PlayerConstants.ModifierKey))
         {
-            transform.position += transform.forward * Time.deltaTime * moveSpeed;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.position += -transform.forward * Time.deltaTime * moveSpeed;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.position += transform.right * Time.deltaTime * moveSpeed;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.position += -transform.right * Time.deltaTime * moveSpeed;
-        }
-        if (Input.GetKey(KeyCode.E))
-        {
-            transform.position += transform.up * Time.deltaTime * moveSpeed;
-        }
-        if (Input.GetKey(KeyCode.Q))
-        {
-            transform.position += -transform.up * Time.deltaTime * moveSpeed;
+            if (Input.GetKey(KeyCode.W))
+            {
+                transform.position += transform.forward * Time.deltaTime * moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                transform.position += -transform.forward * Time.deltaTime * moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                transform.position += transform.right * Time.deltaTime * moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                transform.position += -transform.right * Time.deltaTime * moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.E))
+            {
+                transform.position += transform.up * Time.deltaTime * moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.Q))
+            {
+                transform.position += -transform.up * Time.deltaTime * moveSpeed;
+            }
         }
     }
 

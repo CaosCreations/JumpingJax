@@ -104,6 +104,31 @@ public static class PlayerConstants
     public static string LevelEditorSpeedDecrease = "Level Editor Speed Decrease";
     public static string LevelEditorSpeedDecreaseDefault = "KeypadMinus";
     public static string LevelEditorSpeedDecreaseTooltip = "Decreases editor movement speed";
+
+    public static string LevelEditorSelectXAxis = "Level Editor Select X Axis [Modified]";
+    public static string LevelEditorSelectXAxisDefault = "A";
+    public static string LevelEditorSelectXAxisTooltip = "Selects the x axis of an object's transform in the inspector";
+
+    public static string LevelEditorSelectYAxis = "Level Editor Select Y Axis [Modified]";
+    public static string LevelEditorSelectYAxisDefault = "S";
+    public static string LevelEditorSelectYAxisTooltip = "Selects the y axis an object's transform in the inspector";
+
+    public static string LevelEditorSelectZAxis = "Level Editor Select Z Axis [Modified]";
+    public static string LevelEditorSelectZAxisDefault = "D";
+    public static string LevelEditorSelectZAxisTooltip = "Selects the z axis of an object's transform in the inspector";
+
+    public static string LevelEditorSelectSnap = "Level Editor Select Snap [Modified]";
+    public static string LevelEditorSelectSnapDefault = "F";
+    public static string LevelEditorSelectSnapTooltip = "Selects the snap field of the currently inspected object's transform";
+
+    public static string LevelEditorPlayTest = "Level Editor Play Test [Modified]";
+    public static string LevelEditorPlayTestDefault = "R";
+    public static string LevelEditorPlayTestTooltip = "Switches to/from play test mode in the level editor";
+
+    public static string ModifierKey = "Modifier Key";
+    public static string ModifierKeyDefault = "LeftShift";
+    public static string ModifierKeyTooltip = "When pressed at the same time, modifies the action of other keys";
+
     
     public static string LevelEditorSelectPosition = "Level Editor Select Position";
     public static string LevelEditorSelectPositionDefault = "X";
@@ -137,7 +162,8 @@ public static class PlayerConstants
     public static string FullscreenTooltip = "Toggle Fullscreen.";
     public static string FOVTooltip = "Player Camera Field of View.";
     public static string UnitOfSpeedTooltip = "Speedometer Unit";
-    public static string DeleteDataTooltip = "Clears all local save data. Does not impact leaderboards or hotkeys.";
+    public static string DeleteLevelDataTooltip = "Clears all level times and ghosts. Does not impact leaderboards.";
+    public static string DeleteLevelEditorDataTooltip = "Clears all level editor data. This cannot be undone.";
 
     public static List<string> UnitOfSpeedOptions = new List<string>()
     {
@@ -155,6 +181,8 @@ public static class PlayerConstants
     public static KeyCode PauseMenu = KeyCode.Escape;
     public static KeyCode DebugMenu = KeyCode.BackQuote;
     public static KeyCode NextTutorial = KeyCode.Tab;
+
+    public static KeyCode LevelEditor_PlayTest = KeyCode.Return;
 
     public static KeyCode WinMenu_NextLevel = KeyCode.E;
     public static KeyCode WinMenu_RetryLevel = KeyCode.R;
