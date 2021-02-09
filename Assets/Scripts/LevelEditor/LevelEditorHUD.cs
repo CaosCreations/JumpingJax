@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -154,7 +152,7 @@ public class LevelEditorHUD : MonoBehaviour
 
     private void FocusCamera()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (!InputManager.GetKey(PlayerConstants.ModifierKey) && Input.GetKeyDown(KeyCode.F))
         {
             levelEditorCamera.transform.position = currentSelectedObject.transform.position - (levelEditorCamera.transform.forward * 10);
         }
@@ -162,7 +160,8 @@ public class LevelEditorHUD : MonoBehaviour
 
     private void CheckPlayMode()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (InputManager.GetKey(PlayerConstants.ModifierKey) 
+            && InputManager.GetKeyDown(PlayerConstants.LevelEditorPlayTest))
         {
             PlayTest();
         }
