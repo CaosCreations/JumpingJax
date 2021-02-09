@@ -312,9 +312,9 @@ public class Inspector : MonoBehaviour
         }
     }
 
-    private void SetInputFieldsReadOnly(bool readOnly)
+    private void SetInputFieldsReadOnly(bool isReadOnly)
     {
-        inputFields.All(x => { x.readOnly = readOnly; return readOnly; });
+        inputFields.All(x => { x.readOnly = isReadOnly; return true; });
     }
 
     private void SnapChanged(string newSnapValue)
