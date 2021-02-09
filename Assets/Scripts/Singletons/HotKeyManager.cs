@@ -83,6 +83,9 @@ public class HotKeyManager : MonoBehaviour {
         LoadSavedKey(PlayerConstants.LevelEditorSelectSnap, PlayerConstants.LevelEditorSelectSnapDefault);
         LoadSavedKey(PlayerConstants.LevelEditorPlayTest, PlayerConstants.LevelEditorPlayTestDefault);
         LoadSavedKey(PlayerConstants.ModifierKey, PlayerConstants.ModifierKeyDefault);
+        LoadSavedKey(PlayerConstants.LevelEditorSelectPosition, PlayerConstants.LevelEditorSelectPositionDefault);
+        LoadSavedKey(PlayerConstants.LevelEditorSelectRotation, PlayerConstants.LevelEditorSelectRotationDefault);
+        LoadSavedKey(PlayerConstants.LevelEditorSelectScale, PlayerConstants.LevelEditorSelectScaleDefault);
     }
 
     public void LoadSavedKey(string keyName, string defaultValue)
@@ -135,6 +138,9 @@ public class HotKeyManager : MonoBehaviour {
         AddDefaultKey(PlayerConstants.LevelEditorSelectSnap, PlayerConstants.LevelEditorSelectSnapTooltip);
         AddDefaultKey(PlayerConstants.LevelEditorPlayTest, PlayerConstants.LevelEditorPlayTestDefault);
         AddDefaultKey(PlayerConstants.ModifierKey, PlayerConstants.ModifierKeyDefault);
+        AddDefaultKey(PlayerConstants.LevelEditorSelectPosition, PlayerConstants.LevelEditorSelectPositionDefault);
+        AddDefaultKey(PlayerConstants.LevelEditorSelectRotation, PlayerConstants.LevelEditorSelectRotationDefault);
+        AddDefaultKey(PlayerConstants.LevelEditorSelectScale, PlayerConstants.LevelEditorSelectScaleDefault);
     }
 
     public void AddDefaultKey(string keyName, string defaultValue)
@@ -167,6 +173,9 @@ public class HotKeyManager : MonoBehaviour {
         tooltips.Add(PlayerConstants.ToggleUI, PlayerConstants.ToggleUITooltip);
         tooltips.Add(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseTooltip);
         tooltips.Add(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseTooltip);
+        tooltips.Add(PlayerConstants.LevelEditorSelectPosition, PlayerConstants.LevelEditorSelectPositionTooltip);
+        tooltips.Add(PlayerConstants.LevelEditorSelectRotation, PlayerConstants.LevelEditorSelectRotationTooltip);
+        tooltips.Add(PlayerConstants.LevelEditorSelectScale, PlayerConstants.LevelEditorSelectScaleTooltip);
         tooltips.Add(PlayerConstants.FirstPersonGhost, PlayerConstants.FirstPersonGhostTooltip);
         tooltips.Add(PlayerConstants.LevelEditorSelectXAxis, PlayerConstants.LevelEditorSelectXAxisTooltip);
         tooltips.Add(PlayerConstants.LevelEditorSelectYAxis, PlayerConstants.LevelEditorSelectYAxisTooltip);

@@ -124,11 +124,25 @@ public static class PlayerConstants
     public static string LevelEditorPlayTest = "Level Editor Play Test [Modified]";
     public static string LevelEditorPlayTestDefault = "R";
     public static string LevelEditorPlayTestTooltip = "Switches to/from play test mode in the level editor";
+    
+    public static string LevelEditorSelectPosition = "Level Editor Select Position [Modified]";
+    public static string LevelEditorSelectPositionDefault = "Q";
+    public static string LevelEditorSelectPositionTooltip = "Selects the position manipulation type in the inspector";
+    
+    public static string LevelEditorSelectRotation = "Level Editor Select Rotation [Modified]";
+    public static string LevelEditorSelectRotationDefault = "W";
+    public static string LevelEditorSelectRotationTooltip = "Selects the rotation manipulation type in the inspector";
+
+    public static string LevelEditorSelectScale = "Level Editor Select Scale [Modified]";
+    public static string LevelEditorSelectScaleDefault = "E";
+    public static string LevelEditorSelectScaleTooltip = "Selects the scale manipulation type in the inspector";
 
     public static string ModifierKey = "Modifier Key";
     public static string ModifierKeyDefault = "LeftShift";
     public static string ModifierKeyTooltip = "When pressed at the same time, modifies the action of other keys";
 
+
+    // Tooltips
     public static string SensitivityTooltip = "Mouse Sensitivity.";
     public static string MasterVolumeTooltip = "Master Volume.";
     public static string MusicVolumeTooltip = "Music Volume.";

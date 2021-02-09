@@ -75,7 +75,7 @@ public class Inspector : MonoBehaviour
         {
             return;
         }
-
+        
         levelEditorGizmo.UpdateGizmos();
 
         if (levelEditorHUD.isUsingGizmo)
@@ -84,8 +84,7 @@ public class Inspector : MonoBehaviour
             UpdateInputs();
         }
 
-        HandleKeyboardArrowInput();
-        HandleSelectAxisKeyboardInput();
+        HandleKeyboardInput();
         CheckInspectorCommands();
     }
 
@@ -233,7 +232,14 @@ public class Inspector : MonoBehaviour
         objectToInspect.localScale = newScale;
     }
 
-    private void HandleKeyboardArrowInput()
+    private void HandleKeyboardInput()
+    {
+        HandleManipulationKeyboardInput();
+        HandleManipulationTypeSelectKeyboardInput();
+        HandleSelectAxisKeyboardInput();
+    }
+
+    private void HandleManipulationKeyboardInput()
     {
         Vector3 vectorBeingManipulated = Vector3.zero;  
         switch (manipulationType)
@@ -280,6 +286,22 @@ public class Inspector : MonoBehaviour
             }
         }
         UpdateInputs();
+    }
+
+    private void HandleManipulationTypeSelectKeyboardInput()
+    {
+        if (InputManager.GetModifiedKeyDown(PlayerConstants.LevelEditorSelectPosition))
+        {
+            SetManipulationType(ManipulationType.Position);
+        }
+        else if (InputManager.GetModifiedKeyDown(PlayerConstants.LevelEditorSelectRotation))
+        {
+            SetManipulationType(ManipulationType.Rotation);
+        }
+        else if (InputManager.GetModifiedKeyDown(PlayerConstants.LevelEditorSelectScale))
+        {
+            SetManipulationType(ManipulationType.Scale);
+        }
     }
 
     private void HandleSelectAxisKeyboardInput()
