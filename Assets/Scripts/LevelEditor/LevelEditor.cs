@@ -43,11 +43,15 @@ public class LevelEditor : MonoBehaviour
         
         CreateLevelButtons();
         SetupNavButtons();
-        
-        if(levelEditorButtons.Count > 0)
+
+        if (levelEditorButtons.Count > 0)
         {
-            selectedLevel = levelEditorButtons[0];
-            levelEditorInfo.Init(selectedLevel.level);
+            LevelButtonClicked(levelEditorButtons[0]);
+        }
+        else
+        {
+            levelEditorInfo.Init(null);
+            publishButton.SetDisabled();
         }
 
         LevelEditorInfo.onLevelNameUpdated += UpdateLevelNames;
@@ -130,11 +134,11 @@ public class LevelEditor : MonoBehaviour
 
         if(levelEditorButtons.Count > 0)
         {
-            selectedLevel = levelEditorButtons[0];
-            levelEditorInfo.Init(selectedLevel.level);
+            LevelButtonClicked(levelEditorButtons[0]);
         }
         else
         {
+            publishButton.SetDisabled();
             selectedLevel = null;
             levelEditorInfo.Init(null);
         }
@@ -210,8 +214,7 @@ public class LevelEditor : MonoBehaviour
 
         levelEditorButtons.Add(levelEditorButton);
 
-        levelEditorInfo.Init(newLevel);
-        selectedLevel = levelEditorButton;
+        LevelButtonClicked(levelEditorButton);
     }
 
     private void LoadLevel()
@@ -302,7 +305,7 @@ public class LevelEditor : MonoBehaviour
         JsonUtility.FromJsonOverwrite(levelData, level);
 
         errorText.text = "";
-        //if theres no start checkpoint
+        //if theres no start checkpoint. FloatingPlatform is the default type
         if (level.levelObjects.FirstOrDefault(levelObject => levelObject.objectType == ObjectType.FirstCheckpoint).objectType == ObjectType.FloatingPlatform)
         {
             errorText.text += "Level must have a starting checkpoint" + '\n';
