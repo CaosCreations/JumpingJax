@@ -39,14 +39,8 @@ public class InGameUI : MonoBehaviour
         SetStartingValues();
         MiscOptions.onMiscToggle += ToggleIndividual;
 
-        HotKeyManager.Instance.onHotKeySet += (oldKeyCode, newKeyCode) =>
-        {
-            tutorialText.text = tutorialText.text.InsertSpecificHotKey(oldKeyCode, newKeyCode);
-        };
-        HotKeyOptions.onSetDefaults += () =>
-        {
-            tutorialText.text = tutorialTexts[tutorialTextIndex - 1];
-        };
+        HotKeyManager.Instance.onHotKeySet += UpdateTutorialTextHotkey;
+        HotKeyOptions.onSetDefaults += ResetTutorialText;
     }
 
     void Update()
@@ -99,7 +93,18 @@ public class InGameUI : MonoBehaviour
         LoadNextTutorial();
     }
 
+    private void UpdateTutorialTextHotkey(KeyCode oldKeyCode, KeyCode newKeyCode)
+    {
+        tutorialText.text = tutorialText.text.InsertSpecificHotKey(oldKeyCode, newKeyCode);
+    }
 
+    private void ResetTutorialText()
+    {
+        if (tutorialTexts != null && tutorialTextIndex >= 1)
+        {
+            tutorialText.text = tutorialTexts[tutorialTextIndex - 1];
+        }
+    }
 
     void UpdateParentLayoutGroup()
     {
