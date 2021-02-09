@@ -16,4 +16,10 @@ public class InputManager
     {
         return Input.GetKey(HotKeyManager.Instance.GetKeyFor(keyName));
     }
+
+    public static bool GetModifiedKeyDown(string keyName)
+    {
+        return Input.GetKey(HotKeyManager.Instance.GetKeyFor(PlayerConstants.ModifierKey)) 
+            && Input.GetKeyDown(HotKeyManager.Instance.GetKeyFor(keyName));
+    }
 }

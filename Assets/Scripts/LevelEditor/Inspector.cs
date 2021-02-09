@@ -84,11 +84,7 @@ public class Inspector : MonoBehaviour
             UpdateInputs();
         }
 
-        HandleKeyboardArrowInput();
-        HandleSelectAxisKeyboardInput();
-        HandleManipulationKeyboardInput();
-        HandleManipulationTypeSelectKeyboardInput();
-
+        HandleKeyboardInput();
         CheckInspectorCommands();
     }
 
@@ -236,6 +232,13 @@ public class Inspector : MonoBehaviour
         objectToInspect.localScale = newScale;
     }
 
+    private void HandleKeyboardInput()
+    {
+        HandleManipulationKeyboardInput();
+        HandleManipulationTypeSelectKeyboardInput();
+        HandleSelectAxisKeyboardInput();
+    }
+
     private void HandleManipulationKeyboardInput()
     {
         Vector3 vectorBeingManipulated = Vector3.zero;  
@@ -285,6 +288,22 @@ public class Inspector : MonoBehaviour
         UpdateInputs();
     }
 
+    private void HandleManipulationTypeSelectKeyboardInput()
+    {
+        if (InputManager.GetModifiedKeyDown(PlayerConstants.LevelEditorSelectPosition))
+        {
+            SetManipulationType(ManipulationType.Position);
+        }
+        else if (InputManager.GetModifiedKeyDown(PlayerConstants.LevelEditorSelectRotation))
+        {
+            SetManipulationType(ManipulationType.Rotation);
+        }
+        else if (InputManager.GetModifiedKeyDown(PlayerConstants.LevelEditorSelectScale))
+        {
+            SetManipulationType(ManipulationType.Scale);
+        }
+    }
+
     private void HandleSelectAxisKeyboardInput()
     {
         if (InputManager.GetKey(PlayerConstants.ModifierKey))
@@ -318,22 +337,6 @@ public class Inspector : MonoBehaviour
     private void SetInputFieldsReadOnly(bool isReadOnly)
     {
         inputFields.All(x => { x.readOnly = isReadOnly; return true; });
-    }
-
-    private void HandleManipulationTypeSelectKeyboardInput()
-    {
-        if (InputManager.GetKeyDown(PlayerConstants.LevelEditorSelectPosition))
-        {
-            SetManipulationType(ManipulationType.Position);
-        }
-        else if (InputManager.GetKey(PlayerConstants.LevelEditorSelectRotation))
-        {
-            SetManipulationType(ManipulationType.Rotation);
-        }
-        else if (InputManager.GetKey(PlayerConstants.LevelEditorSelectScale))
-        {
-            SetManipulationType(ManipulationType.Scale);
-        }
     }
 
     private void SnapChanged(string newSnapValue)
