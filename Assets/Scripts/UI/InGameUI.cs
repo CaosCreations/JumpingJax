@@ -102,7 +102,7 @@ public class InGameUI : MonoBehaviour
     {
         if (tutorialTexts != null && tutorialTextIndex >= 1)
         {
-            tutorialText.text = tutorialTexts[tutorialTextIndex - 1];
+            tutorialText.text = tutorialTexts[tutorialTextIndex - 1].InsertNewLines();
         }
     }
 
