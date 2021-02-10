@@ -27,10 +27,12 @@ public class PlayerMovement : MonoBehaviour
     private Level currentLevel;
 
     private bool noClip;
+    public Vector3 currentVelocity; // This result is the finalized value of velocityToApply, used for GhostVelocity value
 
     private void Awake()
     {
         velocityToApply = Vector3.zero;
+        currentVelocity = velocityToApply;
         noClip = false;
     }
 
@@ -64,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
         CheckJump();
 
         currentInput = GetWorldSpaceInputVector();
+        currentVelocity = velocityToApply;
         controller.Move(velocityToApply * Time.deltaTime);
 
         CheckFootstepSound();

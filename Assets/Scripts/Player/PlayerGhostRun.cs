@@ -26,10 +26,12 @@ public class PlayerGhostRun : MonoBehaviour
     private List<Vector3> currentRunPositionData;
     private List<Vector3> currentRunCameraRotationData;
     public List<KeysPressed> currentRunKeyData;
+    private List<Vector2> currentRunVelocityData;
 
     private Vector3[] pastRunPositionData;
     private Vector3[] pastRunCameraRotationData;
     private KeysPressed[] pastRunKeyData;
+    private Vector2[] pastRunVelocityData;
 
     private float ghostRunSaveTimer = 0;
     private float ghostRunnerTimer = 0;
@@ -69,6 +71,7 @@ public class PlayerGhostRun : MonoBehaviour
                 pastRunPositionData = currentLevel.levelSaveData.ghostRunPositions;
                 pastRunCameraRotationData = currentLevel.levelSaveData.ghostRunCameraRotations;
                 pastRunKeyData = currentLevel.levelSaveData.ghostRunKeys;
+                pastRunVelocityData = currentLevel.levelSaveData.ghostRunVelocities;
             }
         }
         else{
@@ -89,6 +92,7 @@ public class PlayerGhostRun : MonoBehaviour
                         pastRunPositionData = replayLevel.levelSaveData.ghostRunPositions;
                         pastRunCameraRotationData = replayLevel.levelSaveData.ghostRunCameraRotations;
                         pastRunKeyData = replayLevel.levelSaveData.ghostRunKeys;
+                        pastRunVelocityData = replayLevel.levelSaveData.ghostRunVelocities;
                     }
                     catch (Exception e)
                     {
@@ -169,6 +173,7 @@ public class PlayerGhostRun : MonoBehaviour
         currentRunPositionData = new List<Vector3>();
         currentRunCameraRotationData = new List<Vector3>(); 
         currentRunKeyData = new List<KeysPressed>();
+        currentRunVelocityData = new List<Vector2>();
     }
 
     private void UpdateGhost()
@@ -221,6 +226,7 @@ public class PlayerGhostRun : MonoBehaviour
             currentRunPositionData.Add(transform.position);
             currentRunCameraRotationData.Add(playerCamera.transform.eulerAngles);
             currentRunKeyData.Add(GetCurrentKeysPressed());
+            currentRunVelocityData.Add(new Vector2(playerMovement.currentVelocity.x, playerMovement.currentVelocity.z));
         }
     }
 
@@ -248,6 +254,7 @@ public class PlayerGhostRun : MonoBehaviour
             currentLevel.levelSaveData.ghostRunPositions = currentRunPositionData.ToArray();
             currentLevel.levelSaveData.ghostRunCameraRotations = currentRunCameraRotationData.ToArray(); 
             currentLevel.levelSaveData.ghostRunKeys = currentRunKeyData.ToArray();
+            currentLevel.levelSaveData.ghostRunVelocities = currentRunVelocityData.ToArray();
         }
     }
 
@@ -279,5 +286,10 @@ public class PlayerGhostRun : MonoBehaviour
     private bool ShouldGhostBeActive()
     {
         return pastRunPositionData != null && pastRunPositionData.Length > 0 && OptionsPreferencesManager.GetGhostToggle();
+    }
+
+    public Vector2 GetGhostVelocity()
+    {
+        return pastRunVelocityData[currentDataIndex];
     }
 }

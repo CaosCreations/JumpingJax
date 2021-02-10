@@ -29,11 +29,13 @@ public class InGameUI : MonoBehaviour
     public PlayerMovement playerMovement;
 
     public bool IsGhost;
+    public PlayerGhostRun ghostRun;
 
     private void Start()
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
         speed = GetComponentInChildren<SpeedSlider>();
+        ghostRun = GameObject.FindObjectOfType<PlayerGhostRun>();
 
         tutorialTexts = GameManager.GetCurrentLevel().tutorialTexts;
         LoadNextTutorial();
@@ -53,7 +55,16 @@ public class InGameUI : MonoBehaviour
             completionTimeText.text = time.ToString("hh':'mm':'ss");
         }
 
-        Vector2 directionalSpeed = new Vector2(playerMovement.velocityToApply.x, playerMovement.velocityToApply.z);
+        Vector2 directionalSpeed;
+        if (!IsGhost)
+        {
+            directionalSpeed = new Vector2(playerMovement.velocityToApply.x, playerMovement.velocityToApply.z);
+        }
+        else
+        {
+            directionalSpeed = ghostRun.GetGhostVelocity();
+        }
+
         speed.SetSpeed(directionalSpeed.magnitude);
 
         if (Input.GetKeyDown(PlayerConstants.NextTutorial))

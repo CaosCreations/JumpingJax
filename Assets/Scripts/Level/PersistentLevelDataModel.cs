@@ -22,4 +22,7 @@ public class PersistentLevelDataModel
 
     [SerializeField]
     public KeysPressed[] ghostRunKeys;
+
+    [SerializeField]
+    public Vector2[] ghostRunVelocities;
 }
