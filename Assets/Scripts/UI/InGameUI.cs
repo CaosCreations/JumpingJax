@@ -188,7 +188,10 @@ public class InGameUI : MonoBehaviour
             UIcolor = new Color(1, 1, 1);
         }
         crosshair.GetComponent<Image>().color = UIcolor;
-        speed.GetComponentInChildren<Image>().color = UIcolor;
+        foreach (Image SpeedImage in speed.GetComponentsInChildren<Image>())
+        {
+            SpeedImage.color = UIcolor;
+        }
         speed.GetComponentInChildren<Text>().color = UIcolor;
         timeContainer.GetComponentInChildren<Text>().color = UIcolor;
         timeContainer.GetComponentInChildren<Image>().color = UIcolor;
