@@ -24,5 +24,5 @@ public class PersistentLevelDataModel
     public KeysPressed[] ghostRunKeys;
 
     [SerializeField]
-    public Vector2[] ghostRunVelocities;
+    public float[] ghostRunVelocities;
 }

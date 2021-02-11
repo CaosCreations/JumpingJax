@@ -26,12 +26,12 @@ public class PlayerGhostRun : MonoBehaviour
     private List<Vector3> currentRunPositionData;
     private List<Vector3> currentRunCameraRotationData;
     public List<KeysPressed> currentRunKeyData;
-    private List<Vector2> currentRunVelocityData;
+    private List<float> currentRunVelocityData;
 
     private Vector3[] pastRunPositionData;
     private Vector3[] pastRunCameraRotationData;
     private KeysPressed[] pastRunKeyData;
-    private Vector2[] pastRunVelocityData;
+    private float[] pastRunVelocityData;
 
     private float ghostRunSaveTimer = 0;
     private float ghostRunnerTimer = 0;
@@ -64,10 +64,9 @@ public class PlayerGhostRun : MonoBehaviour
     {
         if (string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation))
         {
-            Debug.Log("No replay file location set");
             if (currentLevel.levelSaveData.isCompleted)
             {
-                Debug.Log("Loading replay data from local files");
+                Debug.Log($"Loading replay data from local files for {currentLevel.levelName}");
                 pastRunPositionData = currentLevel.levelSaveData.ghostRunPositions;
                 pastRunCameraRotationData = currentLevel.levelSaveData.ghostRunCameraRotations;
                 pastRunKeyData = currentLevel.levelSaveData.ghostRunKeys;
@@ -173,7 +172,7 @@ public class PlayerGhostRun : MonoBehaviour
         currentRunPositionData = new List<Vector3>();
         currentRunCameraRotationData = new List<Vector3>(); 
         currentRunKeyData = new List<KeysPressed>();
-        currentRunVelocityData = new List<Vector2>();
+        currentRunVelocityData = new List<float>();
     }
 
     private void UpdateGhost()
@@ -200,6 +199,7 @@ public class PlayerGhostRun : MonoBehaviour
         {
             ghostRunner.transform.eulerAngles = Vector3.zero;
             ghostCamera.transform.eulerAngles = pastRunCameraRotationData[currentDataIndex];
+            inGameUI.currentSpeed = pastRunVelocityData[currentDataIndex];
         }
         else
         {
@@ -226,7 +226,7 @@ public class PlayerGhostRun : MonoBehaviour
             currentRunPositionData.Add(transform.position);
             currentRunCameraRotationData.Add(playerCamera.transform.eulerAngles);
             currentRunKeyData.Add(GetCurrentKeysPressed());
-            currentRunVelocityData.Add(new Vector2(playerMovement.currentVelocity.x, playerMovement.currentVelocity.z));
+            currentRunVelocityData.Add(new Vector2(playerMovement.currentVelocity.x, playerMovement.currentVelocity.z).magnitude);
         }
     }
 
@@ -288,7 +288,7 @@ public class PlayerGhostRun : MonoBehaviour
         return pastRunPositionData != null && pastRunPositionData.Length > 0 && OptionsPreferencesManager.GetGhostToggle();
     }
 
-    public Vector2 GetGhostVelocity()
+    public float GetGhostVelocity()
     {
         return pastRunVelocityData[currentDataIndex];
     }

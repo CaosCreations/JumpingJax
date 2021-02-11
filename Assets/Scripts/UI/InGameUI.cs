@@ -9,7 +9,7 @@ public class InGameUI : MonoBehaviour
     public Text completionTimeText;
 
     // Speed
-    public SpeedSlider speed;
+    public SpeedSlider speedBar;
 
     // Crosshair 
     public GameObject crosshair;
@@ -31,10 +31,13 @@ public class InGameUI : MonoBehaviour
     public bool IsGhost;
     public PlayerGhostRun ghostRun;
 
+    public float currentSpeed;
+
+
     private void Start()
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
-        speed = GetComponentInChildren<SpeedSlider>();
+        speedBar = GetComponentInChildren<SpeedSlider>();
         ghostRun = GameObject.FindObjectOfType<PlayerGhostRun>();
 
         tutorialTexts = GameManager.GetCurrentLevel().tutorialTexts;
@@ -55,17 +58,12 @@ public class InGameUI : MonoBehaviour
             completionTimeText.text = time.ToString("hh':'mm':'ss");
         }
 
-        Vector2 directionalSpeed;
         if (!IsGhost)
         {
-            directionalSpeed = new Vector2(playerMovement.velocityToApply.x, playerMovement.velocityToApply.z);
-        }
-        else
-        {
-            directionalSpeed = ghostRun.GetGhostVelocity();
+            currentSpeed = new Vector2(playerMovement.velocityToApply.x, playerMovement.velocityToApply.z).magnitude;
         }
 
-        speed.SetSpeed(directionalSpeed.magnitude);
+        speedBar.SetSpeed(currentSpeed);
 
         if (Input.GetKeyDown(PlayerConstants.NextTutorial))
         {
@@ -146,8 +144,8 @@ public class InGameUI : MonoBehaviour
                 OptionsPreferencesManager.SetTimeToggle(timeContainer.activeSelf);
                 break;
             case ToggleableUIElements.SpeedToggle:
-                speed.gameObject.SetActive(!speed.gameObject.activeSelf);
-                OptionsPreferencesManager.SetSpeedToggle(speed.gameObject.activeSelf);
+                speedBar.gameObject.SetActive(!speedBar.gameObject.activeSelf);
+                OptionsPreferencesManager.SetSpeedToggle(speedBar.gameObject.activeSelf);
                 break;
             case ToggleableUIElements.TutorialToggle:
                 tutorialPane.SetActive(!tutorialPane.activeSelf && tutorialTexts.Length > 0);
@@ -164,7 +162,7 @@ public class InGameUI : MonoBehaviour
     private void SetStartingValues()
     {
         crosshair.SetActive(OptionsPreferencesManager.GetCrosshairToggle());
-        speed.gameObject.SetActive(OptionsPreferencesManager.GetSpeedToggle());
+        speedBar.gameObject.SetActive(OptionsPreferencesManager.GetSpeedToggle());
         timeContainer.gameObject.SetActive(OptionsPreferencesManager.GetTimeToggle());
         keyPressed.SetActive(OptionsPreferencesManager.GetKeyPressedToggle());
         if (IsGhost)
@@ -188,11 +186,11 @@ public class InGameUI : MonoBehaviour
             UIcolor = new Color(1, 1, 1);
         }
         crosshair.GetComponent<Image>().color = UIcolor;
-        foreach (Image SpeedImage in speed.GetComponentsInChildren<Image>())
+        foreach (Image SpeedImage in speedBar.GetComponentsInChildren<Image>())
         {
             SpeedImage.color = UIcolor;
         }
-        speed.GetComponentInChildren<Text>().color = UIcolor;
+        speedBar.GetComponentInChildren<Text>().color = UIcolor;
         timeContainer.GetComponentInChildren<Text>().color = UIcolor;
         timeContainer.GetComponentInChildren<Image>().color = UIcolor;
         foreach (Image KeyPressImage in keyPressed.GetComponents<Image>())
