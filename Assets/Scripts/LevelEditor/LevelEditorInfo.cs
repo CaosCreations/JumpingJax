@@ -45,8 +45,6 @@ public class LevelEditorInfo : MonoBehaviour
 
         nameInput.text = level.levelName;
         nameInput.onValueChanged.AddListener((value) => UpdateLevelName(value));
-        // Update button label
-        nameInput.onValueChanged.AddListener((value) => levelEditor.UpdateLevelNames(value));
         nameInput.interactable = true;
 
         descriptionInput.text = level.description;
@@ -70,12 +68,20 @@ public class LevelEditorInfo : MonoBehaviour
             level.levelName = text;
             SaveAsset();
         }
+
+        // Update button label
+        levelEditor.UpdateLevelNames(text);
+        // Refresh validation
+        levelEditor.CanPublish();
     }
 
     private void UpdateLevelDescription(string text)
     {
         level.description = text;
         SaveAsset();
+
+        // Refresh validation
+        levelEditor.CanPublish();
     }
 
     private void SaveAsset()

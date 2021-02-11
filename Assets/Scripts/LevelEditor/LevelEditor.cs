@@ -260,7 +260,7 @@ public class LevelEditor : MonoBehaviour
         #endif
     }
 
-    private bool CanPublish()
+    public bool CanPublish()
     {
         errorText.text = string.Empty;
         bool isValid = true;
