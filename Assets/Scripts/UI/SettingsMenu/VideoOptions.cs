@@ -210,7 +210,7 @@ public class VideoOptions : MonoBehaviour
             }
         }
 
-        return bestResolutions.ToArray();
+        return allResolutions;
     }
     #endregion
 
