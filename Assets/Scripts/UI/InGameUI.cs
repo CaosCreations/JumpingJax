@@ -183,7 +183,7 @@ public class InGameUI : MonoBehaviour
             UIcolor = new Color(204 / 255f, 85 / 255f, 0); // burnt orange color
         } else
         {
-            UIcolor = new Color(1, 1, 1);
+            UIcolor = new Color(149 / 255f, 237 / 255f, 194 / 255f); // light green color
         }
         crosshair.GetComponent<Image>().color = UIcolor;
         foreach (Image SpeedImage in speedBar.GetComponentsInChildren<Image>())

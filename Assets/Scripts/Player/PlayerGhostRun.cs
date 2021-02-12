@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Steamworks;
 
 public class PlayerGhostRun : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class PlayerGhostRun : MonoBehaviour
     private Vector3[] pastRunCameraRotationData;
     private KeysPressed[] pastRunKeyData;
     private float[] pastRunVelocityData;
+    private string pastRunGhostName;
 
     private float ghostRunSaveTimer = 0;
     private float ghostRunnerTimer = 0;
@@ -71,6 +73,7 @@ public class PlayerGhostRun : MonoBehaviour
                 pastRunCameraRotationData = currentLevel.levelSaveData.ghostRunCameraRotations;
                 pastRunKeyData = currentLevel.levelSaveData.ghostRunKeys;
                 pastRunVelocityData = currentLevel.levelSaveData.ghostRunVelocities;
+                pastRunGhostName = currentLevel.levelSaveData.ghostRunName;
             }
         }
         else{
@@ -92,6 +95,7 @@ public class PlayerGhostRun : MonoBehaviour
                         pastRunCameraRotationData = replayLevel.levelSaveData.ghostRunCameraRotations;
                         pastRunKeyData = replayLevel.levelSaveData.ghostRunKeys;
                         pastRunVelocityData = replayLevel.levelSaveData.ghostRunVelocities;
+                        pastRunGhostName = replayLevel.levelSaveData.ghostRunName;
                     }
                     catch (Exception e)
                     {
@@ -255,6 +259,14 @@ public class PlayerGhostRun : MonoBehaviour
             currentLevel.levelSaveData.ghostRunCameraRotations = currentRunCameraRotationData.ToArray(); 
             currentLevel.levelSaveData.ghostRunKeys = currentRunKeyData.ToArray();
             currentLevel.levelSaveData.ghostRunVelocities = currentRunVelocityData.ToArray();
+            if (SteamClient.IsValid)
+            {
+                currentLevel.levelSaveData.ghostRunName = SteamClient.Name;
+            } else
+            {
+                currentLevel.levelSaveData.ghostRunName = ""; //no name provided if player does not have steam client access
+            }
+            
         }
     }
 
