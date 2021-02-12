@@ -60,8 +60,12 @@ public class PortalPlacement : MonoBehaviour
         {
             FirePortal(PortalType.Pink, cameraMove.playerCamera.transform.position, cameraMove.playerCamera.transform.forward, PlayerConstants.PortalRaycastDistance, cameraMove.transform);
         }
+        else if (InputManager.GetKeyDown(PlayerConstants.ResetPortals))
+        {
+            portalPair.ResetPortals();
+        }
     }
-
+    
     public void FirePortal(PortalType portalType, Vector3 pos, Vector3 dir, float distance, Transform camera)
     {
         Physics.Raycast(pos, dir, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Collide);
