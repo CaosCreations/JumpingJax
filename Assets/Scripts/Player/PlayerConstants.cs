@@ -89,6 +89,10 @@ public static class PlayerConstants
     public static string Portal2Default = "Mouse1";
     public static string Portal2Tooltip = "Places the pink portal.";
 
+    public static string ResetPortals = "ResetPortals";
+    public static string ResetPortalsDefault = "Q";
+    public static string ResetPortalsTooltip = "Remove all active portals.";
+
     public static string FirstPersonGhost = "First Person Ghost";
     public static string FirstPersonGhostDefault = "G";
     public static string FirstPersonGhostTooltip = "First person ghost perspective";
