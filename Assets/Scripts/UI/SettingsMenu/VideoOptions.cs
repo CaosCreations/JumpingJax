@@ -159,7 +159,6 @@ public class VideoOptions : MonoBehaviour
         {
             string option = $"{resolutions[i].width} x {resolutions[i].height}";
             options.Add(option);
-            Debug.Log(option);
         }
 
         return options;
