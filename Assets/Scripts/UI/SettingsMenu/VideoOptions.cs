@@ -187,7 +187,7 @@ public class VideoOptions : MonoBehaviour
         return resolutionIndex;
     }
 
-    // For each of the resolutions, get the resolution with the highest framerate, and return a list of those
+    // Get a unique list of resolution sizes, we don't care about refresh rate
     private ResolutionSize[] GetBestResolutions()
     {
         Resolution[] allResolutions = Screen.resolutions;
