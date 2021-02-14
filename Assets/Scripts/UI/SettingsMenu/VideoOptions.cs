@@ -206,10 +206,19 @@ public class VideoOptions : MonoBehaviour
         return resolutionSizes.ToArray();
     }
 
-    public class ResolutionSize
+    public class ResolutionSize : IEquatable<ResolutionSize>
     {
         public int width;
         public int height;
+
+        public bool Equals(ResolutionSize other)
+        {
+            if (other == null) return false;
+
+            return (width.Equals(other.width)
+                && height.Equals(other.height));
+        }
+
     }
     #endregion
 
