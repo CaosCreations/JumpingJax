@@ -73,6 +73,7 @@ public class HotKeyManager : MonoBehaviour {
         LoadSavedKey(PlayerConstants.Respawn, PlayerConstants.RespawnDefault);
         LoadSavedKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
         LoadSavedKey(PlayerConstants.Portal2, PlayerConstants.Portal2Default);
+        LoadSavedKey(PlayerConstants.ResetPortals, PlayerConstants.ResetPortalsDefault);
         LoadSavedKey(PlayerConstants.FirstPersonGhost, PlayerConstants.FirstPersonGhostDefault);
         LoadSavedKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault);
         LoadSavedKey(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseDefault);
@@ -128,6 +129,7 @@ public class HotKeyManager : MonoBehaviour {
         AddDefaultKey(PlayerConstants.Respawn, PlayerConstants.RespawnDefault);
         AddDefaultKey(PlayerConstants.Portal1, PlayerConstants.Portal1Default);
         AddDefaultKey(PlayerConstants.Portal2, PlayerConstants.Portal2Default);
+        AddDefaultKey(PlayerConstants.ResetPortals, PlayerConstants.ResetPortalsDefault);
         AddDefaultKey(PlayerConstants.FirstPersonGhost, PlayerConstants.FirstPersonGhostDefault);
         AddDefaultKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault);
         AddDefaultKey(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseDefault);
@@ -170,6 +172,7 @@ public class HotKeyManager : MonoBehaviour {
         tooltips.Add(PlayerConstants.Respawn, PlayerConstants.RespawnTooltip);
         tooltips.Add(PlayerConstants.Portal1, PlayerConstants.Portal1Tooltip);
         tooltips.Add(PlayerConstants.Portal2, PlayerConstants.Portal2Tooltip);
+        tooltips.Add(PlayerConstants.ResetPortals, PlayerConstants.ResetPortalsTooltip);
         tooltips.Add(PlayerConstants.ToggleUI, PlayerConstants.ToggleUITooltip);
         tooltips.Add(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseTooltip);
         tooltips.Add(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseTooltip);
