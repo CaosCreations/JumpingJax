@@ -223,6 +223,7 @@ public class GameManager : MonoBehaviour
         foreach (Level level in levelDataContainer.levels)
         {
             level.levelSaveData = new PersistentLevelDataModel();
+            level.Save();
         }
     }
 
