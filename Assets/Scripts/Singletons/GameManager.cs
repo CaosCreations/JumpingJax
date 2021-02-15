@@ -213,11 +213,17 @@ public class GameManager : MonoBehaviour
 
         return Instance.didWinCurrentLevel;
     }
-    public static void ResetLevel()
+    public void ResetLevels() //reset collectibles and level data
     {
-        //reset collectibles and level data
-        Instance.currentLevel.levelSaveData = new PersistentLevelDataModel();
-        Instance.currentLevel.Save();
+        if (!debugMode)
+        {
+            return;
+        }
+
+        foreach (Level level in levelDataContainer.levels)
+        {
+            level.levelSaveData = new PersistentLevelDataModel();
+        }
     }
 
     public static void NextLevel()
@@ -253,12 +259,6 @@ public class GameManager : MonoBehaviour
                 await StatsManager.SaveLevelCompletion(levelToUpdate);
                 Debug.Log("finished saving level completion to Steam");
             }
-        }
-
-        if (debugMode == true)
-        {
-            ResetLevel();
-            return;
         }
     }
 
