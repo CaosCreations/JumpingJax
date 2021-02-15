@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        debugMode = false;
         if (Instance == null)
         {
             Instance = this;
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour
 
         Init();
         LoadLevelData();
-        debugMode = true;
+        ResetLevels();
         //
         // Log unhandled exceptions created in Async Tasks so we know when something has gone wrong
         //
