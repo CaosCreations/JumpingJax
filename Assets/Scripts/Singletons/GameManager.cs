@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public bool didWinCurrentLevel;
     public bool shouldUseSteam;
     public bool isLoadingScene;
-    public static bool debugMode;
+    public bool debugMode;
 
     private string replayFileLocation;
     public string ReplayFileLocation
@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        debugMode = false;
         if (Instance == null)
         {
             Instance = this;
