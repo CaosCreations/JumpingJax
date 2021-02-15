@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
 
         Init();
         LoadLevelData();
-        debugMode = false;
+        debugMode = true;
         //
         // Log unhandled exceptions created in Async Tasks so we know when something has gone wrong
         //
@@ -216,7 +216,8 @@ public class GameManager : MonoBehaviour
     public static void ResetLevel()
     {
         //reset collectibles and level data
-        Instance.currentLevel.levelSaveData = new PersistentLevelDataModel;
+        Instance.currentLevel.levelSaveData = new PersistentLevelDataModel();
+        Instance.currentLevel.Save();
     }
 
     public static void NextLevel()
