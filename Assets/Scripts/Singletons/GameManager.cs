@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public bool didWinCurrentLevel;
     public bool shouldUseSteam;
     public bool isLoadingScene;
+    public static bool debugMode;
 
     private string replayFileLocation;
     public string ReplayFileLocation
@@ -56,7 +57,7 @@ public class GameManager : MonoBehaviour
 
         Init();
         LoadLevelData();
-
+        debugMode = false;
         //
         // Log unhandled exceptions created in Async Tasks so we know when something has gone wrong
         //
@@ -212,6 +213,11 @@ public class GameManager : MonoBehaviour
 
         return Instance.didWinCurrentLevel;
     }
+    public static void ResetLevel()
+    {
+        //reset collectibles and level data
+        Instance.currentLevel.levelSaveData = new PersistentLevelDataModel;
+    }
 
     public static void NextLevel()
     {
@@ -246,6 +252,12 @@ public class GameManager : MonoBehaviour
                 await StatsManager.SaveLevelCompletion(levelToUpdate);
                 Debug.Log("finished saving level completion to Steam");
             }
+        }
+
+        if (debugMode == true)
+        {
+            ResetLevel();
+            return;
         }
     }
 

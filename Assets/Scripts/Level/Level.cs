@@ -59,9 +59,6 @@ public class Level : ScriptableObject
     [SerializeField]
     public PersistentLevelDataModel levelSaveData;
 
-    [SerializeField]
-    public bool debugMode;
-
     public int GetNumberOfTimeBones()
     {
         if (!levelSaveData.isCompleted)
@@ -89,12 +86,6 @@ public class Level : ScriptableObject
 
     public void Save()
     {
-        if(debugMode == true)
-        {
-            Reset();
-            return;
-        }
-
         string filePath = FilePathUtil.GetLevelDataFilePath(levelName);
         string fileContents = JsonUtility.ToJson(levelSaveData);
         try
@@ -123,11 +114,6 @@ public class Level : ScriptableObject
                 Debug.LogError($"{e.Message}\n{e.StackTrace}");
             }
         }
-    }
-
-    public void Reset()
-    {
-        //reset collectibles and level data
     }
 
     public async void InitFromWorkshopItem(Steamworks.Ugc.Item item)
