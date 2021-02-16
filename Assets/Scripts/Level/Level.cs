@@ -101,6 +101,8 @@ public class Level : ScriptableObject
 
     public void Load()
     {
+        levelSaveData = new PersistentLevelDataModel();
+
         string filePath = FilePathUtil.GetLevelDataFilePath(levelName);
         if (File.Exists(filePath))
         {

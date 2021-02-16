@@ -56,7 +56,6 @@ public class GameManager : MonoBehaviour
 
         Init();
         LoadLevelData();
-
         //
         // Log unhandled exceptions created in Async Tasks so we know when something has gone wrong
         //
