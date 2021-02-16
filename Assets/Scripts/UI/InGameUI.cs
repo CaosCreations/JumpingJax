@@ -28,7 +28,7 @@ public class InGameUI : MonoBehaviour
     public GameObject container;
     public PlayerMovement playerMovement;
 
-    public bool IsGhost;
+    public bool IsGhost = false;
     public PlayerGhostRun ghostRun;
 
     public float currentSpeed;
@@ -44,6 +44,7 @@ public class InGameUI : MonoBehaviour
         LoadNextTutorial();
 
         SetStartingValues();
+        SetColors();
         MiscOptions.onMiscToggle += ToggleIndividual;
 
         HotKeyManager.Instance.onHotKeySet += UpdateTutorialTextHotkey;
