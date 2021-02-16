@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
 
         Init();
         LoadLevelData();
-        ResetLevels();
         //
         // Log unhandled exceptions created in Async Tasks so we know when something has gone wrong
         //
@@ -213,19 +212,6 @@ public class GameManager : MonoBehaviour
 
         return Instance.didWinCurrentLevel;
     }
-    public void ResetLevels() //reset collectibles and level data
-    {
-        if (!debugMode)
-        {
-            return;
-        }
-
-        foreach (Level level in levelDataContainer.levels)
-        {
-            level.levelSaveData = new PersistentLevelDataModel();
-            level.Save();
-        }
-    }
 
     public static void NextLevel()
     {
@@ -261,11 +247,6 @@ public class GameManager : MonoBehaviour
                 Debug.Log("finished saving level completion to Steam");
             }
         }
-
-        #if UNITY_EDITOR
-            levelToUpdate.levelSaveData = new PersistentLevelDataModel();
-            levelToUpdate.Save();
-        #endif
     }
 
     public static bool ShouldUseSteam()
