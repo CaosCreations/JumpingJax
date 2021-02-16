@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     public bool didWinCurrentLevel;
     public bool shouldUseSteam;
     public bool isLoadingScene;
-    public bool debugMode;
 
     private string replayFileLocation;
     public string ReplayFileLocation
