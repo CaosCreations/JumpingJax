@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,7 +21,8 @@ public class VideoOptions : MonoBehaviour
 
     private Transform scrollViewContent;
 
-    Resolution[] resolutions;
+    
+    ResolutionSize[] resolutions;
 
     private Camera playerCamera;
 
@@ -111,7 +113,7 @@ public class VideoOptions : MonoBehaviour
     #region Events
     void SetResolution(int resolutionIndex)
     {
-        Resolution resolution = resolutions[resolutionIndex];
+        ResolutionSize resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, OptionsPreferencesManager.GetFullScreen());
         OptionsPreferencesManager.SetResolution(resolution.width, resolution.height);
     }
@@ -149,14 +151,13 @@ public class VideoOptions : MonoBehaviour
     }
     #endregion
 
-
     #region Utils
     private List<string> GetResolutionCapabilities()
     {
         List<string> options = new List<string>();
         for (int i = 0; i < resolutions.Length; i++)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
+            string option = $"{resolutions[i].width} x {resolutions[i].height}";
             options.Add(option);
         }
 
@@ -186,30 +187,43 @@ public class VideoOptions : MonoBehaviour
         return resolutionIndex;
     }
 
-    // Get only the resolutions for the highest framerate
-    private Resolution[] GetBestResolutions()
+    // Get a unique list of resolution sizes, we don't care about refresh rate
+    private ResolutionSize[] GetBestResolutions()
     {
         Resolution[] allResolutions = Screen.resolutions;
-        List<Resolution> bestResolutions = new List<Resolution>();
 
-        int highestRefreshRate = 0;
-        foreach (Resolution resolution in allResolutions)
+        List<ResolutionSize> resolutionSizes = new List<ResolutionSize>();
+
+        foreach(Resolution resolution in allResolutions)
         {
-            if (resolution.refreshRate > highestRefreshRate)
+            ResolutionSize resolutionSize = new ResolutionSize() { width = resolution.width, height = resolution.height };
+            if (!resolutionSizes.Contains(resolutionSize))
             {
-                highestRefreshRate = resolution.refreshRate;
+                resolutionSizes.Add(resolutionSize);
             }
         }
 
-        foreach (Resolution resolution in allResolutions)
+        resolutionSizes.Sort();
+        return resolutionSizes.ToArray();
+    }
+
+    public class ResolutionSize : IEquatable<ResolutionSize>, IComparable<ResolutionSize>
+    {
+        public int width;
+        public int height;
+
+        public bool Equals(ResolutionSize other)
         {
-            if (resolution.refreshRate == highestRefreshRate)
-            {
-                bestResolutions.Add(resolution);
-            }
+            if (other == null) return false;
+
+            return (width.Equals(other.width)
+                && height.Equals(other.height));
         }
 
-        return bestResolutions.ToArray();
+        public int CompareTo(ResolutionSize other)
+        {
+            return other.width.CompareTo(width);
+        }
     }
     #endregion
 
