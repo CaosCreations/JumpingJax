@@ -261,6 +261,11 @@ public class GameManager : MonoBehaviour
                 Debug.Log("finished saving level completion to Steam");
             }
         }
+
+        #if UNITY_EDITOR
+            levelToUpdate.levelSaveData = new PersistentLevelDataModel();
+            levelToUpdate.Save();
+        #endif
     }
 
     public static bool ShouldUseSteam()
