@@ -203,10 +203,11 @@ public class VideoOptions : MonoBehaviour
             }
         }
 
+        resolutionSizes.Sort();
         return resolutionSizes.ToArray();
     }
 
-    public class ResolutionSize : IEquatable<ResolutionSize>
+    public class ResolutionSize : IEquatable<ResolutionSize>, IComparable<ResolutionSize>
     {
         public int width;
         public int height;
@@ -219,6 +220,10 @@ public class VideoOptions : MonoBehaviour
                 && height.Equals(other.height));
         }
 
+        public int CompareTo(ResolutionSize other)
+        {
+            return other.width.CompareTo(width);
+        }
     }
     #endregion
 
