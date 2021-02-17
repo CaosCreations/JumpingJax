@@ -33,7 +33,7 @@ public class PlayerGhostRun : MonoBehaviour
     private Vector3[] pastRunCameraRotationData;
     private KeysPressed[] pastRunKeyData;
     private float[] pastRunVelocityData;
-    private string pastRunGhostName;
+    public string pastRunPlayerSteamName;
 
     private float ghostRunSaveTimer = 0;
     private float ghostRunnerTimer = 0;
@@ -44,7 +44,6 @@ public class PlayerGhostRun : MonoBehaviour
 
     private const float ghostRunSaveInterval = 0.0167f;
 
-    private bool usingLeaderboardGhost;
 
     void Start()
     {
@@ -74,8 +73,17 @@ public class PlayerGhostRun : MonoBehaviour
                 pastRunCameraRotationData = currentLevel.levelSaveData.ghostRunCameraRotations;
                 pastRunKeyData = currentLevel.levelSaveData.ghostRunKeys;
                 pastRunVelocityData = currentLevel.levelSaveData.ghostRunVelocities;
-                pastRunGhostName = currentLevel.levelSaveData.ghostRunPlayerName;
-                inGameUI.CurrentSpectatingPlayerName = SteamClient.Name;
+
+                if (SteamClient.IsValid)
+                {
+                    pastRunPlayerSteamName = SteamClient.Name;
+
+                }
+                else
+                {
+                    pastRunPlayerSteamName = currentLevel.levelSaveData.ghostRunPlayerName;
+
+                }
             }
         }
         else{
@@ -97,8 +105,7 @@ public class PlayerGhostRun : MonoBehaviour
                         pastRunCameraRotationData = replayLevel.levelSaveData.ghostRunCameraRotations;
                         pastRunKeyData = replayLevel.levelSaveData.ghostRunKeys;
                         pastRunVelocityData = replayLevel.levelSaveData.ghostRunVelocities;
-                        pastRunGhostName = replayLevel.levelSaveData.ghostRunPlayerName;
-                        inGameUI.CurrentSpectatingPlayerName = replayLevel.levelSaveData.ghostRunPlayerName;
+                        pastRunPlayerSteamName = replayLevel.levelSaveData.ghostRunPlayerName;
                     }
                     catch (Exception e)
                     {
@@ -207,6 +214,7 @@ public class PlayerGhostRun : MonoBehaviour
             ghostRunner.transform.eulerAngles = Vector3.zero;
             ghostCamera.transform.eulerAngles = pastRunCameraRotationData[currentDataIndex];
             inGameUI.currentSpeed = pastRunVelocityData[currentDataIndex];
+            keyPressed.SetPressed(pastRunKeyData[currentDataIndex]);
         }
         else
         {
@@ -214,7 +222,6 @@ public class PlayerGhostRun : MonoBehaviour
             ghostRunner.transform.eulerAngles = new Vector3(0f, rotation.y, 0f);
         }
 
-        keyPressed.SetPressed(pastRunKeyData[currentDataIndex]);
 
         ghostRunnerTimer += Time.deltaTime;
         if (ghostRunnerTimer >= ghostRunSaveInterval)

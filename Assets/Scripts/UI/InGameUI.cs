@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,26 +30,20 @@ public class InGameUI : MonoBehaviour
     public GameObject container;
     public PlayerMovement playerMovement;
 
+    // Used for Ghost
+    public Color ghostColor = new Color(255 / 255f, 124 / 255f, 50 / 255f); // burnt orange color
+    public Color normalColor = new Color(149 / 255f, 237 / 255f, 194 / 255f); // light green color
     public bool IsGhosting = false;
     public PlayerGhostRun ghostRun;
 
     public float currentSpeed;
 
-    private string currentSpectatingPlayerName;
-    public string CurrentSpectatingPlayerName
-    {
-        get { return currentSpectatingPlayerName; }
-        set 
-        { 
-            currentSpectatingPlayerName = value;
-            ToggleGhostUI();
-        }
-    }
+    private List<Image> imagesToUpdateColor;
+    private List<Text> textsToUpdateColor;
 
 
     private void Start()
     {
-        CurrentSpectatingPlayerName = string.Empty;
         playerMovement = GetComponentInParent<PlayerMovement>();
         speedBar = GetComponentInChildren<SpeedSlider>();
         ghostRun = GetComponentInParent<PlayerGhostRun>();
@@ -55,6 +51,7 @@ public class InGameUI : MonoBehaviour
         tutorialTexts = GameManager.GetCurrentLevel().tutorialTexts;
         LoadNextTutorial();
 
+        GetUIForColors();
         CheckElementsShouldBeActive();
         ToggleGhostUI();
         MiscOptions.onMiscToggle += ToggleIndividual;
@@ -88,6 +85,61 @@ public class InGameUI : MonoBehaviour
         }
     }
 
+    private void GetUIForColors()
+    {
+        if(imagesToUpdateColor == null)
+        {
+            imagesToUpdateColor = new List<Image>();
+        }
+
+        if(textsToUpdateColor == null)
+        {
+            textsToUpdateColor = new List<Text>();
+        }
+
+        Image crosshairImage = crosshair.GetComponent<Image>();
+        if(crosshairImage != null)
+        {
+            imagesToUpdateColor.Add(crosshairImage);
+        }
+        
+        List<Image> speedBarImages = speedBar.GetComponentsInChildren<Image>().ToList();
+        if(speedBarImages != null)
+        {
+            imagesToUpdateColor.AddRange(speedBarImages);
+        }
+
+        Text speedBarText = speedBar.GetComponentInChildren<Text>();
+        if(speedBarText != null)
+        {
+            textsToUpdateColor.Add(speedBarText);
+        }
+
+        Text timeContainerText = timeContainer.GetComponentInChildren<Text>();
+        if (timeContainerText != null)
+        {
+            textsToUpdateColor.Add(timeContainerText);
+        }
+
+        Image timeContainerImage = timeContainer.GetComponentInChildren<Image>();
+        if (timeContainerImage != null)
+        {
+            imagesToUpdateColor.Add(timeContainerImage);
+        }
+
+        List<Image> keyPressImages = keyPressed.GetComponentsInChildren<Image>().ToList();
+        if (keyPressImages != null)
+        {
+            imagesToUpdateColor.AddRange(keyPressImages);
+        }
+
+        List<Text> tutorialTexts = tutorialPane.GetComponentsInChildren<Text>().ToList();
+        if (tutorialTexts != null)
+        {
+            textsToUpdateColor.AddRange(tutorialTexts);
+        }
+    }
+
     private void LoadNextTutorial()
     {
         if (tutorialTexts == null || tutorialTexts.Length == 0)
@@ -111,7 +163,10 @@ public class InGameUI : MonoBehaviour
 
     public void SetupTutorialTexts(string[] texts)
     {
-        tutorialTexts = texts;
+        if(texts != null)
+        {
+            tutorialTexts = texts;
+        }
         tutorialTextIndex = 0;
         LoadNextTutorial();
     }
@@ -182,36 +237,34 @@ public class InGameUI : MonoBehaviour
 
     public void ToggleGhostUI()
     {
-        Color UIcolor;
-        if (IsGhosting)
+        Color UIcolor = IsGhosting ? ghostColor : normalColor;
+
+        if(imagesToUpdateColor != null)
         {
-            UIcolor = new Color(255 / 255f, 124 / 255f, 50 / 255f); // burnt orange color
-        } else
-        {
-            UIcolor = new Color(149 / 255f, 237 / 255f, 194 / 255f); // light green color
+            foreach (Image image in imagesToUpdateColor)
+            {
+                image.color = UIcolor;
+            }
         }
-        crosshair.GetComponent<Image>().color = UIcolor;
-        foreach (Image SpeedImage in speedBar.GetComponentsInChildren<Image>())
+        
+        if(textsToUpdateColor != null)
         {
-            SpeedImage.color = UIcolor;
-        }
-        speedBar.GetComponentInChildren<Text>().color = UIcolor;
-        timeContainer.GetComponentInChildren<Text>().color = UIcolor;
-        timeContainer.GetComponentInChildren<Image>().color = UIcolor;
-        foreach (Image KeyPressImage in keyPressed.GetComponentsInChildren<Image>())
-        {
-            KeyPressImage.color = UIcolor;
-        }
-        foreach (Text TutorialText in tutorialPane.GetComponentsInChildren<Text>())
-        {
-            TutorialText.color = UIcolor;
+            foreach (Text text in textsToUpdateColor)
+            {
+                text.color = UIcolor;
+            }
         }
 
         if (IsGhosting)
         {
             tutorialPane.SetActive(true);
-            tutorialText.text = $"Spectating: {currentSpectatingPlayerName}";
-            Invoke("UpdateParentLayoutGroup", 0.1f);
+            tutorialText.text = $"Spectating: {ghostRun.pastRunPlayerSteamName}";
+            tutorialNextText.gameObject.SetActive(false);
+        }
+        else
+        {
+            SetupTutorialTexts(null);
+            tutorialNextText.gameObject.SetActive(true);
         }
 
         CheckElementsShouldBeActive();
