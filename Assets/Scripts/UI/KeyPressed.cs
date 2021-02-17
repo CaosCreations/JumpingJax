@@ -38,9 +38,12 @@ public class KeyPressed : MonoBehaviour
     private bool isMouseLeftPressed;
     private bool isMouseRightPressed;
 
+    private PlayerGhostRun playerGhostRun;
+
     private void Start()
     {
         currentLevel = GameManager.GetCurrentLevel();
+        playerGhostRun = GetComponentInParent<PlayerGhostRun>();
     }
 
     void Update()
@@ -70,7 +73,7 @@ public class KeyPressed : MonoBehaviour
     private void GetPressed()
     {
         // if the level isn't completed, just show the currently pressed buttons
-        if (!currentLevel.levelSaveData.isCompleted && string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation))
+        if (!playerGhostRun.ghostCamera.enabled)
         {
             isForwardPressed = InputManager.GetKey(PlayerConstants.Forward);
             isLeftPressed = InputManager.GetKey(PlayerConstants.Left);

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +11,7 @@ public class InGameUI : MonoBehaviour
     public Text completionTimeText;
 
     // Speed
-    public SpeedSlider speed;
+    public SpeedSlider speedBar;
 
     // Crosshair 
     public GameObject crosshair;
@@ -28,15 +30,30 @@ public class InGameUI : MonoBehaviour
     public GameObject container;
     public PlayerMovement playerMovement;
 
+    // Used for Ghost
+    public Color ghostColor = new Color(255 / 255f, 124 / 255f, 50 / 255f); // burnt orange color
+    public Color normalColor = new Color(149 / 255f, 237 / 255f, 194 / 255f); // light green color
+    public bool IsGhosting = false;
+    public PlayerGhostRun ghostRun;
+
+    public float currentSpeed;
+
+    private List<Image> imagesToUpdateColor;
+    private List<Text> textsToUpdateColor;
+
+
     private void Start()
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
-        speed = GetComponentInChildren<SpeedSlider>();
+        speedBar = GetComponentInChildren<SpeedSlider>();
+        ghostRun = GetComponentInParent<PlayerGhostRun>();
 
         tutorialTexts = GameManager.GetCurrentLevel().tutorialTexts;
         LoadNextTutorial();
 
-        SetStartingValues();
+        GetUIForColors();
+        CheckElementsShouldBeActive();
+        ToggleGhostUI();
         MiscOptions.onMiscToggle += ToggleIndividual;
 
         HotKeyManager.Instance.onHotKeySet += UpdateTutorialTextHotkey;
@@ -51,18 +68,34 @@ public class InGameUI : MonoBehaviour
             completionTimeText.text = time.ToString("hh':'mm':'ss");
         }
 
-        Vector2 directionalSpeed = new Vector2(playerMovement.velocityToApply.x, playerMovement.velocityToApply.z);
-        speed.SetSpeed(directionalSpeed.magnitude);
+        if (!IsGhosting)
+        {
+            currentSpeed = new Vector2(playerMovement.velocityToApply.x, playerMovement.velocityToApply.z).magnitude;
+        }
 
-        if (Input.GetKeyDown(PlayerConstants.NextTutorial))
+        speedBar.SetSpeed(currentSpeed);
+
+        if (Input.GetKeyDown(PlayerConstants.NextTutorial) && !IsGhosting)
         {
             LoadNextTutorial();
         }
-        else if (InputManager.GetKeyUp(PlayerConstants.ToggleUI))
+        else if (InputManager.GetKeyDown(PlayerConstants.ToggleUI))
         {
             ToggleUI();
         }
+    }
 
+    private void GetUIForColors()
+    {
+        if(imagesToUpdateColor == null)
+        {
+            imagesToUpdateColor = GetComponentsInChildren<Image>().ToList();
+        }
+
+        if(textsToUpdateColor == null)
+        {
+            textsToUpdateColor = GetComponentsInChildren<Text>().ToList();
+        }
     }
 
     private void LoadNextTutorial()
@@ -88,7 +121,10 @@ public class InGameUI : MonoBehaviour
 
     public void SetupTutorialTexts(string[] texts)
     {
-        tutorialTexts = texts;
+        if(texts != null)
+        {
+            tutorialTexts = texts;
+        }
         tutorialTextIndex = 0;
         LoadNextTutorial();
     }
@@ -105,7 +141,7 @@ public class InGameUI : MonoBehaviour
             tutorialText.text = tutorialTexts[tutorialTextIndex - 1].InsertNewLines();
         }
     }
-
+	
     void UpdateParentLayoutGroup()
     {
         tutorialText.gameObject.SetActive(false);
@@ -133,8 +169,8 @@ public class InGameUI : MonoBehaviour
                 OptionsPreferencesManager.SetTimeToggle(timeContainer.activeSelf);
                 break;
             case ToggleableUIElements.SpeedToggle:
-                speed.gameObject.SetActive(!speed.gameObject.activeSelf);
-                OptionsPreferencesManager.SetSpeedToggle(speed.gameObject.activeSelf);
+                speedBar.gameObject.SetActive(!speedBar.gameObject.activeSelf);
+                OptionsPreferencesManager.SetSpeedToggle(speedBar.gameObject.activeSelf);
                 break;
             case ToggleableUIElements.TutorialToggle:
                 tutorialPane.SetActive(!tutorialPane.activeSelf && tutorialTexts.Length > 0);
@@ -148,12 +184,48 @@ public class InGameUI : MonoBehaviour
         }
     }
 
-    private void SetStartingValues()
+    private void CheckElementsShouldBeActive()
     {
         crosshair.SetActive(OptionsPreferencesManager.GetCrosshairToggle());
-        speed.gameObject.SetActive(OptionsPreferencesManager.GetSpeedToggle());
+        speedBar.gameObject.SetActive(OptionsPreferencesManager.GetSpeedToggle());
         timeContainer.gameObject.SetActive(OptionsPreferencesManager.GetTimeToggle());
         keyPressed.SetActive(OptionsPreferencesManager.GetKeyPressedToggle());
         tutorialPane.SetActive(OptionsPreferencesManager.GetTutorialToggle() && tutorialTexts.Length > 0);
+    }
+
+    public void ToggleGhostUI()
+    {
+        Color UIcolor = IsGhosting ? ghostColor : normalColor;
+
+        if(imagesToUpdateColor != null)
+        {
+            foreach (Image image in imagesToUpdateColor)
+            {
+                image.color = UIcolor;
+            }
+        }
+        
+        if(textsToUpdateColor != null)
+        {
+            foreach (Text text in textsToUpdateColor)
+            {
+                text.color = UIcolor;
+            }
+        }
+
+        if (IsGhosting)
+        {
+            tutorialPane.SetActive(true);
+            tutorialText.text = $"Spectating: {ghostRun.pastRunPlayerSteamName}";
+            tutorialText.color = UIcolor; //tutorialText.color is unable to be allocated during Start(), handled here.
+            tutorialNextText.gameObject.SetActive(false);
+        }
+        else
+        {
+            SetupTutorialTexts(null);
+            tutorialNextText.gameObject.SetActive(true);
+        }
+
+        CheckElementsShouldBeActive();
     }
 }

@@ -28,6 +28,7 @@ public class ClearLevelCompletion : EditorWindow
                 level.levelSaveData.ghostRunPositions = new Vector3[0];
                 level.levelSaveData.ghostRunCameraRotations = new Vector3[0];
                 level.levelSaveData.ghostRunKeys = new KeysPressed[0];
+                level.levelSaveData.ghostRunVelocities = new float[0];
                 level.levelSaveData.collectiblesCollected = 0;
                 EditorUtility.SetDirty(level);
             }

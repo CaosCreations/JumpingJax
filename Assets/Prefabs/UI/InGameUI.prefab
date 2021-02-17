@@ -630,8 +630,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 163.5, y: 0}
-  m_SizeDelta: {x: 307, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5764583381119314582
 CanvasRenderer:
@@ -800,7 +800,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d159025a6d846874ba80d1335817ab7b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d684343c60eef5e48a55360fb13f06f5, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -874,21 +874,21 @@ MonoBehaviour:
   mousePressed: {fileID: 7190924574414308890}
   directionDefaultSprite: {fileID: 21300000, guid: 1181ebe60fcdc7a4798b0fdb04e8de62,
     type: 3}
-  directionPressedSprite: {fileID: 21300000, guid: a784145e12af4f84cba630b9f6492172,
+  directionPressedSprite: {fileID: 21300000, guid: 7206ce0fc1baf7a409d4366e03598a13,
     type: 3}
   crouchDefaultSprite: {fileID: 21300000, guid: b9374bd7bf1eadc4bbbce8250080b34e,
     type: 3}
-  crouchPressedSprite: {fileID: 21300000, guid: 34b9c36c90b972841bbb4f1a5ae4a82f,
+  crouchPressedSprite: {fileID: 21300000, guid: 5bef61beb3d300c4f9515bce836edb9a,
     type: 3}
   jumpDefaultSprite: {fileID: 21300000, guid: 59bffe43ca4374b44968f6eeb37a747a, type: 3}
-  jumpPressedSprite: {fileID: 21300000, guid: e6f421297760d1f45bb626f3df80231f, type: 3}
+  jumpPressedSprite: {fileID: 21300000, guid: b09f0bb1cc83b9243a0e3e11d36e81d3, type: 3}
   defaultMousePressedSprite: {fileID: 21300000, guid: a92e142949834b741abfc74dae6391b6,
     type: 3}
-  leftMousePressedSprite: {fileID: 21300000, guid: eeeb03d0e833f4e44af7f6655dc5cc83,
+  leftMousePressedSprite: {fileID: 21300000, guid: b4220929272a67c41aaf86d4de875caf,
     type: 3}
-  rightMousePressedSprite: {fileID: 21300000, guid: 02065d0716342d64d8ea2c77b4c23bca,
+  rightMousePressedSprite: {fileID: 21300000, guid: 725eb980bbb138943aee257b5ccc8031,
     type: 3}
-  bothMousePressedSprite: {fileID: 21300000, guid: e279ef0ecd7d43c4996db54d024f62aa,
+  bothMousePressedSprite: {fileID: 21300000, guid: 943c9f8fcf6bd934883060c1a8f8217e,
     type: 3}
 --- !u!1 &5918530474617284080
 GameObject:
@@ -941,7 +941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeContainer: {fileID: 4273929528538171578}
   completionTimeText: {fileID: 8645478851854594882}
-  speed: {fileID: 2493789620007229091}
+  speedBar: {fileID: 0}
   crosshair: {fileID: 7504114041783765839}
   keyPressed: {fileID: 5489638997607639591}
   tutorialText: {fileID: 6365200438962471316}
@@ -949,6 +949,11 @@ MonoBehaviour:
   tutorialPane: {fileID: 947441031962292103}
   container: {fileID: 7597981866844748465}
   playerMovement: {fileID: 0}
+  ghostColor: {r: 1, g: 0.4862745, b: 0.19607843, a: 1}
+  normalColor: {r: 0.58431375, g: 0.92941177, b: 0.7607843, a: 1}
+  IsGhosting: 0
+  ghostRun: {fileID: 0}
+  currentSpeed: 0
 --- !u!1 &6695681922672551365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1283,7 +1288,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3e73e4f3120b0d54f9364c5bb9badab9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c440af257e667bc49af127fc4ea13dbb, type: 3}
   m_Type: 3
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1328,8 +1333,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 163.5, y: 0}
-  m_SizeDelta: {x: 307, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9119066506971728155
 CanvasRenderer:
@@ -1452,7 +1457,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e42ec8c727d0fd34b9e81c35ad11da8b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fabd59b17beaf474486d7f885d746bb5, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
