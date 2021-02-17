@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Steamworks;
 
 public class PlayerGhostRun : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerGhostRun : MonoBehaviour
     public GameObject ghostRunner;
     public PlayerMovement playerMovement;
     public PlayerProgress playerProgress;
+    public InGameUI inGameUI;
 
     private Camera playerCamera;
     private GhostPortalPlacement ghostPortalPlacement;
@@ -25,10 +27,13 @@ public class PlayerGhostRun : MonoBehaviour
     private List<Vector3> currentRunPositionData;
     private List<Vector3> currentRunCameraRotationData;
     public List<KeysPressed> currentRunKeyData;
+    private List<float> currentRunVelocityData;
 
     private Vector3[] pastRunPositionData;
     private Vector3[] pastRunCameraRotationData;
     private KeysPressed[] pastRunKeyData;
+    private float[] pastRunVelocityData;
+    public string pastRunPlayerSteamName;
 
     private float ghostRunSaveTimer = 0;
     private float ghostRunnerTimer = 0;
@@ -39,7 +44,6 @@ public class PlayerGhostRun : MonoBehaviour
 
     private const float ghostRunSaveInterval = 0.0167f;
 
-    private bool usingLeaderboardGhost;
 
     void Start()
     {
@@ -48,6 +52,8 @@ public class PlayerGhostRun : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         playerCamera = GetComponent<CameraMove>().playerCamera;
         portalPlacement = GetComponent<PortalPlacement>();
+        inGameUI = GetComponentInChildren<InGameUI>();
+        keyPressed = GetComponentInChildren<KeyPressed>();
 
         SetPastRunData();
         SetupGhostObject();
@@ -60,13 +66,24 @@ public class PlayerGhostRun : MonoBehaviour
     {
         if (string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation))
         {
-            Debug.Log("No replay file location set");
             if (currentLevel.levelSaveData.isCompleted)
             {
-                Debug.Log("Loading replay data from local files");
+                Debug.Log($"Loading replay data from local files for {currentLevel.levelName}");
                 pastRunPositionData = currentLevel.levelSaveData.ghostRunPositions;
                 pastRunCameraRotationData = currentLevel.levelSaveData.ghostRunCameraRotations;
                 pastRunKeyData = currentLevel.levelSaveData.ghostRunKeys;
+                pastRunVelocityData = currentLevel.levelSaveData.ghostRunVelocities;
+
+                if (SteamClient.IsValid)
+                {
+                    pastRunPlayerSteamName = SteamClient.Name;
+
+                }
+                else
+                {
+                    pastRunPlayerSteamName = currentLevel.levelSaveData.ghostRunPlayerName;
+
+                }
             }
         }
         else{
@@ -87,6 +104,8 @@ public class PlayerGhostRun : MonoBehaviour
                         pastRunPositionData = replayLevel.levelSaveData.ghostRunPositions;
                         pastRunCameraRotationData = replayLevel.levelSaveData.ghostRunCameraRotations;
                         pastRunKeyData = replayLevel.levelSaveData.ghostRunKeys;
+                        pastRunVelocityData = replayLevel.levelSaveData.ghostRunVelocities;
+                        pastRunPlayerSteamName = replayLevel.levelSaveData.ghostRunPlayerName;
                     }
                     catch (Exception e)
                     {
@@ -167,6 +186,7 @@ public class PlayerGhostRun : MonoBehaviour
         currentRunPositionData = new List<Vector3>();
         currentRunCameraRotationData = new List<Vector3>(); 
         currentRunKeyData = new List<KeysPressed>();
+        currentRunVelocityData = new List<float>();
     }
 
     private void UpdateGhost()
@@ -193,6 +213,8 @@ public class PlayerGhostRun : MonoBehaviour
         {
             ghostRunner.transform.eulerAngles = Vector3.zero;
             ghostCamera.transform.eulerAngles = pastRunCameraRotationData[currentDataIndex];
+            inGameUI.currentSpeed = pastRunVelocityData[currentDataIndex];
+            keyPressed.SetPressed(pastRunKeyData[currentDataIndex]);
         }
         else
         {
@@ -200,7 +222,6 @@ public class PlayerGhostRun : MonoBehaviour
             ghostRunner.transform.eulerAngles = new Vector3(0f, rotation.y, 0f);
         }
 
-        keyPressed.SetPressed(pastRunKeyData[currentDataIndex]);
 
         ghostRunnerTimer += Time.deltaTime;
         if (ghostRunnerTimer >= ghostRunSaveInterval)
@@ -219,6 +240,7 @@ public class PlayerGhostRun : MonoBehaviour
             currentRunPositionData.Add(transform.position);
             currentRunCameraRotationData.Add(playerCamera.transform.eulerAngles);
             currentRunKeyData.Add(GetCurrentKeysPressed());
+            currentRunVelocityData.Add(new Vector2(playerMovement.currentVelocity.x, playerMovement.currentVelocity.z).magnitude);
         }
     }
 
@@ -246,6 +268,15 @@ public class PlayerGhostRun : MonoBehaviour
             currentLevel.levelSaveData.ghostRunPositions = currentRunPositionData.ToArray();
             currentLevel.levelSaveData.ghostRunCameraRotations = currentRunCameraRotationData.ToArray(); 
             currentLevel.levelSaveData.ghostRunKeys = currentRunKeyData.ToArray();
+            currentLevel.levelSaveData.ghostRunVelocities = currentRunVelocityData.ToArray();
+            if (SteamClient.IsValid)
+            {
+                currentLevel.levelSaveData.ghostRunPlayerName = SteamClient.Name;
+            } else
+            {
+                currentLevel.levelSaveData.ghostRunPlayerName = ""; //no name provided if player does not have steam client access
+            }
+            
         }
     }
 
@@ -264,13 +295,23 @@ public class PlayerGhostRun : MonoBehaviour
         if (ghostCamera.enabled)
         {
             ghostCamera.fieldOfView = OptionsPreferencesManager.GetCameraFOV();
+            inGameUI.IsGhosting = true;
+        } else
+        {
+            inGameUI.IsGhosting = false;
         }
 
+        inGameUI.ToggleGhostUI();
         playerProgress.ResetPlayer();
     }
 
     private bool ShouldGhostBeActive()
     {
         return pastRunPositionData != null && pastRunPositionData.Length > 0 && OptionsPreferencesManager.GetGhostToggle();
+    }
+
+    public float GetGhostVelocity()
+    {
+        return pastRunVelocityData[currentDataIndex];
     }
 }
