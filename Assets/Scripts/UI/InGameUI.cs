@@ -89,54 +89,12 @@ public class InGameUI : MonoBehaviour
     {
         if(imagesToUpdateColor == null)
         {
-            imagesToUpdateColor = new List<Image>();
+            imagesToUpdateColor = GetComponentsInChildren<Image>().ToList();
         }
 
         if(textsToUpdateColor == null)
         {
-            textsToUpdateColor = new List<Text>();
-        }
-
-        Image crosshairImage = crosshair.GetComponent<Image>();
-        if(crosshairImage != null)
-        {
-            imagesToUpdateColor.Add(crosshairImage);
-        }
-        
-        List<Image> speedBarImages = speedBar.GetComponentsInChildren<Image>().ToList();
-        if(speedBarImages != null)
-        {
-            imagesToUpdateColor.AddRange(speedBarImages);
-        }
-
-        Text speedBarText = speedBar.GetComponentInChildren<Text>();
-        if(speedBarText != null)
-        {
-            textsToUpdateColor.Add(speedBarText);
-        }
-
-        Text timeContainerText = timeContainer.GetComponentInChildren<Text>();
-        if (timeContainerText != null)
-        {
-            textsToUpdateColor.Add(timeContainerText);
-        }
-
-        Image timeContainerImage = timeContainer.GetComponentInChildren<Image>();
-        if (timeContainerImage != null)
-        {
-            imagesToUpdateColor.Add(timeContainerImage);
-        }
-
-        List<Image> keyPressImages = keyPressed.GetComponentsInChildren<Image>().ToList();
-        if (keyPressImages != null)
-        {
-            imagesToUpdateColor.AddRange(keyPressImages);
-        }
-
-        List<Text> tutorialTexts = tutorialPane.GetComponentsInChildren<Text>().ToList();
-        if (tutorialTexts != null)
-        {
-            textsToUpdateColor.AddRange(tutorialTexts);
+            textsToUpdateColor = GetComponentsInChildren<Text>().ToList();
         }
     }
 
