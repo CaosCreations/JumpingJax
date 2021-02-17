@@ -28,23 +28,35 @@ public class InGameUI : MonoBehaviour
     public GameObject container;
     public PlayerMovement playerMovement;
 
-    public bool IsGhost = false;
+    public bool IsGhosting = false;
     public PlayerGhostRun ghostRun;
 
     public float currentSpeed;
 
+    private string currentSpectatingPlayerName;
+    public string CurrentSpectatingPlayerName
+    {
+        get { return currentSpectatingPlayerName; }
+        set 
+        { 
+            currentSpectatingPlayerName = value;
+            ToggleGhostUI();
+        }
+    }
+
 
     private void Start()
     {
+        CurrentSpectatingPlayerName = string.Empty;
         playerMovement = GetComponentInParent<PlayerMovement>();
         speedBar = GetComponentInChildren<SpeedSlider>();
-        ghostRun = GameObject.FindObjectOfType<PlayerGhostRun>();
+        ghostRun = GetComponentInParent<PlayerGhostRun>();
 
         tutorialTexts = GameManager.GetCurrentLevel().tutorialTexts;
         LoadNextTutorial();
 
-        SetStartingValues();
-        SetColors();
+        CheckElementsShouldBeActive();
+        ToggleGhostUI();
         MiscOptions.onMiscToggle += ToggleIndividual;
 
         HotKeyManager.Instance.onHotKeySet += UpdateTutorialTextHotkey;
@@ -59,22 +71,21 @@ public class InGameUI : MonoBehaviour
             completionTimeText.text = time.ToString("hh':'mm':'ss");
         }
 
-        if (!IsGhost)
+        if (!IsGhosting)
         {
             currentSpeed = new Vector2(playerMovement.velocityToApply.x, playerMovement.velocityToApply.z).magnitude;
         }
 
         speedBar.SetSpeed(currentSpeed);
 
-        if (Input.GetKeyDown(PlayerConstants.NextTutorial))
+        if (Input.GetKeyDown(PlayerConstants.NextTutorial) && !IsGhosting)
         {
             LoadNextTutorial();
         }
-        else if (InputManager.GetKeyUp(PlayerConstants.ToggleUI))
+        else if (InputManager.GetKeyDown(PlayerConstants.ToggleUI))
         {
             ToggleUI();
         }
-
     }
 
     private void LoadNextTutorial()
@@ -117,7 +128,7 @@ public class InGameUI : MonoBehaviour
             tutorialText.text = tutorialTexts[tutorialTextIndex - 1].InsertNewLines();
         }
     }
-
+	
     void UpdateParentLayoutGroup()
     {
         tutorialText.gameObject.SetActive(false);
@@ -160,28 +171,21 @@ public class InGameUI : MonoBehaviour
         }
     }
 
-    private void SetStartingValues()
+    private void CheckElementsShouldBeActive()
     {
         crosshair.SetActive(OptionsPreferencesManager.GetCrosshairToggle());
         speedBar.gameObject.SetActive(OptionsPreferencesManager.GetSpeedToggle());
         timeContainer.gameObject.SetActive(OptionsPreferencesManager.GetTimeToggle());
         keyPressed.SetActive(OptionsPreferencesManager.GetKeyPressedToggle());
-        if (IsGhost)
-        {
-            tutorialPane.SetActive(false);
-        }
-        else
-        {
-            tutorialPane.SetActive(OptionsPreferencesManager.GetTutorialToggle() && tutorialTexts.Length > 0);
-        }
+        tutorialPane.SetActive(OptionsPreferencesManager.GetTutorialToggle() && tutorialTexts.Length > 0);
     }
 
-    public void SetColors()
+    public void ToggleGhostUI()
     {
         Color UIcolor;
-        if (IsGhost)
+        if (IsGhosting)
         {
-            UIcolor = new Color(204 / 255f, 85 / 255f, 0); // burnt orange color
+            UIcolor = new Color(255 / 255f, 124 / 255f, 50 / 255f); // burnt orange color
         } else
         {
             UIcolor = new Color(149 / 255f, 237 / 255f, 194 / 255f); // light green color
@@ -194,14 +198,22 @@ public class InGameUI : MonoBehaviour
         speedBar.GetComponentInChildren<Text>().color = UIcolor;
         timeContainer.GetComponentInChildren<Text>().color = UIcolor;
         timeContainer.GetComponentInChildren<Image>().color = UIcolor;
-        foreach (Image KeyPressImage in keyPressed.GetComponents<Image>())
+        foreach (Image KeyPressImage in keyPressed.GetComponentsInChildren<Image>())
         {
             KeyPressImage.color = UIcolor;
         }
-        foreach (Text TutorialText in tutorialPane.GetComponents<Text>())
+        foreach (Text TutorialText in tutorialPane.GetComponentsInChildren<Text>())
         {
             TutorialText.color = UIcolor;
         }
-        SetStartingValues();
+
+        if (IsGhosting)
+        {
+            tutorialPane.SetActive(true);
+            tutorialText.text = $"Spectating: {currentSpectatingPlayerName}";
+            Invoke("UpdateParentLayoutGroup", 0.1f);
+        }
+
+        CheckElementsShouldBeActive();
     }
 }

@@ -54,6 +54,7 @@ public class PlayerGhostRun : MonoBehaviour
         playerCamera = GetComponent<CameraMove>().playerCamera;
         portalPlacement = GetComponent<PortalPlacement>();
         inGameUI = GetComponentInChildren<InGameUI>();
+        keyPressed = GetComponentInChildren<KeyPressed>();
 
         SetPastRunData();
         SetupGhostObject();
@@ -73,7 +74,8 @@ public class PlayerGhostRun : MonoBehaviour
                 pastRunCameraRotationData = currentLevel.levelSaveData.ghostRunCameraRotations;
                 pastRunKeyData = currentLevel.levelSaveData.ghostRunKeys;
                 pastRunVelocityData = currentLevel.levelSaveData.ghostRunVelocities;
-                pastRunGhostName = currentLevel.levelSaveData.ghostRunName;
+                pastRunGhostName = currentLevel.levelSaveData.ghostRunPlayerName;
+                inGameUI.CurrentSpectatingPlayerName = SteamClient.Name;
             }
         }
         else{
@@ -95,7 +97,8 @@ public class PlayerGhostRun : MonoBehaviour
                         pastRunCameraRotationData = replayLevel.levelSaveData.ghostRunCameraRotations;
                         pastRunKeyData = replayLevel.levelSaveData.ghostRunKeys;
                         pastRunVelocityData = replayLevel.levelSaveData.ghostRunVelocities;
-                        pastRunGhostName = replayLevel.levelSaveData.ghostRunName;
+                        pastRunGhostName = replayLevel.levelSaveData.ghostRunPlayerName;
+                        inGameUI.CurrentSpectatingPlayerName = replayLevel.levelSaveData.ghostRunPlayerName;
                     }
                     catch (Exception e)
                     {
@@ -261,10 +264,10 @@ public class PlayerGhostRun : MonoBehaviour
             currentLevel.levelSaveData.ghostRunVelocities = currentRunVelocityData.ToArray();
             if (SteamClient.IsValid)
             {
-                currentLevel.levelSaveData.ghostRunName = SteamClient.Name;
+                currentLevel.levelSaveData.ghostRunPlayerName = SteamClient.Name;
             } else
             {
-                currentLevel.levelSaveData.ghostRunName = ""; //no name provided if player does not have steam client access
+                currentLevel.levelSaveData.ghostRunPlayerName = ""; //no name provided if player does not have steam client access
             }
             
         }
@@ -285,13 +288,13 @@ public class PlayerGhostRun : MonoBehaviour
         if (ghostCamera.enabled)
         {
             ghostCamera.fieldOfView = OptionsPreferencesManager.GetCameraFOV();
-            inGameUI.IsGhost = true;
+            inGameUI.IsGhosting = true;
         } else
         {
-            inGameUI.IsGhost = false;
+            inGameUI.IsGhosting = false;
         }
 
-        inGameUI.SetColors();
+        inGameUI.ToggleGhostUI();
         playerProgress.ResetPlayer();
     }
 

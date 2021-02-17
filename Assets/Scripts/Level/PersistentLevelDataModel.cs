@@ -27,5 +27,5 @@ public class PersistentLevelDataModel
     public float[] ghostRunVelocities;
 
     [SerializeField]
-    public string ghostRunName;
+    public string ghostRunPlayerName;
 }
