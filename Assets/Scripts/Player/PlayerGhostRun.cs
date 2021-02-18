@@ -42,10 +42,10 @@ public class PlayerGhostRun : MonoBehaviour
 
     private const int maxDataCount = 25000; //Makes it so max file save is 5MB, stores 20.8 min of Ghost data saved
 
-    private const float ghostRunSaveInterval = 0.0167f;
+    private const float ghostRunSaveInterval = 0.02f;
 
 
-    void Start()
+    private void Start()
     {
         playerProgress = GetComponent<PlayerProgress>();
         currentLevel = GameManager.GetCurrentLevel();
@@ -64,26 +64,22 @@ public class PlayerGhostRun : MonoBehaviour
 
     private void SetPastRunData()
     {
-        if (string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation))
+        if (string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation) && currentLevel.levelSaveData.isCompleted)
         {
-            if (currentLevel.levelSaveData.isCompleted)
+            Debug.Log($"Loading replay data from local files for {currentLevel.levelName}");
+            pastRunPositionData = currentLevel.levelSaveData.ghostRunPositions;
+            pastRunCameraRotationData = currentLevel.levelSaveData.ghostRunCameraRotations;
+            pastRunKeyData = currentLevel.levelSaveData.ghostRunKeys;
+            pastRunVelocityData = currentLevel.levelSaveData.ghostRunVelocities;
+
+            if (SteamClient.IsValid)
             {
-                Debug.Log($"Loading replay data from local files for {currentLevel.levelName}");
-                pastRunPositionData = currentLevel.levelSaveData.ghostRunPositions;
-                pastRunCameraRotationData = currentLevel.levelSaveData.ghostRunCameraRotations;
-                pastRunKeyData = currentLevel.levelSaveData.ghostRunKeys;
-                pastRunVelocityData = currentLevel.levelSaveData.ghostRunVelocities;
+                pastRunPlayerSteamName = SteamClient.Name;
 
-                if (SteamClient.IsValid)
-                {
-                    pastRunPlayerSteamName = SteamClient.Name;
-
-                }
-                else
-                {
-                    pastRunPlayerSteamName = currentLevel.levelSaveData.ghostRunPlayerName;
-
-                }
+            }
+            else
+            {
+                pastRunPlayerSteamName = currentLevel.levelSaveData.ghostRunPlayerName;
             }
         }
         else{
@@ -274,9 +270,8 @@ public class PlayerGhostRun : MonoBehaviour
                 currentLevel.levelSaveData.ghostRunPlayerName = SteamClient.Name;
             } else
             {
-                currentLevel.levelSaveData.ghostRunPlayerName = ""; //no name provided if player does not have steam client access
+                currentLevel.levelSaveData.ghostRunPlayerName = "Yourself"; //so that local replay will say "spectatiing: yourself"
             }
-            
         }
     }
 
