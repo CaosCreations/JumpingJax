@@ -13,11 +13,13 @@ public class MainMenuButtons : MonoBehaviour
     public Transform buttonContainer;
 
     public Button discordButton;
+    public Text gameVersionText;
 
     void Start()
     {
         mainMenuController = GetComponentInParent<MainMenuController>();
         SetupButtons();
+        SetupVersionText();
     }
 
     void SetupButtons()
@@ -63,6 +65,11 @@ public class MainMenuButtons : MonoBehaviour
     private void OpenDiscordLink()
     {
         Application.OpenURL(PlayerConstants.DiscordURL);
+    }
+
+    private void SetupVersionText()
+    {
+        gameVersionText.text = Application.version; 
     }
 
     bool ShouldAddContinueButton()
