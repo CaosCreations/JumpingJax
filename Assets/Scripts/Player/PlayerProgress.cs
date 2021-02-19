@@ -150,7 +150,6 @@ public class PlayerProgress : MonoBehaviour
 
     private void ResetTutorials()
     {
-        TutorialTriggerGroup group = GameObject.FindObjectOfType<TutorialTriggerGroup>();
-        group.ResetTriggers();
+        TutorialTriggerGroup.Instance.ResetTriggers();
     }
 }

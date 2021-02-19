@@ -204,10 +204,9 @@ public class PlayerGhostRun : MonoBehaviour
 
         float lerpValue = ghostRunnerTimer / ghostRunSaveInterval;
         Vector3 position = Vector3.Lerp(ghostRunner.transform.position, pastRunPositionData[currentDataIndex], lerpValue);
-        ghostRunner.transform.position = position;
+        ghostRunner.transform.position = pastRunPositionData[currentDataIndex];
         if (ghostCamera.enabled)
         {
-            ghostRunner.transform.eulerAngles = Vector3.zero;
             ghostCamera.transform.eulerAngles = pastRunCameraRotationData[currentDataIndex];
             inGameUI.currentSpeed = pastRunVelocityData[currentDataIndex];
             keyPressed.SetPressed(pastRunKeyData[currentDataIndex]);
