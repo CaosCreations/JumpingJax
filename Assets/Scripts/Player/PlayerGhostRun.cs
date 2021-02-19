@@ -202,8 +202,6 @@ public class PlayerGhostRun : MonoBehaviour
             }
         }
 
-        float lerpValue = ghostRunnerTimer / ghostRunSaveInterval;
-        Vector3 position = Vector3.Lerp(ghostRunner.transform.position, pastRunPositionData[currentDataIndex], lerpValue);
         ghostRunner.transform.position = pastRunPositionData[currentDataIndex];
         if (ghostCamera.enabled)
         {
@@ -213,8 +211,7 @@ public class PlayerGhostRun : MonoBehaviour
         }
         else
         {
-            Vector3 rotation = Vector3.Lerp(ghostRunner.transform.eulerAngles, pastRunCameraRotationData[currentDataIndex], lerpValue);
-            ghostRunner.transform.eulerAngles = new Vector3(0f, rotation.y, 0f);
+            ghostRunner.transform.eulerAngles = new Vector3(0f, pastRunCameraRotationData[currentDataIndex].y, 0f);
         }
 
 
