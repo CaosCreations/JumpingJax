@@ -145,6 +145,7 @@ public class GameManager : MonoBehaviour
 
     public static void LoadScene(Level workshopLevel)
     {
+        Debug.Log($"GameManager.LoadScene(): loading workshop scene with index {workshopLevel.levelName}");
         Instance.currentLevel = workshopLevel;
         AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(PlayerConstants.LevelEditorSceneIndex);
         LoadingScreenManager.Instance.Show(sceneLoadOperation);
@@ -230,12 +231,12 @@ public class GameManager : MonoBehaviour
         float completionTime = Instance.currentCompletionTime;
         Level levelToUpdate = GetCurrentLevel();
 
-        levelToUpdate.levelSaveData.isCompleted = true;
-
         Debug.Log($"GameManager.FinishedLevel(), completed {levelToUpdate.levelName}");
 
-        if (completionTime < levelToUpdate.levelSaveData.completionTime || levelToUpdate.levelSaveData.completionTime == 0)
+        if (completionTime < levelToUpdate.levelSaveData.completionTime || !levelToUpdate.levelSaveData.isCompleted)
         {
+            levelToUpdate.levelSaveData.isCompleted = true;
+
             levelToUpdate.levelSaveData.completionTime = completionTime;
             levelToUpdate.Save();
 
