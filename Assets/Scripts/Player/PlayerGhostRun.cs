@@ -35,14 +35,13 @@ public class PlayerGhostRun : MonoBehaviour
     private float[] pastRunVelocityData;
     public string pastRunPlayerSteamName;
 
-    private float ghostRunSaveTimer = 0;
     private float ghostRunnerTimer = 0;
     public Level currentLevel;
     public int currentDataIndex = 0;
 
     private const int maxDataCount = 25000; //Makes it so max file save is 5MB, stores 20.8 min of Ghost data saved
 
-    private const float ghostRunSaveInterval = 0.02f;
+    private const float ghostRunSaveInterval = 0.01667f;
 
 
     private void Start()
@@ -141,7 +140,7 @@ public class PlayerGhostRun : MonoBehaviour
 
     private void Update()
     {
-        if (Time.timeScale == 0 || GameManager.GetCurrentLevel().workshopFilePath != string.Empty)
+        if (Time.timeScale == 0)
         {
             return;
         }
@@ -150,7 +149,15 @@ public class PlayerGhostRun : MonoBehaviour
         {
             ToggleGhostCamera();
         }
-        
+    }
+
+    private void FixedUpdate()
+    {
+        if (Time.timeScale == 0)
+        {
+            return;
+        }
+
         if (ghostCamera.enabled)
         {
             if (pastRunKeyData[currentDataIndex].isMouseLeftPressed && ghostPortalPlacement.portalPair != null)
@@ -164,26 +171,22 @@ public class PlayerGhostRun : MonoBehaviour
                     PlayerConstants.PortalRaycastDistance, ghostCamera.transform);
             }
         }
-        else
-        {
-            // No need to record current run data while spectating, you get reset while watching anyways
-            RecordCurrentRunData();
-        }
-
+        
         UpdateGhost();
-    }
 
-    public void RestartRun()
-    {
-        SetPastRunData();
-        ghostRunner.SetActive(ShouldGhostBeActive());
-        ghostRunSaveTimer = 0;
-        ghostRunnerTimer = 0;
-        currentDataIndex = 0;
-        currentRunPositionData = new List<Vector3>();
-        currentRunCameraRotationData = new List<Vector3>(); 
-        currentRunKeyData = new List<KeysPressed>();
-        currentRunVelocityData = new List<float>();
+        ghostRunnerTimer += Time.deltaTime;
+
+        if (ghostRunnerTimer >= ghostRunSaveInterval)
+        {
+            if (!ghostCamera.enabled)
+            {
+                // No need to record current run data while spectating, you get reset while watching anyways
+                RecordCurrentRunData();
+            }
+
+            currentDataIndex++;
+            ghostRunnerTimer = 0;
+        }
     }
 
     private void UpdateGhost()
@@ -214,27 +217,29 @@ public class PlayerGhostRun : MonoBehaviour
         {
             ghostRunner.transform.eulerAngles = new Vector3(0f, pastRunCameraRotationData[currentDataIndex].y, 0f);
         }
-
-
-        ghostRunnerTimer += Time.deltaTime;
-        if (ghostRunnerTimer >= ghostRunSaveInterval)
-        {
-            currentDataIndex++;
-            ghostRunnerTimer = 0;
-        }
     }
 
     private void RecordCurrentRunData()
     {
-        ghostRunSaveTimer += Time.deltaTime;
-        if (ghostRunSaveTimer > ghostRunSaveInterval && currentRunPositionData.Count < maxDataCount)
+        if (currentRunPositionData.Count < maxDataCount)
         {
-            ghostRunSaveTimer = 0;
             currentRunPositionData.Add(transform.position);
             currentRunCameraRotationData.Add(playerCamera.transform.eulerAngles);
             currentRunKeyData.Add(GetCurrentKeysPressed());
             currentRunVelocityData.Add(new Vector2(playerMovement.currentVelocity.x, playerMovement.currentVelocity.z).magnitude);
         }
+    }
+
+    public void RestartRun()
+    {
+        SetPastRunData();
+        ghostRunner.SetActive(ShouldGhostBeActive());
+        ghostRunnerTimer = 0;
+        currentDataIndex = 0;
+        currentRunPositionData = new List<Vector3>();
+        currentRunCameraRotationData = new List<Vector3>();
+        currentRunKeyData = new List<KeysPressed>();
+        currentRunVelocityData = new List<float>();
     }
 
     private KeysPressed GetCurrentKeysPressed()
