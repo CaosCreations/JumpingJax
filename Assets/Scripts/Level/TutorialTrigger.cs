@@ -48,13 +48,11 @@ public class TutorialTrigger : MonoBehaviour
             if (initialDeaths == -1 || currentDeaths < initialDeaths)
             {
                 initialDeaths = currentDeaths;
-                Debug.Log("initialDeaths set to currentDeaths\n");
             }
             if (currentDeaths - initialDeaths >= requiredDeaths)
             {
                 gameUI.SetupTutorialTexts(TutorialText);
                 activated = true;
-                Debug.Log("Tutorial text set called, activated = true");
             }
         }
     }
