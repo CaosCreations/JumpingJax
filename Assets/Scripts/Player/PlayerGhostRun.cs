@@ -52,8 +52,8 @@ public class PlayerGhostRun : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         playerCamera = GetComponent<CameraMove>().playerCamera;
         portalPlacement = GetComponent<PortalPlacement>();
-        inGameUI = GetComponentInChildren<InGameUI>();
-        keyPressed = GetComponentInChildren<KeyPressed>();
+        inGameUI = GetComponentInChildren<InGameUI>(true);
+        keyPressed = GetComponentInChildren<KeyPressed>(true);
 
         SetPastRunData();
         SetupGhostObject();
@@ -66,7 +66,7 @@ public class PlayerGhostRun : MonoBehaviour
     {
         if (string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation) && currentLevel.levelSaveData.isCompleted)
         {
-            Debug.Log($"Loading replay data from local files for {currentLevel.levelName}");
+            Debug.Log($"Loading replay data from local files for {currentLevel.levelName}. From: {FilePathUtil.GetLevelDataFilePath(currentLevel.levelName)}");
             pastRunPositionData = currentLevel.levelSaveData.ghostRunPositions;
             pastRunCameraRotationData = currentLevel.levelSaveData.ghostRunCameraRotations;
             pastRunKeyData = currentLevel.levelSaveData.ghostRunKeys;
@@ -119,7 +119,8 @@ public class PlayerGhostRun : MonoBehaviour
             ghostRunner = Instantiate(ghostRunnerPrefab);
             ghostRunner.name = "ghost runner";
 
-            ghostRunRecursivePortalCamera = ghostRunner.GetComponentInChildren<GhostPortalCamera>();
+            ghostRunRecursivePortalCamera = ghostRunner.GetComponentInChildren<GhostPortalCamera>(true);
+
             ghostCamera = ghostRunRecursivePortalCamera.myCamera;
 
             playerMovement.ghostCamera = ghostCamera;
@@ -130,7 +131,7 @@ public class PlayerGhostRun : MonoBehaviour
             ghostCamera.enabled = false;
 
             ghostRunner.layer = PlayerConstants.GhostLayer;
-            Transform[] allChildren = ghostRunner.GetComponentsInChildren<Transform>();
+            Transform[] allChildren = ghostRunner.GetComponentsInChildren<Transform>(true);
             foreach (Transform child in allChildren)
             {
                 child.gameObject.layer = PlayerConstants.GhostLayer;
@@ -152,7 +153,7 @@ public class PlayerGhostRun : MonoBehaviour
         
         if (ghostCamera.enabled)
         {
-            if(pastRunKeyData[currentDataIndex].isMouseLeftPressed && ghostPortalPlacement.portalPair != null)
+            if (pastRunKeyData[currentDataIndex].isMouseLeftPressed && ghostPortalPlacement.portalPair != null)
             {
                 ghostPortalPlacement.FirePortal(PortalType.Blue, ghostCamera.transform.position, ghostCamera.transform.forward,
                     PlayerConstants.PortalRaycastDistance, ghostCamera.transform);
