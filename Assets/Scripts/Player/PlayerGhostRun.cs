@@ -63,44 +63,41 @@ public class PlayerGhostRun : MonoBehaviour
 
     private void SetPastRunData()
     {
-        if (string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation) && currentLevel.levelSaveData.isCompleted)
+        if(pastRunPositionData == null)
         {
-            Debug.Log($"Loading replay data from local files for {currentLevel.levelName}. From: {FilePathUtil.GetLevelDataFilePath(currentLevel.levelName)}");
-            pastRunPositionData = currentLevel.levelSaveData.ghostRunPositions;
-            pastRunCameraRotationData = currentLevel.levelSaveData.ghostRunCameraRotations;
-            pastRunKeyData = currentLevel.levelSaveData.ghostRunKeys;
-            pastRunVelocityData = currentLevel.levelSaveData.ghostRunVelocities;
-
-            if (SteamClient.IsValid)
+            if (string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation) && currentLevel.levelSaveData.isCompleted)
             {
-                pastRunPlayerSteamName = SteamClient.Name;
+                Debug.Log($"Loading replay data from local files for {currentLevel.levelName}. From: {FilePathUtil.GetLevelDataFilePath(currentLevel.levelName)}");
+                pastRunPositionData = currentLevel.levelSaveData.ghostRunPositions;
+                pastRunCameraRotationData = currentLevel.levelSaveData.ghostRunCameraRotations;
+                pastRunKeyData = currentLevel.levelSaveData.ghostRunKeys;
+                pastRunVelocityData = currentLevel.levelSaveData.ghostRunVelocities;
 
+                if (SteamClient.IsValid)
+                {
+                    pastRunPlayerSteamName = SteamClient.Name;
+                }
+                else
+                {
+                    pastRunPlayerSteamName = currentLevel.levelSaveData.ghostRunPlayerName;
+                }
             }
-            else
-            {
-                pastRunPlayerSteamName = currentLevel.levelSaveData.ghostRunPlayerName;
-            }
-        }
-        else{
-            if (!string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation) && pastRunPositionData == null)
+            else if (!string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation))
             {
                 Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.ReplayFileLocation}");
                 if (File.Exists(GameManager.Instance.ReplayFileLocation))
                 {
-                    Debug.Log("Found leaderboard replay file, loading replay data");
-
                     try
                     {
                         string replayLevelData = File.ReadAllText(GameManager.Instance.ReplayFileLocation);
-                        Level replayLevel = ScriptableObject.CreateInstance<Level>();
-                        replayLevel.levelSaveData = new PersistentLevelDataModel();
-                        JsonUtility.FromJsonOverwrite(replayLevelData, replayLevel.levelSaveData);
+                        PersistentLevelDataModel levelSaveData = new PersistentLevelDataModel();
+                        JsonUtility.FromJsonOverwrite(replayLevelData, levelSaveData);
 
-                        pastRunPositionData = replayLevel.levelSaveData.ghostRunPositions;
-                        pastRunCameraRotationData = replayLevel.levelSaveData.ghostRunCameraRotations;
-                        pastRunKeyData = replayLevel.levelSaveData.ghostRunKeys;
-                        pastRunVelocityData = replayLevel.levelSaveData.ghostRunVelocities;
-                        pastRunPlayerSteamName = replayLevel.levelSaveData.ghostRunPlayerName;
+                        pastRunPositionData = levelSaveData.ghostRunPositions;
+                        pastRunCameraRotationData = levelSaveData.ghostRunCameraRotations;
+                        pastRunKeyData = levelSaveData.ghostRunKeys;
+                        pastRunVelocityData = levelSaveData.ghostRunVelocities;
+                        pastRunPlayerSteamName = levelSaveData.ghostRunPlayerName;
                     }
                     catch (Exception e)
                     {
