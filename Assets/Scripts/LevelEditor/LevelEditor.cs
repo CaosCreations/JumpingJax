@@ -192,6 +192,7 @@ public class LevelEditor : MonoBehaviour
 
     private async void Publish()
     {
+        ToggleUIInteractive(false);
         publishButton.SetDisabled();
 
         if (!CanPublish()) 
@@ -223,6 +224,15 @@ public class LevelEditor : MonoBehaviour
         }
 
         publishButton.ClearDisabled();
+        ToggleUIInteractive(true);
+    }
+
+    private void ToggleUIInteractive(bool shouldBeInteractive)
+    {
+        backButton.button.interactable = shouldBeInteractive;
+        newButton.button.interactable = shouldBeInteractive;
+        loadButton.button.interactable = shouldBeInteractive;
+        deleteButton.button.interactable = shouldBeInteractive;
     }
 
     private void LevelButtonClicked(LevelEditorButton button)
@@ -272,29 +282,34 @@ public class LevelEditor : MonoBehaviour
         //if theres no start checkpoint. FloatingPlatform is the default type
         if (level.levelObjects.FirstOrDefault(levelObject => levelObject.objectType == ObjectType.FirstCheckpoint).objectType == ObjectType.FloatingPlatform)
         {
-            errorText.text += "Level must have a starting checkpoint" + '\n';
+            errorText.text += "-Level must have a starting checkpoint" + '\n';
             isValid = false;
         }
 
         //if theres no end checkpoint
         if (level.levelObjects.FirstOrDefault(levelObject => levelObject.objectType == ObjectType.FinalCheckpoint).objectType == ObjectType.FloatingPlatform)
         {
-            errorText.text += "Level must have an end checkpoint" + '\n';
+            errorText.text += "-Level must have an end checkpoint" + '\n';
             isValid = false;
         }
 
         //if theres no level name
         if (string.IsNullOrEmpty(selectedLevel.text.text))
         {
-            errorText.text += "Level must have a name" + '\n';
+            errorText.text += "-Level must have a name" + '\n';
             isValid = false;
         }
 
         //if theres no level description
         if (string.IsNullOrEmpty(selectedLevel.level.description))
         {
-            errorText.text += "Level must have a description" + '\n';
+            errorText.text += "-Level must have a description" + '\n';
             isValid = false;
+        }
+
+        if (isValid)
+        {
+            errorText.text = "Next steps:\n-After publishing, go subscribe to your new level in the workshop\n-Now, in Level Select, under the workshop tab you should be able to test your level\n-Feel free to add a screen shot for the level preview in the workshop";
         }
 
         // TODO, find a way to ensure the level is capable of being completed

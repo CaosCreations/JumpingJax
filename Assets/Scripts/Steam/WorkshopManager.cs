@@ -36,15 +36,8 @@ public class WorkshopManager : MonoBehaviour
                 Debug.LogError($"could not publish: {levelToPublish.levelName}, error: {result}");
             }
 
-            if (result.NeedsWorkshopAgreement)
-            {
-                Debug.Log($"opening steam overlay to: steam://url/CommunityFilePage/{result.FileId}");
-                SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{result.FileId}");
-            }
-            else
-            {
-                Debug.Log("User has accepted workshop agreement already");
-            }
+            Debug.Log($"opening steam overlay to: steam://url/CommunityFilePage/{result.FileId}");
+            SteamFriends.OpenWebOverlay($"steam://url/CommunityFilePage/{result.FileId}");
         }
 
         return toReturn;

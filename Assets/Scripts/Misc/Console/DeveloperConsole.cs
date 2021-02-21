@@ -75,7 +75,7 @@ public class DeveloperConsole : MonoBehaviour
         autoComplete = GetComponentInChildren<AutoComplete>();
         cachedCommands = new List<string>();
         focusSelection = FocusSelection.Cache;
-        pauseMenu = GameObject.FindObjectOfType<PauseMenu>();
+        pauseMenu = FindObjectOfType<PauseMenu>();
         isEnabledInOptions = OptionsPreferencesManager.GetConsoleToggle();
 
         MiscOptions.onConsoleToggle += ToggleConsoleEnabled;
@@ -242,18 +242,18 @@ public class DeveloperConsole : MonoBehaviour
 
     private void LogMessage(string message, string stackTrace, LogType type)
     {
-        if(consoleText != null)
+        if (type == LogType.Exception || type == LogType.Error)
+        {
+            message += $"\n{stackTrace}";
+        }
+
+        if (consoleText != null)
         {
             consoleText.text += message + "\n";
         }
 
         DateTime now = DateTime.Now;
         message = string.Format("[{0:H:mm:ss}] {1}\n", now, message);
-
-        if(type == LogType.Exception || type == LogType.Error)
-        {
-            message += $"\n{stackTrace}";
-        }
 
         _readWriteLock.EnterWriteLock();
         try

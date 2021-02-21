@@ -1,41 +1,49 @@
-﻿using UnityEngine.SceneManagement;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TutorialTriggerGroup : MonoBehaviour
 {
+    public static TutorialTriggerGroup Instance { get; private set; }
 
     public TutorialTrigger[] triggers;
     public InGameUI gameUI;
     public PlayerProgress playerProgress;
 
-    private void OnEnable()
+    private void Awake()
     {
-        SceneManager.sceneLoaded += OnNewLevelLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnNewLevelLoaded;
-    }
-
-    private void OnNewLevelLoaded(Scene scene, LoadSceneMode mode)
-    {
+        Init();
         UpdateTriggers();
+
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
+    private void Init()
+    {
+        // Make sure to clean references from an old scene
+        playerProgress = null;
+        gameUI = null;
+
+        GameObject player = GameObject.FindWithTag(PlayerConstants.PlayerTag);
+        if(player != null)
+        {
+            playerProgress = player.GetComponent<PlayerProgress>();
+            gameUI = player.GetComponentInChildren<InGameUI>(true);
+        }
     }
 
     void UpdateTriggers()
     {
         triggers = FindObjectsOfType<TutorialTrigger>();
-        if (triggers.Length == 0)
+        if (triggers.Length == 0 || playerProgress == null || gameUI == null)
         {
-            // No need to search for PlayerProgress or InGameUI if there are no trigger elements.
-            return;
-        }
-        playerProgress = GameObject.FindWithTag(PlayerConstants.PlayerTag).GetComponent<PlayerProgress>();
-        gameUI = playerProgress.GetComponentInChildren<InGameUI>(true);
-        if (playerProgress == null || gameUI == null)
-        {
-            Debug.LogError("Unable to find playerProgress or gameUI");
             return;
         }
 
