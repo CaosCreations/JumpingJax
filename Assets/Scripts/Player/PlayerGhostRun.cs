@@ -213,7 +213,7 @@ public class PlayerGhostRun : MonoBehaviour
         {
             ghostRunner.transform.eulerAngles = Vector3.zero;
             ghostCamera.transform.eulerAngles = pastRunCameraRotationData[currentDataIndex];
-            if (pastRunVelocityData.Length > currentDataIndex)
+            if (pastRunVelocityData != null && pastRunVelocityData.Length >= currentDataIndex)
             {
                 inGameUI.currentSpeed = pastRunVelocityData[currentDataIndex];
             }
