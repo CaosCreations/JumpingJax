@@ -207,7 +207,15 @@ public class PlayerGhostRun : MonoBehaviour
         if (ghostCamera.enabled)
         {
             ghostCamera.transform.eulerAngles = pastRunCameraRotationData[currentDataIndex];
-            inGameUI.currentSpeed = pastRunVelocityData[currentDataIndex];
+            if (pastRunVelocityData != null && pastRunVelocityData.Length >= currentDataIndex)
+            {
+                inGameUI.currentSpeed = pastRunVelocityData[currentDataIndex];
+            }
+            else
+            {
+                inGameUI.currentSpeed = 0;
+            }
+            
             keyPressed.SetPressed(pastRunKeyData[currentDataIndex]);
         }
         else
@@ -302,10 +310,5 @@ public class PlayerGhostRun : MonoBehaviour
     private bool ShouldGhostBeActive()
     {
         return pastRunPositionData != null && pastRunPositionData.Length > 0 && OptionsPreferencesManager.GetGhostToggle();
-    }
-
-    public float GetGhostVelocity()
-    {
-        return pastRunVelocityData[currentDataIndex];
     }
 }

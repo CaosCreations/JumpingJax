@@ -68,6 +68,7 @@ public class InGameUI : MonoBehaviour
             completionTimeText.text = time.ToString("hh':'mm':'ss");
         }
 
+        //currentSpeed is by default set to the ghost velocity at this time
         if (!IsGhosting)
         {
             currentSpeed = new Vector2(playerMovement.velocityToApply.x, playerMovement.velocityToApply.z).magnitude;
