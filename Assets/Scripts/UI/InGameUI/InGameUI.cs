@@ -191,7 +191,10 @@ public class InGameUI : MonoBehaviour
         speedBar.gameObject.SetActive(OptionsPreferencesManager.GetSpeedToggle());
         timeContainer.gameObject.SetActive(OptionsPreferencesManager.GetTimeToggle());
         keyPressed.SetActive(OptionsPreferencesManager.GetKeyPressedToggle());
-        tutorialPane.SetActive(OptionsPreferencesManager.GetTutorialToggle() && tutorialTexts.Length > 0);
+        if (tutorialTexts != null)
+        {
+            tutorialPane.SetActive(OptionsPreferencesManager.GetTutorialToggle() && tutorialTexts.Length > 0);
+        }
     }
 
     public void ToggleGhostUI()

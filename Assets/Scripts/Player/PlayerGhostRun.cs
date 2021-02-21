@@ -65,7 +65,7 @@ public class PlayerGhostRun : MonoBehaviour
     {
         if(pastRunPositionData == null)
         {
-            if (string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation) && currentLevel.levelSaveData.isCompleted)
+            if (string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation) && currentLevel.levelSaveData != null && currentLevel.levelSaveData.isCompleted)
             {
                 Debug.Log($"Loading replay data from local files for {currentLevel.levelName}. From: {FilePathUtil.GetLevelDataFilePath(currentLevel.levelName)}");
                 pastRunPositionData = currentLevel.levelSaveData.ghostRunPositions;
