@@ -232,6 +232,7 @@ public class Inspector : MonoBehaviour
         objectToInspect.localScale = newScale;
     }
 
+    #region KeyboardInput
     private void HandleKeyboardInput()
     {
         HandleManipulationKeyboardInput();
@@ -338,6 +339,7 @@ public class Inspector : MonoBehaviour
     {
         inputFields.All(x => { x.readOnly = isReadOnly; return true; });
     }
+    #endregion
 
     private void SnapChanged(string newSnapValue)
     {
