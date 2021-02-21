@@ -131,7 +131,7 @@ public class StatsManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning($"no leaderboard found for {levelLeaderboardName}");
+                    Debug.LogWarning($"no leaderboard entries found for {levelLeaderboardName}");
                 }
             }
         }

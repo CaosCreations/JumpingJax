@@ -25,7 +25,7 @@ public class PlayerProgress : MonoBehaviour
         cameraMove = GetComponent<CameraMove>();
         playerGhostRun = GetComponent<PlayerGhostRun>();
         crosshair = GetComponent<Crosshair>();
-        portalPair = GameObject.FindObjectOfType<PortalPair>();
+        portalPair = FindObjectOfType<PortalPair>();
         Deaths = 0;
         GetFirstCheckpoint();
     }
@@ -150,7 +150,6 @@ public class PlayerProgress : MonoBehaviour
 
     private void ResetTutorials()
     {
-        TutorialTriggerGroup group = GameObject.FindObjectOfType<TutorialTriggerGroup>();
-        group.ResetTriggers();
+        TutorialTriggerGroup.Instance.ResetTriggers();
     }
 }

@@ -45,8 +45,16 @@ public class WinMenu : MonoBehaviour
         {
             completionTimeText.text = TimeUtils.GetTimeString(GameManager.Instance.currentCompletionTime);
         }
+        
+        // Use local best time for now
+        bestTimeText.text = TimeUtils.GetTimeString(GameManager.GetCurrentLevel().levelSaveData.completionTime);
+
+        // Then work on getting the best time from steam
         float bestTime = await StatsManager.GetLevelCompletionTime(GameManager.GetCurrentLevel().levelName);
-        bestTimeText.text = TimeUtils.GetTimeString(bestTime);
+        if(bestTime != 0)
+        {
+            bestTimeText.text = TimeUtils.GetTimeString(bestTime);
+        }
     }
 
     private void SetupButtons()

@@ -134,10 +134,10 @@ public class HotKeyManager : MonoBehaviour {
         AddDefaultKey(PlayerConstants.ToggleUI, PlayerConstants.ToggleUIDefault);
         AddDefaultKey(PlayerConstants.LevelEditorSpeedIncrease, PlayerConstants.LevelEditorSpeedIncreaseDefault);
         AddDefaultKey(PlayerConstants.LevelEditorSpeedDecrease, PlayerConstants.LevelEditorSpeedDecreaseDefault);
-        AddDefaultKey(PlayerConstants.LevelEditorSelectXAxis, PlayerConstants.LevelEditorSelectXAxisTooltip);
-        AddDefaultKey(PlayerConstants.LevelEditorSelectYAxis, PlayerConstants.LevelEditorSelectYAxisTooltip);
-        AddDefaultKey(PlayerConstants.LevelEditorSelectZAxis, PlayerConstants.LevelEditorSelectZAxisTooltip);
-        AddDefaultKey(PlayerConstants.LevelEditorSelectSnap, PlayerConstants.LevelEditorSelectSnapTooltip);
+        AddDefaultKey(PlayerConstants.LevelEditorSelectXAxis, PlayerConstants.LevelEditorSelectXAxisDefault);
+        AddDefaultKey(PlayerConstants.LevelEditorSelectYAxis, PlayerConstants.LevelEditorSelectYAxisDefault);
+        AddDefaultKey(PlayerConstants.LevelEditorSelectZAxis, PlayerConstants.LevelEditorSelectZAxisDefault);
+        AddDefaultKey(PlayerConstants.LevelEditorSelectSnap, PlayerConstants.LevelEditorSelectSnapDefault);
         AddDefaultKey(PlayerConstants.LevelEditorPlayTest, PlayerConstants.LevelEditorPlayTestDefault);
         AddDefaultKey(PlayerConstants.ModifierKey, PlayerConstants.ModifierKeyDefault);
         AddDefaultKey(PlayerConstants.LevelEditorSelectPosition, PlayerConstants.LevelEditorSelectPositionDefault);
