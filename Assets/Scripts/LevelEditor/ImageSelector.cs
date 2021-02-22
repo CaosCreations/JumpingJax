@@ -1,60 +1,57 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ImageSelector : MonoBehaviour, IPointerClickHandler
+public class ImageSelector : MonoBehaviour
 {
-    public LevelImage[] levelImages; 
+    public LevelImageContainer levelImageContainer;
+    public Button imageSelectorButton; 
     public Image imagePreview;
-    public Material materialPreview; 
-    public GameObject imageSelectionContainer;
+    public GameObject container;
     public GameObject scrollViewContent;
     public GameObject imageToSelectPrefab;
 
-    private void ToggleImageSelectionView()
+    private Dictionary<LevelImage, Button> scrollViewItemButtons;
+    public LevelImage[] LevelImages { get => levelImageContainer.levelImages; }
+
+    // Todo: support mesh renderers with multiple materials on them 
+
+    private void Awake()
     {
-        imageSelectionContainer.ToggleActive();
+        imageSelectorButton.AddOnClick(() => container.ToggleActive());
+        imagePreview = imageSelectorButton.GetComponent<Image>();
+        scrollViewItemButtons = new Dictionary<LevelImage, Button>();
     }
 
-    private void PopulateScrollView()
+    public void PopulateScrollView()
     {
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void UpdateImagePreview(GameObject objectToUpdate)
-    {
-        // convert material to image (UI)
-
-        //imagePreview.sprite = objectToUpdate.GetComponent<MeshRenderer>().material;
-    }
-    
-    private void SelectImage(GameObject selectedObject, Material newMaterial)
-    {
-        selectedObject.SetMaterial(newMaterial);
-        Debug.Log("New material: " + newMaterial.name);
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Left)
+        foreach (LevelImage levelImage in LevelImages)
         {
-            //SelectImage(selectedObject, newMaterial);
-            ToggleImageSelectionView();
-            
+            GameObject scrollViewItem = Instantiate(imageToSelectPrefab, scrollViewContent.transform);
+            scrollViewItem.name = levelImage.imageName;
+            scrollViewItem.SetText(levelImage.imageName, isChild: true);
+            scrollViewItem.SetSprite(levelImage.previewSprite, isChild: true);
+            scrollViewItemButtons.Add(levelImage, scrollViewItem.GetComponentInChildren<Button>());
         }
+    }
 
+    public void AddListeners(GameObject objectToInspect)
+    {
+        foreach (KeyValuePair<LevelImage, Button> kvp in scrollViewItemButtons)
+        {
+            kvp.Value.AddOnClick(() => SelectImage(objectToInspect, kvp.Key)); // swap k and v
+        }
+    }
+
+    private void SelectImage(GameObject selectedObject, LevelImage levelImage)
+    {
+        if (selectedObject != null)
+        {
+            selectedObject.SetMaterial(levelImage.material);
+            Debug.Log("New material: " + levelImage.material.name);
+
+            imagePreview.sprite = levelImage.previewSprite;
+
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public static class GameObjectExtensions
 {
@@ -8,8 +9,33 @@ public static class GameObjectExtensions
         return self.activeSelf;
     }
 
-    public static Material SetMaterial(this GameObject self, Material newMaterial)
+    public static GameObject SetText(this GameObject self, string value, bool isChild)
     {
-        return self.GetComponent<MeshRenderer>().material = newMaterial;
+        Text text = isChild ? self.GetComponentInChildren<Text>() : self.GetComponent<Text>();
+        if (text != null)
+        {
+            text.text = value;
+        }
+        return self;
+    }
+
+    public static GameObject SetSprite(this GameObject self, Sprite value, bool isChild)
+    {
+        Image image = isChild ? self.GetComponentInChildren<Image>() : self.GetComponent<Image>();
+        if (image != null)
+        {
+            image.sprite = value;
+        }
+        return self;
+    }
+
+    public static GameObject SetMaterial(this GameObject self, Material value)
+    {
+        MeshRenderer renderer = self.GetComponent<MeshRenderer>();
+        if (renderer != null)
+        {
+            self.GetComponent<MeshRenderer>().material = value;
+        }
+        return self;
     }
 }

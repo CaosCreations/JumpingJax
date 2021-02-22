@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "X Image", menuName = "ScriptableObjects/levelImages")]
+[CreateAssetMenu(fileName = "LevelEditorImage", menuName = "ScriptableObjects/levelImages")]
 public class LevelImage : ScriptableObject
 {
-    public Sprite sprite;
+    public string imageName;
+    public Sprite previewSprite;
     public Material material;
-    public Texture texture; 
-    public Color colour;
-    public string imageName; 
 }

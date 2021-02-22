@@ -34,6 +34,7 @@ public class Inspector : MonoBehaviour
     public LevelEditorHUD levelEditorHUD;
     public LevelEditorGizmo levelEditorGizmo;
 
+    private ImageSelector imageSelector;
 
     public enum InputType
     {
@@ -43,6 +44,7 @@ public class Inspector : MonoBehaviour
     {
         levelEditorHUD = GetComponentInParent<LevelEditorHUD>();
         levelEditorGizmo = GetComponentInParent<LevelEditorGizmo>();
+        imageSelector = GetComponent<ImageSelector>();
     }
 
     void Start()
@@ -65,6 +67,7 @@ public class Inspector : MonoBehaviour
         snapInput.text = "0";
 
         inputFields = new InputField[] { xInput, yInput, zInput, snapInput };
+        imageSelector.PopulateScrollView();
 
         Clear();
     }
@@ -95,6 +98,7 @@ public class Inspector : MonoBehaviour
         container.SetActive(true);
         UpdateInputs();
         levelEditorGizmo.SetGizmo(objectToInspect.transform, manipulationType);
+        imageSelector.AddListeners(toInspect.gameObject);
     }
 
     public void Clear()
@@ -102,6 +106,7 @@ public class Inspector : MonoBehaviour
         levelEditorGizmo.ClearGizmo();
         objectToInspect = null;
         container.SetActive(false);
+        imageSelector.container.SetActive(false);
     }
 
     private void CheckInspectorCommands()
