@@ -221,14 +221,15 @@ public class InGameUI : MonoBehaviour
         {
             tutorialPane.SetActive(true);
             tutorialText.text = $"Spectating: {ghostRun.pastRunPlayerSteamName}";
-            tutorialText.color = UIcolor; //tutorialText.color is unable to be allocated during Start(), handled here.
-            tutorialNextText.gameObject.SetActive(false);
         }
         else
         {
             SetupTutorialTexts(null);
             tutorialNextText.gameObject.SetActive(true);
         }
+
+        tutorialText.color = UIcolor; //tutorialText.color is unable to be allocated during Start(), handled here.
+        tutorialNextText.gameObject.SetActive(!IsGhosting);
 
         CheckElementsShouldBeActive();
     }
