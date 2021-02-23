@@ -104,6 +104,35 @@ public class StatsManager : MonoBehaviour
         return new Steamworks.Data.LeaderboardEntry[0];
     }
 
+    public static async Task<Steamworks.Data.LeaderboardEntry[]> GetFriendsLeaderboard(string levelLeaderboardName)
+    {
+        if (SteamClient.IsValid)
+        {
+            var leaderboard = await SteamUserStats.FindOrCreateLeaderboardAsync(levelLeaderboardName, Steamworks.Data.LeaderboardSort.Ascending, Steamworks.Data.LeaderboardDisplay.TimeMilliSeconds);
+            if (!leaderboard.HasValue)
+            {
+                Debug.LogWarning($"Could not retrieve leaderboard {levelLeaderboardName} from steam");
+            }
+            else
+            {
+                var entries = await leaderboard.Value.GetScoresFromFriendsAsync();
+                if(entries != null && entries.Length > 10)
+                {
+                    Steamworks.Data.LeaderboardEntry[] entryCopy = new Steamworks.Data.LeaderboardEntry[10];
+                    Array.Copy(entries, entryCopy, entryCopy.Length);
+                    return entryCopy;
+                }
+                return entries;
+            }
+        }
+        else
+        {
+            Debug.LogError("Not getting level leaderboard, steam client is NOT valid");
+        }
+
+        return new Steamworks.Data.LeaderboardEntry[0];
+    }
+
     public static async Task<Steamworks.Data.LeaderboardEntry?> GetMyLevelLeaderboard(string levelLeaderboardName)
     {
         if (SteamClient.IsValid)

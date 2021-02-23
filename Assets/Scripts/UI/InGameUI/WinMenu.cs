@@ -14,11 +14,14 @@ public class WinMenu : MonoBehaviour
     public SecondaryButton menuButton;
     public PrimaryButton nextButton;
 
+    private LeaderboardManager leaderboardManager;
+
     private PlayerProgress playerProgress;
 
     private void Awake()
     {
         playerProgress = GetComponentInParent<PlayerProgress>();
+        leaderboardManager = GetComponentInChildren<LeaderboardManager>();
         SetupButtons();
     }
 
@@ -40,21 +43,26 @@ public class WinMenu : MonoBehaviour
 
     private async void OnEnable()
     {
-        levelText.text = "You found Jax on: " + GameManager.GetCurrentLevel().levelName;
+        Level currentLevel = GameManager.GetCurrentLevel();
+        levelText.text = "You found Jax on: " + currentLevel.levelName;
         if(GameManager.Instance != null)
         {
             completionTimeText.text = TimeUtils.GetTimeString(GameManager.Instance.currentCompletionTime);
         }
         
         // Use local best time for now
-        bestTimeText.text = TimeUtils.GetTimeString(GameManager.GetCurrentLevel().levelSaveData.completionTime);
+        bestTimeText.text = TimeUtils.GetTimeString(currentLevel.levelSaveData.completionTime);
 
         // Then work on getting the best time from steam
-        float bestTime = await StatsManager.GetLevelCompletionTime(GameManager.GetCurrentLevel().levelName);
+        float bestTime = await StatsManager.GetLevelCompletionTime(currentLevel.levelName);
         if(bestTime != 0)
         {
             bestTimeText.text = TimeUtils.GetTimeString(bestTime);
         }
+
+        leaderboardManager.CleanScrollView();
+        await leaderboardManager.PopulateLeaderboard(currentLevel.levelName);
+        await leaderboardManager.PopulateMyStats(currentLevel.levelName);
     }
 
     private void SetupButtons()

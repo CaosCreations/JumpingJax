@@ -10,7 +10,9 @@ public class LeaderboardEntry : MonoBehaviour
     public Text time;
     public Text playerName;
     public Image avatarImage;
-    public PrimaryButton replayButton;
+
+    public GameObject replayCheck;
+    public Button replayButton;
 
     public async void Init(Steamworks.Data.LeaderboardEntry entry, Action replaySet)
     {
@@ -23,12 +25,18 @@ public class LeaderboardEntry : MonoBehaviour
         Sprite sprite = Sprite.Create(avatarTexture, new Rect(0, 0, avatarTexture.width, avatarTexture.height), new Vector2(0.5f, 0.5f));
         avatarImage.sprite = sprite;
 
-        replayButton.Init(replaySet);
-        replayButton.button.onClick.AddListener(SetButtonActive);
+        replayButton.onClick.AddListener(() => replaySet());
+        replayButton.onClick.AddListener(SetButtonActive);
     }
 
     public void SetButtonActive()
     {
-        replayButton.SetActive();
+        replayCheck.SetActive(true);
+        //replayCheck.SetActive(!replayCheck.activeSelf);
+    }
+
+    public void ClearActive()
+    {
+        replayCheck.SetActive(false);
     }
 }
