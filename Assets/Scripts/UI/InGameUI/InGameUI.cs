@@ -22,7 +22,6 @@ public class InGameUI : MonoBehaviour
 
     // Tutorial
     public TMP_Text tutorialText;
-    public TMP_Text tutorialNextText;
     public GameObject tutorialPane;
     private string[] tutorialTexts;
     private int tutorialTextIndex = 0;
@@ -99,6 +98,7 @@ public class InGameUI : MonoBehaviour
         {
             tutorialPane.SetActive(true);
             tutorialText.text = tutorialTexts[tutorialTextIndex].InsertCustomHotKeys().InsertNewLines();
+            tutorialText.text += "\nPress TAB to Continue";
             tutorialTextIndex++;
         }
         else
@@ -203,11 +203,9 @@ public class InGameUI : MonoBehaviour
         else
         {
             SetupTutorialTexts(null);
-            tutorialNextText.gameObject.SetActive(true);
         }
 
         tutorialText.color = UIcolor; //tutorialText.color is unable to be allocated during Start(), handled here.
-        tutorialNextText.gameObject.SetActive(!IsGhosting);
 
         CheckElementsShouldBeActive();
     }
