@@ -13,8 +13,18 @@ public class KeyPressed : MonoBehaviour
     public Image jumpPressed;
     public Image mousePressed;
 
-    public Sprite directionDefaultSprite;
-    public Sprite directionPressedSprite;
+    public Sprite forwardDefaultSprite;
+    public Sprite forwardPressedSprite;
+
+    public Sprite leftDefaultSprite;
+    public Sprite leftPressedSprite;
+
+    public Sprite rightDefaultSprite;
+    public Sprite rightPressedSprite;
+
+    public Sprite backPressedDefaultSprite;
+    public Sprite backPressedPressedSprite;
+
 
     public Sprite crouchDefaultSprite;
     public Sprite crouchPressedSprite;
@@ -88,12 +98,41 @@ public class KeyPressed : MonoBehaviour
 
     private void CheckKeys()
     {
-        forwardPressed.sprite = isForwardPressed ? directionPressedSprite : directionDefaultSprite;
-        leftPressed.sprite = isLeftPressed ? directionPressedSprite : directionDefaultSprite;
-        rightPressed.sprite = isRightPressed ? directionPressedSprite : directionDefaultSprite;
-        backPressed.sprite = isBackPressed ? directionPressedSprite : directionDefaultSprite;
+
+        forwardPressed.sprite = isForwardPressed ? forwardPressedSprite : forwardDefaultSprite;
+        leftPressed.sprite = isLeftPressed ? leftPressedSprite : leftDefaultSprite;
+        rightPressed.sprite = isRightPressed ? rightPressedSprite : rightDefaultSprite;
+        backPressed.sprite = isBackPressed ? backPressedPressedSprite : backPressedDefaultSprite;
         jumpPressed.sprite = isJumpPressed ? jumpPressedSprite : jumpDefaultSprite;
         crouchPressed.sprite = isCrouchPressed ? crouchPressedSprite : crouchDefaultSprite;
+
+        SetColor(forwardPressed, isForwardPressed);
+        SetColor(leftPressed, isLeftPressed);
+        SetColor(rightPressed, isRightPressed);
+        SetColor(backPressed, isBackPressed);
+        SetColor(jumpPressed, isJumpPressed);
+        SetColor(crouchPressed, isCrouchPressed);
+    }
+
+    private void SetColor(Image image, bool isPressed)
+    {
+        bool isGhost = playerGhostRun.ghostCamera.enabled;
+
+        if (isPressed)
+        {
+            if (isGhost)
+            {
+                image.color = InGameUI.ghostColor;
+            }
+            else
+            {
+                image.color = InGameUI.normalColor;
+            }
+        }
+        else
+        {
+            image.color = InGameUI.inactiveColor;
+        }
     }
 
     private void CheckMouse()

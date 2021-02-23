@@ -31,15 +31,16 @@ public class InGameUI : MonoBehaviour
     public PlayerMovement playerMovement;
 
     // Used for Ghost
-    public Color ghostColor = new Color(255 / 255f, 124 / 255f, 50 / 255f); // burnt orange color
-    public Color normalColor = new Color(149 / 255f, 237 / 255f, 194 / 255f); // light green color
+    public static Color ghostColor = new Color(255 / 255f, 124 / 255f, 50 / 255f); // burnt orange color
+    public static Color normalColor = new Color(149 / 255f, 237 / 255f, 194 / 255f); // light green color
+    public static Color inactiveColor = new Color(1, 1, 1, 1); // light green color
     public bool IsGhosting = false;
     public PlayerGhostRun ghostRun;
 
     public float currentSpeed;
 
-    private List<Image> imagesToUpdateColor;
-    private List<Text> textsToUpdateColor;
+    public Image[] imagesToUpdateColor;
+    public Text[] textsToUpdateColor;
 
 
     private void Start()
@@ -51,7 +52,6 @@ public class InGameUI : MonoBehaviour
         tutorialTexts = GameManager.GetCurrentLevel().tutorialTexts;
         LoadNextTutorial();
 
-        GetUIForColors();
         CheckElementsShouldBeActive();
         ToggleGhostUI();
         MiscOptions.onMiscToggle += ToggleIndividual;
@@ -83,19 +83,6 @@ public class InGameUI : MonoBehaviour
         else if (InputManager.GetKeyDown(PlayerConstants.ToggleUI))
         {
             ToggleUI();
-        }
-    }
-
-    private void GetUIForColors()
-    {
-        if(imagesToUpdateColor == null)
-        {
-            imagesToUpdateColor = GetComponentsInChildren<Image>().ToList();
-        }
-
-        if(textsToUpdateColor == null)
-        {
-            textsToUpdateColor = GetComponentsInChildren<Text>().ToList();
         }
     }
 
