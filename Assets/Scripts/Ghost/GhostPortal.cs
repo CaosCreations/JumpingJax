@@ -205,7 +205,7 @@ public class GhostPortal : MonoBehaviour
         else
         {
             playerCrosshair.CrossCheck(portalType == PortalType.Blue);
-            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Portal);
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.PortalOpen);
         }
     }
 

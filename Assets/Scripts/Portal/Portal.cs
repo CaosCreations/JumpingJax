@@ -14,6 +14,7 @@ public class Portal : MonoBehaviour
 
 
     [Header("Set at RUNTIME")]
+    public AudioSource idleAudioSource;
     public Material renderTextureMaterial;
 
     [SerializeField]
@@ -53,6 +54,8 @@ public class Portal : MonoBehaviour
 
     private void Awake()
     {
+        idleAudioSource = GetComponent<AudioSource>();
+        idleAudioSource.Play();
         boxCollider = GetComponent<BoxCollider>();
         portalBoundsExtents = boxCollider.bounds.extents;
         myRenderer = GetComponent<Renderer>();
@@ -198,13 +201,15 @@ public class Portal : MonoBehaviour
 
         if (GetIsOverhanging())
         {
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.PortalRejected);
             ResetPortal();
             ResetOtherPortal();
         }
         else
         {
             playerCrosshair.CrossCheck(portalType == PortalType.Blue);
-            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Portal);
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.PortalOpen);
+            idleAudioSource.Play();
         }
     }
 
@@ -306,6 +311,7 @@ public class Portal : MonoBehaviour
         gameObject.SetActive(false);
         ResetPortalMaterial();
         ResetObjectInPortal(objectToWarp);
+        idleAudioSource.Stop();
     }
 
     public void ResetObjectInPortal(PlayerPortalableController portalable)
