@@ -52,6 +52,7 @@ public class TutorialTriggerGroup : MonoBehaviour
             trigger.AddGameUI(gameUI);
             trigger.AddPlayerProgress(playerProgress);
         }
+        Instance = this;
     }
 
     // Reset triggers to inactive on level reset to display messages again
@@ -61,5 +62,7 @@ public class TutorialTriggerGroup : MonoBehaviour
         {
             trigger.ResetTrigger();
         }
+        string[] blankString = { };
+        gameUI.SetupTutorialTexts(blankString);
     }
 }

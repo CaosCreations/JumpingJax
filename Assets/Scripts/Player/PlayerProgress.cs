@@ -121,6 +121,7 @@ public class PlayerProgress : MonoBehaviour
             GameManager.RestartLevel();
             playerGhostRun.RestartRun();
             ResetCollectibles();
+            ResetTutorials();
         }
     }
 
@@ -129,7 +130,6 @@ public class PlayerProgress : MonoBehaviour
         playerUI.ToggleOffWinScreen();
         currentCheckpoint = firstCheckpoint;
         ResetCheckpoints();
-        ResetTutorials();
         Respawn();
     }
 
