@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InGameUI : MonoBehaviour
 {
     // Time
     public GameObject timeContainer;
-    public Text completionTimeText;
+    public TMP_Text completionTimeText;
 
     // Speed
     public SpeedSlider speedBar;
@@ -20,8 +21,8 @@ public class InGameUI : MonoBehaviour
     public GameObject keyPressed;
 
     // Tutorial
-    public Text tutorialText;
-    public Text tutorialNextText;
+    public TMP_Text tutorialText;
+    public TMP_Text tutorialNextText;
     public GameObject tutorialPane;
     private string[] tutorialTexts;
     private int tutorialTextIndex = 0;
@@ -40,7 +41,7 @@ public class InGameUI : MonoBehaviour
     public float currentSpeed;
 
     public Image[] imagesToUpdateColor;
-    public Text[] textsToUpdateColor;
+    public TMP_Text[] textsToUpdateColor;
 
 
     private void Start()
@@ -98,7 +99,6 @@ public class InGameUI : MonoBehaviour
         {
             tutorialPane.SetActive(true);
             tutorialText.text = tutorialTexts[tutorialTextIndex].InsertCustomHotKeys().InsertNewLines();
-            Invoke("UpdateParentLayoutGroup", 0.1f);
             tutorialTextIndex++;
         }
         else
@@ -128,15 +128,6 @@ public class InGameUI : MonoBehaviour
         {
             tutorialText.text = tutorialTexts[tutorialTextIndex - 1].InsertNewLines();
         }
-    }
-	
-    void UpdateParentLayoutGroup()
-    {
-        tutorialText.gameObject.SetActive(false);
-        tutorialText.gameObject.SetActive(true);
-
-        tutorialNextText.gameObject.SetActive(false);
-        tutorialNextText.gameObject.SetActive(true);
     }
 
     public void ToggleUI()
@@ -198,7 +189,7 @@ public class InGameUI : MonoBehaviour
         
         if(textsToUpdateColor != null)
         {
-            foreach (Text text in textsToUpdateColor)
+            foreach (TMP_Text text in textsToUpdateColor)
             {
                 text.color = UIcolor;
             }
