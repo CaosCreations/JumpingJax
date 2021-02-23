@@ -10,7 +10,7 @@ public static class GameObjectExtensions
     }
 
     #region Set Component Values
-    public static GameObject SetText(this GameObject self, string value, bool isChild)
+    public static GameObject SetText(this GameObject self, string value, bool isChild = false)
     {
         Text text = isChild ? self.GetComponentInChildren<Text>() : self.GetComponent<Text>();
         if (text != null)
@@ -20,7 +20,7 @@ public static class GameObjectExtensions
         return self;
     }
 
-    public static GameObject SetSprite(this GameObject self, Sprite value, bool isChild)
+    public static GameObject SetSprite(this GameObject self, Sprite value, bool isChild = false)
     {
         Image image = isChild ? self.GetComponentInChildren<Image>() : self.GetComponent<Image>();
         if (image != null)
@@ -30,14 +30,27 @@ public static class GameObjectExtensions
         return self;
     }
 
-    public static GameObject SetMaterial(this GameObject self, Material value)
+    public static GameObject SetMaterial(this GameObject self, Material value, bool isChild = false)
     {
-        MeshRenderer renderer = self.GetComponent<MeshRenderer>();
+        MeshRenderer renderer = isChild ? self.GetComponentInChildren<MeshRenderer>() : self.GetComponent<MeshRenderer>();
         if (renderer != null)
         {
             self.GetComponent<MeshRenderer>().material = value;
         }
         return self;
     }
+
+    //public static GameObject AddComponents(this GameObject self, params Component[] values)
+    //{ 
+    //    foreach (Component component in values)
+    //    {
+    //        if (component != null)
+    //        {
+    //            self.AddComponent<component>();
+    //        }
+    //    }
+    //    return self;
+    //}
+
     #endregion
 }

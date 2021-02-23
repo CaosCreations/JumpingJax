@@ -67,7 +67,6 @@ public class Inspector : MonoBehaviour
         snapInput.text = "0";
 
         inputFields = new InputField[] { xInput, yInput, zInput, snapInput };
-        imageSelector.PopulateScrollView();
 
         Clear();
     }
@@ -98,7 +97,8 @@ public class Inspector : MonoBehaviour
         container.SetActive(true);
         UpdateInputs();
         levelEditorGizmo.SetGizmo(objectToInspect.transform, manipulationType);
-        imageSelector.AddListeners(toInspect.gameObject);
+        imageSelector.SelectedObject = toInspect.gameObject;
+        imageSelector.PopulateSlotScrollView(); //ncap to setupselector (diff)
     }
 
     public void Clear()
@@ -107,6 +107,7 @@ public class Inspector : MonoBehaviour
         objectToInspect = null;
         container.SetActive(false);
         imageSelector.container.SetActive(false);
+        imageSelector.slotContainer.SetActive(false);
     }
 
     private void CheckInspectorCommands()
