@@ -9,6 +9,7 @@ public static class GameObjectExtensions
         return self.activeSelf;
     }
 
+    #region Set Component Values
     public static GameObject SetText(this GameObject self, string value, bool isChild)
     {
         Text text = isChild ? self.GetComponentInChildren<Text>() : self.GetComponent<Text>();
@@ -38,4 +39,5 @@ public static class GameObjectExtensions
         }
         return self;
     }
+    #endregion
 }
