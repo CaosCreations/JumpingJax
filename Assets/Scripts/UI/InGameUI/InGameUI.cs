@@ -85,19 +85,6 @@ public class InGameUI : MonoBehaviour
         }
     }
 
-    private void GetUIForColors()
-    {
-        if (imagesToUpdateColor == null)
-        {
-            imagesToUpdateColor = GetComponentsInChildren<Image>().ToList();
-        }
-
-        if (textsToUpdateColor == null)
-        {
-            textsToUpdateColor = GetComponentsInChildren<Text>().ToList();
-        }
-    }
-
     private void LoadNextTutorial()
     {
         if (tutorialTexts == null || tutorialTexts.Length == 0)
