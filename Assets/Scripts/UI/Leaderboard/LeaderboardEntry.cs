@@ -13,9 +13,11 @@ public class LeaderboardEntry : MonoBehaviour
 
     public GameObject replayCheck;
     public Button replayButton;
+    public LeaderboardTab leaderboardTab;
 
-    public async void Init(Steamworks.Data.LeaderboardEntry entry, Action replaySet)
+    public async void Init(Steamworks.Data.LeaderboardEntry entry, Action replaySet, LeaderboardTab tab, bool hasAttachedReplay)
     {
+        this.leaderboardTab = tab;
         place.text = entry.GlobalRank + ".";
         TimeSpan timeSpan = TimeSpan.FromMilliseconds(entry.Score);
         time.text = timeSpan.ToString(PlayerConstants.levelCompletionTimeFormat);
@@ -25,8 +27,16 @@ public class LeaderboardEntry : MonoBehaviour
         Sprite sprite = Sprite.Create(avatarTexture, new Rect(0, 0, avatarTexture.width, avatarTexture.height), new Vector2(0.5f, 0.5f));
         avatarImage.sprite = sprite;
 
-        replayButton.onClick.AddListener(() => replaySet());
-        replayButton.onClick.AddListener(SetButtonActive);
+        if (hasAttachedReplay)
+        {
+            replayButton.onClick.AddListener(() => replaySet());
+            replayButton.onClick.AddListener(SetButtonActive);
+        }
+        else
+        {
+            replayButton.gameObject.SetActive(false);
+        }
+        
     }
 
     public void SetButtonActive()

@@ -160,7 +160,7 @@ public class StatsManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning($"no leaderboard entries found for {levelLeaderboardName}");
+                    Debug.LogWarning($"no personal leaderboard entries found for {levelLeaderboardName}");
                 }
             }
         }

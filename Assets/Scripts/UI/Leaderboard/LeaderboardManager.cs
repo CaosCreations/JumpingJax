@@ -6,84 +6,121 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum LeaderboardTab
+{
+    Global, Friends, Mine
+}
+
 public class LeaderboardManager : MonoBehaviour
 {
-    public enum LeaderboardTab
-    {
-        Global, Friends
-    }
+    
     public GameObject leaderboardItemPrefab;
     public Transform leaderboardParent;
     public Transform myLeaderboardParent;
 
     public Button globalButton;
+    public Text globalButtonText;
     public Button friendsButton;
+    public Text friendsButtonText;
+
+    public Color normalColor = new Color(149 / 255f, 237 / 255f, 194 / 255f); // light green color
+    public Color activeColor = new Color(1, 1, 1); // white color
 
     public Steamworks.Data.PublishedFileId replayFileId;
     private List<LeaderboardEntry> leaderboardEntries;
+    private string currentLevelName;
+
+    public string currentRank;
 
     void Start()
     {
         replayFileId = new Steamworks.Data.PublishedFileId();
-        SetupButtons();
-    }
 
-    private void SetupButtons()
-    {
         globalButton.onClick.RemoveAllListeners();
         globalButton.onClick.AddListener(() => SwitchTab(LeaderboardTab.Global));
         friendsButton.onClick.RemoveAllListeners();
         friendsButton.onClick.AddListener(() => SwitchTab(LeaderboardTab.Friends));
     }
 
+    public async Task InitAsync(string levelName)
+    {
+        leaderboardEntries = new List<LeaderboardEntry>();
+        currentLevelName = levelName;
+        CleanScrollView();
+
+        await PopulateMyStats();
+        await PopulateLeaderboard(LeaderboardTab.Global);
+        await PopulateLeaderboard(LeaderboardTab.Friends);
+        SwitchTab(LeaderboardTab.Global);
+    }
+
     private void SwitchTab(LeaderboardTab tab)
     {
-        CleanScrollView();
-    }
-
-    public async Task<string> PopulateMyStats(string levelName)
-    {
-        Steamworks.Data.LeaderboardEntry? myEntry = await StatsManager.GetMyLevelLeaderboard(levelName);
-
-        if (myEntry.HasValue)
+        globalButtonText.color = tab == LeaderboardTab.Global ? activeColor : normalColor;
+        friendsButtonText.color = tab == LeaderboardTab.Friends ? activeColor : normalColor;
+        foreach (LeaderboardEntry entry in leaderboardEntries)
         {
-            Steamworks.Data.LeaderboardEntry entry = myEntry.Value;
-
-            GameObject entryObject = Instantiate(leaderboardItemPrefab, myLeaderboardParent);
-            LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
-            leaderboardEntry.Init(entry, () => SetReplay(entry));
-            leaderboardEntries.Add(leaderboardEntry);
-
-            return entry.GlobalRank.ToString();
+            entry.gameObject.SetActive(entry.leaderboardTab == tab || entry.leaderboardTab == LeaderboardTab.Mine);
         }
-
-        return "N/A";
     }
 
-    public async Task PopulateLeaderboard(string levelName)
+    public async Task PopulateLeaderboard(LeaderboardTab tab)
     {
         // make HTTP request from steam for leaderboard data
         if (GameManager.Instance.shouldUseSteam)
         {
-            Steamworks.Data.LeaderboardEntry[] entries;
-            entries = await StatsManager.GetTopLevelLeaderboard(levelName);
+            Steamworks.Data.LeaderboardEntry[] entries = new Steamworks.Data.LeaderboardEntry[0];
+
+            if(tab == LeaderboardTab.Global)
+            {
+                entries = await StatsManager.GetTopLevelLeaderboard(currentLevelName);
+            }
+            else if(tab == LeaderboardTab.Friends)
+            {
+                entries = await StatsManager.GetFriendsLeaderboard(currentLevelName);
+            }
 
             if (entries != null && entries.Length > 0)
             {
                 Array.Sort(entries, new EntryComparer());
-                Debug.Log($"Leaderboard found, populating preview with {entries.Count()} entries");
                 foreach (Steamworks.Data.LeaderboardEntry entry in entries)
                 {
-                    GameObject entryObject = Instantiate(leaderboardItemPrefab, leaderboardParent);
-                    LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
-                    leaderboardEntry.Init(entry, () => SetReplay(entry));
-                    leaderboardEntries.Add(leaderboardEntry);
+                    SetupEntry(entry, tab);
                 }
             }
         }
     }
 
-    public void SetReplay(Steamworks.Data.LeaderboardEntry entry)
+    public async Task PopulateMyStats()
+    {
+        Steamworks.Data.LeaderboardEntry? myEntry = await StatsManager.GetMyLevelLeaderboard(currentLevelName);
+
+        if (myEntry.HasValue)
+        {
+            Steamworks.Data.LeaderboardEntry entry = myEntry.Value;
+            SetupEntry(entry, LeaderboardTab.Mine);
+            currentRank =  entry.GlobalRank.ToString();
+        }
+        else
+        {
+            currentRank = "N/A";
+        }
+    }
+
+    public void SetupEntry(Steamworks.Data.LeaderboardEntry entry, LeaderboardTab tab)
+    {
+        bool hasAttachedUGC = entry.AttachedUgcId.HasValue && entry.AttachedUgcId.Value != 18446744073709551615;
+        Transform parent = tab == LeaderboardTab.Mine ? myLeaderboardParent  : leaderboardParent;
+
+        GameObject entryObject = Instantiate(leaderboardItemPrefab, parent);
+
+        LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
+        leaderboardEntry.Init(entry, () => SelectedReplayButton(entry), tab, hasAttachedUGC);
+
+        leaderboardEntries.Add(leaderboardEntry);
+    }
+
+    public void SelectedReplayButton(Steamworks.Data.LeaderboardEntry entry)
     {
         // Steam has a ulong for if an error occurred: https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCFileStreamHandleInvalid
         if (entry.AttachedUgcId.HasValue && entry.AttachedUgcId.Value != 18446744073709551615)
@@ -93,7 +130,7 @@ public class LeaderboardManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"No UGC Attached for: {entry.User.Name}");
+            Debug.LogWarning($"No UGC Attached for: {entry.User.Name}");
             replayFileId = new Steamworks.Data.PublishedFileId();
         }
 
@@ -103,7 +140,7 @@ public class LeaderboardManager : MonoBehaviour
         }
     }
 
-    public async void SetReplayLevelLoad()
+    public async void SetReplayLocation()
     {
         if (replayFileId.Value != 0)
         {
@@ -115,7 +152,6 @@ public class LeaderboardManager : MonoBehaviour
 
     public void CleanScrollView()
     {
-        leaderboardEntries = new List<LeaderboardEntry>();
         foreach (Transform child in leaderboardParent)
         {
             Destroy(child.gameObject);

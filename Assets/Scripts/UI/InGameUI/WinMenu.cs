@@ -60,9 +60,7 @@ public class WinMenu : MonoBehaviour
             bestTimeText.text = TimeUtils.GetTimeString(bestTime);
         }
 
-        leaderboardManager.CleanScrollView();
-        await leaderboardManager.PopulateLeaderboard(currentLevel.levelName);
-        await leaderboardManager.PopulateMyStats(currentLevel.levelName);
+        await leaderboardManager.InitAsync(currentLevel.levelName);
     }
 
     private void SetupButtons()
@@ -78,6 +76,7 @@ public class WinMenu : MonoBehaviour
         Cursor.visible = false;
         playerProgress.ResetPlayer();
         gameObject.SetActive(false);
+        leaderboardManager.SetReplayLocation();
     }
 
     public void NextLevel()
