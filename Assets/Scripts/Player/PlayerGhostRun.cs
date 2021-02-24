@@ -197,12 +197,15 @@ public class PlayerGhostRun : MonoBehaviour
         {
             currentDataIndex = 0;
 
-            if (ghostCamera.enabled && ghostPortalPlacement.portalPair != null)
+            if (ghostCamera.enabled)
             {
-                ghostPortalPlacement.portalPair.ResetPortals();
-            }
+                GameManager.Instance.currentCompletionTime = 0;
 
-            GameManager.Instance.currentCompletionTime = 0;
+                if (ghostPortalPlacement.portalPair != null)
+                {
+                    ghostPortalPlacement.portalPair.ResetPortals();
+                }
+            }
         }
 
         ghostRunner.transform.position = pastRunPositionData[currentDataIndex];
