@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Steamworks;
+using System.Collections;
+using System.Threading.Tasks;
+using System.Threading;
 
 public class PlayerGhostRun : MonoBehaviour
 {
@@ -63,48 +66,41 @@ public class PlayerGhostRun : MonoBehaviour
 
     private void SetPastRunData()
     {
-        if(pastRunPositionData == null)
+        if(pastRunPositionData == null && !string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation))
         {
-            if (string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation) && currentLevel.levelSaveData != null && currentLevel.levelSaveData.isCompleted)
-            {
-                Debug.Log($"Loading replay data from local files for {currentLevel.levelName}. From: {FilePathUtil.GetLevelDataFilePath(currentLevel.levelName)}");
-                pastRunPositionData = currentLevel.levelSaveData.ghostRunPositions;
-                pastRunCameraRotationData = currentLevel.levelSaveData.ghostRunCameraRotations;
-                pastRunKeyData = currentLevel.levelSaveData.ghostRunKeys;
-                pastRunVelocityData = currentLevel.levelSaveData.ghostRunVelocities;
+            GetNewRunData();
+        }
+    }
 
-                if (SteamClient.IsValid)
-                {
-                    pastRunPlayerSteamName = SteamClient.Name;
-                }
-                else
-                {
-                    pastRunPlayerSteamName = currentLevel.levelSaveData.ghostRunPlayerName;
-                }
-            }
-            else if (!string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation))
+    public async void GetNewRunData()
+    {
+        while (AsyncTaskReporter.Instance.ghostDownloadRunning)
+        {
+            Thread.Sleep(20);
+        }
+        Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.ReplayFileLocation}");
+        if (File.Exists(GameManager.Instance.ReplayFileLocation))
+        {
+            try
             {
-                Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.ReplayFileLocation}");
-                if (File.Exists(GameManager.Instance.ReplayFileLocation))
-                {
-                    try
-                    {
-                        string replayLevelData = File.ReadAllText(GameManager.Instance.ReplayFileLocation);
-                        PersistentLevelDataModel levelSaveData = new PersistentLevelDataModel();
-                        JsonUtility.FromJsonOverwrite(replayLevelData, levelSaveData);
+                string replayLevelData = File.ReadAllText(GameManager.Instance.ReplayFileLocation);
+                PersistentLevelDataModel levelSaveData = new PersistentLevelDataModel();
+                JsonUtility.FromJsonOverwrite(replayLevelData, levelSaveData);
 
-                        pastRunPositionData = levelSaveData.ghostRunPositions;
-                        pastRunCameraRotationData = levelSaveData.ghostRunCameraRotations;
-                        pastRunKeyData = levelSaveData.ghostRunKeys;
-                        pastRunVelocityData = levelSaveData.ghostRunVelocities;
-                        pastRunPlayerSteamName = levelSaveData.ghostRunPlayerName;
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogError($"{e.Message}\n{e.StackTrace}");
-                    }
-                }
+                pastRunPositionData = levelSaveData.ghostRunPositions;
+                pastRunCameraRotationData = levelSaveData.ghostRunCameraRotations;
+                pastRunKeyData = levelSaveData.ghostRunKeys;
+                pastRunVelocityData = levelSaveData.ghostRunVelocities;
+                pastRunPlayerSteamName = levelSaveData.ghostRunPlayerName;
             }
+            catch (Exception e)
+            {
+                Debug.LogError($"{e.Message}\n{e.StackTrace}");
+            }
+        }
+        else
+        {
+            Debug.Log("no file found for ghost run");
         }
     }
 

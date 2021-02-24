@@ -34,9 +34,12 @@ public class LeaderboardManager : MonoBehaviour
     public string currentRank;
     public GameObject tooltip;
     private RectTransform myRectTransform;
+    private PlayerGhostRun playerGhostRun;
+    private Steamworks.Data.PublishedFileId previousReplayFileId;
 
     void Start()
     {
+        playerGhostRun = GetComponentInParent<PlayerGhostRun>();
         replayFileId = new Steamworks.Data.PublishedFileId();
 
         globalButton.onClick.RemoveAllListeners();
@@ -178,7 +181,15 @@ public class LeaderboardManager : MonoBehaviour
         {
             Debug.Log($"Downloading ghost file UGC with ID: {replayFileId}");
             AsyncTaskReporter.Instance.ghostDownloadRunning = true;
+
             GameManager.Instance.ReplayFileLocation = await WorkshopManager.DownloadGhostRun(replayFileId).ConfigureAwait(false);
+
+            if(playerGhostRun != null && previousReplayFileId != replayFileId)
+            {
+                playerGhostRun.GetNewRunData();
+            }
+
+            previousReplayFileId = replayFileId;
         }
     }
 
