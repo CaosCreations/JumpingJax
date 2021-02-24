@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public enum UnitOfSpeed
 {
@@ -13,7 +14,7 @@ public class SpeedSlider : MonoBehaviour
     public static UnitOfSpeed unitOfSpeed; 
 
     public Image filledSpeedbar;
-    public Text speedText;
+    public TMP_Text speedText;
 
     [SerializeField]
     private AnimationCurve curve;
