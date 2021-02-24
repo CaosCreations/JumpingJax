@@ -60,7 +60,11 @@ public class LevelEditor : MonoBehaviour
         List<string> levelFolders = Directory.EnumerateDirectories(Application.persistentDataPath).ToList();
         foreach (string levelfolder in levelFolders)
         {
-            Debug.Log(levelfolder);
+            if (Directory.EnumerateFiles(levelfolder, "*.level").Any()) //check if file
+            {
+                Debug.Log(levelfolder);
+            }
+            
         }
 
         //if they do move them to LevelEditorFolderPath
