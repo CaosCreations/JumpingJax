@@ -28,6 +28,7 @@ public class LeaderboardManager : MonoBehaviour
 
     public Steamworks.Data.PublishedFileId replayFileId;
     private List<LeaderboardEntry> leaderboardEntries;
+    private LeaderboardEntry myLeaderboardEntry;
     private string currentLevelName;
 
     public string currentRank;
@@ -122,18 +123,24 @@ public class LeaderboardManager : MonoBehaviour
         leaderboardEntry.Init(entry, () => SelectedReplayButton(leaderboardEntry), tab, hasAttachedUGC);
 
         leaderboardEntries.Add(leaderboardEntry);
+
+        if(tab == LeaderboardTab.Mine)
+        {
+            myLeaderboardEntry = leaderboardEntry;
+        }
     }
 
     public void SelectedReplayButton(LeaderboardEntry entry)
     {
-        bool isChecked = entry.replayCheck.activeInHierarchy;
+        bool wasChecked = entry.replayCheck.activeInHierarchy;
 
         foreach (LeaderboardEntry entryToClear in leaderboardEntries)
         {
             entryToClear.ClearActive();
         }
 
-        if (!isChecked)
+        // Only set up replay if the button is being toggled on (in this case, the button WASN'T check before this function)
+        if (!wasChecked)
         {
             Steamworks.Data.LeaderboardEntry leaderboardEntry = entry.leaderboardEntry;
             // Steam has a ulong for if an error occurred: https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCFileStreamHandleInvalid
@@ -148,6 +155,14 @@ public class LeaderboardManager : MonoBehaviour
             {
                 Debug.LogWarning($"No UGC Attached for: {leaderboardEntry.User.Name}");
                 replayFileId = new Steamworks.Data.PublishedFileId();
+            }
+
+            // Check both of my entries. If I'm in the top 10 AND I have completed the level I will have 2 entries:
+            // One for the top 10, and one for the "my rank"
+            if (entry.leaderboardEntry.User.Id == myLeaderboardEntry.leaderboardEntry.User.Id)
+            {
+                List<LeaderboardEntry> myEntries = leaderboardEntries.Where(x => x.leaderboardEntry.User.Id == myLeaderboardEntry.leaderboardEntry.User.Id).ToList();
+                myEntries.ForEach(x => x.SetCheckboxActive());
             }
         }
         else
