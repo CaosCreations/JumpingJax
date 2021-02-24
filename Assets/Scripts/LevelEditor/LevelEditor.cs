@@ -39,6 +39,7 @@ public class LevelEditor : MonoBehaviour
         menuController = GetComponentInParent<MainMenuController>();
         levelEditorInfo = GetComponentInChildren<LevelEditorInfo>();
         levelEditorButtons = new List<LevelEditorButton>();
+        MoveOldLevels();
         playerCreatedLevels = GetPlayerCreatedLevels();
         
         CreateLevelButtons();
@@ -51,6 +52,12 @@ public class LevelEditor : MonoBehaviour
         }
 
         LevelEditorInfo.onLevelNameUpdated += UpdateLevelNames;
+    }
+
+    private void MoveOldLevels()
+    {
+        //check Application.persistentDataPath if old LE levels exist 
+        //if they do move them to LevelEditorFolderPath
     }
 
     private List<Level> GetPlayerCreatedLevels()
