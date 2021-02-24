@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7117302217034966907}
   - component: {fileID: 1154471184624954510}
   - component: {fileID: 689847830865440706}
+  - component: {fileID: 8599866300999815949}
   m_Layer: 12
   m_Name: PortalBhopPlayer
   m_TagString: Player
@@ -205,6 +206,21 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8599866300999815949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441310430289080760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7abd6bdfd068d374a9b094a42be2bebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggers: []
+  gameUI: {fileID: 0}
+  playerProgress: {fileID: 0}
 --- !u!1 &441310430673922139
 GameObject:
   m_ObjectHideFlags: 0

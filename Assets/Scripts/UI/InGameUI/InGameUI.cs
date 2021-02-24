@@ -49,8 +49,7 @@ public class InGameUI : MonoBehaviour
         speedBar = GetComponentInChildren<SpeedSlider>();
         ghostRun = GetComponentInParent<PlayerGhostRun>();
 
-        tutorialTexts = GameManager.GetCurrentLevel().tutorialTexts;
-        LoadNextTutorial();
+        SetupTutorialTexts(GameManager.GetCurrentLevel().tutorialTexts);
 
         CheckElementsShouldBeActive();
         ToggleGhostUI();

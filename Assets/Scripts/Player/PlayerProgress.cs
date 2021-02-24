@@ -18,6 +18,7 @@ public class PlayerProgress : MonoBehaviour
     private Crosshair crosshair;
     private PortalPair portalPair;
     private Checkpoint firstCheckpoint;
+    private TutorialTriggerGroup tutorialTriggerGroup;
 
     private void Start()
     {
@@ -26,6 +27,7 @@ public class PlayerProgress : MonoBehaviour
         playerGhostRun = GetComponent<PlayerGhostRun>();
         crosshair = GetComponent<Crosshair>();
         portalPair = FindObjectOfType<PortalPair>();
+        tutorialTriggerGroup = GetComponent<TutorialTriggerGroup>();
         Deaths = 0;
         GetFirstCheckpoint();
     }
@@ -121,6 +123,7 @@ public class PlayerProgress : MonoBehaviour
             GameManager.RestartLevel();
             playerGhostRun.RestartRun();
             ResetCollectibles();
+            ResetTutorials();
         }
     }
 
@@ -129,7 +132,6 @@ public class PlayerProgress : MonoBehaviour
         playerUI.ToggleOffWinScreen();
         currentCheckpoint = firstCheckpoint;
         ResetCheckpoints();
-        ResetTutorials();
         Respawn();
     }
 
@@ -157,6 +159,6 @@ public class PlayerProgress : MonoBehaviour
 
     private void ResetTutorials()
     {
-        TutorialTriggerGroup.Instance.ResetTriggers();
+        tutorialTriggerGroup.ResetTriggers();
     }
 }
