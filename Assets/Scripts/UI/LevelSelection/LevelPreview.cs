@@ -9,10 +9,6 @@ using UnityEngine.UI;
 
 public class LevelPreview : MonoBehaviour
 {
-    public GameObject leaderboardItemPrefab;
-    public Transform leaderboardParent;
-    public Transform myLeaderboardParent;
-
     public Button playButton;
     public Button backButton;
 
@@ -35,19 +31,23 @@ public class LevelPreview : MonoBehaviour
     public Text tripleBoneText;
 
     private Level levelToPreview;
-    private Steamworks.Data.PublishedFileId replayFileId;
-    private List<LeaderboardEntry> leaderboardEntries;
+    
+    public LeaderboardManager leaderboardManager;
+
+    private void Awake()
+    {
+        leaderboardManager = GetComponentInChildren<LeaderboardManager>();
+    }
 
     private void Start()
     {
-        replayFileId = new Steamworks.Data.PublishedFileId();
         playButton.onClick.RemoveAllListeners();
         playButton.onClick.AddListener(Play);
         backButton.onClick.RemoveAllListeners();
         backButton.onClick.AddListener(Back);
     }
 
-    async void Play()
+    void Play()
     {
         // If this is a workshop map
         if(levelToPreview.workshopFilePath != string.Empty) 
@@ -59,11 +59,11 @@ public class LevelPreview : MonoBehaviour
             GameManager.LoadScene(levelToPreview.levelBuildIndex);
         }
 
-        if (replayFileId.Value != 0)
+        leaderboardManager.SetReplayLocation();
+
+        if (leaderboardManager.replayFileId != 0)
         {
-            Debug.Log($"Downloading ghost file UGC with ID: {replayFileId}");
-            AsyncTaskReporter.Instance.ghostDownloadRunning = true;
-            GameManager.Instance.ReplayFileLocation = await WorkshopManager.DownloadGhostRun(replayFileId).ConfigureAwait(false);
+            OptionsPreferencesManager.SetLeaderboardGhostTooltip(false);
         }
     }
 
@@ -78,9 +78,8 @@ public class LevelPreview : MonoBehaviour
 
         UpdateDetailPane();
 
-        CleanScrollView();
-        await PopulateLeaderboard();
-        await PopulateMyStats();
+        await leaderboardManager.InitAsync(levelToPreview.levelName);
+        rankText.text = leaderboardManager.currentRank;
     }
 
     private void UpdateDetailPane()
@@ -139,96 +138,4 @@ public class LevelPreview : MonoBehaviour
             tripleBoneImage.sprite = boneFilledSprite;
         }
     }
-
-    private void CleanScrollView()
-    {
-        leaderboardEntries = new List<LeaderboardEntry>();
-        foreach(Transform child in leaderboardParent)
-        {
-            Destroy(child.gameObject);
-        }
-
-        foreach (Transform child in myLeaderboardParent)
-        {
-            Destroy(child.gameObject);
-        }
-    }
-
-    async Task PopulateMyStats()
-    {
-        Steamworks.Data.LeaderboardEntry? myEntry = await StatsManager.GetMyLevelLeaderboard(levelToPreview.levelName);
-
-        if (myEntry.HasValue)
-        {
-            Steamworks.Data.LeaderboardEntry entry = myEntry.Value;
-            rankText.text = entry.GlobalRank.ToString();
-
-            GameObject entryObject = Instantiate(leaderboardItemPrefab, myLeaderboardParent);
-            LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
-            leaderboardEntry.Init(entry, () => SetReplay(entry));
-            leaderboardEntries.Add(leaderboardEntry);
-        }
-        else
-        {
-            if(rankText != null)
-            {
-                rankText.text = "N/A";
-            }
-        }
-    }
-
-    async Task PopulateLeaderboard()
-    {
-        // make HTTP request from steam for leaderboard data
-        if (GameManager.Instance.shouldUseSteam)
-        {
-            Steamworks.Data.LeaderboardEntry[] entries;
-            entries = await StatsManager.GetTopLevelLeaderboard(levelToPreview.levelName);
-
-            if (entries != null && entries.Length > 0)
-            {
-                Array.Sort(entries, new EntryComparer());
-                Debug.Log($"Leaderboard found, populating preview with {entries.Count()} entries");
-                foreach (Steamworks.Data.LeaderboardEntry entry in entries)
-                {
-                    GameObject entryObject = Instantiate(leaderboardItemPrefab, leaderboardParent);
-                    LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
-                    leaderboardEntry.Init(entry, () => SetReplay(entry));
-                    leaderboardEntries.Add(leaderboardEntry);
-                }
-            }
-        }
-    }
-
-    public void SetReplay(Steamworks.Data.LeaderboardEntry entry)
-    {
-        // Steam has a ulong for if an error occurred: https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCFileStreamHandleInvalid
-        if (entry.AttachedUgcId.HasValue && entry.AttachedUgcId.Value != 18446744073709551615)
-        {
-            Debug.Log($"Set replay, for ugc Id: {entry.AttachedUgcId}");
-            replayFileId = entry.AttachedUgcId.Value;
-        }
-        else
-        {
-            Debug.LogError($"No UGC Attached for: {entry.User.Name}");
-            replayFileId = new Steamworks.Data.PublishedFileId();
-        }
-
-        foreach(LeaderboardEntry leaderboardEntry in leaderboardEntries)
-        {
-            leaderboardEntry.replayButton.ClearActive();
-        }
-    }
-
-    public class EntryComparer : IComparer
-    {
-        public int Compare(object x, object y)
-        {
-            Steamworks.Data.LeaderboardEntry object1 = (Steamworks.Data.LeaderboardEntry)x;
-            Steamworks.Data.LeaderboardEntry object2 = (Steamworks.Data.LeaderboardEntry)y;
-
-            return object1.Score.CompareTo(object2.Score);
-        }
-    }
-
 }
