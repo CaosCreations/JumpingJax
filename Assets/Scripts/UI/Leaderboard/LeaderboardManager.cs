@@ -33,7 +33,6 @@ public class LeaderboardManager : MonoBehaviour
 
     public string currentRank;
     public GameObject tooltip;
-    private RectTransform myRectTransform;
     private PlayerGhostRun playerGhostRun;
     private Steamworks.Data.PublishedFileId previousReplayFileId;
 
@@ -47,7 +46,6 @@ public class LeaderboardManager : MonoBehaviour
         friendsButton.onClick.RemoveAllListeners();
         friendsButton.onClick.AddListener(() => SwitchTab(LeaderboardTab.Friends));
 
-        myRectTransform = GetComponent<RectTransform>();
         tooltip.SetActive(false);
     }
 
@@ -132,6 +130,16 @@ public class LeaderboardManager : MonoBehaviour
         {
             myLeaderboardEntry = leaderboardEntry;
         }
+
+        if(GameManager.Instance.CurrentReplayFileId != null && GameManager.Instance.CurrentReplayFileId != 0)
+        {
+            replayFileId = GameManager.Instance.CurrentReplayFileId;
+        }
+
+        if (entry.AttachedUgcId == replayFileId)
+        {
+            SelectedReplayButton(leaderboardEntry);
+        }
     }
 
     public void SelectedReplayButton(LeaderboardEntry entry)
@@ -191,10 +199,12 @@ public class LeaderboardManager : MonoBehaviour
             }
 
             previousReplayFileId = replayFileId;
+            GameManager.Instance.CurrentReplayFileId = replayFileId;
         }
-        else
+        else // If the player doesn't have a replay file id selected, don't load a ghost
         {
             GameManager.Instance.ReplayFileLocation = string.Empty;
+            GameManager.Instance.CurrentReplayFileId = new Steamworks.Data.PublishedFileId();
 
             if (playerGhostRun != null)
             {
