@@ -49,8 +49,7 @@ public class InGameUI : MonoBehaviour
         speedBar = GetComponentInChildren<SpeedSlider>();
         ghostRun = GetComponentInParent<PlayerGhostRun>();
 
-        tutorialTexts = GameManager.GetCurrentLevel().tutorialTexts;
-        LoadNextTutorial();
+        SetupTutorialTexts(GameManager.GetCurrentLevel().tutorialTexts);
 
         CheckElementsShouldBeActive();
         ToggleGhostUI();
@@ -83,6 +82,19 @@ public class InGameUI : MonoBehaviour
         else if (InputManager.GetKeyDown(PlayerConstants.ToggleUI))
         {
             ToggleUI();
+        }
+    }
+
+    private void GetUIForColors()
+    {
+        if (imagesToUpdateColor == null)
+        {
+            imagesToUpdateColor = GetComponentsInChildren<Image>().ToList();
+        }
+
+        if (textsToUpdateColor == null)
+        {
+            textsToUpdateColor = GetComponentsInChildren<Text>().ToList();
         }
     }
 

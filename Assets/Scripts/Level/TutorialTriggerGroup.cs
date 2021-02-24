@@ -62,7 +62,6 @@ public class TutorialTriggerGroup : MonoBehaviour
         {
             trigger.ResetTrigger();
         }
-        string[] blankString = { };
-        gameUI.SetupTutorialTexts(blankString);
+        gameUI.SetupTutorialTexts(GameManager.GetCurrentLevel().tutorialTexts);
     }
 }
