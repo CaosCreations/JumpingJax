@@ -13,10 +13,13 @@ public class LeaderboardEntry : MonoBehaviour
 
     public GameObject replayCheck;
     public Button replayButton;
+
     public LeaderboardTab leaderboardTab;
+    public Steamworks.Data.LeaderboardEntry leaderboardEntry;
 
     public async void Init(Steamworks.Data.LeaderboardEntry entry, Action replaySet, LeaderboardTab tab, bool hasAttachedReplay)
     {
+        leaderboardEntry = entry;
         this.leaderboardTab = tab;
         place.text = entry.GlobalRank + ".";
         TimeSpan timeSpan = TimeSpan.FromMilliseconds(entry.Score);
@@ -29,20 +32,18 @@ public class LeaderboardEntry : MonoBehaviour
 
         if (hasAttachedReplay)
         {
+            replayButton.onClick.RemoveAllListeners();
             replayButton.onClick.AddListener(() => replaySet());
-            replayButton.onClick.AddListener(SetButtonActive);
         }
         else
         {
             replayButton.gameObject.SetActive(false);
         }
-        
     }
 
-    public void SetButtonActive()
+    public void SetCheckboxActive()
     {
-        replayCheck.SetActive(true);
-        //replayCheck.SetActive(!replayCheck.activeSelf);
+        replayCheck.SetActive(!replayCheck.activeInHierarchy);
     }
 
     public void ClearActive()

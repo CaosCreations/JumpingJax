@@ -31,6 +31,8 @@ public class LeaderboardManager : MonoBehaviour
     private string currentLevelName;
 
     public string currentRank;
+    public GameObject tooltip;
+    private RectTransform myRectTransform;
 
     void Start()
     {
@@ -40,8 +42,10 @@ public class LeaderboardManager : MonoBehaviour
         globalButton.onClick.AddListener(() => SwitchTab(LeaderboardTab.Global));
         friendsButton.onClick.RemoveAllListeners();
         friendsButton.onClick.AddListener(() => SwitchTab(LeaderboardTab.Friends));
-    }
 
+        myRectTransform = GetComponent<RectTransform>();
+        tooltip.SetActive(false);
+    }
     public async Task InitAsync(string levelName)
     {
         leaderboardEntries = new List<LeaderboardEntry>();
@@ -115,28 +119,41 @@ public class LeaderboardManager : MonoBehaviour
         GameObject entryObject = Instantiate(leaderboardItemPrefab, parent);
 
         LeaderboardEntry leaderboardEntry = entryObject.GetComponent<LeaderboardEntry>();
-        leaderboardEntry.Init(entry, () => SelectedReplayButton(entry), tab, hasAttachedUGC);
+        leaderboardEntry.Init(entry, () => SelectedReplayButton(leaderboardEntry), tab, hasAttachedUGC);
 
         leaderboardEntries.Add(leaderboardEntry);
     }
 
-    public void SelectedReplayButton(Steamworks.Data.LeaderboardEntry entry)
+    public void SelectedReplayButton(LeaderboardEntry entry)
     {
-        // Steam has a ulong for if an error occurred: https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCFileStreamHandleInvalid
-        if (entry.AttachedUgcId.HasValue && entry.AttachedUgcId.Value != 18446744073709551615)
+        bool isChecked = entry.replayCheck.activeInHierarchy;
+
+        foreach (LeaderboardEntry entryToClear in leaderboardEntries)
         {
-            Debug.Log($"Set replay, for ugc Id: {entry.AttachedUgcId}");
-            replayFileId = entry.AttachedUgcId.Value;
+            entryToClear.ClearActive();
+        }
+
+        if (!isChecked)
+        {
+            Steamworks.Data.LeaderboardEntry leaderboardEntry = entry.leaderboardEntry;
+            // Steam has a ulong for if an error occurred: https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCFileStreamHandleInvalid
+            if (leaderboardEntry.AttachedUgcId.HasValue && leaderboardEntry.AttachedUgcId.Value != 18446744073709551615)
+            {
+                Debug.Log($"Set replay, for ugc Id: {leaderboardEntry.AttachedUgcId}");
+                replayFileId = leaderboardEntry.AttachedUgcId.Value;
+                tooltip.SetActive(OptionsPreferencesManager.GetLeaderboardGhostTooltip());
+                entry.SetCheckboxActive();
+            }
+            else
+            {
+                Debug.LogWarning($"No UGC Attached for: {leaderboardEntry.User.Name}");
+                replayFileId = new Steamworks.Data.PublishedFileId();
+            }
         }
         else
         {
-            Debug.LogWarning($"No UGC Attached for: {entry.User.Name}");
+            tooltip.SetActive(false);
             replayFileId = new Steamworks.Data.PublishedFileId();
-        }
-
-        foreach (LeaderboardEntry leaderboardEntry in leaderboardEntries)
-        {
-            leaderboardEntry.ClearActive();
         }
     }
 

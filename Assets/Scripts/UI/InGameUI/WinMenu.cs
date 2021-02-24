@@ -77,6 +77,11 @@ public class WinMenu : MonoBehaviour
         playerProgress.ResetPlayer();
         gameObject.SetActive(false);
         leaderboardManager.SetReplayLocation();
+
+        if(leaderboardManager.replayFileId != 0)
+        {
+            OptionsPreferencesManager.SetLeaderboardGhostTooltip(false);
+        }
     }
 
     public void NextLevel()

@@ -60,6 +60,11 @@ public class LevelPreview : MonoBehaviour
         }
 
         leaderboardManager.SetReplayLocation();
+
+        if (leaderboardManager.replayFileId != 0)
+        {
+            OptionsPreferencesManager.SetLeaderboardGhostTooltip(false);
+        }
     }
 
     void Back()
