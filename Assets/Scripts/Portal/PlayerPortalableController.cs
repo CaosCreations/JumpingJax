@@ -120,6 +120,8 @@ public class PlayerPortalableController : MonoBehaviour
         var tmp = inPortal;
         inPortal = outPortal;
         outPortal = tmp;
+
+        PlayerSoundEffects.PlaySoundEffect(SoundEffectType.PortalPassThrough);
     }
 
     public virtual void ExitPortal(List<Collider> wallColliders)

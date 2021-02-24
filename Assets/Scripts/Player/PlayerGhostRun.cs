@@ -201,6 +201,8 @@ public class PlayerGhostRun : MonoBehaviour
             {
                 ghostPortalPlacement.portalPair.ResetPortals();
             }
+
+            GameManager.Instance.currentCompletionTime = 0;
         }
 
         ghostRunner.transform.position = pastRunPositionData[currentDataIndex];

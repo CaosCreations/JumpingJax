@@ -68,7 +68,11 @@ public class OptionsPreferencesManager
 
     public const string portalRecursionKey = "PortalRecursion";
     public const int defaultPortalRecursion = 2;
+
+    public const string ghostTooltopKey = "LeaderboardGhost";
+    public const int defaultGhostTooltip = 1;
     #endregion
+
 
     public static int GetResolutionWidth()
     {
@@ -272,5 +276,16 @@ public class OptionsPreferencesManager
     public static void SetVsync(int vsyncCount)
     {
         PlayerPrefs.SetInt(vsyncKey, vsyncCount);
+    }
+
+    public static bool GetLeaderboardGhostTooltip()
+    {
+        int isOn = PlayerPrefs.GetInt(ghostTooltopKey, defaultGhostTooltip);
+        return isOn == 0 ? false : true;
+    }
+
+    public static void SetLeaderboardGhostTooltip(bool isOn)
+    {
+        PlayerPrefs.SetInt(ghostTooltopKey, isOn ? 1 : 0);
     }
 }
