@@ -21,7 +21,6 @@ public class TutorialTrigger : MonoBehaviour
         myCollider.isTrigger = true;
         initialDeaths = -1;
         activated = false;
-
     }
 
     public void AddGameUI(InGameUI ui)
