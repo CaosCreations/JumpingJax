@@ -171,7 +171,8 @@ public class InGameUI : MonoBehaviour
         keyPressed.SetActive(OptionsPreferencesManager.GetKeyPressedToggle());
         if (tutorialTexts != null)
         {
-            tutorialPane.SetActive(OptionsPreferencesManager.GetTutorialToggle() && tutorialTexts.Length > 0);
+            bool tutorialPaneActive = (OptionsPreferencesManager.GetTutorialToggle() && tutorialTexts.Length > 0) || IsGhosting;
+            tutorialPane.SetActive(tutorialPaneActive);
         }
     }
 
