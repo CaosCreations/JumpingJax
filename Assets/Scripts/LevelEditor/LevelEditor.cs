@@ -57,6 +57,12 @@ public class LevelEditor : MonoBehaviour
     private void MoveOldLevels()
     {
         //check Application.persistentDataPath if old LE levels exist 
+        List<string> levelFolders = Directory.EnumerateDirectories(Application.persistentDataPath).ToList();
+        foreach (string levelfolder in levelFolders)
+        {
+            Debug.Log(levelfolder);
+        }
+
         //if they do move them to LevelEditorFolderPath
     }
 
