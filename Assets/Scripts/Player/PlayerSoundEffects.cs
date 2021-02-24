@@ -4,23 +4,33 @@ using UnityEngine;
 
 public enum SoundEffectType
 {
-    Falling, Checkpoint, Collectible, Win, Death, Portal, Land, Jump, Footstep
+    Checkpoint, Collectible, Death, Respawn, Win,
+    Footstep, Land, TerminalVelocity, 
+    PortalOpen, PortalIdle, PortalRejected, PortalPassThrough
 }
 
 public class PlayerSoundEffects : MonoBehaviour
 {
     public static PlayerSoundEffects Instance { get; private set; }
 
+    // Gameplay
     public AudioSource checkpointAudioSource;
     public AudioSource collectiblePickupAudioSource;
     public AudioSource deathAudioSource;
-    public AudioSource footstepAudioSource;
-    public AudioSource jumpAudioSource;
-    public AudioSource landAudioSource;
-    public AudioSource portalAudioSource;
-    public AudioSource terminalVelocityAudioSource;
+    public AudioSource respawnAudioSource;
     public AudioSource winAudioSource;
 
+    // Movement
+    public AudioSource footstepAudioSource;
+    public AudioSource landAudioSource;
+    public AudioSource terminalVelocityAudioSource;
+
+    // Portal
+    public AudioSource portalOpenAudioSource;
+    public AudioSource portalRejectedAudioSource;
+    public AudioSource portalPassThroughAudioSource;
+
+    // Timers
     float footstepTimer;
     float footstepInverval = 0.6f;
 
@@ -57,51 +67,79 @@ public class PlayerSoundEffects : MonoBehaviour
     {
         switch (type)
         {
-            case SoundEffectType.Falling:
-                Instance.terminalVelocityAudioSource.Play();
-                break;
+            // Gameplay
             case SoundEffectType.Checkpoint:
                 Instance.checkpointAudioSource.Play();
                 break;
             case SoundEffectType.Collectible:
                 Instance.collectiblePickupAudioSource.Play();
                 break;
-            case SoundEffectType.Win:
-                Instance.winAudioSource.Play();
-                break;
             case SoundEffectType.Death:
                 Instance.deathAudioSource.Play();
                 break;
-            case SoundEffectType.Portal:
-                Instance.portalAudioSource.Play();
+            case SoundEffectType.Respawn:
+                Instance.respawnAudioSource.Play();
+                break;
+            case SoundEffectType.Win:
+                Instance.winAudioSource.Play();
+                break;
+            
+            // Movement
+            case SoundEffectType.Footstep:
+                HandleFootstepAudio();
                 break;
             case SoundEffectType.Land:
-                if(Instance.landingTimer > Instance.landingInterval)
-                {
-                    Instance.landingTimer = 0;
-                    Instance.landAudioSource.Play();
-                }
+                HandleLandingAudio();
                 break;
-            case SoundEffectType.Jump:
-                Instance.jumpAudioSource.Play();
+            case SoundEffectType.TerminalVelocity:
+                HandleTerminalVelocityAudio();
                 break;
-            case SoundEffectType.Footstep:
-                if(Instance.footstepTimer > Instance.footstepInverval)
-                {
-                    Instance.footstepTimer = 0;
-                    if (Instance.lastFootstep1)
-                    {
-                        Instance.footstepAudioSource.clip = Instance.footstep1;
-                        Instance.lastFootstep1 = false;
-                    }
-                    else
-                    {
-                        Instance.footstepAudioSource.clip = Instance.footstep2;
-                        Instance.lastFootstep1 = true;
-                    }
-                    Instance.footstepAudioSource.Play();
-                }
+
+            // Portal
+            case SoundEffectType.PortalOpen:
+                Instance.portalOpenAudioSource.Play();
                 break;
+            case SoundEffectType.PortalRejected:
+                Instance.portalRejectedAudioSource.Play();
+                break;
+            case SoundEffectType.PortalPassThrough:
+                Instance.portalPassThroughAudioSource.Play();
+                break;
+
         }
+    }
+
+
+    public static void HandleFootstepAudio()
+    {
+        if (Instance.footstepTimer > Instance.footstepInverval)
+        {
+            Instance.footstepTimer = 0;
+            if (Instance.lastFootstep1)
+            {
+                Instance.footstepAudioSource.clip = Instance.footstep1;
+                Instance.lastFootstep1 = false;
+            }
+            else
+            {
+                Instance.footstepAudioSource.clip = Instance.footstep2;
+                Instance.lastFootstep1 = true;
+            }
+            Instance.footstepAudioSource.Play();
+        }
+    }
+
+    public static void HandleLandingAudio()
+    {
+        if (Instance.landingTimer > Instance.landingInterval)
+        {
+            Instance.landingTimer = 0;
+            Instance.landAudioSource.Play();
+        }
+    }
+
+    public static void HandleTerminalVelocityAudio()
+    {
+        Instance.terminalVelocityAudioSource.Play();
     }
 }

@@ -71,6 +71,11 @@ public class PlayerProgress : MonoBehaviour
 
     public void HitNewCheckPoint(Checkpoint checkpoint)
     {
+        // Only play the sound on the first time touching the checkpoint, and don't play the sound if it's the final checkpoint as other sounds may play then
+        if (!checkpoint.isCompleted && !checkpoint.isFinalCheckpoint)
+        {
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Checkpoint);
+        }
         checkpoint.SetCompleted();
         currentCheckpoint = checkpoint;
 
@@ -102,6 +107,8 @@ public class PlayerProgress : MonoBehaviour
         playerMovement.velocityToApply = Vector3.zero;
         playerMovement.controller.enabled = true;
         ++Deaths;
+
+        PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Respawn);
 
         // If the player is restarting at the beginning, reset level
         if (currentCheckpoint.isFirstCheckpoint)

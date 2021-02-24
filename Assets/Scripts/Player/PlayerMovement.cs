@@ -411,7 +411,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (velocityToApply.y <= -PlayerConstants.MaxFallSpeed)
         {
-            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Falling);
+            PlayerSoundEffects.PlaySoundEffect(SoundEffectType.TerminalVelocity);
         }
     }
 
