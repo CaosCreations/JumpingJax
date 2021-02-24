@@ -72,12 +72,13 @@ public class PlayerGhostRun : MonoBehaviour
         }
     }
 
-    public async void GetNewRunData()
+    public void GetNewRunData()
     {
         while (AsyncTaskReporter.Instance.ghostDownloadRunning)
         {
             Thread.Sleep(20);
         }
+
         Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.ReplayFileLocation}");
         if (File.Exists(GameManager.Instance.ReplayFileLocation))
         {
@@ -238,7 +239,6 @@ public class PlayerGhostRun : MonoBehaviour
 
     public void RestartRun()
     {
-        SetPastRunData();
         ghostRunner.SetActive(ShouldGhostBeActive());
         ghostRunnerTimer = 0;
         currentDataIndex = 0;
@@ -311,5 +311,14 @@ public class PlayerGhostRun : MonoBehaviour
     private bool ShouldGhostBeActive()
     {
         return pastRunPositionData != null && pastRunPositionData.Length > 0 && OptionsPreferencesManager.GetGhostToggle();
+    }
+
+    public void ClearPastRunData()
+    {
+        pastRunPositionData = new Vector3[0];
+        pastRunCameraRotationData = new Vector3[0];
+        pastRunKeyData = new KeysPressed[0];
+        pastRunVelocityData = new float[0];
+        pastRunPlayerSteamName = string.Empty;
     }
 }

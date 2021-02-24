@@ -30,6 +30,7 @@ public class ClearLevelCompletion : EditorWindow
                 level.levelSaveData.ghostRunKeys = new KeysPressed[0];
                 level.levelSaveData.ghostRunVelocities = new float[0];
                 level.levelSaveData.collectiblesCollected = 0;
+                level.levelSaveData.ghostRunPlayerName = string.Empty;
                 EditorUtility.SetDirty(level);
             }
 

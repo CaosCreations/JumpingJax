@@ -70,18 +70,19 @@ public class WinMenu : MonoBehaviour
         nextButton.Init(NextLevel);
     }
 
-    public void Retry()
+    public async void Retry()
     {
+        await leaderboardManager.SetReplayLocation();
+        playerProgress.ResetPlayer();
         Time.timeScale = 1;
         Cursor.visible = false;
-        playerProgress.ResetPlayer();
-        gameObject.SetActive(false);
-        leaderboardManager.SetReplayLocation();
 
-        if(leaderboardManager.replayFileId != 0)
+        if (leaderboardManager.replayFileId != 0)
         {
             OptionsPreferencesManager.SetLeaderboardGhostTooltip(false);
         }
+
+        gameObject.SetActive(false);
     }
 
     public void NextLevel()

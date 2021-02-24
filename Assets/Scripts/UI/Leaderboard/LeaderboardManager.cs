@@ -50,6 +50,7 @@ public class LeaderboardManager : MonoBehaviour
         myRectTransform = GetComponent<RectTransform>();
         tooltip.SetActive(false);
     }
+
     public async Task InitAsync(string levelName)
     {
         leaderboardEntries = new List<LeaderboardEntry>();
@@ -175,7 +176,7 @@ public class LeaderboardManager : MonoBehaviour
         }
     }
 
-    public async void SetReplayLocation()
+    public async Task SetReplayLocation()
     {
         if (replayFileId.Value != 0)
         {
@@ -190,6 +191,17 @@ public class LeaderboardManager : MonoBehaviour
             }
 
             previousReplayFileId = replayFileId;
+        }
+        else
+        {
+            GameManager.Instance.ReplayFileLocation = string.Empty;
+
+            if (playerGhostRun != null)
+            {
+                playerGhostRun.ClearPastRunData();
+            }
+
+            previousReplayFileId = new Steamworks.Data.PublishedFileId();
         }
     }
 
