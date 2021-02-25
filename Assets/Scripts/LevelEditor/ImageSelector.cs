@@ -1,176 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ImageSelector : MonoBehaviour
 {
-    public LevelImageContainer levelImageContainer;
+    public Material[] availableMaterials;
+
     public Button imageSelectorButton; 
-    public Image imagePreview;
+    public Image imageSelectorPreview;
     public GameObject container;
     public GameObject slotContainer; 
     public GameObject scrollViewContent;
     public GameObject slotScrollViewContent;
-    public GameObject imageToSelectPrefab;
-
-    private Dictionary<LevelImage, Button> scrollViewItemButtons;
-    //private Dictionary<Material, Button> slotScrollViewItemButtons; // make 2d?
-    private GameObject[] slotSelectors = new GameObject[] { };
-
-    private Material selectedMaterial; // materialToUpdate
-    private Material[] selectedObjectMaterialSlots; // change to GO?
-    //private GameObject selectedObject; // objectToUpdate
-
-    //public LevelImage[] LevelImages { get => levelImageContainer.levelImages; }
-    public Material[] materialsToChooseFrom;
-    //public List<Image> materialPreviews;
-    public List<Material> materialPreviews;
+    public GameObject scrollViewItemPrefab;
     public GameObject SelectedObject { get; set; }
-
-    // Todo: support mesh renderers with multiple materials on them 
-    // New class for previews? 
 
     private void Awake()
     {
-        imageSelectorButton.AddOnClick(() => slotContainer.ToggleActive());
-        imagePreview = imageSelectorButton.GetComponent<Image>();
-        scrollViewItemButtons = new Dictionary<LevelImage, Button>();
+        imageSelectorButton.AddOnClick(() => slotContainer.SetActive(true));
+        imageSelectorPreview = imageSelectorButton.GetComponent<Image>();
+        
+        // Populate on start (not in inspector event)
+        // Populate once 
     }
 
-    public void PopulateScrollView(Image materialPreview) // mat replacement sv 
+    public void PopulateMaterialScrollView(LevelEditorMaterialSlot materialSlot) // rename SVs
     {
-        //foreach (LevelImage levelImage in LevelImages)
-        //{
-        //    GameObject scrollViewItem = Instantiate(imageToSelectPrefab, scrollViewContent.transform);
-        //    scrollViewItem.name = levelImage.imageName;
-        //    scrollViewItem.SetText(levelImage.imageName, isChild: true);
-        //    scrollViewItem.SetSprite(levelImage.previewSprite, isChild: true);
-        //    scrollViewItem.GetComponent<Button>().AddOnClick(() => )
-        //    //scrollViewItemButtons.Add(key: levelImage, value: scrollViewItem.GetComponentInChildren<Button>());
-
-        //}
-
-        foreach (Material material in materialsToChooseFrom)
+        foreach (Material material in availableMaterials)
         {
-            GameObject scrollViewItem = Instantiate(imageToSelectPrefab, scrollViewContent.transform);
+            GameObject scrollViewItem = Instantiate(scrollViewItemPrefab, scrollViewContent.transform);
             scrollViewItem.name = material.name;
             scrollViewItem.SetText(material.name, isChild: true);
-            scrollViewItem.SetMaterial(material, isChild: true); // preview
-            scrollViewItem.GetComponentInChildren<Button>().AddOnClick(() => { UpdateMaterial(material); materialPreview.material = material; });
-            //scrollViewItemButtons.Add(key: levelImage, value: scrollViewItem.GetComponentInChildren<Button>());
+            scrollViewItem.SetMaterial(material, isChild: true); // set image maintexture instead
 
-        }
-    }
-
-    public void UpdateImagePreview() // diff from materialpreviews (individual) - rename 
-    {
-        if (SelectedObject != null)
-        {
-            Material firstMaterial = SelectedObject.GetComponent<MeshRenderer>().materials.FirstOrDefault(x => x != null);
-            if (firstMaterial != null)
+            scrollViewItem.GetComponentInChildren<Button>().AddOnClick(() => 
             {
-                Debug.Log("First material: " + firstMaterial);
-                imagePreview.material = firstMaterial; 
-            }
+                HandleMaterialSelection(material, materialSlot);
+            });
         }
     }
 
-    public void PopulateSlotScrollView() // mat select sv
+    public void PopulateMaterialSlotScrollView()
     {
         MeshRenderer renderer = SelectedObject.GetComponent<MeshRenderer>();
         if (renderer != null)
         {
             foreach (Material material in renderer.materials)
             {
-                // Find the matching preview for that material 
-                //LevelImage preview = Array.Find(LevelImages, x => x.material == material); // or compare name 
-                GameObject scrollViewItem = Instantiate(imageToSelectPrefab, slotScrollViewContent.transform);
-                scrollViewItem.SetText(material.name, isChild: true); // stripdown in the other SV init method?
-                //scrollViewItem.SetMaterial(material);
-                Image image = scrollViewItem.GetComponentInChildren<Image>(); // .ol; rename speci.
-                image.material = material; //ncap
-                //materialPreviews.Add(image);
-                materialPreviews.Add(material);
-                scrollViewItem.GetComponentInChildren<Button>().AddOnClick(() => { selectedMaterial = material; container.ToggleActive(); slotContainer.ToggleActive(); PopulateScrollView(image); });
-                //scrollViewItem.AddComponent<MeshRenderer>().material = material;
-                
+                GameObject scrollViewItem = Instantiate(scrollViewItemPrefab, slotScrollViewContent.transform);
+                scrollViewItem.SetText(material.name, isChild: true); 
 
-                // either use MR + material for previews, then change tile config OR use preview screenshots 
-                // keep levelimage separate SO to preview?
+                LevelEditorMaterialSlot materialSlot = scrollViewItem.AddComponent<LevelEditorMaterialSlot>(); // or separate prefab
+                materialSlot.Init(material, scrollViewItem.GetComponent<Image>());
+                materialSlot.SetImagePreview(material);
+
+                scrollViewItem.GetComponentInChildren<Button>().AddOnClick(() => 
+                { 
+                    HandleMaterialSlotSelection(materialSlot); 
+                });
             }
         }
     }
 
-
-    private void SelectMaterialToReplace(Material material) //rename 
+    private void HandleMaterialSlotSelection(LevelEditorMaterialSlot materialSlot) // slot own class 
     {
-        selectedMaterial = material;
-        container.ToggleActive();
+        slotContainer.SetActive(false);
+        PopulateMaterialScrollView(materialSlot); //only do this once on startup
     }
 
-    //private Material GetMatchingMaterial(GameObject selectedObject)
-    //{
-    //    //return selectedObject.GetComponent<MeshRenderer>().materials.FirstOrDefault(x => x == )
-    //}
-
-    // separate class for opener?
-    private void InitScrollViewItem(GameObject parent, LevelImage levelImage, UnityAction callback)
+    private void HandleMaterialSelection(Material material, LevelEditorMaterialSlot materialSlot) // preview to update
     {
-
-    }
-
-    //private LevelImage[] GetMaterialSlotPreviews(Material material) //rename 
-    //{
-    //    // just image 
-    //    return Array.FindAll(LevelImages, x => x.material == material);
-    //}
-
-    public void AddListeners(GameObject selectedObject)
-    {
-        foreach (KeyValuePair<LevelImage, Button> kvp in scrollViewItemButtons)
-        {
-            kvp.Value.AddOnClick(() => SelectImage(selectedObject, kvp.Key));
-        }
-    }
-
-    // make generic or use enum 
-    public void AddListeners_<T>(GameObject selectedObject, Dictionary<T, Button> buttonMappings, UnityAction callback)
-    {
-        //Type genericType = typeof(T);
-        //if (genericType is LevelImage)
-        //{
-
-        //}
-
-        //if (T == typeof(LevelImage))
-        //{
-
-        //}
-
-
-        foreach (KeyValuePair<T, Button> kvp in buttonMappings)
-        {
-            kvp.Value.AddOnClick(() => callback()); // generic cb
-        }
-    }
-
-    private void SelectImage(GameObject selectedObject, LevelImage levelImage)
-    {
-        if (selectedObject != null)
-        {
-            selectedObject.SetMaterial(levelImage.material);
-            Debug.Log("New material: " + levelImage.material.name);
-
-            imagePreview.sprite = levelImage.previewSprite;
-
-            Material slot = Array.Find(selectedObjectMaterialSlots, x => x.name == levelImage.material.name);
-            slot = levelImage.material;
-            slotScrollViewContent.ToggleActive();
-
-        }
+        UpdateMaterial(material);
+        materialSlot.SetImagePreview(material);
+        container.SetActive(true);
+        slotContainer.SetActive(false);
     }
 
     private void UpdateMaterial(Material material)
@@ -179,8 +81,8 @@ public class ImageSelector : MonoBehaviour
         {
             SelectedObject.SetMaterial(material);
             Debug.Log("New material: " + material.name);
-            slotContainer.ToggleActive();
-            container.ToggleActive();
+            slotContainer.SetActive(true);
+            container.SetActive(false);
         }
     }
 }

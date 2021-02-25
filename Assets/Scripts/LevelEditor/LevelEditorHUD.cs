@@ -238,7 +238,10 @@ public class LevelEditorHUD : MonoBehaviour
             playerInstance.transform.position =
                 startingTransform.position + PlayerConstants.PlayerSpawnOffset;
 
+            //playerInstance.transform.position = new Vector3(firstCheckpoint.transform.position.x, firstCheckpoint.transform.position.y, firstCheckpoint.transform.position.z);
+
             playerCamera.SetTargetRotation(startingTransform.rotation);
+            transform.parent.position = playerCamera.playerCamera.transform.position;
         }
         else
         {

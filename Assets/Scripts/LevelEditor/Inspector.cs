@@ -98,7 +98,7 @@ public class Inspector : MonoBehaviour
         UpdateInputs();
         levelEditorGizmo.SetGizmo(objectToInspect.transform, manipulationType);
         imageSelector.SelectedObject = toInspect.gameObject;
-        imageSelector.PopulateSlotScrollView(); //ncap to setupselector (diff)
+        imageSelector.PopulateMaterialSlotScrollView(); //ncap to setupselector (diff)
     }
 
     public void Clear()
@@ -340,12 +340,12 @@ public class Inspector : MonoBehaviour
             SetInputFieldsReadOnly(false);
         }
     }
+    #endregion
 
     private void SetInputFieldsReadOnly(bool isReadOnly)
     {
         inputFields.All(x => { x.readOnly = isReadOnly; return true; });
     }
-    #endregion
 
     private void SnapChanged(string newSnapValue)
     {
