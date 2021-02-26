@@ -60,6 +60,11 @@ public class LoadingScreenManager : MonoBehaviour
                     // The loading screen has been showing for the minimum time required.
                     // Allow the loading operation to formally finish:
                     currentLoadingOperation.allowSceneActivation = true;
+                    loadingInfoText.text = "Loading Map Data...";
+                }
+                else if (timeElapsed >= MIN_TIME_TO_SHOW && AsyncTaskReporter.TasksAreRunning())
+                {
+                    loadingInfoText.text = "Downloading Ghost Run Data...";
                 }
             }
             else
