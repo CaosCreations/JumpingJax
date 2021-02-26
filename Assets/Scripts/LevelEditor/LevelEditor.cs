@@ -56,7 +56,15 @@ public class LevelEditor : MonoBehaviour
 
     private void MoveOldLevels()
     {
+        string[] files = System.IO.Directory.GetFiles(Application.persistentDataPath, "*.level");
         List<string> levelFolders = Directory.EnumerateDirectories(Application.persistentDataPath).ToList();
+
+        foreach (string file in files)
+        {
+            int i = file.LastIndexOf('s');
+            string filename = i < 0 ? "" : file.Substring(0, i);
+        }
+
         foreach (string levelfolder in levelFolders)
         {
             if (Directory.EnumerateFiles(levelfolder, "*.level").Any())
