@@ -13,6 +13,7 @@ public class LoadingScreenManager : MonoBehaviour
     public Slider loadingBar;
     public Image mainImage;
     public Text levelNameText;
+    public Text loadingInfoText;
 
     private GameObject loadScreenContainer;
     private const float MIN_TIME_TO_SHOW = 2f;
