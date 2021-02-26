@@ -60,14 +60,14 @@ public class LevelEditor : MonoBehaviour
 
         foreach (string file in files)
         {
-            int i = file.LastIndexOf('s');
-            string levelfolder = i < 0 ? "" : file.Substring(0, i); 
+            int i = file.LastIndexOf('s');                         //code gets left side of string, this effectively gets us the folder path
+            string levelfolder = i < 0 ? "" : file.Substring(0, i);//because the only difference in name/path is the ...scriptableObject.level  
 
-            int j = file.LastIndexOf('\\');
-            string filename = j < 0 ? "" : file.Substring(j + 1);
+            int j = file.LastIndexOf('\\');                        //gets us everything to the right of the directory path so we just have
+            string filename = j < 0 ? "" : file.Substring(j + 1);  //the .level file name
 
-            int k = filename.LastIndexOf('s');
-            string newlevelfolder = k < 0 ? "" : filename.Substring(0, k);
+            int k = filename.LastIndexOf('s');                            //the new level folder name is taken from the .level file name, 
+            string newlevelfolder = k < 0 ? "" : filename.Substring(0, k);//we just get rid of the scriptableObject.level
             
             try
             {
