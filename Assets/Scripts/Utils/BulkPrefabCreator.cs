@@ -5,16 +5,16 @@ namespace DanR.JJ
 {
     public class BulkPrefabCreator : MonoBehaviour
     {
-        private static string assetsFolderPath = "Assets";
+        private static string prefabsFolderPath = "Assets/Prefabs";
         private static string outputFolderPath = "BulkPrefabs";
 
         [MenuItem("Tools/CaosCreations/Create Bulk Prefabs")]
         static void CreateBulkPrefabs()
         {
-            string completeOutputPath = assetsFolderPath + "/" + outputFolderPath;
+            string completeOutputPath = prefabsFolderPath + "/" + outputFolderPath;
 
             // If the output folder doesn't exist, create it.
-            if (!AssetDatabase.IsValidFolder(completeOutputPath)) AssetDatabase.CreateFolder(assetsFolderPath, outputFolderPath);
+            if (!AssetDatabase.IsValidFolder(completeOutputPath)) AssetDatabase.CreateFolder(prefabsFolderPath, outputFolderPath);
 
             GameObject[] selectedObjects = Selection.gameObjects;
             foreach(GameObject currentObject in selectedObjects)
