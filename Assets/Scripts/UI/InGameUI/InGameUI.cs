@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -36,6 +34,7 @@ public class InGameUI : MonoBehaviour
     public static Color inactiveColor = new Color(1, 1, 1, 1); // light green color
     public bool IsGhosting = false;
     public PlayerGhostRun ghostRun;
+    private Crosshair playerCrosshair;
 
     public float currentSpeed;
 
@@ -48,6 +47,7 @@ public class InGameUI : MonoBehaviour
         playerMovement = GetComponentInParent<PlayerMovement>();
         speedBar = GetComponentInChildren<SpeedSlider>();
         ghostRun = GetComponentInParent<PlayerGhostRun>();
+        playerCrosshair = FindObjectOfType<Crosshair>();
 
         SetupTutorialTexts(GameManager.GetCurrentLevel().tutorialTexts);
 
@@ -177,8 +177,9 @@ public class InGameUI : MonoBehaviour
     public void ToggleGhostUI()
     {
         Color UIcolor = IsGhosting ? ghostColor : normalColor;
+        playerCrosshair.Init();
 
-        if(imagesToUpdateColor != null)
+        if (imagesToUpdateColor != null)
         {
             foreach (Image image in imagesToUpdateColor)
             {
