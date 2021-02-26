@@ -9,6 +9,7 @@ public class PlayerDebug : MonoBehaviour
     
     void Start()
     {
+    #if UNITY_EDITOR
         if(isDebugging == true)
         {
             gameObject.transform.position = debugStartPosition;
@@ -18,5 +19,6 @@ public class PlayerDebug : MonoBehaviour
         {
             Debug.Log("[PlayerDebug]: Starting player at entity editor position.");
         }
+    #endif
     }
 }
