@@ -65,8 +65,10 @@ public class LevelEditor : MonoBehaviour
 
             int j = file.LastIndexOf('\\');
             string filename = j < 0 ? "" : file.Substring(j + 1);
-            //string newlevelfolder = i < 0 ? "" : filename.Substring(0, i);
 
+            int k = filename.LastIndexOf('s');
+            string newlevelfolder = k < 0 ? "" : filename.Substring(0, k);
+            
             try
             {
                 File.Move(file, Path.Combine(levelfolder, filename));  //Here we move old level files into their respective level folder
@@ -78,7 +80,7 @@ public class LevelEditor : MonoBehaviour
             
             try
             {
-                Directory.Move(levelfolder, Path.Combine(levelEditorFolderPath, filename)); //Here we move level folder into level editor folder
+                Directory.Move(levelfolder, Path.Combine(levelEditorFolderPath, newlevelfolder)); //Here we move level folder into level editor folder
             }
             catch (Exception e)
             {
