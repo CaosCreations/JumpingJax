@@ -16,10 +16,11 @@ public class LoadingScreenManager : MonoBehaviour
     public Text loadingInfoText;
 
     private GameObject loadScreenContainer;
-    private const float MIN_TIME_TO_SHOW = 2f;
+    private const float MIN_TIME_TO_SHOW = 1f;
     // The reference to the current loading operation running in the background:
     private AsyncOperation currentLoadingOperation;
-    private bool isLoading;
+    private bool isLoadingForSceneChange;
+    private bool isLoadingForDownload;
 
     private float timeElapsed;
 
@@ -46,7 +47,22 @@ public class LoadingScreenManager : MonoBehaviour
 
     void Update()
     {
-        if (isLoading)
+        if (isLoadingForDownload)
+        {
+            if (AsyncTaskReporter.TasksAreRunning() && timeElapsed <= MIN_TIME_TO_SHOW)
+            {
+                timeElapsed += Time.deltaTime;
+                timeSinceSpriteChange += Time.deltaTime;
+
+                AnimateLoadScreen();
+            }
+            else
+            {
+                Hide();
+            }
+        }
+
+        if (isLoadingForSceneChange)
         {
             if (!currentLoadingOperation.isDone)
             {
@@ -88,7 +104,7 @@ public class LoadingScreenManager : MonoBehaviour
         // Reset the time elapsed:
         timeElapsed = 0f;
 
-        isLoading = true;
+        isLoadingForSceneChange = true;
 
         mainImage.sprite = animatedImages[0];
 
@@ -105,13 +121,41 @@ public class LoadingScreenManager : MonoBehaviour
         }
     }
 
+    public void ShowWhileDownloading()
+    {
+        // Enable the loading screen:
+        loadScreenContainer.SetActive(true);
+
+        // Reset the time elapsed:
+        timeElapsed = 0f;
+
+        isLoadingForDownload = true;
+
+        mainImage.sprite = animatedImages[0];
+
+        string levelName = GameManager.GetCurrentLevel().levelName;
+
+
+        if (string.IsNullOrEmpty(levelName))
+        {
+            levelNameText.text = "Main Menu";
+        }
+        else
+        {
+            levelNameText.text = levelName;
+        }
+
+        loadingInfoText.text = "Downloading Ghost Run Data...";
+    }
+
     public void Hide()
     {
         loadScreenContainer.SetActive(false);
 
         currentLoadingOperation = null;
 
-        isLoading = false;
+        isLoadingForDownload = false;
+        isLoadingForSceneChange = false;
 
         // In Awake(), this script is made first so the Instance doesn't exist on startup
         if (GameManager.Instance != null) {

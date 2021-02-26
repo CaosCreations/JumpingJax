@@ -191,6 +191,7 @@ public class LeaderboardManager : MonoBehaviour
             Debug.Log($"Downloading ghost file UGC with ID: {replayFileId}");
             AsyncTaskReporter.Instance.ghostDownloadRunning = true;
 
+            LoadingScreenManager.Instance.ShowWhileDownloading();
             GameManager.Instance.ReplayFileLocation = await WorkshopManager.DownloadGhostRun(replayFileId).ConfigureAwait(false);
 
             if(playerGhostRun != null && previousReplayFileId != replayFileId)
