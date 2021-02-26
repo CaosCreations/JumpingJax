@@ -39,6 +39,7 @@ public class LevelEditor : MonoBehaviour
         menuController = GetComponentInParent<MainMenuController>();
         levelEditorInfo = GetComponentInChildren<LevelEditorInfo>();
         levelEditorButtons = new List<LevelEditorButton>();
+        MoveOldLevels();
         playerCreatedLevels = GetPlayerCreatedLevels();
         
         CreateLevelButtons();
@@ -52,6 +53,41 @@ public class LevelEditor : MonoBehaviour
         {
             levelEditorInfo.Init(null);
             publishButton.SetDisabled();
+        }
+    }
+
+    private void MoveOldLevels()
+    {
+        string[] files = System.IO.Directory.GetFiles(Application.persistentDataPath, "*.level");
+
+        foreach (string file in files)
+        {
+            int i = file.LastIndexOf('s');                         //code gets left side of string, this effectively gets us the folder path
+            string levelfolder = i < 0 ? "" : file.Substring(0, i);//because the only difference in name/path is the ...scriptableObject.level  
+
+            int j = file.LastIndexOf('\\');                        //gets us everything to the right of the directory path so we just have
+            string filename = j < 0 ? "" : file.Substring(j + 1);  //the .level file name
+
+            int k = filename.LastIndexOf('s');                            //the new level folder name is taken from the .level file name, 
+            string newlevelfolder = k < 0 ? "" : filename.Substring(0, k);//we just get rid of the scriptableObject.level
+            
+            try
+            {
+                File.Move(file, Path.Combine(levelfolder, filename));  //Here we move old level files into their respective level folder
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
+            try
+            {
+                Directory.Move(levelfolder, Path.Combine(levelEditorFolderPath, newlevelfolder)); //Here we move level folder into level editor folder
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 
