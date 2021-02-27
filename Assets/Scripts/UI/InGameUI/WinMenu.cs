@@ -50,8 +50,11 @@ public class WinMenu : MonoBehaviour
             completionTimeText.text = TimeUtils.GetTimeString(GameManager.Instance.currentCompletionTime);
         }
         
-        // Use local best time for now
-        bestTimeText.text = TimeUtils.GetTimeString(currentLevel.levelSaveData.completionTime);
+        if (currentLevel.levelSaveData != null)
+        {
+            // Use local best time for now
+            bestTimeText.text = TimeUtils.GetTimeString(currentLevel.levelSaveData.completionTime);
+        }
 
         // Then work on getting the best time from steam
         float bestTime = await StatsManager.GetLevelCompletionTime(currentLevel.levelName);
