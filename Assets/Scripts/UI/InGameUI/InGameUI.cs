@@ -192,6 +192,10 @@ public class InGameUI : MonoBehaviour
         {
             foreach (TMP_Text text in textsToUpdateColor)
             {
+                if (text == null)
+                {
+                    continue;
+                }
                 text.color = UIcolor;
             }
         }
