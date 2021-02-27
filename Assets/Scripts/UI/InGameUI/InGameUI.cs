@@ -47,7 +47,7 @@ public class InGameUI : MonoBehaviour
         playerMovement = GetComponentInParent<PlayerMovement>();
         speedBar = GetComponentInChildren<SpeedSlider>();
         ghostRun = GetComponentInParent<PlayerGhostRun>();
-        playerCrosshair = FindObjectOfType<Crosshair>();
+        playerCrosshair = GetComponentInParent<Crosshair>();
 
         SetupTutorialTexts(GameManager.GetCurrentLevel().tutorialTexts);
 
@@ -178,6 +178,7 @@ public class InGameUI : MonoBehaviour
     {
         Color UIcolor = IsGhosting ? ghostColor : normalColor;
         playerCrosshair.Init();
+        playerCrosshair.crosshair.color = UIcolor;
 
         if (imagesToUpdateColor != null)
         {
