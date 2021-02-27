@@ -49,7 +49,7 @@ public class LoadingScreenManager : MonoBehaviour
     {
         if (isLoadingForDownload)
         {
-            if (AsyncTaskReporter.TasksAreRunning() && timeElapsed <= MIN_TIME_TO_SHOW)
+            if (AsyncTaskReporter.TasksAreRunning() || timeElapsed <= MIN_TIME_TO_SHOW)
             {
                 timeElapsed += Time.deltaTime;
                 timeSinceSpriteChange += Time.deltaTime;
