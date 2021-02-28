@@ -47,7 +47,7 @@ public class LevelPreview : MonoBehaviour
         backButton.onClick.AddListener(Back);
     }
 
-    void Play()
+    async void Play()
     {
         // If this is a workshop map
         if(levelToPreview.workshopFilePath != string.Empty) 
@@ -59,7 +59,7 @@ public class LevelPreview : MonoBehaviour
             GameManager.LoadScene(levelToPreview.levelBuildIndex);
         }
 
-        leaderboardManager.SetReplayLocation();
+        await leaderboardManager.SetReplayLocation();
 
         if (leaderboardManager.replayFileId != 0)
         {

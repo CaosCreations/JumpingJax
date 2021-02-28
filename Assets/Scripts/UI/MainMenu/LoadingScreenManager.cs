@@ -123,29 +123,35 @@ public class LoadingScreenManager : MonoBehaviour
 
     public void ShowWhileDownloading()
     {
-        // Enable the loading screen:
-        loadScreenContainer.SetActive(true);
-
-        // Reset the time elapsed:
-        timeElapsed = 0f;
-
-        isLoadingForDownload = true;
-
-        mainImage.sprite = animatedImages[0];
-
-        string levelName = GameManager.GetCurrentLevel().levelName;
-
-
-        if (string.IsNullOrEmpty(levelName))
+        // There are 2 paths this can come from: level preview, and win menu
+        // if we come from win menu, we need to do this normally
+        // if we come from level preview, we don't want to do this twice
+        if (!GameManager.Instance.isLoadingScene)
         {
-            levelNameText.text = "Main Menu";
-        }
-        else
-        {
-            levelNameText.text = levelName;
-        }
+            // Enable the loading screen:
+            loadScreenContainer.SetActive(true);
 
-        loadingInfoText.text = "Downloading Ghost Run Data...";
+            // Reset the time elapsed:
+            timeElapsed = 0f;
+
+            isLoadingForDownload = true;
+
+            mainImage.sprite = animatedImages[0];
+
+            string levelName = GameManager.GetCurrentLevel().levelName;
+
+
+            if (string.IsNullOrEmpty(levelName))
+            {
+                levelNameText.text = "Main Menu";
+            }
+            else
+            {
+                levelNameText.text = levelName;
+            }
+
+            loadingInfoText.text = "Downloading Ghost Run Data...";
+        }
     }
 
     public void Hide()
