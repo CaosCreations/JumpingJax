@@ -7,6 +7,7 @@ public class AsyncTaskReporter : MonoBehaviour
     public static AsyncTaskReporter Instance { get; private set; }
 
     public bool ghostDownloadRunning;
+    public bool ghostUploadRunning;
 
     void Awake()
     {
@@ -24,6 +25,6 @@ public class AsyncTaskReporter : MonoBehaviour
 
     public static bool TasksAreRunning()
     {
-        return Instance.ghostDownloadRunning;
+        return Instance.ghostDownloadRunning || Instance.ghostUploadRunning;
     }
 }

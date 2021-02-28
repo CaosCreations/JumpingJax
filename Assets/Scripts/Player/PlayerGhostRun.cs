@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Steamworks;
+using System.Collections;
+using System.Threading.Tasks;
+using System.Threading;
 
 public class PlayerGhostRun : MonoBehaviour
 {
@@ -63,48 +66,42 @@ public class PlayerGhostRun : MonoBehaviour
 
     private void SetPastRunData()
     {
-        if(pastRunPositionData == null)
+        if(pastRunPositionData == null && !string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation))
         {
-            if (string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation) && currentLevel.levelSaveData != null && currentLevel.levelSaveData.isCompleted)
-            {
-                Debug.Log($"Loading replay data from local files for {currentLevel.levelName}. From: {FilePathUtil.GetLevelDataFilePath(currentLevel.levelName)}");
-                pastRunPositionData = currentLevel.levelSaveData.ghostRunPositions;
-                pastRunCameraRotationData = currentLevel.levelSaveData.ghostRunCameraRotations;
-                pastRunKeyData = currentLevel.levelSaveData.ghostRunKeys;
-                pastRunVelocityData = currentLevel.levelSaveData.ghostRunVelocities;
+            GetNewRunData();
+        }
+    }
 
-                if (SteamClient.IsValid)
-                {
-                    pastRunPlayerSteamName = SteamClient.Name;
-                }
-                else
-                {
-                    pastRunPlayerSteamName = currentLevel.levelSaveData.ghostRunPlayerName;
-                }
-            }
-            else if (!string.IsNullOrEmpty(GameManager.Instance.ReplayFileLocation))
-            {
-                Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.ReplayFileLocation}");
-                if (File.Exists(GameManager.Instance.ReplayFileLocation))
-                {
-                    try
-                    {
-                        string replayLevelData = File.ReadAllText(GameManager.Instance.ReplayFileLocation);
-                        PersistentLevelDataModel levelSaveData = new PersistentLevelDataModel();
-                        JsonUtility.FromJsonOverwrite(replayLevelData, levelSaveData);
+    public void GetNewRunData()
+    {
+        while (AsyncTaskReporter.Instance.ghostDownloadRunning)
+        {
+            Thread.Sleep(20);
+        }
 
-                        pastRunPositionData = levelSaveData.ghostRunPositions;
-                        pastRunCameraRotationData = levelSaveData.ghostRunCameraRotations;
-                        pastRunKeyData = levelSaveData.ghostRunKeys;
-                        pastRunVelocityData = levelSaveData.ghostRunVelocities;
-                        pastRunPlayerSteamName = levelSaveData.ghostRunPlayerName;
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogError($"{e.Message}\n{e.StackTrace}");
-                    }
-                }
+        Debug.Log($"Trying to load leaderboard replay from: {GameManager.Instance.ReplayFileLocation}");
+        if (File.Exists(GameManager.Instance.ReplayFileLocation))
+        {
+            try
+            {
+                string replayLevelData = File.ReadAllText(GameManager.Instance.ReplayFileLocation);
+                PersistentLevelDataModel levelSaveData = new PersistentLevelDataModel();
+                JsonUtility.FromJsonOverwrite(replayLevelData, levelSaveData);
+
+                pastRunPositionData = levelSaveData.ghostRunPositions;
+                pastRunCameraRotationData = levelSaveData.ghostRunCameraRotations;
+                pastRunKeyData = levelSaveData.ghostRunKeys;
+                pastRunVelocityData = levelSaveData.ghostRunVelocities;
+                pastRunPlayerSteamName = levelSaveData.ghostRunPlayerName;
             }
+            catch (Exception e)
+            {
+                Debug.LogError($"{e.Message}\n{e.StackTrace}");
+            }
+        }
+        else
+        {
+            Debug.Log("no file found for ghost run");
         }
     }
 
@@ -197,12 +194,15 @@ public class PlayerGhostRun : MonoBehaviour
         {
             currentDataIndex = 0;
 
-            if (ghostCamera.enabled && ghostPortalPlacement.portalPair != null)
+            if (ghostCamera.enabled)
             {
-                ghostPortalPlacement.portalPair.ResetPortals();
-            }
+                GameManager.Instance.currentCompletionTime = 0;
 
-            GameManager.Instance.currentCompletionTime = 0;
+                if (ghostPortalPlacement.portalPair != null)
+                {
+                    ghostPortalPlacement.portalPair.ResetPortals();
+                }
+            }
         }
 
         ghostRunner.transform.position = pastRunPositionData[currentDataIndex];
@@ -239,7 +239,6 @@ public class PlayerGhostRun : MonoBehaviour
 
     public void RestartRun()
     {
-        SetPastRunData();
         ghostRunner.SetActive(ShouldGhostBeActive());
         ghostRunnerTimer = 0;
         currentDataIndex = 0;
@@ -312,5 +311,14 @@ public class PlayerGhostRun : MonoBehaviour
     private bool ShouldGhostBeActive()
     {
         return pastRunPositionData != null && pastRunPositionData.Length > 0 && OptionsPreferencesManager.GetGhostToggle();
+    }
+
+    public void ClearPastRunData()
+    {
+        pastRunPositionData = new Vector3[0];
+        pastRunCameraRotationData = new Vector3[0];
+        pastRunKeyData = new KeysPressed[0];
+        pastRunVelocityData = new float[0];
+        pastRunPlayerSteamName = string.Empty;
     }
 }

@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public Steamworks.Data.PublishedFileId CurrentReplayFileId;
+
     private bool shiftPressed;
     private bool tabPressed;
 

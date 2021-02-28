@@ -43,7 +43,7 @@ public class LeaderboardEntry : MonoBehaviour
 
     public void SetCheckboxActive()
     {
-        replayCheck.SetActive(!replayCheck.activeInHierarchy);
+        replayCheck.SetActive(true);
     }
 
     public void ClearActive()

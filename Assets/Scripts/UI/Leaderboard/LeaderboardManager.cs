@@ -28,14 +28,17 @@ public class LeaderboardManager : MonoBehaviour
 
     public Steamworks.Data.PublishedFileId replayFileId;
     private List<LeaderboardEntry> leaderboardEntries;
+    private LeaderboardEntry myLeaderboardEntry;
     private string currentLevelName;
 
     public string currentRank;
     public GameObject tooltip;
-    private RectTransform myRectTransform;
+    private PlayerGhostRun playerGhostRun;
+    private Steamworks.Data.PublishedFileId previousReplayFileId;
 
     void Start()
     {
+        playerGhostRun = GetComponentInParent<PlayerGhostRun>();
         replayFileId = new Steamworks.Data.PublishedFileId();
 
         globalButton.onClick.RemoveAllListeners();
@@ -43,9 +46,9 @@ public class LeaderboardManager : MonoBehaviour
         friendsButton.onClick.RemoveAllListeners();
         friendsButton.onClick.AddListener(() => SwitchTab(LeaderboardTab.Friends));
 
-        myRectTransform = GetComponent<RectTransform>();
         tooltip.SetActive(false);
     }
+
     public async Task InitAsync(string levelName)
     {
         leaderboardEntries = new List<LeaderboardEntry>();
@@ -122,18 +125,34 @@ public class LeaderboardManager : MonoBehaviour
         leaderboardEntry.Init(entry, () => SelectedReplayButton(leaderboardEntry), tab, hasAttachedUGC);
 
         leaderboardEntries.Add(leaderboardEntry);
+
+        if(tab == LeaderboardTab.Mine)
+        {
+            myLeaderboardEntry = leaderboardEntry;
+        }
+
+        if(GameManager.Instance.CurrentReplayFileId != null && GameManager.Instance.CurrentReplayFileId != 0)
+        {
+            replayFileId = GameManager.Instance.CurrentReplayFileId;
+        }
+
+        if (entry.AttachedUgcId == replayFileId)
+        {
+            SelectedReplayButton(leaderboardEntry);
+        }
     }
 
     public void SelectedReplayButton(LeaderboardEntry entry)
     {
-        bool isChecked = entry.replayCheck.activeInHierarchy;
+        bool wasChecked = entry.replayCheck.activeInHierarchy;
 
         foreach (LeaderboardEntry entryToClear in leaderboardEntries)
         {
             entryToClear.ClearActive();
         }
 
-        if (!isChecked)
+        // Only set up replay if the button is being toggled on (in this case, the button WASN'T check before this function)
+        if (!wasChecked)
         {
             Steamworks.Data.LeaderboardEntry leaderboardEntry = entry.leaderboardEntry;
             // Steam has a ulong for if an error occurred: https://partner.steamgames.com/doc/api/ISteamRemoteStorage#k_UGCFileStreamHandleInvalid
@@ -149,6 +168,14 @@ public class LeaderboardManager : MonoBehaviour
                 Debug.LogWarning($"No UGC Attached for: {leaderboardEntry.User.Name}");
                 replayFileId = new Steamworks.Data.PublishedFileId();
             }
+
+            // Check both of my entries. If I'm in the top 10 AND I have completed the level I will have 2 entries:
+            // One for the top 10, and one for the "my rank"
+            if (entry.leaderboardEntry.User.Id == myLeaderboardEntry.leaderboardEntry.User.Id)
+            {
+                List<LeaderboardEntry> myEntries = leaderboardEntries.Where(x => x.leaderboardEntry.User.Id == myLeaderboardEntry.leaderboardEntry.User.Id).ToList();
+                myEntries.ForEach(x => x.SetCheckboxActive());
+            }
         }
         else
         {
@@ -157,13 +184,35 @@ public class LeaderboardManager : MonoBehaviour
         }
     }
 
-    public async void SetReplayLocation()
+    public async Task SetReplayLocation()
     {
         if (replayFileId.Value != 0)
         {
             Debug.Log($"Downloading ghost file UGC with ID: {replayFileId}");
             AsyncTaskReporter.Instance.ghostDownloadRunning = true;
+
+            LoadingScreenManager.Instance.ShowWhileDownloading();
             GameManager.Instance.ReplayFileLocation = await WorkshopManager.DownloadGhostRun(replayFileId).ConfigureAwait(false);
+
+            if(playerGhostRun != null && previousReplayFileId != replayFileId)
+            {
+                playerGhostRun.GetNewRunData();
+            }
+
+            previousReplayFileId = replayFileId;
+            GameManager.Instance.CurrentReplayFileId = replayFileId;
+        }
+        else // If the player doesn't have a replay file id selected, don't load a ghost
+        {
+            GameManager.Instance.ReplayFileLocation = string.Empty;
+            GameManager.Instance.CurrentReplayFileId = new Steamworks.Data.PublishedFileId();
+
+            if (playerGhostRun != null)
+            {
+                playerGhostRun.ClearPastRunData();
+            }
+
+            previousReplayFileId = new Steamworks.Data.PublishedFileId();
         }
     }
 
