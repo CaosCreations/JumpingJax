@@ -177,6 +177,11 @@ public class GameManager : MonoBehaviour
             Instance.currentLevel = Instance.levelDataContainer.levels[scene.buildIndex - 1];
         }
 
+        if(Instance.currentLevel == null)
+        {
+            return;
+        }
+
         // Set up the workshop level to have the right number of checkpoints, since it isn't loaded on the scene
         if (Instance.currentLevel.workshopFilePath != string.Empty || Instance.currentLevel.levelEditorScriptableObjectPath != string.Empty)
         {
@@ -187,14 +192,11 @@ public class GameManager : MonoBehaviour
 
     public static Level GetCurrentLevel()
     {
-        if(Instance == null)
+        if(Instance == null || Instance.currentLevel == null)
         {
-            return ScriptableObject.CreateInstance<Level>();
-        }
-
-        if(Instance.currentLevel == null)
-        {
-            return ScriptableObject.CreateInstance<Level>();
+            Level emptyLevel = ScriptableObject.CreateInstance<Level>();
+            emptyLevel.gravityMultiplier = 1;
+            return emptyLevel;
         }
 
         return Instance.currentLevel;
