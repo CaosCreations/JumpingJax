@@ -25,7 +25,10 @@ public class FilePathUtil : MonoBehaviour
         string directory = Path.Combine(Application.persistentDataPath, levelDataFolder);
         try
         {
-            Directory.Delete(directory, true);
+            if (Directory.Exists(directory))
+            {
+                Directory.Delete(directory, true);
+            }
         }
         catch(Exception e)
         {
@@ -37,9 +40,11 @@ public class FilePathUtil : MonoBehaviour
     #endregion
 
     #region LevelEditor
-    public static void GetLevelEditorDataFolder()
+    public static string GetLevelEditorDataFolder()
     {
-
+        string directory = Path.Combine(Application.persistentDataPath, levelEditorFolder);
+        EnsureDirectoryExists(directory);
+        return directory;
     }
 
     public static void DeleteLevelEditorData()
@@ -47,7 +52,10 @@ public class FilePathUtil : MonoBehaviour
         string directory = Path.Combine(Application.persistentDataPath, levelEditorFolder);
         try
         {
-            Directory.Delete(directory, true);
+            if (Directory.Exists(directory))
+            {
+                Directory.Delete(directory, true);
+            }
         }
         catch (Exception e)
         {
