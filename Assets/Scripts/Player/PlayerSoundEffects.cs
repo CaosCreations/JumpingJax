@@ -32,7 +32,7 @@ public class PlayerSoundEffects : MonoBehaviour
 
     // Timers
     float footstepTimer;
-    float footstepInverval = 0.6f;
+    float footstepInverval = 0.4f;
 
     float landingTimer;
     float landingInterval = 0.5f;
