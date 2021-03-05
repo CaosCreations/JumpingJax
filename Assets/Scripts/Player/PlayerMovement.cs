@@ -115,6 +115,12 @@ public class PlayerMovement : MonoBehaviour
             grounded = false;
         }
 
+        // If we are on a level without gravity, don't use ground movement
+        if(currentLevel.gravityMultiplier == 0)
+        {
+            grounded = false;
+        }
+
         if (controller.collisionFlags == CollisionFlags.CollidedAbove && velocityToApply.y > 0 && !playerPortalableController.IsInPortal())
         {
             velocityToApply.y = 0;
