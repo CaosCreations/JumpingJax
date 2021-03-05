@@ -25,6 +25,7 @@ public class LevelEditorHUD : MonoBehaviour
     public GameObject levelButtonPrefab;
 
     public Button playButton;
+    private Text playButtonText; 
     public Button saveButton;
    
     public LayerMask gizmoLayerMask;
@@ -59,6 +60,7 @@ public class LevelEditorHUD : MonoBehaviour
         playerInstance = Instantiate(playerPrefab);
         playerInstance.SetActive(false);
         playerCamera = playerInstance.GetComponent<CameraMove>();
+        HotKeyManager.Instance.onHotKeySet += SetPlayButtonKeyText;
     }
 
     void Start()
@@ -75,6 +77,10 @@ public class LevelEditorHUD : MonoBehaviour
 
         playButton.onClick.RemoveAllListeners();
         playButton.onClick.AddListener(() => PlayTest());
+        playButtonText = playButton.GetComponentInChildren<Text>();
+        SetPlayButtonKeyText(
+            HotKeyManager.Instance.GetKeyFor(PlayerConstants.LevelEditorPlayTest), 
+            HotKeyManager.Instance.GetDefaultKeyFor(PlayerConstants.LevelEditorPlayTest));
 
         saveButton.onClick.RemoveAllListeners();
         saveButton.onClick.AddListener(() => Save());
@@ -245,6 +251,11 @@ public class LevelEditorHUD : MonoBehaviour
             playerInstance.transform.position = playerCamera.playerCamera.transform.position;
             playerCamera.SetTargetRotation(transform.parent.rotation);
         }
+    }
+
+    private void SetPlayButtonKeyText(KeyCode oldKeyCode, KeyCode newKeyCode)
+    {
+        playButtonText.text = playButtonText.text.InsertSpecificHotKey(oldKeyCode, newKeyCode);
     }
 
     private void AddMovementCommand()

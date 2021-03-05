@@ -59,6 +59,11 @@ public class HotKeyManager : MonoBehaviour {
         return keys[action];
     }
 
+    public KeyCode GetDefaultKeyFor(string action)
+    {
+        return defaults[action];
+    }
+
     public void LoadSavedHotkeys()
     {
         LoadSavedKey(PlayerConstants.Forward, PlayerConstants.ForwardDefault);
