@@ -208,7 +208,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckJump()
     {
-        if (grounded && InputManager.GetKey(PlayerConstants.Jump))
+        if (grounded && (InputManager.GetKey(PlayerConstants.Jump) || currentLevel.isForcedJump))
         {
             RaycastHit hit;
             Vector3 startPos = transform.position - new Vector3(0, controller.height / 2, 0);
