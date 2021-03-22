@@ -90,7 +90,6 @@ public class InGameUI : MonoBehaviour
         if (tutorialTexts == null || tutorialTexts.Length == 0)
         {
             tutorialPane.SetActive(false);
-            Debug.Log("tutorialPane is set to false LoadNextTutorial");
             return;
         }
 
@@ -100,12 +99,10 @@ public class InGameUI : MonoBehaviour
             tutorialText.text += "\nPress TAB to Continue";
             tutorialTextIndex++;
             tutorialPane.SetActive(true);
-            Debug.Log("tutorialPane is set to true LoadNextTutorial");
         }
         else
         {
             tutorialPane.SetActive(false);
-            Debug.Log("tutorialPane is set to false LoadNextTutorial");
         }
     }
 
@@ -158,7 +155,6 @@ public class InGameUI : MonoBehaviour
 
             case ToggleableUIElements.TutorialToggle:
             tutorialPane.SetActive(!tutorialPane.activeInHierarchy && tutorialTexts.Length > 0);
-            Debug.Log("tutorialPane is toggled here ToggleIndividual");
             OptionsPreferencesManager.SetTutorialToggle(tutorialPane.activeInHierarchy);
             Invoke("UpdateParentLayoutGroup", 0.1f);
             break;
@@ -180,7 +176,6 @@ public class InGameUI : MonoBehaviour
         {
             bool tutorialPaneActive = (OptionsPreferencesManager.GetTutorialToggle() && tutorialTexts.Length > 0) || IsGhosting;
             tutorialPane.SetActive(tutorialPaneActive);
-            Debug.Log("tutorialPane is toggled here CheckElementsShouldBeActive");
         }
     }
 
@@ -210,7 +205,6 @@ public class InGameUI : MonoBehaviour
         {
             tutorialText.text = $"Spectating: {ghostRun.pastRunPlayerSteamName}";
             tutorialPane.SetActive(true);
-            Debug.Log("tutorialPane is set to true ToggleGhostUI");
         }
         else
         {
