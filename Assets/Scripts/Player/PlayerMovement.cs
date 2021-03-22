@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     private bool grounded;
+    private float scrollJump;
 
     [SerializeField]
     private bool crouching;
@@ -202,7 +203,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckJump()
     {
-        if (grounded && InputManager.GetKey(PlayerConstants.Jump))
+        if(scrollJump >= 0f)
+            scrollJump -= Time.deltaTime;
+
+        float mouseWheelAxis = Mathf.Abs(Input.GetAxisRaw("Mouse ScrollWheel"));
+        scrollJump = Mathf.Clamp(Mathf.Lerp(0, scrollJump + mouseWheelAxis * 20f, 0.5f), 0f, 2f);
+
+        //Grounded AND (Key pressed OR scrolled in last X ms OR scrolled this frame)
+        if (grounded && (InputManager.GetKey(PlayerConstants.Jump) || scrollJump >= 0.04f || mouseWheelAxis >= 0.05f))
         {
             RaycastHit hit;
             Vector3 startPos = transform.position - new Vector3(0, controller.height / 2, 0);
