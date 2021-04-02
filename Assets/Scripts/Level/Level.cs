@@ -16,6 +16,9 @@ public class Level : ScriptableObject
     public float gravityMultiplier;
 
     [SerializeField]
+    public bool isForcedJump;
+
+    [SerializeField]
     public string[] tutorialTexts;
 
     [SerializeField]

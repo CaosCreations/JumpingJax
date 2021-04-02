@@ -166,7 +166,7 @@ public class StatsManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Not getting level leaderboard, steam client is NOT valid");
+            Debug.LogWarning("Not getting level leaderboard, steam client is NOT valid");
         }
 
         return null;
