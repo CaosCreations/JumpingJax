@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private Level currentLevel;
 
     private bool noClip;
+    public bool shouldJumpOnScroll;
     public Vector3 currentVelocity; // This result is the finalized value of velocityToApply, used for GhostVelocity value
 
     private void Awake()
@@ -42,6 +43,8 @@ public class PlayerMovement : MonoBehaviour
         playerPortalableController = GetComponent<PlayerPortalableController>();
         cameraMove = GetComponent<CameraMove>();
         currentLevel = GameManager.GetCurrentLevel();
+
+        shouldJumpOnScroll = OptionsPreferencesManager.GetJumpOnScroll();
     }
 
     // All input checking going in Update, so no Input queries are missed
@@ -202,7 +205,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckJump()
     {
-        if (grounded && InputManager.GetKey(PlayerConstants.Jump))
+        bool requestJump = InputManager.GetKey(PlayerConstants.Jump);
+
+        if (shouldJumpOnScroll)
+        {
+            requestJump = Input.mouseScrollDelta.y != 0 || requestJump;
+        }
+
+        if (grounded && requestJump)
         {
             RaycastHit hit;
             Vector3 startPos = transform.position - new Vector3(0, controller.height / 2, 0);
