@@ -151,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Resize the player bounding box
-        DampenCollider();
+        ResizeCollider();
 
         // Move the camera to the correct offset
         DampenCamera();
@@ -170,22 +170,16 @@ public class PlayerMovement : MonoBehaviour
         return true;
     }
 
-    private void DampenCollider()
+    private void ResizeCollider()
     {
-        // Update player collider
+        // Change the size of the collider
         float endHeight = crouching ? PlayerConstants.CrouchingPlayerHeight : PlayerConstants.StandingPlayerHeight;
-        float velocity = 0;
-        float startingHeight = controller.height;
-        float height = Mathf.SmoothDamp(controller.height, endHeight, ref velocity, Time.deltaTime);
+        controller.height = endHeight;
 
-        if(height > startingHeight && grounded)
-        {
-            Vector3 newPosition = transform.position;
-            newPosition.y += height - startingHeight;
-            transform.position = newPosition;
-        }
-
-        controller.height = height;
+        // Offset the player's position to compensate for the collider size different
+        Vector3 center = controller.center;
+        center.y = crouching ? -0.3f : 0f;
+        controller.center = center;
     }
 
     private void DampenCamera()
