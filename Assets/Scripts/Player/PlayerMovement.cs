@@ -107,6 +107,14 @@ public class PlayerMovement : MonoBehaviour
     {
         CheckLandingSound();
 
+        // If we weren't grounded last frame, but we are now...
+        // Reset the gravity to the base that keeps pushing the player into the ground
+        // Otherwise, the controller's grounding doesn't check properly
+        if (!grounded && controller.isGrounded)
+        {
+            velocityToApply.y = -currentLevel.gravityMultiplier * PlayerConstants.Gravity * Time.deltaTime;
+        }
+
         grounded = controller.isGrounded;
 
         // If we are falling into a portal, make sure we don't clip with the ground
@@ -115,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
             grounded = false;
         }
 
+        // When flying up, reset y velocity if you hit the ceiling
         if (controller.collisionFlags == CollisionFlags.CollidedAbove && velocityToApply.y > 0 && !playerPortalableController.IsInPortal())
         {
             velocityToApply.y = 0;
