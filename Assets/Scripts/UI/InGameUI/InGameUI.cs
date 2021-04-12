@@ -27,7 +27,6 @@ public class InGameUI : MonoBehaviour
     private int tutorialTextIndex = 0;
 
     public GameObject container;
-    public PlayerMovement playerMovement;
 
     // Used for Ghost
     public static Color ghostColor = new Color(255 / 255f, 124 / 255f, 50 / 255f); // burnt orange color
@@ -37,17 +36,19 @@ public class InGameUI : MonoBehaviour
     public bool IsGhosting = false;
     public PlayerGhostRun ghostRun;
     private Crosshair playerCrosshair;
+    private Transform player;
 
     public float currentSpeed;
+    public Vector3 positionLastFrame;
 
     public Image[] imagesToUpdateColor;
     public TMP_Text[] textsToUpdateColor;
 
     private void Start()
     {
-        playerMovement = GetComponentInParent<PlayerMovement>();
         speedBar = GetComponentInChildren<SpeedSlider>();
         ghostRun = GetComponentInParent<PlayerGhostRun>();
+        player = ghostRun.transform;
         playerCrosshair = GetComponentInParent<Crosshair>();
 
         SetupTutorialTexts(GameManager.GetCurrentLevel().tutorialTexts);
@@ -70,7 +71,9 @@ public class InGameUI : MonoBehaviour
         //currentSpeed is by default set to the ghost velocity at this time
         if (!IsGhosting)
         {
-            currentSpeed = new Vector2(playerMovement.velocityToApply.x, playerMovement.velocityToApply.z).magnitude;
+            Vector3 offestSinceLastFrame = player.position - positionLastFrame;
+            offestSinceLastFrame.y = 0;
+            currentSpeed = offestSinceLastFrame.magnitude / Time.deltaTime;
         }
 
         speedBar.SetSpeed(currentSpeed);
@@ -83,6 +86,8 @@ public class InGameUI : MonoBehaviour
         {
             ToggleUI();
         }
+
+        positionLastFrame = player.position;
     }
 
     private void LoadNextTutorial()
