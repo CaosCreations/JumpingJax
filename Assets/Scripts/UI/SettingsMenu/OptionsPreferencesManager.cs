@@ -5,6 +5,9 @@ public class OptionsPreferencesManager
     #region Controls
     public const string sensitivityKey = "Sensitivity";
     public const float defaultSensitivity = 0.2f;
+
+    public const string jumpOnScrollKey = "JumpOnScroll";
+    public const int defaultJumpOnScroll = 0;
     #endregion
 
     #region Audio
@@ -133,7 +136,7 @@ public class OptionsPreferencesManager
     public static bool GetFullScreen()
     {
         int isFullScreen = PlayerPrefs.GetInt(fullScreenKey, defaultIsFullScreen);
-        return isFullScreen == 0 ? false : true;
+        return isFullScreen != 0;
     }
 
     public static void SetFullScreen(bool isFullScreen)
@@ -149,6 +152,17 @@ public class OptionsPreferencesManager
     public static void SetSensitivity(float sensitivity)
     {
         PlayerPrefs.SetFloat(sensitivityKey, sensitivity);
+    }
+
+    public static bool GetJumpOnScroll()
+    {
+        int shouldJumpOnScroll = PlayerPrefs.GetInt(jumpOnScrollKey, defaultJumpOnScroll);
+        return shouldJumpOnScroll != 0;
+    }
+
+    public static void SetJumpOnScroll(bool shouldJumpOnScroll)
+    {
+        PlayerPrefs.SetInt(jumpOnScrollKey, shouldJumpOnScroll ? 1 : 0);
     }
 
     public static int GetPortalRecursion()
@@ -174,7 +188,7 @@ public class OptionsPreferencesManager
     public static bool GetCrosshairToggle()
     {
         int isOn = PlayerPrefs.GetInt(crosshairToggleKey, defaultCrosshairToggle);
-        return isOn == 0 ? false : true;
+        return isOn != 0;
     }
 
     public static void SetCrosshairToggle(bool isOn)
@@ -185,7 +199,7 @@ public class OptionsPreferencesManager
     public static bool GetSpeedToggle()
     {
         int isOn = PlayerPrefs.GetInt(speedToggleKey, defaultSpeedToggle);
-        return isOn == 0 ? false : true;
+        return isOn != 0;
     }
 
     public static void SetSpeedToggle(bool isOn)
@@ -196,7 +210,7 @@ public class OptionsPreferencesManager
     public static bool GetTimeToggle()
     {
         int isOn = PlayerPrefs.GetInt(timeToggleKey, defaultTimeToggle);
-        return isOn == 0 ? false : true;
+        return isOn != 0;
     }
 
     public static void SetTimeToggle(bool isOn)
@@ -207,7 +221,7 @@ public class OptionsPreferencesManager
     public static bool GetKeyPressedToggle()
     {
         int isOn = PlayerPrefs.GetInt(keyPressedToggleKey, defaultKeyPressedToggle);
-        return isOn == 0 ? false : true;
+        return isOn != 0;
     }
 
     public static void SetKeyPressedToggle(bool isOn)
@@ -217,7 +231,7 @@ public class OptionsPreferencesManager
     public static bool GetTutorialToggle()
     {
         int isOn = PlayerPrefs.GetInt(tutorialToggleKey, defaultTutorialToggle);
-        return isOn == 0 ? false : true;
+        return isOn != 0;
     }
 
     public static void SetTutorialToggle(bool isOn)
@@ -228,7 +242,7 @@ public class OptionsPreferencesManager
     public static bool GetGhostToggle()
     {
         int isOn = PlayerPrefs.GetInt(ghostToggleKey, defaultGhostToggle);
-        return isOn == 0 ? false : true;
+        return isOn != 0;
     }
 
     public static void SetGhostToggle(bool isOn)
@@ -239,7 +253,7 @@ public class OptionsPreferencesManager
     public static bool GetConsoleToggle()
     {
         int isOn = PlayerPrefs.GetInt(consoleToggleKey, defaultConsoleToggle);
-        return isOn == 0 ? false : true;
+        return isOn != 0;
     }
 
     public static void SetConsoleToggle(bool isOn)
@@ -250,7 +264,7 @@ public class OptionsPreferencesManager
     public static bool GetAlphaToggle()
     {
         int isOn = PlayerPrefs.GetInt(alphaMenuKey, defaultAlphaToggle);
-        return isOn == 0 ? false : true;
+        return isOn != 0;
     }
 
     public static void SetAlphaToggle(bool isOn)
@@ -281,7 +295,7 @@ public class OptionsPreferencesManager
     public static bool GetLeaderboardGhostTooltip()
     {
         int isOn = PlayerPrefs.GetInt(ghostTooltopKey, defaultGhostTooltip);
-        return isOn == 0 ? false : true;
+        return isOn != 0;
     }
 
     public static void SetLeaderboardGhostTooltip(bool isOn)

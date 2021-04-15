@@ -59,6 +59,15 @@ public class PlayerProgress : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        Checkpoint checkPointHit = other.gameObject.GetComponent<Checkpoint>();
+        if (checkPointHit && checkPointHit.isFirstCheckpoint)
+        {
+            GameManager.LeftFirstCheckpoint();
+        }
+    }
+
     private void GetFirstCheckpoint()
     {
         Checkpoint[] allCheckpoints = FindObjectsOfType<Checkpoint>();
@@ -74,7 +83,7 @@ public class PlayerProgress : MonoBehaviour
     public void HitNewCheckPoint(Checkpoint checkpoint)
     {
         // Only play the sound on the first time touching the checkpoint, and don't play the sound if it's the final checkpoint as other sounds may play then
-        if (!checkpoint.isCompleted && !checkpoint.isFinalCheckpoint)
+        if (!checkpoint.isCompleted && !checkpoint.isFinalCheckpoint && !checkpoint.isFirstCheckpoint)
         {
             PlayerSoundEffects.PlaySoundEffect(SoundEffectType.Checkpoint);
         }
