@@ -14,6 +14,7 @@ public class PlayerSoundEffects : MonoBehaviour
     public static PlayerSoundEffects Instance { get; private set; }
 
     // Gameplay
+    [Header("Gameplay audioSources")]
     public AudioSource checkpointAudioSource;
     public AudioSource collectiblePickupAudioSource;
     public AudioSource deathAudioSource;
@@ -21,11 +22,13 @@ public class PlayerSoundEffects : MonoBehaviour
     public AudioSource winAudioSource;
 
     // Movement
+    [Header("Movement audioSources")]
     public AudioSource footstepAudioSource;
     public AudioSource landAudioSource;
     public AudioSource terminalVelocityAudioSource;
 
     // Portal
+    [Header("Portal audioSources")]
     public AudioSource portalOpenAudioSource;
     public AudioSource portalRejectedAudioSource;
     public AudioSource portalPassThroughAudioSource;
@@ -37,9 +40,10 @@ public class PlayerSoundEffects : MonoBehaviour
     float landingTimer;
     float landingInterval = 0.5f;
 
+    [Header("Footstep sounds")]
     public AudioClip footstep1;
     public AudioClip footstep2;
-    public bool lastFootstep1;
+    private bool lastFootstep1;
 
     void Awake()
     {
