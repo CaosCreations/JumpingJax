@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private Level currentLevel;
 
     private bool noClip;
+    public bool shouldJumpOnScroll;
     public Vector3 currentVelocity; // This result is the finalized value of velocityToApply, used for GhostVelocity value
 
     private void Awake()
@@ -42,6 +43,8 @@ public class PlayerMovement : MonoBehaviour
         playerPortalableController = GetComponent<PlayerPortalableController>();
         cameraMove = GetComponent<CameraMove>();
         currentLevel = GameManager.GetCurrentLevel();
+
+        shouldJumpOnScroll = OptionsPreferencesManager.GetJumpOnScroll();
     }
 
     // All input checking going in Update, so no Input queries are missed
@@ -107,6 +110,14 @@ public class PlayerMovement : MonoBehaviour
     {
         CheckLandingSound();
 
+        // If we weren't grounded last frame, but we are now...
+        // Reset the gravity to the base that keeps pushing the player into the ground
+        // Otherwise, the controller's grounding doesn't check properly
+        if (!grounded && controller.isGrounded)
+        {
+            velocityToApply.y = -currentLevel.gravityMultiplier * PlayerConstants.Gravity * Time.deltaTime;
+        }
+
         grounded = controller.isGrounded;
 
         // If we are falling into a portal, make sure we don't clip with the ground
@@ -115,12 +126,7 @@ public class PlayerMovement : MonoBehaviour
             grounded = false;
         }
 
-        // If we are on a level without gravity, don't use ground movement
-        if(currentLevel.gravityMultiplier == 0)
-        {
-            grounded = false;
-        }
-
+        // When flying up, reset y velocity if you hit the ceiling
         if (controller.collisionFlags == CollisionFlags.CollidedAbove && velocityToApply.y > 0 && !playerPortalableController.IsInPortal())
         {
             velocityToApply.y = 0;
@@ -148,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Resize the player bounding box
-        DampenCollider();
+        ResizeCollider();
 
         // Move the camera to the correct offset
         DampenCamera();
@@ -167,22 +173,16 @@ public class PlayerMovement : MonoBehaviour
         return true;
     }
 
-    private void DampenCollider()
+    private void ResizeCollider()
     {
-        // Update player collider
+        // Change the size of the collider
         float endHeight = crouching ? PlayerConstants.CrouchingPlayerHeight : PlayerConstants.StandingPlayerHeight;
-        float velocity = 0;
-        float startingHeight = controller.height;
-        float height = Mathf.SmoothDamp(controller.height, endHeight, ref velocity, Time.deltaTime);
+        controller.height = endHeight;
 
-        if(height > startingHeight && grounded)
-        {
-            Vector3 newPosition = transform.position;
-            newPosition.y += height - startingHeight;
-            transform.position = newPosition;
-        }
-
-        controller.height = height;
+        // Offset the player's position to compensate for the collider size different
+        Vector3 center = controller.center;
+        center.y = crouching ? -0.3f : 0f;
+        controller.center = center;
     }
 
     private void DampenCamera()
@@ -208,7 +208,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckJump()
     {
-        if (grounded && (InputManager.GetKey(PlayerConstants.Jump) || currentLevel.isForcedJump))
+        bool requestJump = InputManager.GetKey(PlayerConstants.Jump);
+
+        if (shouldJumpOnScroll)
+        {
+            requestJump = Input.mouseScrollDelta.y != 0 || requestJump;
+        }
+
+        if (grounded && requestJump)
         {
             RaycastHit hit;
             Vector3 startPos = transform.position - new Vector3(0, controller.height / 2, 0);

@@ -148,6 +148,7 @@ public static class PlayerConstants
 
     // Tooltips
     public static string SensitivityTooltip = "Mouse Sensitivity.";
+    public static string JumpOnScrollTooltip = "Allow jumping by scrolling the mouse wheel.";
     public static string MasterVolumeTooltip = "Master Volume.";
     public static string MusicVolumeTooltip = "Music Volume.";
     public static string SoundEffectVolumeTooltip = "Sound Effect Volume.";

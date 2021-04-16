@@ -9,21 +9,24 @@ public class HotKeyOptions : MonoBehaviour
     private Transform scrollViewContent;
     public GameObject hotKeySelectionPrefab;
     public GameObject sliderPrefab;
+    public GameObject togglePrefab;
 
 
     string keyToRebind = null;
     Dictionary<string, Text> buttonKeyCodeTexts;
     CameraMove playerAiming;
+    PlayerMovement playerMovement;
     SliderItem currentSliderItem;
+    ToggleItem currentToggleItem;
 
     public static event Action onSetDefaults;
 
     void Start()
     {
-        PlayerMovement playerCharacter = GetComponentInParent<PlayerMovement>();
-        if (playerCharacter != null)
+        playerMovement = GetComponentInParent<PlayerMovement>();
+        if (playerMovement != null)
         {
-            playerAiming = playerCharacter.GetComponentInChildren<CameraMove>();
+            playerAiming = playerMovement.GetComponentInChildren<CameraMove>();
         }
 
         scrollViewContent = GetComponentInChildren<ContentSizeFitter>().transform;
@@ -54,9 +57,11 @@ public class HotKeyOptions : MonoBehaviour
     void ReloadUI()
     {
         currentSliderItem = null;
+        currentToggleItem = null;
         CleanScrollView();
         PopulateHotkeys();
         SetupSensitivitySlider();
+        SetupJumpOnScrollCheckbox();
     }
 
     void StartRebindFor(string keyName)
@@ -106,6 +111,26 @@ public class HotKeyOptions : MonoBehaviour
         currentSliderItem.Init(OptionsPreferencesManager.sensitivityKey, OptionsPreferencesManager.GetSensitivity(), SetSensitivity, 0.01f, 1, false, PlayerConstants.SensitivityTooltip);
         string inputText = Mathf.RoundToInt(OptionsPreferencesManager.GetSensitivity() * 100) + "%";
         currentSliderItem.input.text = inputText;
+    }
+
+    private void SetupJumpOnScrollCheckbox()
+    {
+        if (currentToggleItem == null)
+        {
+            GameObject toggleObject = Instantiate(togglePrefab, scrollViewContent);
+            currentToggleItem = toggleObject.GetComponent<ToggleItem>();
+        }
+        currentToggleItem.Init("Jump on Scroll", OptionsPreferencesManager.GetJumpOnScroll(), SetJumpOnScroll, PlayerConstants.JumpOnScrollTooltip);
+    }
+
+    public void SetJumpOnScroll(bool shouldJumpOnScroll)
+    {
+        if(playerMovement != null)
+        {
+            playerMovement.shouldJumpOnScroll = shouldJumpOnScroll;
+        }
+
+        OptionsPreferencesManager.SetJumpOnScroll(shouldJumpOnScroll);
     }
 
     public void SetSensitivity(float sensitivity)
