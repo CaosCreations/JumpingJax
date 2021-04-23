@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
 
     private void StartSteam()
     {
-        workshopLevelIndex = SceneManager.sceneCountInBuildSettings - 2;
+        workshopLevelIndex = SceneUtils.GetFixedSceneIndex(FixedScene.LevelEditor);
         try
         {
             if (!SteamClient.IsValid)
@@ -122,17 +122,17 @@ public class GameManager : MonoBehaviour
         Debug.Log($"GameManager.LoadScene(): loading scene with index {buildIndex}");
         Instance.isLoadingScene = true;
 
-        if (buildIndex == PlayerConstants.CreditsSceneIndex)
+        if (buildIndex == SceneUtils.GetFixedSceneIndex(FixedScene.Credits))
         {
             Instance.currentLevel = ScriptableObject.CreateInstance<Level>();
             Instance.currentLevel.levelName = "Credits";
         }
-        else if (buildIndex == PlayerConstants.MainMenuSceneIndex)
+        else if (buildIndex == SceneUtils.GetFixedSceneIndex(FixedScene.MainMenu))
         {
             Instance.currentLevel = ScriptableObject.CreateInstance<Level>();
             Instance.currentLevel.levelName = "Main Menu";
         }
-        else if (buildIndex == PlayerConstants.LevelEditorSceneIndex)
+        else if (buildIndex == SceneUtils.GetFixedSceneIndex(FixedScene.LevelEditor))
         {
             Instance.currentLevel = ScriptableObject.CreateInstance<Level>();
             Instance.currentLevel.levelName = "Level Editor";
@@ -150,7 +150,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"GameManager.LoadScene(): loading workshop scene with index {workshopLevel.levelName}");
         Instance.currentLevel = workshopLevel;
-        AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(PlayerConstants.LevelEditorSceneIndex);
+        int levelEditorSceneIndex = SceneUtils.GetFixedSceneIndex(FixedScene.LevelEditor);
+        AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(levelEditorSceneIndex);
         LoadingScreenManager.Instance.Show(sceneLoadOperation);
     }
 
@@ -167,14 +168,14 @@ public class GameManager : MonoBehaviour
         didWinCurrentLevel = false;
         hasLeftFirstCheckpoint = false;
 
-        if (scene.buildIndex == PlayerConstants.MainMenuSceneIndex || scene.buildIndex == PlayerConstants.CreditsSceneIndex)
+        if (!SceneUtils.SceneUsesReplay(scene.buildIndex))
         {
             replayFileLocation = string.Empty;
             return;
         }
 
         // Set our current level if we are loading from that scene in the editor, and not the menu
-        if (Instance.currentLevel == null && scene.buildIndex > 0 && scene.buildIndex < PlayerConstants.LevelEditorSceneIndex)
+        if (Instance.currentLevel == null && SceneUtils.SceneIsLevel(scene.buildIndex))
         {
             Instance.currentLevel = Instance.levelDataContainer.levels[scene.buildIndex - 1];
         }
