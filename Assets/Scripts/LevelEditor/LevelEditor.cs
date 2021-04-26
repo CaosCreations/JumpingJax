@@ -172,7 +172,7 @@ public class LevelEditor : MonoBehaviour
         Level newLevel = ScriptableObject.CreateInstance<Level>();
         newLevel.levelName = "";
         newLevel.description = "";
-        newLevel.levelBuildIndex = PlayerConstants.LevelEditorSceneIndex;
+        newLevel.levelBuildIndex = SceneUtils.GetFixedSceneIndex(FixedScene.LevelEditor);
         newLevel.gravityMultiplier = 1;
 
         string currentTime = DateTime.Now.ToString("MM-dd-yyyy_hh-mm-ss-FFF");
