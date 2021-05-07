@@ -7,26 +7,27 @@ public class Checkpoint : MonoBehaviour
     public bool isFinalCheckpoint;
 
     public Material startMaterial;
+    public Material startBottomMaterial;
     public Material completedMaterial;
+    public Material completedBottomMaterial;
 
     public bool isCompleted;
 
-    private Renderer myRenderer;
+    public Renderer checkpointRenderer;
+    public Renderer checkpointBottomRenderer;
 
-    private void Start()
-    {
-        myRenderer = GetComponent<Renderer>();
-    }
 
     public void SetCompleted()
     {
-        myRenderer.sharedMaterial = completedMaterial;
+        checkpointRenderer.sharedMaterial = completedMaterial;
+        checkpointBottomRenderer.sharedMaterial = completedBottomMaterial;
         isCompleted = true;
     }
 
     public void SetUncompleted()
     {
-        myRenderer.sharedMaterial = startMaterial;
+        checkpointRenderer.sharedMaterial = startMaterial;
+        checkpointBottomRenderer.sharedMaterial = startBottomMaterial;
         isCompleted = false;
     }
 
