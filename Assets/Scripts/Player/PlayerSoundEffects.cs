@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum SoundEffectType
 {
-    Checkpoint, Collectible, Death, Respawn, Win,
+    Checkpoint, Collectible, Respawn, Win,
     Footstep, Land, TerminalVelocity, 
     PortalOpen, PortalIdle, PortalRejected, PortalPassThrough
 }
@@ -14,6 +14,7 @@ public class PlayerSoundEffects : MonoBehaviour
     public static PlayerSoundEffects Instance { get; private set; }
 
     // Gameplay
+    [Header("Gameplay audioSources")]
     public AudioSource checkpointAudioSource;
     public AudioSource collectiblePickupAudioSource;
     public AudioSource deathAudioSource;
@@ -21,25 +22,28 @@ public class PlayerSoundEffects : MonoBehaviour
     public AudioSource winAudioSource;
 
     // Movement
+    [Header("Movement audioSources")]
     public AudioSource footstepAudioSource;
     public AudioSource landAudioSource;
     public AudioSource terminalVelocityAudioSource;
 
     // Portal
+    [Header("Portal audioSources")]
     public AudioSource portalOpenAudioSource;
     public AudioSource portalRejectedAudioSource;
     public AudioSource portalPassThroughAudioSource;
 
     // Timers
     float footstepTimer;
-    float footstepInverval = 0.6f;
+    float footstepInverval = 0.4f;
 
     float landingTimer;
     float landingInterval = 0.5f;
 
+    [Header("Footstep sounds")]
     public AudioClip footstep1;
     public AudioClip footstep2;
-    public bool lastFootstep1;
+    private bool lastFootstep1;
 
     void Awake()
     {
@@ -73,9 +77,6 @@ public class PlayerSoundEffects : MonoBehaviour
                 break;
             case SoundEffectType.Collectible:
                 Instance.collectiblePickupAudioSource.Play();
-                break;
-            case SoundEffectType.Death:
-                Instance.deathAudioSource.Play();
                 break;
             case SoundEffectType.Respawn:
                 Instance.respawnAudioSource.Play();

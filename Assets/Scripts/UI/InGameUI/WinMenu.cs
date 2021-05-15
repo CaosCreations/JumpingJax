@@ -62,7 +62,10 @@ public class WinMenu : MonoBehaviour
             bestTimeText.text = TimeUtils.GetTimeString(bestTime);
         }
 
-        await leaderboardManager.InitAsync(currentLevel.levelName);
+        if (GameManager.Instance != null)
+        {
+            await leaderboardManager.InitAsync(currentLevel.levelName);
+        }
     }
 
     private void SetupButtons()
