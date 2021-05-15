@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class WinMenu : MonoBehaviour
@@ -27,11 +24,13 @@ public class WinMenu : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(PlayerConstants.WinMenu_MainMenu)){
+        if (Input.GetKeyDown(PlayerConstants.WinMenu_MainMenu))
+        {
             GoToMainMenu();
         }
 
-        if (Input.GetKeyDown(PlayerConstants.WinMenu_NextLevel)){
+        if (Input.GetKeyDown(PlayerConstants.WinMenu_NextLevel))
+        {
             NextLevel();
         }
 
@@ -45,20 +44,20 @@ public class WinMenu : MonoBehaviour
     {
         Level currentLevel = GameManager.GetCurrentLevel();
         levelText.text = "You found Jax on: " + currentLevel.levelName;
-        if(GameManager.Instance != null)
+        if (GameManager.Instance != null)
         {
             completionTimeText.text = TimeUtils.GetTimeString(GameManager.Instance.currentCompletionTime);
         }
-        
+
         // Use local best time for now
-        if(currentLevel != null && currentLevel.levelSaveData != null)
+        if (currentLevel != null && currentLevel.levelSaveData != null)
         {
             bestTimeText.text = TimeUtils.GetTimeString(currentLevel.levelSaveData.completionTime);
         }
 
         // Then work on getting the best time from steam
         float bestTime = await StatsManager.GetLevelCompletionTime(currentLevel.levelName);
-        if(bestTime != 0)
+        if (bestTime != 0)
         {
             bestTimeText.text = TimeUtils.GetTimeString(bestTime);
         }
@@ -108,10 +107,10 @@ public class WinMenu : MonoBehaviour
             Time.timeScale = 1;
 
             // Load credits scene
-            if (currentLevel.levelBuildIndex >= GameManager.Instance.levelDataContainer.levels.Length)
+            if (SceneUtils.SceneIsFinalLevel(currentLevel))
             {
                 Cursor.visible = true;
-                GameManager.LoadScene(PlayerConstants.CreditsSceneIndex);
+                GameManager.LoadScene(SceneUtils.GetFixedSceneIndex(FixedScene.Credits));
             }
             else
             {

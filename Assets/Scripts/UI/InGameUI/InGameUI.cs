@@ -44,6 +44,11 @@ public class InGameUI : MonoBehaviour
     public Image[] imagesToUpdateColor;
     public TMP_Text[] textsToUpdateColor;
 
+    private void Awake()
+    {
+        positionLastFrame = transform.position;
+    }
+
     private void Start()
     {
         speedBar = GetComponentInChildren<SpeedSlider>();
@@ -76,7 +81,10 @@ public class InGameUI : MonoBehaviour
             currentSpeed = offestSinceLastFrame.magnitude / Time.deltaTime;
         }
 
-        speedBar.SetSpeed(currentSpeed);
+        if (!float.IsNaN(currentSpeed))
+        {
+            speedBar.SetSpeed(currentSpeed);
+        }
 
         if (Input.GetKeyDown(PlayerConstants.NextTutorial) && !IsGhosting && tutorialPane.activeInHierarchy)
         {

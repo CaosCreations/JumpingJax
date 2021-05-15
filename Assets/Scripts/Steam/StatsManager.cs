@@ -98,7 +98,7 @@ public class StatsManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Not getting level leaderboard, steam client is NOT valid");
+            Debug.LogWarning("Not getting top leaderboard, steam client is NOT valid");
         }
 
         return new Steamworks.Data.LeaderboardEntry[0];
@@ -127,7 +127,7 @@ public class StatsManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Not getting level leaderboard, steam client is NOT valid");
+            Debug.LogWarning("Not getting friends leaderboard, steam client is NOT valid");
         }
 
         return new Steamworks.Data.LeaderboardEntry[0];
