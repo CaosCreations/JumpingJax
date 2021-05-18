@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+using RenderPipeline = UnityEngine.Rendering.RenderPipelineManager;
 
 public class RecursivePortalCamera : MonoBehaviour
 {
@@ -46,12 +49,22 @@ public class RecursivePortalCamera : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        RenderPipeline.beginCameraRendering += UpdateCamera;
+    }
+
+    private void OnDisable()
+    {
+        RenderPipeline.beginCameraRendering -= UpdateCamera;
+    }
+
     public void UpdatePortalRecursion(int recursionLevel)
     {
         portalRecursions = recursionLevel;
     }
 
-    private void OnPreRender()
+    void UpdateCamera(ScriptableRenderContext SRC, Camera camera)
     {
         if (Time.timeScale == 0 || !isPortalLevel)
         {
@@ -68,7 +81,7 @@ public class RecursivePortalCamera : MonoBehaviour
             portalCamera.targetTexture = blueTempRenderTexture;
             for (int i = portalRecursions - 1; i >= 0; --i)
             {
-                RenderCamera(portalPair.BluePortal, portalPair.PinkPortal, i);
+                RenderCamera(portalPair.BluePortal, portalPair.PinkPortal, i, SRC);
             }
         }
 
@@ -77,12 +90,12 @@ public class RecursivePortalCamera : MonoBehaviour
             portalCamera.targetTexture = pinkTempRenderTexture;
             for (int i = portalRecursions - 1; i >= 0; --i)
             {
-                RenderCamera(portalPair.PinkPortal, portalPair.BluePortal, i);
+                RenderCamera(portalPair.PinkPortal, portalPair.BluePortal, i, SRC);
             }
         }
     }
 
-    private void RenderCamera(Portal inPortal, Portal outPortal, int recursionId)
+    private void RenderCamera(Portal inPortal, Portal outPortal, int recursionId, ScriptableRenderContext SRC)
     {
         Transform inTransform = inPortal.transform;
         Transform outTransform = outPortal.transform;
@@ -114,6 +127,6 @@ public class RecursivePortalCamera : MonoBehaviour
         portalCamera.projectionMatrix = newMatrix;
 
         // Render the camera to its render target.
-        portalCamera.Render();
+        UniversalRenderPipeline.RenderSingleCamera(SRC, portalCamera);
     }
 }
