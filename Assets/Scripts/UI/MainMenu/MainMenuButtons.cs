@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MainMenuButtons : MonoBehaviour
@@ -27,33 +26,45 @@ public class MainMenuButtons : MonoBehaviour
         bool canContinue = ShouldAddContinueButton();
         if (canContinue)
         {
-            CreatePrimaryButton("Continue", mainMenuController.Continue);
-            CreateSecondaryButton("New Game", mainMenuController.NewGame);
+            CreatePrimaryButton("Continue", mainMenuController.Continue, PlayerConstants.navMode, true);
+            CreateSecondaryButton("New Game", mainMenuController.NewGame, PlayerConstants.navMode);
         }
         else
         {
-            CreatePrimaryButton("New Game", mainMenuController.NewGame);
+            CreatePrimaryButton("New Game", mainMenuController.NewGame, PlayerConstants.navMode, true);
         }
 
-        CreateSecondaryButton("Level Select", mainMenuController.LevelSelection);
-        CreateSecondaryButton("Level Editor", mainMenuController.LevelEditor);
-        CreateSecondaryButton("Options", mainMenuController.Options);
-        CreateSecondaryButton("Quit", mainMenuController.Quit);
+        CreateSecondaryButton("Level Select", mainMenuController.LevelSelection, PlayerConstants.navMode);
+        CreateSecondaryButton("Level Editor", mainMenuController.LevelEditor, PlayerConstants.navMode);
+        CreateSecondaryButton("Options", mainMenuController.Options, PlayerConstants.navMode);
+        CreateSecondaryButton("Quit", mainMenuController.Quit, PlayerConstants.navMode);
         CreateDiscordButton();
     }
 
-    void CreatePrimaryButton(string text, Action func)
+    void CreatePrimaryButton(string text, Action func, Navigation.Mode navMode, bool isSelectedOnStart = false)
     {
         GameObject buttonObject = Instantiate(primaryButtonPrefab, buttonContainer);
         PrimaryButton primaryButton = buttonObject.GetComponent<PrimaryButton>();
-        primaryButton.Init(text, func);
+        primaryButton.Init(text, func, GetNavigation(navMode));
+
+        if (isSelectedOnStart)
+        {
+            EventSystem.current.SetSelectedGameObject(buttonObject, new BaseEventData(EventSystem.current));
+        }
     }
 
-    void CreateSecondaryButton(string text, Action func)
+    void CreateSecondaryButton(string text, Action func, Navigation.Mode navMode)
     {
         GameObject buttonObject = Instantiate(secondaryButtonPrefab, buttonContainer);
         SecondaryButton secondaryButton = buttonObject.GetComponent<SecondaryButton>();
-        secondaryButton.Init(text, func);
+        secondaryButton.Init(text, func, GetNavigation(navMode));
+    }
+
+    private Navigation GetNavigation(Navigation.Mode navigationMode)
+    {
+        Navigation navigation = new Navigation { mode = navigationMode };
+
+        return navigation;
     }
 
     void CreateDiscordButton()

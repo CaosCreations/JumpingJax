@@ -32,11 +32,12 @@ public class SecondaryButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         button.onClick.AddListener(() => func());
     }
 
-    public void Init(string text, Action func)
+    public void Init(string text, Action func, Navigation navigation)
     {
         this.text.text = text;
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() => func());
+        button.navigation = navigation;
     }
 
     public void SetActive()

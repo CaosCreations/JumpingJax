@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static class PlayerConstants
 {
@@ -217,5 +218,7 @@ public static class PlayerConstants
     public static Color hoverColor = new Color(1, 1, 1);
 	
 	public static string DiscordURL = "https://discord.gg/nSkNTMn";
+
+    public static Navigation.Mode navMode = Navigation.Mode.Vertical;
 
 }
