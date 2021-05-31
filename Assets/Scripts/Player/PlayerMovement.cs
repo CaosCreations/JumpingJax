@@ -177,12 +177,18 @@ public class PlayerMovement : MonoBehaviour
     {
         // Change the size of the collider
         float endHeight = crouching ? PlayerConstants.CrouchingPlayerHeight : PlayerConstants.StandingPlayerHeight;
-        controller.height = endHeight;
+        float velocity = 0;
+        float startingHeight = controller.height;
+        float height = Mathf.SmoothDamp(controller.height, endHeight, ref velocity, Time.deltaTime);
 
-        // Offset the player's position to compensate for the collider size different
-        Vector3 center = controller.center;
-        center.y = crouching ? -0.3f : 0f;
-        controller.center = center;
+        if (height > startingHeight && grounded)
+        {
+            Vector3 newPosition = transform.position;
+            newPosition.y += height - startingHeight;
+            transform.position = newPosition;
+        }
+
+        controller.height = height;
     }
 
     private void DampenCamera()
