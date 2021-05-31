@@ -100,6 +100,13 @@ public class Portal : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        Debug.DrawRay(transform.position, transform.up * 4, Color.green, 0f);
+        Debug.DrawRay(transform.position, transform.right * 4, Color.red, 0f);
+        Debug.DrawRay(transform.position, transform.forward * 4, Color.blue, 0f);
+    }
+
     public void Init(PortalType portalType, Portal otherPortal)
     {
         this.portalType = portalType;
