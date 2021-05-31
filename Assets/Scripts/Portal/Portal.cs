@@ -27,7 +27,7 @@ public class Portal : MonoBehaviour
     private bool isPlaced = false;
 
     [SerializeField]
-    private List<Collider> wallsPortalIsTouching;
+    public List<Collider> wallsPortalIsTouching;
 
     private PlayerPortalableController objectToWarp;
 

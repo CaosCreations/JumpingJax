@@ -5,6 +5,8 @@ using System.Linq;
 
 public class PlayerPortalableController : MonoBehaviour
 {
+    public LayerMask portalLayerMask;
+
     public bool isInPortal = false;
 
     private GameObject cloneObject;
@@ -27,6 +29,13 @@ public class PlayerPortalableController : MonoBehaviour
         CreateClone();
         playerMovement = GetComponent<PlayerMovement>();
         cameraMove = GetComponent<CameraMove>();
+    }
+
+    private void Update()
+    {
+        // The player collides with the wall before that trigger executes the next frame
+        // This is a temporary fix that will manually check for that collision
+        CheckPlayerWillWarp();
     }
 
     protected void LateUpdate()
@@ -56,6 +65,34 @@ public class PlayerPortalableController : MonoBehaviour
         else
         {
             cloneObject.transform.position = cloneSpawnPosition;
+        }
+    }
+
+    private void CheckPlayerWillWarp()
+    {
+        Vector3 startPosition = gameObject.transform.position;
+        Vector3 endPosition = startPosition + (playerMovement.currentVelocity * Time.deltaTime);
+        Vector3 direction = playerMovement.currentVelocity.normalized;
+        float maxDistance = (endPosition - startPosition).magnitude;
+
+
+        RaycastHit hit;
+        // If we will hit a portal next frame ignore collision with the wall behind it
+        if (Physics.CapsuleCast(
+            startPosition,
+            endPosition,
+            PlayerConstants.PlayerColliderRadius,
+            direction,
+            out hit,
+            maxDistance,
+            portalLayerMask,
+            QueryTriggerInteraction.Collide))
+        {
+            Portal portalHit = hit.collider.gameObject.GetComponent<Portal>();
+            if (portalHit != null)
+            {
+                SetIsInPortal(portalHit, portalHit.GetOtherPortal(), portalHit.wallsPortalIsTouching);
+            }
         }
     }
 
