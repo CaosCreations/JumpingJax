@@ -59,15 +59,6 @@ public class PlayerProgress : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        Checkpoint checkPointHit = other.gameObject.GetComponent<Checkpoint>();
-        if (checkPointHit && checkPointHit.isFirstCheckpoint)
-        {
-            GameManager.LeftFirstCheckpoint();
-        }
-    }
-
     private void GetFirstCheckpoint()
     {
         Checkpoint[] allCheckpoints = FindObjectsOfType<Checkpoint>();

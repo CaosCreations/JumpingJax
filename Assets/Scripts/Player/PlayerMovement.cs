@@ -73,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(velocityToApply * Time.deltaTime);
 
         CheckFootstepSound();
+        CheckFirstMove();
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -422,6 +423,15 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.Q))
         {
             transform.position += -cameraMove.playerCamera.transform.up * Time.deltaTime * PlayerConstants.NoClipMoveSpeed;
+        }
+    }
+
+    // This function lets the GameManager know when the player moves to start the timer
+    private void CheckFirstMove()
+    {
+        if(currentInput != Vector3.zero)
+        {
+            GameManager.PlayerFirstMove();
         }
     }
 
