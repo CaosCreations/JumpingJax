@@ -70,6 +70,11 @@ public class PlayerPortalableController : MonoBehaviour
 
     private void CheckPlayerWillWarp()
     {
+        if (isInPortal)
+        {
+            return;
+        }
+
         Vector3 startPosition = gameObject.transform.position;
         Vector3 endPosition = startPosition + (playerMovement.currentVelocity * Time.deltaTime);
         Vector3 direction = playerMovement.currentVelocity.normalized;
@@ -84,27 +89,34 @@ public class PlayerPortalableController : MonoBehaviour
             PlayerConstants.PlayerColliderRadius,
             direction,
             out hit,
-            maxDistance,
+            maxDistance + 0.1f,
             portalLayerMask,
             QueryTriggerInteraction.Collide))
         {
             Portal portalHit = hit.collider.gameObject.GetComponent<Portal>();
             if (portalHit != null)
             {
-                SetIsInPortal(portalHit, portalHit.GetOtherPortal(), portalHit.wallsPortalIsTouching);
+                SetIsInPortal(portalHit, portalHit.GetOtherPortal());
             }
         }
     }
 
-    public void SetIsInPortal(Portal inPortal, Portal outPortal, List<Collider> wallColliders)
+    public void SetIsInPortal(Portal inPortal, Portal outPortals)
     {
         this.inPortal = inPortal;
-        this.outPortal = outPortal;
+        this.outPortal = outPortals;
 
-        foreach (Collider wallCollider in wallColliders)
+        foreach (Collider wallCollider in inPortal.wallsPortalIsTouching)
         {
+            Debug.Log($"now ignoring collision with: {wallCollider.name}");
             Physics.IgnoreCollision(playerCollider, wallCollider);
         }
+
+        //foreach (Collider wallCollider in outPortal.wallsPortalIsTouching)
+        //{
+        //    Debug.Log($"now ignoring collision with: {wallCollider.name}");
+        //    Physics.IgnoreCollision(playerCollider, wallCollider);
+        //}
 
         cloneObject.SetActive(true);
 
@@ -158,13 +170,18 @@ public class PlayerPortalableController : MonoBehaviour
         inPortal = outPortal;
         outPortal = tmp;
 
+        ExitPortal(inPortal);
+
         PlayerSoundEffects.PlaySoundEffect(SoundEffectType.PortalPassThrough);
     }
 
-    public virtual void ExitPortal(List<Collider> wallColliders)
+    public virtual void ExitPortal(Portal portal)
     {
-        foreach (Collider wallCollider in wallColliders)
+        Debug.Log($"exit portal: {portal.name}, colliders: {portal.wallsPortalIsTouching.Count}");
+
+        foreach (Collider wallCollider in portal.wallsPortalIsTouching)
         {
+            Debug.Log($"now colliding with: {wallCollider.name}");
             Physics.IgnoreCollision(playerCollider, wallCollider, false);
         }
 

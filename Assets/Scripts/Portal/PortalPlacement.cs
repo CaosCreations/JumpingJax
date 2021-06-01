@@ -110,7 +110,7 @@ public class PortalPlacement : MonoBehaviour
                 var cameraRotation = camera.rotation;
                 var portalRight = cameraRotation * Vector3.right;
 
-                if(Mathf.Abs(portalRight.x) >= Mathf.Abs(portalRight.z))
+                if(Mathf.Abs(portalRight.x) >= 0)
                 {
                     portalRight = (portalRight.x >= 0) ? Vector3.right : -Vector3.right;
                 }
@@ -123,10 +123,10 @@ public class PortalPlacement : MonoBehaviour
 
                 var portalUp = -Vector3.Cross(portalRight, portalForward);
 
-                //if (portalForward.x != 0 || portalForward.z != 0)
-                //{
-                //    portalUp = Vector3.up;
-                //}
+                if (portalForward.x != 0 || portalForward.z != 0)
+                {
+                    portalUp = Vector3.up;
+                }
 
                 var portalRotation = Quaternion.LookRotation(portalForward, portalUp);
 

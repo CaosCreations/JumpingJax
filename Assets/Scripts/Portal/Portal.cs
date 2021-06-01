@@ -80,19 +80,21 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"OnTriggerEnter {gameObject.name}");
         PlayerPortalableController playerPortalable = other.GetComponent<PlayerPortalableController>();
         if(playerPortalable != null)
         {
             if (otherPortal.IsPlaced())
             {
                 objectToWarp = playerPortalable;
-                objectToWarp.SetIsInPortal(this, otherPortal, wallsPortalIsTouching);
+                objectToWarp.SetIsInPortal(this, otherPortal);
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log($"OnTriggerExit {gameObject.name}");
         PlayerPortalableController portalable = other.GetComponent<PlayerPortalableController>();
         if (portalable != null)
         {
@@ -297,7 +299,7 @@ public class Portal : MonoBehaviour
     {
         if(objectToWarp != null)
         {
-            objectToWarp.ExitPortal(wallsPortalIsTouching);
+            objectToWarp.ExitPortal(this);
         }
 
         wallsPortalIsTouching = new List<Collider>();
@@ -331,7 +333,7 @@ public class Portal : MonoBehaviour
         if (objectToWarp == portalable)
         {
             objectToWarp = null;
-            portalable.ExitPortal(wallsPortalIsTouching);
+            portalable.ExitPortal(this);
         }
     }
 
