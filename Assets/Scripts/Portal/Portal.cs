@@ -27,7 +27,7 @@ public class Portal : MonoBehaviour
     private bool isPlaced = false;
 
     [SerializeField]
-    private List<Collider> wallsPortalIsTouching;
+    public List<Collider> wallsPortalIsTouching;
 
     private PlayerPortalableController objectToWarp;
 
@@ -80,24 +80,33 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"OnTriggerEnter {gameObject.name}");
         PlayerPortalableController playerPortalable = other.GetComponent<PlayerPortalableController>();
         if(playerPortalable != null)
         {
             if (otherPortal.IsPlaced())
             {
                 objectToWarp = playerPortalable;
-                objectToWarp.SetIsInPortal(this, otherPortal, wallsPortalIsTouching);
+                objectToWarp.SetIsInPortal(this, otherPortal);
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log($"OnTriggerExit {gameObject.name}");
         PlayerPortalableController portalable = other.GetComponent<PlayerPortalableController>();
         if (portalable != null)
         {
             ResetObjectInPortal(portalable);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Debug.DrawRay(transform.position, transform.up * 4, Color.green, 0f);
+        Debug.DrawRay(transform.position, transform.right * 4, Color.red, 0f);
+        Debug.DrawRay(transform.position, transform.forward * 4, Color.blue, 0f);
     }
 
     public void Init(PortalType portalType, Portal otherPortal)
@@ -290,7 +299,7 @@ public class Portal : MonoBehaviour
     {
         if(objectToWarp != null)
         {
-            objectToWarp.ExitPortal(wallsPortalIsTouching);
+            objectToWarp.ExitPortal(this);
         }
 
         wallsPortalIsTouching = new List<Collider>();
@@ -324,7 +333,7 @@ public class Portal : MonoBehaviour
         if (objectToWarp == portalable)
         {
             objectToWarp = null;
-            portalable.ExitPortal(wallsPortalIsTouching);
+            portalable.ExitPortal(this);
         }
     }
 
