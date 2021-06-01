@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public Level currentLevel;
     public float currentCompletionTime;
     public bool didWinCurrentLevel;
-    public bool hasLeftFirstCheckpoint;
+    public bool hasMoved;
     public bool shouldUseSteam;
     public bool isLoadingScene;
 
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
     {
         SteamClient.RunCallbacks();
 
-        if (!didWinCurrentLevel && hasLeftFirstCheckpoint)
+        if (!didWinCurrentLevel && hasMoved)
         {
             currentCompletionTime += Time.deltaTime;
         }
@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
         Debug.Log($"GameManager.Init(): Scene loaded: {scene.name} with index {scene.buildIndex}");
         currentCompletionTime = 0;
         didWinCurrentLevel = false;
-        hasLeftFirstCheckpoint = false;
+        hasMoved = false;
 
         if (!SceneUtils.SceneUsesReplay(scene.buildIndex))
         {
@@ -230,12 +230,12 @@ public class GameManager : MonoBehaviour
     {
         Instance.currentCompletionTime = 0;
         Instance.didWinCurrentLevel = false;
-        Instance.hasLeftFirstCheckpoint = false;
+        Instance.hasMoved = false;
     }
 
-    public static void LeftFirstCheckpoint()
+    public static void PlayerFirstMove()
     {
-        Instance.hasLeftFirstCheckpoint = true;
+        Instance.hasMoved = true;
     }
 
     public static async void FinishedLevel()
