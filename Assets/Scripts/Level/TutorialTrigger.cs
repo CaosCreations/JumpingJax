@@ -67,7 +67,7 @@ public class TutorialTrigger : MonoBehaviour
         {
             Vector3 gizmoShiftVector = new Vector3(0, 0, 0); //positional shift of the gizmo relative to the collider and transform.localPosition
 
-            Gizmos.matrix = Matrix4x4.TRS(transform.localPosition, transform.localRotation, transform.localScale);
+            Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.localScale);
             BoxCollider myCollider = GetComponent<BoxCollider>();
             Gizmos.color = new Color(0.317f, .0317f, 0.4f, 0.5f); //ruddy purple, semi-transparent
             Gizmos.DrawCube(gizmoShiftVector, myCollider.size);
