@@ -1,11 +1,11 @@
 fileFormatVersion: 2
 guid: 49aa2e22b61729b45968a7ff25a44ec0
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable: []
   externalObjects: {}
   materials:
-    materialImportMode: 1
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -36,16 +36,16 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
@@ -57,10 +57,10 @@ ModelImporter:
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
-    secondaryUVAreaDistortion: 15.000001
+    secondaryUVAreaDistortion: 15
     secondaryUVHardAngle: 88
     secondaryUVMarginMethod: 1
-    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinLightmapResolution: 4
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
@@ -73,7 +73,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 1
+  importAnimation: 0
   humanDescription:
     serializedVersion: 3
     human: []
@@ -92,9 +92,10 @@ ModelImporter:
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
