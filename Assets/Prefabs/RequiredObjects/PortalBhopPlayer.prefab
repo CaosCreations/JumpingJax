@@ -58,7 +58,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDebugging: 0
-  normalStartPosition: {x: 0, y: 0, z: 0}
   debugStartPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &4259481642829858136
 MonoBehaviour:
@@ -82,6 +81,7 @@ MonoBehaviour:
   crouching: 0
   controller: {fileID: 0}
   ghostCamera: {fileID: 0}
+  shouldJumpOnScroll: 0
   currentVelocity: {x: 0, y: 0, z: 0}
 --- !u!114 &441310430289080766
 MonoBehaviour:
@@ -143,6 +143,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b317f1df112f1546963a20da5568e21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  portalLayerMask:
+    serializedVersion: 2
+    m_Bits: 2048
   isInPortal: 0
 --- !u!114 &7117302217034966907
 MonoBehaviour:
@@ -598,6 +601,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1844322298415541210
 MonoBehaviour:
   m_ObjectHideFlags: 0

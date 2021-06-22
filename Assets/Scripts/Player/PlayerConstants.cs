@@ -29,7 +29,7 @@ public static class PlayerConstants
 
     public static float CrouchingPlayerHeight = 0.8f;
     public static Vector3 CrouchingCameraOffset = new Vector3(0, -0.65f, 0);
-
+    public static float PlayerColliderRadius = 0.5f;
 
     public static float portalWidth = 3f;
     public static float portalHeight = 3f;
