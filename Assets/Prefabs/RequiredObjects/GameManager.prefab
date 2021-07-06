@@ -1275,10 +1275,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 136955f604d0d534989a227d33b6ee12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelDataContainer: {fileID: 11400000, guid: df24c52f07f729e449d80d692421b179, type: 2}
+  levelDataContainer: {fileID: 11400000, guid: 1d545d99e2170f7408ca67abe1cbebc1, type: 2}
   currentLevel: {fileID: 0}
   currentCompletionTime: 0
   didWinCurrentLevel: 0
+  hasMoved: 0
   shouldUseSteam: 1
   isLoadingScene: 0
 --- !u!114 &7174419794005054913
@@ -1482,7 +1483,6 @@ MonoBehaviour:
   portalPassThroughAudioSource: {fileID: 4066073349635038630}
   footstep1: {fileID: 8300000, guid: 9ee6e53d462221d4ba9e9baf4be897cc, type: 3}
   footstep2: {fileID: 8300000, guid: 0f026f46be812f24b9be86d2ff8cd8e4, type: 3}
-  lastFootstep1: 0
 --- !u!114 &3663660126680703655
 MonoBehaviour:
   m_ObjectHideFlags: 0
