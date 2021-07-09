@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de640fe3d0db1804a85f9fc8f5cadab6, type: 3}
-  m_Name: ForwardRenderer
+  m_Name: PipelineAsset_Renderer
   m_EditorClassIdentifier: 
   m_RendererFeatures:
-  - {fileID: 5777843688603070089}
-  m_RendererFeatureMap: 892eebf238062f50
+  - {fileID: 3628447653331811562}
+  m_RendererFeatureMap: ea3cf196ead55a32
   postProcessData: {fileID: 11400000, guid: 0809b01f645c0804facb998ad7bdf6da, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
   shaders:
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_ShadowTransparentReceive: 1
   m_RenderingMode: 0
   m_AccurateGbufferNormals: 0
---- !u!114 &5777843688603070089
+--- !u!114 &3628447653331811562
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
-  m_Name: SSAO
+  m_Name: NewScreenSpaceAmbientOcclusion
   m_EditorClassIdentifier: 
   m_Active: 1
   m_Shader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
@@ -64,5 +64,5 @@ MonoBehaviour:
     NormalSamples: 1
     Intensity: 1
     DirectLightingStrength: 0.25
-    Radius: 0.05
+    Radius: 0.06
     SampleCount: 6
