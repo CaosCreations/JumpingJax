@@ -1276,7 +1276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelDataContainer: {fileID: 11400000, guid: 1d545d99e2170f7408ca67abe1cbebc1, type: 2}
-  currentLevel: {fileID: 0}
+  currentLevel: {fileID: 11400000, guid: 4f819f7c2748e7c4ebc36eaa02599e01, type: 2}
   currentCompletionTime: 0
   didWinCurrentLevel: 0
   hasMoved: 0
@@ -1861,6 +1861,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LoadingScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 2673877728835693322, guid: 9a6474bee5989ae4092dd9932964c3ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4480455202438060648, guid: 9a6474bee5989ae4092dd9932964c3ca,
         type: 3}
