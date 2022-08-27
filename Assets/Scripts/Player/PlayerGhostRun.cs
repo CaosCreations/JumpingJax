@@ -26,6 +26,7 @@ public class PlayerGhostRun : MonoBehaviour
     private Camera playerCamera;
     private GhostPortalPlacement ghostPortalPlacement;
     private PortalPlacement portalPlacement;
+    private GhostCollider ghostCollider;
 
     private List<Vector3> currentRunPositionData;
     private List<Vector3> currentRunCameraRotationData;
@@ -111,6 +112,8 @@ public class PlayerGhostRun : MonoBehaviour
         {
             ghostRunner = Instantiate(ghostRunnerPrefab);
             ghostRunner.name = "ghost runner";
+
+            ghostCollider = ghostRunner.GetComponent<GhostCollider>();
 
             ghostRunRecursivePortalCamera = ghostRunner.GetComponentInChildren<GhostPortalCamera>(true);
 
@@ -298,6 +301,7 @@ public class PlayerGhostRun : MonoBehaviour
         if (ghostCamera.enabled)
         {
             ghostCamera.fieldOfView = OptionsPreferencesManager.GetCameraFOV();
+            ghostCollider.ActivateCollider(ShouldGhostBeActive());
             inGameUI.IsGhosting = true;
         } else
         {
