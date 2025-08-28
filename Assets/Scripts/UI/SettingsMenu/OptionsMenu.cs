@@ -21,10 +21,10 @@ public class OptionsMenu : MonoBehaviour {
 
 
     [Header("Set in editor")]
-    public TabButton controlsTabButton;
-    public TabButton videoTabButton;
-    public TabButton audioTabButton;
-    public TabButton miscTabButton;
+    public CaosCreations.TabButton controlsTabButton;
+    public CaosCreations.TabButton videoTabButton;
+    public CaosCreations.TabButton audioTabButton;
+    public CaosCreations.TabButton miscTabButton;
 
     public Button backButton;
     public Button defaultButton;

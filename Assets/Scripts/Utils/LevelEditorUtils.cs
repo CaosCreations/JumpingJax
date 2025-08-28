@@ -5,13 +5,13 @@ public class LevelEditorUtils : MonoBehaviour
 {
     public static LevelEditorObject[] GetObjectsByType(ObjectType type)
     {
-        return FindObjectsOfType<LevelEditorObject>()
+        return FindObjectsByType<LevelEditorObject>(FindObjectsSortMode.InstanceID)
             .Where(x => x.objectType == type)
             .ToArray();
     }
 
     public static Checkpoint GetFirstCheckpoint()
     {
-        return FindObjectsOfType<Checkpoint>().FirstOrDefault(x => x.isFirstCheckpoint);
+        return FindObjectsByType<Checkpoint>(FindObjectsSortMode.InstanceID).FirstOrDefault(x => x.isFirstCheckpoint);
     }
 }

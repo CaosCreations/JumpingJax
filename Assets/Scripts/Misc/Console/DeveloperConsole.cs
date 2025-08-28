@@ -75,7 +75,7 @@ public class DeveloperConsole : MonoBehaviour
         autoComplete = GetComponentInChildren<AutoComplete>();
         cachedCommands = new List<string>();
         focusSelection = FocusSelection.Cache;
-        pauseMenu = FindObjectOfType<PauseMenu>();
+        pauseMenu = FindFirstObjectByType<PauseMenu>();
         isEnabledInOptions = OptionsPreferencesManager.GetConsoleToggle();
 
         MiscOptions.onConsoleToggle += ToggleConsoleEnabled;

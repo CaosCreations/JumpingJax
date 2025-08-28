@@ -26,7 +26,7 @@ public class PlayerProgress : MonoBehaviour
         cameraMove = GetComponent<CameraMove>();
         playerGhostRun = GetComponent<PlayerGhostRun>();
         crosshair = GetComponent<Crosshair>();
-        portalPair = FindObjectOfType<PortalPair>();
+        portalPair = FindFirstObjectByType<PortalPair>();
         tutorialTriggerGroup = GetComponent<TutorialTriggerGroup>();
         Deaths = 0;
         GetFirstCheckpoint();
@@ -61,7 +61,7 @@ public class PlayerProgress : MonoBehaviour
 
     private void GetFirstCheckpoint()
     {
-        Checkpoint[] allCheckpoints = FindObjectsOfType<Checkpoint>();
+        Checkpoint[] allCheckpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.InstanceID);
         foreach(Checkpoint checkpoint in allCheckpoints)
         {
             if (checkpoint.isFirstCheckpoint)
@@ -137,7 +137,7 @@ public class PlayerProgress : MonoBehaviour
 
     private void ResetCheckpoints()
     {
-        Checkpoint[] checkpoints = GameObject.FindObjectsOfType<Checkpoint>();
+        Checkpoint[] checkpoints = GameObject.FindObjectsByType<Checkpoint>(FindObjectsSortMode.InstanceID);
         foreach(Checkpoint checkpoint in checkpoints)
         {
             checkpoint.SetUncompleted();
@@ -150,7 +150,7 @@ public class PlayerProgress : MonoBehaviour
 
     private void ResetCollectibles()
     {
-        CollectibleHandler[] collectibles = GameObject.FindObjectsOfType<CollectibleHandler>();
+        CollectibleHandler[] collectibles = GameObject.FindObjectsByType<CollectibleHandler>(FindObjectsSortMode.InstanceID);
         foreach (CollectibleHandler handler in collectibles)
         {
             handler.ResetActive();

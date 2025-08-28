@@ -60,7 +60,7 @@ public class Portal : MonoBehaviour
         portalBoundsExtents = boxCollider.bounds.extents;
         myRenderer = GetComponent<Renderer>();
         renderTextureMaterial = myRenderer.material;
-        playerCrosshair = FindObjectOfType<Crosshair>();
+        playerCrosshair = FindFirstObjectByType<Crosshair>();
         ResetPortal();
     }
 

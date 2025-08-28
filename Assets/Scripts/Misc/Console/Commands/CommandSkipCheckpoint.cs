@@ -8,8 +8,8 @@ public class CommandSkipCheckpoint : ConsoleCommand
         //int parsedLevel;
         //if (int.TryParse(args[0], out parsedLevel))
         //{
-        //    PlayerProgress player = FindObjectOfType<PlayerProgress>();
-        //    Checkpoint[] components = GameObject.FindObjectsOfType<Checkpoint>();
+        //    PlayerProgress player = FindFirstObjectByType<PlayerProgress>();
+        //    Checkpoint[] components = GameObject.FindObjectsByType<Checkpoint>();
         //    foreach (Checkpoint checkpoint in components)
         //    {
         //        if (checkpoint.level == parsedLevel)

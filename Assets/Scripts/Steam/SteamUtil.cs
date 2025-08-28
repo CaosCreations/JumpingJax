@@ -82,7 +82,9 @@ public class SteamUtil
             await Task.Delay(10);
         }
 
-        if (request.isNetworkError || request.isHttpError)
+        if (request.result == UnityWebRequest.Result.ConnectionError 
+            || request.result == UnityWebRequest.Result.ProtocolError
+            || request.result == UnityWebRequest.Result.DataProcessingError)
         {
             Debug.LogError($"Error downloading texture from url: {url}");
             return new Texture2D(100, 100);

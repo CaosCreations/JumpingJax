@@ -139,7 +139,14 @@ public class WorkshopManager : MonoBehaviour
         Debug.Log($"Installed to {file.Directory}");
 
         var dir = new DirectoryInfo(file.Directory);
-        return dir.GetFiles().FirstOrDefault().FullName;
+        var fileInfo = dir.GetFiles().FirstOrDefault();
+
+        if(fileInfo == null)
+        {
+            Debug.LogError($"Downloaded UGC file is null: {id.Value}");
+            return string.Empty;
+        }
+        return fileInfo.FullName;
     }
 
 

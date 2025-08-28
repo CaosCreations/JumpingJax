@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using static UnityEngine.Rendering.RenderPipeline;
+using static UnityEngine.Rendering.Universal.UniversalRenderPipeline;
 using RenderPipeline = UnityEngine.Rendering.RenderPipelineManager;
 
 public class RecursivePortalCamera : MonoBehaviour
@@ -126,6 +128,9 @@ public class RecursivePortalCamera : MonoBehaviour
         var newMatrix = myCamera.CalculateObliqueMatrix(clipPlaneCameraSpace);
         portalCamera.projectionMatrix = newMatrix;
 
+
+        //SingleCameraRequest request = new SingleCameraRequest();
+        //request.destination = 
         // Render the camera to its render target.
         UniversalRenderPipeline.RenderSingleCamera(SRC, portalCamera);
     }

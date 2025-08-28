@@ -49,7 +49,7 @@ public class GhostPortal : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
         myRenderer = GetComponent<Renderer>();
         renderTextureMaterial = myRenderer.material;
-        playerCrosshair = FindObjectOfType<Crosshair>();
+        playerCrosshair = FindFirstObjectByType<Crosshair>();
         ResetPortal();
     }
 

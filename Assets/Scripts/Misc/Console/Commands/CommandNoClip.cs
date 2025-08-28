@@ -7,7 +7,7 @@ public class CommandNoClip : ConsoleCommand
 {
     public override void Process(string[] args)
     {
-        PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>(); 
+        PlayerMovement playerMovement = FindFirstObjectByType<PlayerMovement>(); 
         if(playerMovement != null)
         {
             playerMovement.NoClip();

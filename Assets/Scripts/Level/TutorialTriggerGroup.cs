@@ -16,7 +16,7 @@ public class TutorialTriggerGroup : MonoBehaviour
 
     void UpdateTriggers()
     {
-        triggers = FindObjectsOfType<TutorialTrigger>();
+        triggers = FindObjectsByType<TutorialTrigger>(FindObjectsSortMode.InstanceID);
         if (triggers.Length == 0)
         {
             return;

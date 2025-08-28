@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public enum LevelSelectionTab
@@ -17,9 +16,9 @@ public class LevelSelectionMenu : MonoBehaviour
     public GameObject levelCardPrefab;
     public LevelPreview levelPreview;
 
-    public TabButton hopTabButton;
-    public TabButton portalTabButton;
-    public TabButton workshopTabButton;
+    public CaosCreations.TabButton hopTabButton;
+    public CaosCreations.TabButton portalTabButton;
+    public CaosCreations.TabButton workshopTabButton;
 
     public List<LevelSelectionCard> hopCardList;
     public List<LevelSelectionCard> portalCardList;

@@ -9,7 +9,7 @@ public class CommandNoHud : ConsoleCommand
     {
         try
         {
-            FindObjectOfType<InGameUI>().ToggleUI();
+            FindFirstObjectByType<InGameUI>().ToggleUI();
         }
         catch
         {

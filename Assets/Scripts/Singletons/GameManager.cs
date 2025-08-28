@@ -188,7 +188,7 @@ public class GameManager : MonoBehaviour
         // Set up the workshop level to have the right number of checkpoints, since it isn't loaded on the scene
         if (Instance.currentLevel.workshopFilePath != string.Empty || Instance.currentLevel.levelEditorScriptableObjectPath != string.Empty)
         {
-            LevelEditorHUD levelEditorHUD = FindObjectOfType<LevelEditorHUD>();
+            LevelEditorHUD levelEditorHUD = FindFirstObjectByType<LevelEditorHUD>();
             levelEditorHUD.LoadSceneData();
         }
     }

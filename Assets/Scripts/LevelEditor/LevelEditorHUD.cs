@@ -334,7 +334,7 @@ public class LevelEditorHUD : MonoBehaviour
         if (GameManager.Instance != null)
         {
             LevelEditorLevel newLevel = new LevelEditorLevel();
-            LevelEditorObject[] sceneObjects = FindObjectsOfType<LevelEditorObject>();
+            LevelEditorObject[] sceneObjects = FindObjectsByType<LevelEditorObject>(FindObjectsSortMode.InstanceID);
             foreach (LevelEditorObject sceneObject in sceneObjects)
             {
                 if(sceneObject.gameObject.activeSelf == true)
@@ -440,7 +440,7 @@ public class LevelEditorHUD : MonoBehaviour
     {
         isWorkshopLevel = true;
 
-        Checkpoint[] checkpoints = FindObjectsOfType<Checkpoint>();
+        Checkpoint[] checkpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.InstanceID);
         foreach(Checkpoint checkpoint in checkpoints)
         {
             if (checkpoint.isFirstCheckpoint)
