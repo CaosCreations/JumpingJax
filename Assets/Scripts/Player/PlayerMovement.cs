@@ -35,13 +35,14 @@ public class PlayerMovement : MonoBehaviour
         velocityToApply = Vector3.zero;
         currentVelocity = velocityToApply;
         noClip = false;
+        ReferenceRegistrar.Instance.RegisterPlayer(gameObject);
     }
 
     private void Start()
     {
-        controller = GetComponent<CharacterController>();
-        playerPortalableController = GetComponent<PlayerPortalableController>();
-        cameraMove = GetComponent<CameraMove>();
+        controller = ReferenceRegistrar.Instance.Player.CharacterController;
+        playerPortalableController = ReferenceRegistrar.Instance.Player.PlayerPortalableController;
+        cameraMove = ReferenceRegistrar.Instance.Player.CameraMove;
         currentLevel = GameManager.GetCurrentLevel();
 
         shouldJumpOnScroll = OptionsPreferencesManager.GetJumpOnScroll();

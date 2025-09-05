@@ -1,36 +1,23 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(TutorialTriggerGroup))] //TutorialTriggerGroups necessary for playerProgress and gameUI population
 public class TutorialTrigger : MonoBehaviour
 {
-    public int requiredDeaths;
     public string[] TutorialText;
     private PlayerProgress playerProgress;
     private InGameUI gameUI;
 
-    private int initialDeaths;
     private bool activated;
 
     public bool drawGizmo;
 
-    // Use this for initialization
     void Start()
     {
+        gameUI = ReferenceRegistrar.Instance.inGameUI;
+        playerProgress = ReferenceRegistrar.Instance.Player.PlayerProgress;
         Collider myCollider = GetComponent<BoxCollider>();
         myCollider.isTrigger = true;
-        initialDeaths = -1;
         activated = false;
-    }
-
-    public void AddGameUI(InGameUI ui)
-    {
-        gameUI = ui;
-    }
-
-    public void AddPlayerProgress(PlayerProgress player)
-    {
-        playerProgress = player;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -38,21 +25,13 @@ public class TutorialTrigger : MonoBehaviour
         if (other.gameObject.layer == PlayerConstants.PlayerLayer)
         {
             if (activated) return;
-            int currentDeaths = playerProgress.Deaths;
-            // On first trigger set initialDeaths = to current player deaths to allow us to 
-            // track the number of deaths experienced after first passing the trigger
-            // Also reset if player has reset level
-
-            //bl: trying to debug this...
-            if (initialDeaths == -1 || currentDeaths < initialDeaths)
+            // Handle out-of-order registration due to game UI being enabled after start
+            if (gameUI == null)
             {
-                initialDeaths = currentDeaths;
+                gameUI = ReferenceRegistrar.Instance.inGameUI;
             }
-            if (currentDeaths - initialDeaths >= requiredDeaths)
-            {
-                gameUI.SetupTutorialTexts(TutorialText);
-                activated = true;
-            }
+            gameUI.SetupTutorialTexts(TutorialText);
+            activated = true;
         }
     }
 

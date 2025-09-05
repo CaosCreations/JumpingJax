@@ -12,6 +12,7 @@ public class PortalPair : MonoBehaviour
 
     private void Awake()
     {
+        ReferenceRegistrar.Instance.RegisterPortalPair(this);
         GameObject tempBluePortal = Instantiate(bluePortalPrefab, transform);
         BluePortal = tempBluePortal.GetComponent<Portal>();
 

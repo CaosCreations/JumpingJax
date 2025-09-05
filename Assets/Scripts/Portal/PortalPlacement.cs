@@ -49,6 +49,10 @@ public class PortalPlacement : MonoBehaviour
     {
         if (Time.timeScale == 0 || playerPortalable.IsInPortal() || ghostCamera.enabled || !isPortalLevel)
         {
+            if (Time.timeScale > 0 && InputManager.GetKeyDown(PlayerConstants.Portal1))
+            {
+                Debug.Log($"Skipping portal placement. IsInPortal: {playerPortalable.IsInPortal()}, ghostCamera.enabled: {ghostCamera.enabled}, isPortalLevel: {isPortalLevel}");
+            }
             return;
         }
 

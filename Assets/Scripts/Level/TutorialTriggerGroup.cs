@@ -1,16 +1,14 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Should only have 1 per scene, its attached to the Player object
+/// </summary>
 public class TutorialTriggerGroup : MonoBehaviour
 {
-
     public TutorialTrigger[] triggers;
-    public InGameUI gameUI;
-    public PlayerProgress playerProgress;
 
     private void Start()
     {
-        playerProgress = GetComponent<PlayerProgress>();
-        gameUI = GetComponentInChildren<InGameUI>(true);
         UpdateTriggers();
     }
 
@@ -21,12 +19,6 @@ public class TutorialTriggerGroup : MonoBehaviour
         {
             return;
         }
-
-        foreach (TutorialTrigger trigger in triggers)
-        {
-            trigger.AddGameUI(gameUI);
-            trigger.AddPlayerProgress(playerProgress);
-        }
     }
 
     // Reset triggers to inactive on level reset to display messages again
@@ -36,9 +28,9 @@ public class TutorialTriggerGroup : MonoBehaviour
         {
             trigger.ResetTrigger();
         }
-        if (!gameUI.IsGhosting)
+        if (!ReferenceRegistrar.Instance.inGameUI.IsGhosting)
         {
-            gameUI.SetupTutorialTexts(GameManager.GetCurrentLevel().tutorialTexts);
+            ReferenceRegistrar.Instance.inGameUI.SetupTutorialTexts(GameManager.GetCurrentLevel().tutorialTexts);
         }
     }
 }

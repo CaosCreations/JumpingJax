@@ -47,6 +47,7 @@ public class InGameUI : MonoBehaviour
     private void Awake()
     {
         positionLastFrame = transform.position;
+        ReferenceRegistrar.Instance.RegisterInGameUI(this);
     }
 
     private void Start()

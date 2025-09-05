@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager Instance { get; private set; }
-
     public LevelDataContainer levelDataContainer;
     public static uint AppId = 1315100;
     public static int workshopLevelIndex = -1; // assumes workshop is the second to last scene (before credits)
@@ -39,19 +37,8 @@ public class GameManager : MonoBehaviour
     private bool shiftPressed;
     private bool tabPressed;
 
-    void Awake()
+    protected override void Initialize()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         if (GameManager.Instance.shouldUseSteam == true)
         {
             StartSteam();

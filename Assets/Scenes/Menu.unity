@@ -881,6 +881,7 @@ GameObject:
   - component: {fileID: 535284012}
   - component: {fileID: 535284011}
   - component: {fileID: 535284010}
+  - component: {fileID: 535284013}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -962,6 +963,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &535284013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535284009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1001 &822967061
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -970,21 +1015,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1957556787855994341, guid: 0d4aaee587b5aed40b7442a75d60165a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2659424124724566676, guid: 0d4aaee587b5aed40b7442a75d60165a,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2976248672196361807, guid: 0d4aaee587b5aed40b7442a75d60165a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4372025189329140920, guid: 0d4aaee587b5aed40b7442a75d60165a,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1000,30 +1030,20 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7360296815112912552, guid: 0d4aaee587b5aed40b7442a75d60165a,
-        type: 3}
-      propertyPath: isSteamActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7360296815112912553, guid: 0d4aaee587b5aed40b7442a75d60165a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 7360296815112912553, guid: 0d4aaee587b5aed40b7442a75d60165a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -35.577774
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7360296815112912553, guid: 0d4aaee587b5aed40b7442a75d60165a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 50.465443
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7360296815112912553, guid: 0d4aaee587b5aed40b7442a75d60165a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -233.34761
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7360296815112912553, guid: 0d4aaee587b5aed40b7442a75d60165a,
         type: 3}
@@ -1064,11 +1084,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GameManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 7360296815112912555, guid: 0d4aaee587b5aed40b7442a75d60165a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8250434214646078760, guid: 0d4aaee587b5aed40b7442a75d60165a,
         type: 3}
@@ -2739,7 +2754,7 @@ PrefabInstance:
     - target: {fileID: 7848953238395927336, guid: 347b245286d4ae446854a04e0d6dd188,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -15.441809
+      value: -15.401167
       objectReference: {fileID: 0}
     - target: {fileID: 8004768866257940425, guid: 347b245286d4ae446854a04e0d6dd188,
         type: 3}
