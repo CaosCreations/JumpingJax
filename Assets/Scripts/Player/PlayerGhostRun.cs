@@ -152,6 +152,12 @@ public class PlayerGhostRun : MonoBehaviour
             return;
         }
 
+        // only run the ghost if the player has moved, or they are spectating
+        if (!GameManager.Instance.hasMoved && !ghostCamera.enabled)
+        {
+            return;
+        }
+
         if (ghostCamera.enabled)
         {
             if (pastRunKeyData[currentDataIndex].isMouseLeftPressed && ghostPortalPlacement.portalPair != null)
