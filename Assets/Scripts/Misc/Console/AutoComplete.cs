@@ -63,7 +63,7 @@ public class AutoComplete : MonoBehaviour
 
         foreach(ConsoleCommand command in commands)
         {
-            if (command.Command.StartsWith(consoleInput.text))
+            if (command.Command.Contains(consoleInput.text))
             {
                 foundValidCommand = true;
                 RectTransform autoCompleteItem = Instantiate(autoCompleteItemPrefab, autocompleteParent) as RectTransform;

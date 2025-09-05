@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private Level currentLevel;
 
     private bool noClip;
+    public bool NoClipEnabled => noClip;
     public bool shouldJumpOnScroll;
     public Vector3 currentVelocity; // This result is the finalized value of velocityToApply, used for GhostVelocity value
 
@@ -397,6 +398,7 @@ public class PlayerMovement : MonoBehaviour
     {
         noClip = !noClip;
         controller.enabled = !noClip;
+        ReferenceRegistrar.Instance.Player.PlayerProgress.hasNoClipBeenEnabled = true;
     }
 
     private void NoClipMove()

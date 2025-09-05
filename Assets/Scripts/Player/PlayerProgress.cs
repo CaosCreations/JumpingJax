@@ -19,6 +19,7 @@ public class PlayerProgress : MonoBehaviour
     private PortalPair portalPair;
     private Checkpoint firstCheckpoint;
     private TutorialTriggerGroup tutorialTriggerGroup;
+    public bool hasNoClipBeenEnabled = false;
 
     private void Start()
     {
@@ -73,6 +74,11 @@ public class PlayerProgress : MonoBehaviour
 
     public void HitNewCheckPoint(Checkpoint checkpoint)
     {
+        // Dont do anything if no clip has been enabled
+        if (hasNoClipBeenEnabled)
+        {
+            return;
+        }
         // Only play the sound on the first time touching the checkpoint, and don't play the sound if it's the final checkpoint as other sounds may play then
         if (!checkpoint.isCompleted && !checkpoint.isFinalCheckpoint && !checkpoint.isFirstCheckpoint)
         {
@@ -131,6 +137,10 @@ public class PlayerProgress : MonoBehaviour
     {
         playerUI.ToggleOffWinScreen();
         currentCheckpoint = firstCheckpoint;
+        if(!playerMovement.NoClipEnabled)
+        {
+            hasNoClipBeenEnabled = false;
+        }
         ResetCheckpoints();
         Respawn();
     }
