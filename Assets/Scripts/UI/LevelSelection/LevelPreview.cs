@@ -52,7 +52,7 @@ public class LevelPreview : MonoBehaviour
         // If this is a workshop map
         if(levelToPreview.workshopFilePath != string.Empty) 
         {
-            GameManager.LoadScene(levelToPreview);
+            GameManager.LoadWorkshopScene(levelToPreview);
         }
         else
         {

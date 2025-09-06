@@ -10,12 +10,12 @@ public class GameManager : Singleton<GameManager>
     public LevelDataContainer levelDataContainer;
     public static uint AppId = 1315100;
     public static int workshopLevelIndex = -1; // assumes workshop is the second to last scene (before credits)
+    public bool shouldUseSteam;
 
     public Level currentLevel;
     public float currentCompletionTime;
     public bool didWinCurrentLevel;
     public bool hasMoved;
-    public bool shouldUseSteam;
     public bool isLoadingScene;
 
     private string replayFileLocation;
@@ -45,7 +45,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         Init();
-        LoadLevelData();
+        LoadAllLevelData();
         //
         // Log unhandled exceptions created in Async Tasks so we know when something has gone wrong
         //
@@ -68,7 +68,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private void LoadLevelData()
+    private void LoadAllLevelData()
     {
         Debug.Log("Loading all level data");
         foreach(Level level in levelDataContainer.levels)
@@ -133,7 +133,7 @@ public class GameManager : Singleton<GameManager>
         LoadingScreenManager.Instance.Show(sceneLoadOperation);
     }
 
-    public static void LoadScene(Level workshopLevel)
+    public static void LoadWorkshopScene(Level workshopLevel)
     {
         Debug.Log($"GameManager.LoadScene(): loading workshop scene with index {workshopLevel.levelName}");
         Instance.currentLevel = workshopLevel;
@@ -169,6 +169,7 @@ public class GameManager : Singleton<GameManager>
 
         if(Instance.currentLevel == null)
         {
+            Debug.LogWarning("GameManager.Init(): currentLevel is null, returning");
             return;
         }
 
@@ -184,17 +185,13 @@ public class GameManager : Singleton<GameManager>
     {
         if(Instance == null || Instance.currentLevel == null)
         {
+            Debug.LogWarning("GameManager.GetCurrentLevel(): currentLevel is null, generating empty level");
             Level emptyLevel = ScriptableObject.CreateInstance<Level>();
             emptyLevel.gravityMultiplier = 1;
             return emptyLevel;
         }
 
         return Instance.currentLevel;
-    }
-
-    public static bool GetDidFinishLevel()
-    {
-        return Instance.didWinCurrentLevel;
     }
 
     public static void NextLevel()
@@ -241,7 +238,7 @@ public class GameManager : Singleton<GameManager>
 
     public static bool ShouldUseSteam()
     {
-        return GameManager.Instance.shouldUseSteam == true && SteamClient.IsValid;
+        return GameManager.Instance.shouldUseSteam && SteamClient.IsValid;
     }
 
     public void CheckSteamOverlay()

@@ -222,7 +222,7 @@ public class LevelEditor : MonoBehaviour
     {
         if (selectedLevel != null)
         {
-            GameManager.LoadScene(selectedLevel.level);
+            GameManager.LoadWorkshopScene(selectedLevel.level);
         }
     }
 
