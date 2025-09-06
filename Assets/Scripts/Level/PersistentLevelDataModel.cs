@@ -15,17 +15,17 @@ public class PersistentLevelDataModel
     public float completionTime;
 
     [SerializeField]
-    public Vector3[] ghostRunPositions;
-
-    [SerializeField]
-    public Vector3[] ghostRunCameraRotations;
-
-    [SerializeField]
-    public KeysPressed[] ghostRunKeys;
-
-    [SerializeField]
-    public float[] ghostRunVelocities;
+    public RecordedFrame[] recordedFrames;
 
     [SerializeField]
     public string ghostRunPlayerName;
+}
+
+public class RecordedFrame
+{
+    public Vector3 position;
+    public Vector3 cameraRotation;
+    public KeysPressed keysPressed;
+    public float velocity;
+    public float timeSinceLastFrame;
 }

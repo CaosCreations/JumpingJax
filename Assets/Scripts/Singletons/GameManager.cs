@@ -39,7 +39,7 @@ public class GameManager : Singleton<GameManager>
 
     protected override void Initialize()
     {
-        if (GameManager.Instance.shouldUseSteam == true)
+        if (shouldUseSteam)
         {
             StartSteam();
         }
@@ -194,16 +194,6 @@ public class GameManager : Singleton<GameManager>
 
     public static bool GetDidFinishLevel()
     {
-        if (Instance == null)
-        {
-            return false;
-        }
-
-        if (Instance.currentLevel == null)
-        {
-            return false;
-        }
-
         return Instance.didWinCurrentLevel;
     }
 

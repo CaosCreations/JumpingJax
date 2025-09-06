@@ -14,7 +14,8 @@ public class PlayerProgress : MonoBehaviour
 
     private PlayerMovement playerMovement;
     private CameraMove cameraMove;
-    private PlayerGhostRun playerGhostRun;
+    private GhostRunPlayback playerGhostRun;
+    private RunRecorder runRecorder;
     private Crosshair crosshair;
     private PortalPair portalPair;
     private Checkpoint firstCheckpoint;
@@ -25,7 +26,8 @@ public class PlayerProgress : MonoBehaviour
     {
         playerMovement = GetComponent<PlayerMovement>();
         cameraMove = GetComponent<CameraMove>();
-        playerGhostRun = GetComponent<PlayerGhostRun>();
+        playerGhostRun = GetComponent<GhostRunPlayback>();
+        runRecorder = GetComponent<RunRecorder>();
         crosshair = GetComponent<Crosshair>();
         portalPair = FindFirstObjectByType<PortalPair>();
         tutorialTriggerGroup = GetComponent<TutorialTriggerGroup>();
@@ -89,7 +91,7 @@ public class PlayerProgress : MonoBehaviour
 
         if (currentCheckpoint.isFinalCheckpoint)
         {
-            playerGhostRun.SaveCurrentRunData();
+            runRecorder.PopulateRunRecording();
             GameManager.FinishedLevel();
             playerUI.ShowWinScreen();
             Time.timeScale = 0;
@@ -128,6 +130,7 @@ public class PlayerProgress : MonoBehaviour
             }
             GameManager.RestartLevel();
             playerGhostRun.RestartRun();
+            runRecorder.RestartRun();
             ResetCollectibles();
             ResetTutorials();
         }

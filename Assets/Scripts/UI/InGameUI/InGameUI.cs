@@ -34,7 +34,7 @@ public class InGameUI : MonoBehaviour
     public static Color normalColor = new Color(149 / 255f, 237 / 255f, 194 / 255f); // light green color
     public static Color inactiveColor = new Color(1, 1, 1, 1); // light green color
     public bool IsGhosting = false;
-    public PlayerGhostRun ghostRun;
+    public GhostRunPlayback ghostRun;
     private Crosshair playerCrosshair;
     private Transform player;
 
@@ -53,7 +53,7 @@ public class InGameUI : MonoBehaviour
     private void Start()
     {
         speedBar = GetComponentInChildren<SpeedSlider>();
-        ghostRun = GetComponentInParent<PlayerGhostRun>();
+        ghostRun = GetComponentInParent<GhostRunPlayback>();
         player = ghostRun.transform;
         playerCrosshair = GetComponentInParent<Crosshair>();
 

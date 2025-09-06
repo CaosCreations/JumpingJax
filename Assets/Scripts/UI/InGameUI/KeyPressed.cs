@@ -48,12 +48,12 @@ public class KeyPressed : MonoBehaviour
     private bool isMouseLeftPressed;
     private bool isMouseRightPressed;
 
-    private PlayerGhostRun playerGhostRun;
+    private GhostRunPlayback playerGhostRun;
 
     private void Start()
     {
         currentLevel = GameManager.GetCurrentLevel();
-        playerGhostRun = GetComponentInParent<PlayerGhostRun>();
+        playerGhostRun = GetComponentInParent<GhostRunPlayback>();
     }
 
     void Update()

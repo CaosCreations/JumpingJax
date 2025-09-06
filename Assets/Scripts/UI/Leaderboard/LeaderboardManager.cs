@@ -33,12 +33,12 @@ public class LeaderboardManager : MonoBehaviour
 
     public string currentRank;
     public GameObject tooltip;
-    private PlayerGhostRun playerGhostRun;
+    private GhostRunPlayback playerGhostRun;
     private Steamworks.Data.PublishedFileId previousReplayFileId;
 
     void Start()
     {
-        playerGhostRun = GetComponentInParent<PlayerGhostRun>();
+        playerGhostRun = GetComponentInParent<GhostRunPlayback>();
         replayFileId = new Steamworks.Data.PublishedFileId();
 
         globalButton.onClick.RemoveAllListeners();
