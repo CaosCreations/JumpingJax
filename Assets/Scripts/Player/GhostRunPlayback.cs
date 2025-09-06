@@ -73,11 +73,11 @@ public class GhostRunPlayback : MonoBehaviour
             try
             {
                 string replayLevelData = File.ReadAllText(GameManager.Instance.ReplayFileLocation);
-                PersistentLevelDataModel levelSaveData = new PersistentLevelDataModel();
+                LevelSaveData levelSaveData = new LevelSaveData();
                 JsonUtility.FromJsonOverwrite(replayLevelData, levelSaveData);
 
                 replayFrames = levelSaveData.recordedFrames;
-                pastRunPlayerSteamName = levelSaveData.ghostRunPlayerName;
+                pastRunPlayerSteamName = levelSaveData.ghostRun.playerName;
             }
             catch (Exception e)
             {

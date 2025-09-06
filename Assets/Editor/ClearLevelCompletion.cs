@@ -25,9 +25,9 @@ public class ClearLevelCompletion : EditorWindow
             {
                 level.levelSaveData.isCompleted = false;
                 level.levelSaveData.completionTime = 0;
-                level.levelSaveData.recordedFrames = new RecordedFrame[0];
                 level.levelSaveData.collectiblesCollected = 0;
-                level.levelSaveData.ghostRunPlayerName = string.Empty;
+                level.levelSaveData.recordedFrames = new RecordedFrame[0];
+                level.levelSaveData.ghostRun.playerName = string.Empty;
                 EditorUtility.SetDirty(level);
             }
 

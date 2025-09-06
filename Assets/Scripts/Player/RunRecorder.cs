@@ -84,14 +84,6 @@ public class RunRecorder : MonoBehaviour
         if (currentLevel.levelSaveData.completionTime > GameManager.Instance.currentCompletionTime || currentLevel.levelSaveData.completionTime == 0)
         {
             currentLevel.levelSaveData.recordedFrames = recordedFrames.ToArray();
-            if (SteamClient.IsValid)
-            {
-                currentLevel.levelSaveData.ghostRunPlayerName = SteamClient.Name;
-            }
-            else
-            {
-                currentLevel.levelSaveData.ghostRunPlayerName = "Yourself"; //so that local replay will say "spectatiing: yourself"
-            }
         }
     }
 

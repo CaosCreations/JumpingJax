@@ -60,7 +60,7 @@ public class Level : ScriptableObject
 
     [Header("Set in Game")]
     [SerializeField]
-    public PersistentLevelDataModel levelSaveData;
+    public LevelSaveData levelSaveData;
 
     public int GetNumberOfTimeBones()
     {
@@ -104,7 +104,7 @@ public class Level : ScriptableObject
 
     public void Load()
     {
-        levelSaveData = new PersistentLevelDataModel();
+        levelSaveData = new LevelSaveData();
 
         string filePath = FilePathUtil.GetLevelDataFilePath(levelName);
         if (File.Exists(filePath))
@@ -112,7 +112,7 @@ public class Level : ScriptableObject
             try
             {
                 string fileContents = File.ReadAllText(filePath);
-                levelSaveData = JsonUtility.FromJson<PersistentLevelDataModel>(fileContents);
+                levelSaveData = JsonUtility.FromJson<LevelSaveData>(fileContents);
             }
             catch (Exception e)
             {
@@ -125,7 +125,7 @@ public class Level : ScriptableObject
     {
         if(levelSaveData == null)
         {
-            levelSaveData = new PersistentLevelDataModel();
+            levelSaveData = new LevelSaveData();
         }
 
         levelBuildIndex = GameManager.workshopLevelIndex;
