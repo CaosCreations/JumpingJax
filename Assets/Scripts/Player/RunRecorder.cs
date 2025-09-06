@@ -13,7 +13,7 @@ public class RunRecorder : MonoBehaviour
     public Level currentLevel;
     private float timer = 0;
     private const int maxDataCount = 25000; //Makes it so max file save is 5MB, stores 20.8 min of Ghost data saved
-    private const float ghostRunSaveInterval = 0.01667f;
+    private const float ghostRunSaveInterval = 0.01667f; // record at 60fps
 
     void Start()
     {
