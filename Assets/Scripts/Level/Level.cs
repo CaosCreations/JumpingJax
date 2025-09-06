@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.IO;
+using Newtonsoft.Json;
 
 [CreateAssetMenu(fileName = "Level X", menuName = "ScriptableObjects/level")]
 public class Level : ScriptableObject
@@ -90,7 +91,7 @@ public class Level : ScriptableObject
     public void Save()
     {
         string filePath = FilePathUtil.GetLevelDataFilePath(levelName);
-        string fileContents = JsonUtility.ToJson(levelSaveData);
+        string fileContents = JsonConvert.SerializeObject(levelSaveData);
         try
         {
             File.WriteAllText(filePath, fileContents);
@@ -112,7 +113,7 @@ public class Level : ScriptableObject
             try
             {
                 string fileContents = File.ReadAllText(filePath);
-                levelSaveData = JsonUtility.FromJson<LevelSaveData>(fileContents);
+                levelSaveData = JsonConvert.DeserializeObject<LevelSaveData>(fileContents);
             }
             catch (Exception e)
             {

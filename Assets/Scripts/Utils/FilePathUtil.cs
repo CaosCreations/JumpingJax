@@ -25,7 +25,7 @@ public class FilePathUtil : MonoBehaviour
         EnsureDirectoryExists(levelDataParentFolder);
         string levelSpecificFolder = Path.Combine(levelDataParentFolder, levelName);
         EnsureDirectoryExists(levelSpecificFolder);
-        string levelFilePath = Path.Combine(levelSpecificFolder, $"levelName.save");
+        string levelFilePath = Path.Combine(levelSpecificFolder, $"{levelName}.save");
         return levelFilePath;
     }
 

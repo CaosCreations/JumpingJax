@@ -182,11 +182,11 @@ public class GhostRunPlayback : MonoBehaviour
             }
         }
 
-        ghostRunner.transform.position = currentFrame.position;
+        ghostRunner.transform.position = currentFrame.GetPosition();
 
         if (ghostCamera.enabled)
         {
-            ghostCamera.transform.eulerAngles = currentFrame.cameraRotation;
+            ghostCamera.transform.eulerAngles = currentFrame.GetCameraRotation();
             inGameUI.currentSpeed = currentFrame.velocity;
             keyPressed.SetPressed(currentFrame.keysPressed);
         }

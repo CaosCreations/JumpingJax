@@ -52,8 +52,8 @@ public class RunRecorder : MonoBehaviour
         {
             recordedFrames.Add(new RecordedFrame()
             {
-                position = transform.position,
-                cameraRotation = playerCamera.transform.eulerAngles,
+                position = new Vec3(transform.position),
+                cameraRotation = new Vec3(playerCamera.transform.eulerAngles),
                 keysPressed = GetCurrentKeysPressed(),
                 velocity = new Vector2(playerMovement.currentVelocity.x, playerMovement.currentVelocity.z).magnitude,
                 timeSinceLastFrame = timer
