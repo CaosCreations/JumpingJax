@@ -46,7 +46,12 @@ public class SteamTestManager : Singleton<SteamTestManager>
 
     void Update()
     {
+        SteamClient.RunCallbacks();
+    }
 
+    private void OnApplicationQuit()
+    {
+        SteamClient.Shutdown();
     }
 
 

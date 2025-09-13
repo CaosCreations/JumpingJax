@@ -74,14 +74,15 @@ public class TestLeaderboardManager : Singleton<TestLeaderboardManager>
             Debug.LogWarning("Not getting top leaderboard, steam client is NOT valid");
         }
 
-        var leaderboard = await SteamUserStats.FindOrCreateLeaderboardAsync(levelLeaderboardName, LeaderboardSort.Ascending, LeaderboardDisplay.TimeMilliSeconds);
+        Leaderboard? leaderboard = await SteamUserStats.FindOrCreateLeaderboardAsync(levelLeaderboardName, LeaderboardSort.Ascending, LeaderboardDisplay.TimeMilliSeconds);
         if (!leaderboard.HasValue)
         {
             Debug.LogWarning($"Could not retrieve leaderboard {levelLeaderboardName} from steam");
         }
         else
         {
-            var entries = await leaderboard.Value.GetScoresAsync(9);
+            //var entries = await leaderboard.Value.GetScoresAsync(9);
+            var entries = await leaderboard.Value.GetScoresAroundUserAsync().ConfigureAwait(false);
             return entries;
         }
         
